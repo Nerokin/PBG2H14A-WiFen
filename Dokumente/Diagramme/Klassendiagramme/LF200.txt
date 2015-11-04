@@ -1,0 +1,1 @@
+Nicht notwendig da alle Mouse Events über die bereits von abgeleitete Klasse "javafx.scene.Node" überschrieben werden müssen.
