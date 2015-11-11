@@ -4,7 +4,8 @@ import wifen.commons.network.Connection;
 import wifen.commons.network.Packet;
 
 /**
- * 
+ * General implementation of the {@linkplain Packet} interface.<br>
+ * Should be subclassed to specify the information sent.
  * 
  * @author Konstantin Schaper (pbg2h14ash)
  * @requirement LF190
@@ -13,19 +14,17 @@ public abstract class PacketImpl implements Packet {
 	
 	// Attributes
 	
-	private final Connection source;
-	
-	// Constructor(s)
-	
-	public PacketImpl(Connection source) {
-		this.source = source;
-	}
+	private Connection source;
 	
 	// Getters & Setters
 
 	@Override
-	public Connection getSource() {
+	public final Connection getSource() {
 		return source;
+	}
+	
+	public final void setSource(Connection source) {
+		this.source = source;
 	}
 
 }

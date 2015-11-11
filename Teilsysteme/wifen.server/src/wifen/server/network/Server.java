@@ -1,4 +1,4 @@
-package wifen.client.network;
+package wifen.server.network;
 
 public interface Server {
 
