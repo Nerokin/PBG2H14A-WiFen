@@ -1,0 +1,9 @@
+package wifen.commons.network.impl;
+
+import wifen.commons.network.Packet;
+
+public abstract class PacketImpl implements Packet {
+	
+	
+
+}

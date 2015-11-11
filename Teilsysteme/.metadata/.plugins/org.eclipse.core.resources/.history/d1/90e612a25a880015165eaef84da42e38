@@ -1,0 +1,14 @@
+package wifen.commons.network;
+
+public interface Connection {
+	
+	/**
+	 * Sends a packet to the destination affiliated with this
+	 * connection.
+	 * 
+	 * @param packet The packet to be sent.
+	 * @return Whether the packet has been successfully sent.
+	 */
+	public boolean sendPacket(Packet packet);
+
+}

@@ -2,9 +2,11 @@
 <section name="Workbench">
 	<item value="true" key="CommitDialog.showUntracked"/>
 	<list key="CommitDialog.authorValues">
+		<item value="pbg2h14ash &lt;pbg2h14ash@d10.pb.bib.de&gt;"/>
 		<item value="pbg2h14ash &lt;pbg2h14ash@B22.pb.bib.de&gt;"/>
 	</list>
 	<list key="CommitDialog.committerValues">
+		<item value="pbg2h14ash &lt;pbg2h14ash@d10.pb.bib.de&gt;"/>
 		<item value="pbg2h14ash &lt;pbg2h14ash@B22.pb.bib.de&gt;"/>
 	</list>
 	<section name="org.eclipse.egit.ui.internal.push.PushResultDialog.dialogBounds">
@@ -18,12 +20,19 @@
 			<item value="400"/>
 		</list>
 	</section>
+	<section name="org.eclipse.egit.ui.internal.pull.PullResultDialog.dialogBounds">
+		<item value="567" key="DIALOG_WIDTH"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|5|0|Segoe UI" key="DIALOG_FONT_NAME"/>
+		<item value="399" key="DIALOG_HEIGHT"/>
+		<item value="365" key="DIALOG_X_ORIGIN"/>
+		<item value="122" key="DIALOG_Y_ORIGIN"/>
+	</section>
 	<section name="org.eclipse.egit.ui.COMMIT_DIALOG_SECTION">
 		<item value="774" key="DIALOG_WIDTH"/>
 		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|5|0|Segoe UI" key="DIALOG_FONT_NAME"/>
-		<item value="830" key="DIALOG_HEIGHT"/>
+		<item value="760" key="DIALOG_HEIGHT"/>
 		<item value="195" key="DIALOG_X_ORIGIN"/>
-		<item value="74" key="DIALOG_Y_ORIGIN"/>
+		<item value="8" key="DIALOG_Y_ORIGIN"/>
 	</section>
 	<section name="GitCommitMessageComponent">
 	</section>

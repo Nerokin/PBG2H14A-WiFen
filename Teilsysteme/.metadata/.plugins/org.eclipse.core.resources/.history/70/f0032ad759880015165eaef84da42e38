@@ -1,0 +1,7 @@
+package wifen.commons.network;
+
+public interface Packet {
+	
+	Connection getSource();
+
+}
