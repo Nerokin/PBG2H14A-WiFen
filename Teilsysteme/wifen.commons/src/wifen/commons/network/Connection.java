@@ -12,8 +12,8 @@ public interface Connection {
 	 * Sends a packet to the destination affiliated with this
 	 * connection.
 	 * 
-	 * @param packet The packet to be sent.
-	 * @return Whether the packet has been successfully sent.
+	 * @param packet The packet to be sent
+	 * @return Whether the packet has been successfully sent
 	 */
 	public boolean sendPacket(Packet packet);
 	
@@ -21,9 +21,22 @@ public interface Connection {
 	 * Registers a listener for all upcoming {@linkplain ConnectionEvent}s 
 	 * fired by this Connection.
 	 * 
-	 * @param listener The listener to add.
-	 * @return Whether the listener has been added.
+	 * @param listener The listener to add
+	 * @return Whether the listener has been added
 	 */
 	public boolean addListener(ConnectionListener listener);
+	
+	/**
+	 * Starts reading packets from the sockets input stream.<br>
+	 * Blocks until the Connection is closed
+	 */
+	public void readPackets();
+	
+	/**
+	 * Tells the connection to close.
+	 * 
+	 * @return Whether the connection has been successfully closed
+	 */
+	public boolean close();
 
 }
