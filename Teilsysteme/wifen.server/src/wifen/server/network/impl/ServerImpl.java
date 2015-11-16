@@ -1,5 +1,8 @@
 package wifen.server.network.impl;
 
+import java.util.List;
+
+import wifen.commons.network.Connection;
 import wifen.commons.network.Packet;
 import wifen.server.network.Server;
 
@@ -11,7 +14,7 @@ public class ServerImpl implements Server {
 	
 	// Constructor(s)
 	
-	public ServerImpl(int ort) {
+	public ServerImpl(int port) {
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -28,9 +31,15 @@ public class ServerImpl implements Server {
 		// TODO Auto-generated method stub
 		
 	}
-	
+
 	// Getters & Setters
 	
 	// TODO
+	
+	@Override
+	public List<Connection> getConnections() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

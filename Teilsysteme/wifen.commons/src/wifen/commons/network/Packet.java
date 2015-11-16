@@ -9,6 +9,12 @@ package wifen.commons.network;
  */
 public interface Packet {
 	
-	Connection getSource();
+	/**
+	 * The source is defined by the receiving connection
+	 * and does not change.
+	 * 
+	 * @return The connection this packet originated from
+	 */
+	public Connection getSource();
 
 }

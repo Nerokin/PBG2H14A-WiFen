@@ -24,11 +24,11 @@ public interface Connection {
 	 * @param listener The listener to add
 	 * @return Whether the listener has been added
 	 */
-	public boolean addListener(ConnectionListener listener);
+	public boolean addListener(ConnectionListener<?> listener);
 	
 	/**
 	 * Starts reading packets from the sockets input stream.<br>
-	 * Blocks until the Connection is closed
+	 * Blocks until the Connection is closed or an exception occurs.
 	 */
 	public void readPackets();
 	

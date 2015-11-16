@@ -23,7 +23,7 @@ public abstract class PacketImpl implements Packet {
 		return source;
 	}
 	
-	public final void setSource(Connection source) {
+	protected final void setSource(Connection source) {
 		this.source = source;
 	}
 
