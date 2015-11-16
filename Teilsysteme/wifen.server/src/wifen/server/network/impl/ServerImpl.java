@@ -5,6 +5,7 @@ import java.util.List;
 import wifen.commons.network.Connection;
 import wifen.commons.network.Packet;
 import wifen.server.network.Server;
+import wifen.server.network.ServerListener;
 
 public class ServerImpl implements Server {
 	
@@ -30,6 +31,18 @@ public class ServerImpl implements Server {
 	public void broadcastPacket(Packet packet) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public boolean addListener(ServerListener<?> listener) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	@Override
+	public boolean shutdown() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	// Getters & Setters

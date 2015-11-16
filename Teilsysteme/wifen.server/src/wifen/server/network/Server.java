@@ -22,6 +22,16 @@ public interface Server {
 	public void acceptConnections();
 	
 	/**
+	 * Attempts to close all registered {@linkplain Connection}s and stop
+	 * accepting connections.<br>
+	 * The {@linkplain #acceptConnections()} method can still be
+	 * called to start the server functionality again.
+	 * 
+	 * @return Whether or not the server has been shut down correctly.
+	 */
+	public boolean shutdown();
+	
+	/**
 	 * Sends the given packet through all connections.
 	 * 
 	 * @param packet The packet to be sent
@@ -33,5 +43,14 @@ public interface Server {
 	 * @return All currently registered connections
 	 */
 	public List<Connection> getConnections();
+	
+	/**
+	 * Registers a listener for all upcoming {@linkplain ServerEvent}s 
+	 * fired by this Server.
+	 * 
+	 * @param listener The listener to add
+	 * @return Whether the listener has been added
+	 */
+	public boolean addListener(ServerListener<?> listener);
 
 }
