@@ -1,9 +1,0 @@
-package wifen.commons.network.impl;
-
-import wifen.commons.network.Packet;
-
-public class PacketImpl implements Packet {
-	
-	
-
-}

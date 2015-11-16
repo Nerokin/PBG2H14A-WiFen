@@ -1,4 +1,0 @@
-INDEX VERSION 1.127+H:\VPR\Github\PBG2H14A-WiFen\Teilsysteme\.metadata\.plugins\org.eclipse.jdt.core
-23588268.index
-3273665352.index
-2622372879.index

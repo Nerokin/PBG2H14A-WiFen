@@ -1,7 +1,0 @@
-package wifen.commons.network;
-
-public interface Connection {
-	
-	public boolean sendPacket();
-
-}

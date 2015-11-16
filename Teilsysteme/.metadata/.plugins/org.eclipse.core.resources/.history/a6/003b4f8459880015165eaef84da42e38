@@ -1,5 +1,0 @@
-package wifen.commons;
-
-public interface CustomEvent {
-
-}
