@@ -1,14 +1,23 @@
+package wifen.commons.services.impl;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import javafx.scene.image.Image;
+import wifen.commons.services.FileLoaderService;
+
 /*
  * Implementiert die Methoden des FileLoader-Interfaces zur Verwendung.
  */
 
-public class FileLoaderProvider implements FileLoader {
+public class FileLoaderProvider implements FileLoaderService {
 	
 	public Image loadImage(String path) {
 		return new Image(path, true);
 	}
 	
-	public String[] loadTxt(String path) {
+	public String[] loadText(String path) {
 		File f = new File(path);
 		Scanner sc = new Scanner(f);
 		ArrayList<String> l = new ArrayList<String>();
@@ -18,7 +27,7 @@ public class FileLoaderProvider implements FileLoader {
 				l.add(s);
 			}
 		}
-		return l.toArray();
+		return (String[]) l.toArray();
 	}
 	
 	/*
@@ -26,12 +35,12 @@ public class FileLoaderProvider implements FileLoader {
 	 */
 	
 	public String[][] loadCsv(String path, String delimiter) {
-		String[] lines = loadTxt(path);
+		String[] lines = loadText(path);
 		ArrayList<String[]> ls = new ArrayList<String[]>();
 		for(String l : lines) {
 			ls.add(l.split(delimiter));
 		}
-		return ls.toArray();
+		return (String[][]) ls.toArray();
 	}
 	
 	public String[][] loadCsv(String path) {

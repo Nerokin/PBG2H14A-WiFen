@@ -1,3 +1,7 @@
+package wifen.commons.services;
+
+import javafx.scene.image.Image;
+
 /* 
  * Diese Klasse bietet Methoden zum Zugriff auf Dateiinhalte mit einheitlichen Funktionsparametern.
  */
