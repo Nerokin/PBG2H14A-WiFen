@@ -53,7 +53,7 @@ public class RoundDataUpdaterImpl implements RoundDataUpdater {
 				if(tmp instanceof RoundDataPacket)
 				{
 					event.consume();
-					RoundDataRecivedEventImpl tmpEvent = new RoundDataRecivedEventImpl((RoundDataPacket)tmp);
+					RoundDataRecivedEventImpl tmpEvent = new RoundDataRecivedEventImpl((RoundDataPacket)tmp, event.getSource());
 					for (RoundDataListener roundDataListener : eventList) {
 						roundDataListener.handle(tmpEvent);
 						if(tmpEvent.isConsumed())
