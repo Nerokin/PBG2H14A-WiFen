@@ -5,10 +5,10 @@ package wifen.commons.network.impl;
  * @author Oliver Bardong
  * @requirement LF300
  */
-public class RoundDataPacket extends PacketImpl {
+public class RoundDataPacketImpl extends PacketImpl {
 	private Object[] roundData;
 
-	public RoundDataPacket(Object[] data)
+	public RoundDataPacketImpl(Object[] data)
 	{
 		roundData = data;
 	}
