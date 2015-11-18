@@ -8,7 +8,7 @@ import wifen.commons.network.impl.RoundDataPacketImpl;
  * @requirement LF300
  *
  */
-public interface RoundDataRecivedEvent extends PacketRecivedEvent {
+public interface RoundDataRecivedEvent extends PacketReceivedEvent {
 
 	/**
 	 * Returns the Packet this event contains
