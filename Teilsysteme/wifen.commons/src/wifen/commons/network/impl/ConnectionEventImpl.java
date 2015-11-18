@@ -11,6 +11,11 @@ public class ConnectionEventImpl extends CustomEventImpl implements ConnectionEv
 
 	protected Connection connection;
 	
+	public ConnectionEventImpl(Connection connection)
+	{
+		this.connection = connection;
+	}
+	
 	@Override
 	public Connection getSource() {
 		// TODO Auto-generated method stub
