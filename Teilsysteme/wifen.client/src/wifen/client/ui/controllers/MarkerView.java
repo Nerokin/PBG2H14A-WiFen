@@ -1,4 +1,4 @@
-package wifen.client.view.impl;
+package wifen.client.ui.controllers;
 
 import java.io.IOException;
 import javafx.beans.property.ObjectProperty;
@@ -41,9 +41,9 @@ public class MarkerView extends Pane{
 	
 	@FXML
 	private void initialize(){
-		//Beispiel für das erstellen einer Farbe
-		//Temporär (zum testen) erstellter Button
-		//Später mit foreach durch die vorhandenen Farben/Shapes gehen
+		//Beispiel fï¿½r das erstellen einer Farbe
+		//Temporï¿½r (zum testen) erstellter Button
+		//Spï¿½ter mit foreach durch die vorhandenen Farben/Shapes gehen
 		Button temp = new Button("Black");
 		temp.autosize();
 		temp.setStyle("-fx-base: #000;");
@@ -51,7 +51,7 @@ public class MarkerView extends Pane{
 		button_colors.add(temp);
 		markerColor.setItems(button_colors);
 		
-		//Beispiel für das erstellen eines Shapes
+		//Beispiel fï¿½r das erstellen eines Shapes
 		Image tempImage = new Image(getClass().getResourceAsStream("Kreis.png"));
 		image_shapes.add(new ImageView(tempImage));
 		markerShape.setItems(image_shapes);

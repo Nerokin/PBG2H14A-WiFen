@@ -1,4 +1,4 @@
-package wifen.client.view;
+package wifen.client.services;
 
 public interface IMarker {
 	
