@@ -1,4 +1,4 @@
-package wifen.client.dice;
+package wifen.client.services.impl;
 
 import java.util.Random;
 

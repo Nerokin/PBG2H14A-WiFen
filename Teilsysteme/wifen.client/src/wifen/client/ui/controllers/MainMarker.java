@@ -1,4 +1,4 @@
-package wifen.client.view.impl;
+package wifen.client.ui.controllers;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

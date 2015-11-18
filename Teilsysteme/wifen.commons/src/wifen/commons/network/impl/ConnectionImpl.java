@@ -13,6 +13,10 @@ import wifen.commons.network.ConnectionEvent;
 import wifen.commons.network.ConnectionListener;
 import wifen.commons.network.Packet;
 
+/**
+ * @author Marius Vogelsang, David Joachim
+ *
+ */
 public class ConnectionImpl implements Connection {
 
 	

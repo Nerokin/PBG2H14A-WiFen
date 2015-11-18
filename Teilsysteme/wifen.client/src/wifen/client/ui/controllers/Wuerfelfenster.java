@@ -1,4 +1,4 @@
-package wifen.client.dice;
+package wifen.client.ui.controllers;
 
 import java.io.IOException;
 
@@ -19,7 +19,7 @@ public class Wuerfelfenster extends VBox
 	//Properties
 	
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
-	private final ObjectProperty<String> dice = new SimpleObjectProperty<>(); // String zu Wuerfelklasse gilt auch für die Getter und Setter
+	private final ObjectProperty<String> dice = new SimpleObjectProperty<>(); // String zu Wuerfelklasse gilt auch fï¿½r die Getter und Setter
 	private final ObjectProperty<Image> image = new SimpleObjectProperty<>();
 	
 	//Injected Nodes
@@ -39,12 +39,12 @@ public class Wuerfelfenster extends VBox
 		//super();
 		
 		//Apply CSS
-		getStylesheets().add(getClass().getResource("/css/Wuerfelfenser.css").toExternalForm());
+		getStylesheets().add(getClass().getResource("/wifen/client/ui/css/Wuerfelfenser.css").toExternalForm());
 		
 		//Setup FXMLLoader
 		setFxmlLoader(new FXMLLoader());
 		getFxmlLoader().setRoot(this);
-		getFxmlLoader().setLocation(getClass().getResource("/views/Wuerfelfenser.fxml"));
+		getFxmlLoader().setLocation(getClass().getResource("/wifen/client/ui/views/Wuerfelfenser.fxml"));
 		getFxmlLoader().setController(this);
 		
 		//Load the View

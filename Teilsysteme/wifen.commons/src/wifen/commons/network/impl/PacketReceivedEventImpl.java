@@ -10,8 +10,8 @@ public class PacketReceivedEventImpl extends ConnectionEventImpl implements Pack
 	private Packet packet;
 	
 	public PacketReceivedEventImpl(Packet packet, Connection connection) {
+		super(connection);
 		this.packet = packet;
-		this.connection = connection;
 	}
 
 	@Override
