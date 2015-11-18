@@ -12,7 +12,7 @@ import wifen.commons.network.ConnectionListener;
 import wifen.commons.network.PacketRecivedEvent;
 import wifen.commons.network.Packet;
 import wifen.commons.network.RoundDataRecivedEvent;
-import wifen.commons.network.RoundDataUpdater;
+import wifen.commons.network.RoundDataUpdateService;
 
 /**
  * Round Data Updater implementation
@@ -20,7 +20,7 @@ import wifen.commons.network.RoundDataUpdater;
  * @requirement LF300
  *
  */
-public class RoundDataUpdaterImpl implements RoundDataUpdater {
+public class RoundDataUpdateProvider implements RoundDataUpdateService {
 
 	private Connection connection;
 	private Packet dataPacket;
@@ -31,7 +31,7 @@ public class RoundDataUpdaterImpl implements RoundDataUpdater {
 	@Override
 	public void setRoundData(Object[] data) {
 		// TODO Auto-generated method stub
-		dataPacket = new RoundDataPacket(data);
+		dataPacket = new RoundDataPacketImpl(data);
 		connection.sendPacket(dataPacket);
 	}
 
@@ -50,10 +50,10 @@ public class RoundDataUpdaterImpl implements RoundDataUpdater {
 			public void handle(PacketRecivedEvent event) {
 				Packet tmp = event.getPacket();
 
-				if(tmp instanceof RoundDataPacket)
+				if(tmp instanceof RoundDataPacketImpl)
 				{
 					event.consume();
-					RoundDataRecivedEventImpl tmpEvent = new RoundDataRecivedEventImpl((RoundDataPacket)tmp);
+					RoundDataRecivedEventImpl tmpEvent = new RoundDataRecivedEventImpl((RoundDataPacketImpl)tmp, event.getSource());
 					for (RoundDataListener roundDataListener : eventList) {
 						roundDataListener.handle(tmpEvent);
 						if(tmpEvent.isConsumed())

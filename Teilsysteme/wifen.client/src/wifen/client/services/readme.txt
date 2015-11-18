@@ -1,0 +1,1 @@
+Hier kommen alle Interfaces rein, welche dem Client eine bestimmte Funktionalität bereitstellen.
