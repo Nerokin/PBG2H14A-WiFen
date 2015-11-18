@@ -1,5 +1,7 @@
 package wifen.commons.network;
 
+import java.io.IOException;
+
 /**
  * Represents a network connection.
  * 
@@ -13,9 +15,9 @@ public interface Connection {
 	 * connection.
 	 * 
 	 * @param packet The packet to be sent
-	 * @return Whether the packet has been successfully sent
+	 * @return Whether the packet has been successfully sent 
 	 */
-	public boolean sendPacket(Packet packet);
+	public boolean sendPacket(Packet packet);	
 	
 	/**
 	 * Registers a listener for all upcoming {@linkplain ConnectionEvent}s 
