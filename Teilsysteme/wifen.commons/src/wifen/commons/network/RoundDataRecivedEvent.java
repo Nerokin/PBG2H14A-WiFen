@@ -1,6 +1,6 @@
 package wifen.commons.network;
 
-import wifen.commons.network.impl.RoundDataPacket;
+import wifen.commons.network.impl.RoundDataPacketImpl;
 
 /**
  * Round Data Updated Event interface
@@ -14,5 +14,5 @@ public interface RoundDataRecivedEvent extends PacketRecivedEvent {
 	 * Returns the Packet this event contains
 	 * @return
 	 */
-	public RoundDataPacket getPacket();
+	public RoundDataPacketImpl getPacket();
 }

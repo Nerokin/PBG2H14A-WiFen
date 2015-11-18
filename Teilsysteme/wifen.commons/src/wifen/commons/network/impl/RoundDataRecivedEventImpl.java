@@ -15,16 +15,16 @@ import wifen.commons.impl.CustomEventImpl;
  */
 public class RoundDataRecivedEventImpl extends CustomEventImpl implements RoundDataRecivedEvent {
 
-	RoundDataPacket packet;
+	RoundDataPacketImpl packet;
 	Connection source;
-	public RoundDataRecivedEventImpl(RoundDataPacket packet, Connection source)
+	public RoundDataRecivedEventImpl(RoundDataPacketImpl packet, Connection source)
 	{
 		this.packet = packet;
 		this.source = source;
 	}
 
 	@Override
-	public RoundDataPacket getPacket() {
+	public RoundDataPacketImpl getPacket() {
 		// TODO Auto-generated method stub
 		return packet;
 	}

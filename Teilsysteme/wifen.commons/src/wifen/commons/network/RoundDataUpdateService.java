@@ -8,7 +8,7 @@ import wifen.commons.RoundDataListener;
  * @requirement LF300
  *
  */
-public interface RoundDataUpdater {
+public interface RoundDataUpdateService {
 	public void setRoundData(Object[] data);
 	public void updateData();
 
