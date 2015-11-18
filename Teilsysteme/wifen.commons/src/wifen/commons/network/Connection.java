@@ -26,7 +26,7 @@ public interface Connection {
 	 * @param listener The listener to add
 	 * @return Whether the listener has been added
 	 */
-	public boolean addListener(ConnectionListener<?> listener);
+	public boolean addListener(ConnectionListener listener);
 	
 	/**
 	 * Starts reading packets from the sockets input stream.<br>
