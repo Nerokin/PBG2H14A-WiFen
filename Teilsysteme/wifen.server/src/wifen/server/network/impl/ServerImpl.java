@@ -81,6 +81,9 @@ public class ServerImpl implements Server, ConnectionListener {
 	public void handle(ConnectionEvent event) {
 		fireEvent(event);
 	}
+	public void handle(ServerEvent event) {
+		fireEvent(event);
+	}
 	protected final void fireEvent(ServerEvent event){
 		for (ServerListener serverListener : listeners) {
 			serverListener.handle(event);
