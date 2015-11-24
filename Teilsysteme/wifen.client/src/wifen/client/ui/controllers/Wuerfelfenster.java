@@ -39,12 +39,12 @@ public class Wuerfelfenster extends VBox
 		//super();
 		
 		//Apply CSS
-		getStylesheets().add(getClass().getResource("/wifen/client/ui/css/Wuerfelfenser.css").toExternalForm());
+		//getStylesheets().add(getClass().getResource("/wifen/client/ui/css/Wuerfelfenser.css").toExternalForm());
 		
 		//Setup FXMLLoader
 		setFxmlLoader(new FXMLLoader());
 		getFxmlLoader().setRoot(this);
-		getFxmlLoader().setLocation(getClass().getResource("/wifen/client/ui/views/Wuerfelfenser.fxml"));
+		getFxmlLoader().setLocation(getClass().getResource("/wifen/client/ui/views/Wuerfelfenster.fxml"));
 		getFxmlLoader().setController(this);
 		
 		//Load the View
