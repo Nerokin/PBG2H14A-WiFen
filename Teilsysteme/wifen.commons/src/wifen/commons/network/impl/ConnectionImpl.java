@@ -7,6 +7,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import wifen.commons.network.Connection;
 import wifen.commons.network.ConnectionEvent;
@@ -18,6 +19,8 @@ import wifen.commons.network.Packet;
  *
  */
 public class ConnectionImpl implements Connection {
+	
+	private static final Logger logger = Logger.getLogger(ConnectionImpl.class.getName());
 
 	
 	private final Socket socket;
@@ -28,7 +31,9 @@ public class ConnectionImpl implements Connection {
 	public ConnectionImpl(Socket s) throws IOException
 	{
 		this.socket = s;
-		this.ois = new ObjectInputStream(socket.getInputStream());
+		this.oos = new ObjectOutputStream(socket.getOutputStream());
+		logger.info("Connection has been established.");
+		
 	}
 	public ConnectionImpl(InetAddress address, int port) throws IOException{
 		this(new Socket(address, port));
@@ -38,10 +43,10 @@ public class ConnectionImpl implements Connection {
 	public boolean sendPacket(Packet packet) {
 		try {
 			oos.writeObject(packet);
+			logger.info("Packet successfully sent.");
 			return true;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.severe("Packet could not be sent.");
 			return false;
 		}
 	}
@@ -54,16 +59,15 @@ public class ConnectionImpl implements Connection {
 	@Override
 	public void readPackets() {
 			try {
+				ois = new ObjectInputStream(socket.getInputStream());
 				Object obj = ois.readObject();
 				if(obj instanceof Packet){
 					fireEvent(new PacketReceivedEventImpl((Packet) obj, this));
 				}
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.info("Input type could not be found");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.info("Connection has been closed");
 			}
 
 	}

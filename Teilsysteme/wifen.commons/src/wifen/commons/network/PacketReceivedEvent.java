@@ -15,4 +15,5 @@ public interface PacketReceivedEvent extends ConnectionEvent {
 	 * @return
 	 */
 	public Packet getPacket();
+	
 }

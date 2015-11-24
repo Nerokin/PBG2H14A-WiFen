@@ -1,6 +1,7 @@
 package wifen.client.ui.controllers;
 
 import java.io.IOException;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;

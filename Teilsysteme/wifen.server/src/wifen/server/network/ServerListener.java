@@ -7,7 +7,7 @@ package wifen.server.network;
  * @author Konstantin Schaper (pbg2h14ash)
  * @requirement LF190
  */
-public interface ServerListener<T extends ServerEvent> {
+public interface ServerListener {
 	
 	/**
 	 * Called on the implementing class when the specified
@@ -16,6 +16,6 @@ public interface ServerListener<T extends ServerEvent> {
 	 * 
 	 * @param event The event which has been fired
 	 */
-	public void handle(T event);
+	public void handle(ServerEvent event);
 
 }

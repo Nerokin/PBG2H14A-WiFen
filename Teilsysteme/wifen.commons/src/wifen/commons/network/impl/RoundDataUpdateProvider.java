@@ -9,9 +9,7 @@ import wifen.commons.RoundDataListener;
 import wifen.commons.network.Connection;
 import wifen.commons.network.ConnectionEvent;
 import wifen.commons.network.ConnectionListener;
-import wifen.commons.network.PacketReceivedEvent;
 import wifen.commons.network.Packet;
-import wifen.commons.network.RoundDataRecivedEvent;
 import wifen.commons.network.RoundDataUpdateService;
 
 /**
@@ -45,10 +43,14 @@ public class RoundDataUpdateProvider implements RoundDataUpdateService {
 	@Override
 	public void setConnection(Connection connection) {
 		this.connection = connection;
-		connection.addListener(new ConnectionListener<PacketReceivedEvent>() {
+		connection.addListener(new ConnectionListener() {
 			@Override
-			public void handle(PacketReceivedEvent event) {
-				Packet tmp = event.getPacket();
+			public void handle(ConnectionEvent event) {
+				PacketReceivedEventImpl packetEvent = null;
+				if (event instanceof PacketReceivedEventImpl) {
+					packetEvent = (PacketReceivedEventImpl) event;
+				}
+				Packet tmp = packetEvent.getPacket();
 
 				if(tmp instanceof RoundDataPacketImpl)
 				{

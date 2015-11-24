@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 import wifen.commons.network.Connection;
 import wifen.commons.network.ConnectionEvent;
@@ -14,8 +16,15 @@ import wifen.commons.network.impl.ConnectionImpl;
 import wifen.server.network.Server;
 import wifen.server.network.ServerEvent;
 import wifen.server.network.ServerListener;
-
+/**
+ * @author Marius Vogelsang, David Joachim
+ *
+ */
 public class ServerImpl implements Server, ConnectionListener {
+	
+	//Constants
+	
+	private static final Logger logger = Logger.getLogger(ServerImpl.class.getName());
 	
 	// Attributes
 	private final ServerSocket serverSocket;
@@ -27,6 +36,7 @@ public class ServerImpl implements Server, ConnectionListener {
 	// Constructor(s)
 	public ServerImpl(int port) throws IOException {
 		serverSocket = new ServerSocket(port);
+		logger.info("Server has been successfully started.");
 	}
 	
 	// Methods
@@ -35,10 +45,12 @@ public class ServerImpl implements Server, ConnectionListener {
 	public void acceptConnections() throws IOException {
 		Socket clientSocket;
 		while ((clientSocket = serverSocket.accept()) != null) {
+			
 			Connection conn = new ConnectionImpl(clientSocket);
-			new Thread(conn::readPackets);
+			new Thread(conn::readPackets).start();
 			conn.addListener(this);
 			connectionList.add(conn);
+			logger.info("A connection has been accepted");
 		}
 	}
 
@@ -70,15 +82,17 @@ public class ServerImpl implements Server, ConnectionListener {
 
 	// Getters & Setters
 	
-	// TODO
-	
+	/**
+	 * @return read only list containing all connections
+	 */
 	@Override
 	public List<Connection> getConnections() {
-		return connectionList;
+		return Collections.unmodifiableList(connectionList);
 	}
 
 	@Override
 	public void handle(ConnectionEvent event) {
+		logger.info("A connection event occured: " + event);
 		fireEvent(event);
 	}
 	public void handle(ServerEvent event) {
@@ -91,6 +105,7 @@ public class ServerImpl implements Server, ConnectionListener {
 		}
 	}
 	protected final void fireEvent(ConnectionEvent event){
+		logger.info("A connection event is being fired on " + connectionListeners.size() + " listeners.");
 		for (ConnectionListener connectionListener : connectionListeners) {
 			connectionListener.handle(event);
 			if (event.isConsumed()) break;
