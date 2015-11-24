@@ -7,7 +7,7 @@ package wifen.commons.network;
  * @author Konstantin Schaper (pbg2h14ash)
  * @requirement LF190
  */
-public interface ConnectionListener<T extends ConnectionEvent> {
+public interface ConnectionListener <T extends ConnectionEvent>{
 	
 	/**
 	 * Called on the implementing class when the specified

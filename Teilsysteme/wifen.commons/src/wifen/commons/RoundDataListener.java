@@ -7,7 +7,7 @@ import wifen.commons.network.ConnectionEvent;
 import wifen.commons.network.RoundDataRecivedEvent;
 
 /**
- * @author Dark Draco
+ * @author Oliver Bardong
  *
  */
 public interface RoundDataListener <T extends RoundDataRecivedEvent> {

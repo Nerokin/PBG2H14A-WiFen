@@ -1,8 +1,10 @@
 package wifen.server.network;
 
+import java.io.IOException;
 import java.util.List;
 
 import wifen.commons.network.Connection;
+import wifen.commons.network.ConnectionListener;
 import wifen.commons.network.Packet;
 
 /**
@@ -18,8 +20,10 @@ public interface Server {
 	 * Starts waiting for incoming connection attempts.<br>
 	 * Does block the calling thread until the server is
 	 * shutdown or any exception occurs.
+	 * 
+	 * @throws IOException 
 	 */
-	public void acceptConnections();
+	public void acceptConnections() throws IOException;
 	
 	/**
 	 * Attempts to close all registered {@linkplain Connection}s and stop
@@ -51,6 +55,6 @@ public interface Server {
 	 * @param listener The listener to add
 	 * @return Whether the listener has been added
 	 */
-	public boolean addListener(ServerListener<?> listener);
-
+	public boolean addListener(ServerListener listener);
+	public boolean addListener(ConnectionListener listener);
 }
