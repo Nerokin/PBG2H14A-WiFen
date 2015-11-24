@@ -50,7 +50,7 @@ public class EreignisFenster extends AnchorPane {
 		// TODO: Data Binding and Setup of Event Handling
 		}
 	
-	// Event Handlers
+	// Event Handler
 
 
 	public void log(String text)
