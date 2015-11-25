@@ -32,4 +32,20 @@ public class dice {
     	dice[0] += m;
     	return dice;
     }
+    
+    //"EreignisFenster.log(output);" , wenn nich satisch, objekt ansprechen
+    static void output(int[] input){
+    	String output = new String();
+    	output = "Ergebniss: "+input[0]+" (";
+    	for(int i = 1; i < input.length; i++){
+    		output += " "+i+". Würfel: "+input[i];
+    		if(i != input.length-1){
+    			output+= ";";
+    		}
+    		else{
+    			output += " )";
+    		}
+    	}
+    	EreignisFenster.log(output);
+    }
 }
