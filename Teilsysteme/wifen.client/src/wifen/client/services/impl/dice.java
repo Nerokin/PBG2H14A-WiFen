@@ -34,7 +34,7 @@ public class dice {
     }
     
     //"EreignisFenster.log(output);" , wenn nich satisch, objekt ansprechen
-    static void output(int[] input){
+    public void output(int[] input){
     	String output = new String();
     	output = "Ergebniss: "+input[0]+" (";
     	for(int i = 1; i < input.length; i++){
