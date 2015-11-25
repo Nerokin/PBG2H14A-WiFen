@@ -1,3 +1,4 @@
+package wifen.client.services;
 
 public class AdminMenu {
 
