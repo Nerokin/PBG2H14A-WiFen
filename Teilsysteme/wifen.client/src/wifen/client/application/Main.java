@@ -6,7 +6,7 @@ import java.net.UnknownHostException;
 
 import wifen.commons.network.Connection;
 import wifen.commons.network.impl.ConnectionImpl;
-import wifen.commons.network.impl.PacketImpl;
+import wifen.commons.network.impl.RoundDataPacketImpl;
 
 public class Main {
 
@@ -14,13 +14,8 @@ public class Main {
 		// TODO Auto-generated method stub
 		try {
 			Connection connection = new ConnectionImpl(InetAddress.getByName("localhost"),1234);
-			connection.sendPacket(new PacketImpl(){
-				@Override
-				public String toString() {
-					// TODO Auto-generated method stub
-					return "hallo du geiler typ";
-				}
-			});
+			connection.sendPacket(new RoundDataPacketImpl(null));
+			connection.readPackets();
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
