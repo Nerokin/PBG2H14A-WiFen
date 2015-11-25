@@ -7,6 +7,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import wifen.commons.network.Connection;
@@ -35,7 +36,7 @@ public class ConnectionImpl implements Connection {
 		logger.info("Connection has been established.");
 		
 	}
-	public ConnectionImpl(InetAddress address, int port) throws IOException{
+	public ConnectionImpl(InetAddress address, int port) throws IOException {
 		this(new Socket(address, port));
 	}
 	
@@ -43,10 +44,11 @@ public class ConnectionImpl implements Connection {
 	public boolean sendPacket(Packet packet) {
 		try {
 			oos.writeObject(packet);
-			logger.info("Packet successfully sent.");
+			oos.flush();
+			logger.info("A Packet has been successfully sent (" + packet + ")");
 			return true;
 		} catch (IOException e) {
-			logger.severe("Packet could not be sent.");
+			logger.log(Level.WARNING, "Packet could not be sent", e);
 			return false;
 		}
 	}
@@ -60,14 +62,15 @@ public class ConnectionImpl implements Connection {
 	public void readPackets() {
 			try {
 				ois = new ObjectInputStream(socket.getInputStream());
-				Object obj = ois.readObject();
-				if(obj instanceof Packet){
-					fireEvent(new PacketReceivedEventImpl((Packet) obj, this));
+				Object obj = null;
+				while ((obj = ois.readObject()) != null) { 
+					if(obj instanceof Packet)
+						fireEvent(new PacketReceivedEventImpl((Packet) obj, this));
 				}
 			} catch (ClassNotFoundException e) {
-				logger.info("Input type could not be found");
+				logger.log(Level.WARNING, "Input type could not be found", e);
 			} catch (IOException e) {
-				logger.info("Connection has been closed");
+				logger.log(Level.WARNING, "Connection has been closed while reading packets", e);
 			}
 
 	}
@@ -78,8 +81,7 @@ public class ConnectionImpl implements Connection {
 			socket.close();
 			return true;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.log(Level.WARNING, "An exception occurred when closing the connection", e);
 			return false;
 		}
 	}

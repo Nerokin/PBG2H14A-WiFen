@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import wifen.commons.network.Connection;
@@ -45,7 +46,6 @@ public class ServerImpl implements Server, ConnectionListener {
 	public void acceptConnections() throws IOException {
 		Socket clientSocket;
 		while ((clientSocket = serverSocket.accept()) != null) {
-			
 			Connection conn = new ConnectionImpl(clientSocket);
 			new Thread(conn::readPackets).start();
 			conn.addListener(this);
@@ -75,7 +75,7 @@ public class ServerImpl implements Server, ConnectionListener {
 			serverSocket.close();
 			return true;
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.log(Level.SEVERE, "An exception occurred while closing the server socket", e);
 			return false;
 		}
 	}

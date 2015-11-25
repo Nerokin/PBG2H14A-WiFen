@@ -22,4 +22,9 @@ public class RoundDataPacketImpl extends PacketImpl {
 	{
 		this.roundData = roundData;
 	}
+	
+	@Override
+	public String toString() {
+		return "RoundDataPacketImpl(" + roundData + ")";
+	}
 }
