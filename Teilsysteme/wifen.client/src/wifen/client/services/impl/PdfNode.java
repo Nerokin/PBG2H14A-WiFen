@@ -2,24 +2,26 @@ package wifen.client.services.impl;
 /*
  * Node für .pdf-Dateien
  * Öffnet die Datei in der Standardanwendung des Betriebsystems
- */ 
+ */
 
-class PdfNode implements FileNode<void>{
+import wifen.client.services.FileNode;
+
+public class PdfNode implements FileNode<Void>{
 	String path;
-	
+
 	public PdfNode(String p) {
 		this.path = p;
 	}
-	
+
 	public void setPath(String p) {
 		this.path = p;
 	}
-	
+
 	public String getPath() {
 		return this.path;
 	}
-	
-	public void getFileContent() {
+
+	public Void getFileContent() {
 		ClientApplication.getInstance().getHostServices().showDocument(this.path);
 	}
 }
