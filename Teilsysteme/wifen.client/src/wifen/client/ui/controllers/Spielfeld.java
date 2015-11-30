@@ -1,8 +1,10 @@
 package wifen.client.ui.controllers;
 
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
@@ -76,6 +78,7 @@ public class Spielfeld {
 		stage.setScene(scene);
 		stage.setWidth(sizeSceneX);
 		stage.setHeight(sizeSceneY);
+		stack.setStyle("-fx-background-color: #FFFFFF;");
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent event) {
 				if(event.getText().toLowerCase().equals("w")&&stack.getTranslateY()<(sizeFieldY/2-((stack.getHeight())/2))){
@@ -206,6 +209,10 @@ public class Spielfeld {
 		this.sizeSceneX = sizeSceneX;
 		this.sizeSceneY = sizeSceneY;
 		draw();
+	}
+	/**Get all Children of the Pane*/
+	public ObservableList<Node> getChildren(){
+		return stack.getChildren();
 	}
 	/**Add Node to stack*/
 	public void add(Node value){
