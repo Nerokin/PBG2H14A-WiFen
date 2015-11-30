@@ -19,4 +19,33 @@ public class dice {
         dice[x]=out;
         return dice;
     }
+    
+    //Formel: XwY+/-M
+    // x: Anzahl der Würfel, y: Anzahl der Seiten, m: Modifikator
+    public int[] dice_throw(int x,int y,int m){
+    	int dice[] = new int[x+1];
+    	Random ran = new Random();
+    	for(int i = 1; i <= x; i++){
+    		dice[i] = ran.nextInt(y)+1;
+    		dice[0] += dice[i];
+    	}
+    	dice[0] += m;
+    	return dice;
+    }
+    
+    //"EreignisFenster.log(output);" , wenn nich satisch, objekt ansprechen
+    public void output(int[] input){
+    	String output = new String();
+    	output = "Ergebniss: "+input[0]+" (";
+    	for(int i = 1; i < input.length; i++){
+    		output += " "+i+". Würfel: "+input[i];
+    		if(i != input.length-1){
+    			output+= ";";
+    		}
+    		else{
+    			output += " )";
+    		}
+    	}
+    	EreignisFenster.log(output);
+    }
 }
