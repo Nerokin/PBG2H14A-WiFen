@@ -1,7 +1,5 @@
 package wifen.commons.network;
 
-import java.io.IOException;
-
 /**
  * Represents a network connection.
  * 

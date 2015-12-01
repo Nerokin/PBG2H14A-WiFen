@@ -12,6 +12,10 @@ import wifen.commons.network.Packet;
  */
 public abstract class PacketImpl implements Packet {
 	
+	// Class Constants
+
+	private static final long serialVersionUID = -8734483796691512001L;
+	
 	// Attributes
 	
 	private Connection source;

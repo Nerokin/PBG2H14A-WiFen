@@ -1,7 +1,7 @@
 /**
  *
  */
-package wifen.commons.network.impl;
+package wifen.commons.services.impl;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,10 @@ import wifen.commons.network.Connection;
 import wifen.commons.network.ConnectionEvent;
 import wifen.commons.network.ConnectionListener;
 import wifen.commons.network.Packet;
-import wifen.commons.network.RoundDataUpdateService;
+import wifen.commons.network.events.impl.PacketReceivedEventImpl;
+import wifen.commons.network.events.impl.RoundDataRecivedEventImpl;
+import wifen.commons.network.packets.impl.RoundDataPacketImpl;
+import wifen.commons.services.RoundDataUpdateService;
 
 /**
  * Round Data Updater implementation

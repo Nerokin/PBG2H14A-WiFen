@@ -14,10 +14,13 @@ import wifen.commons.network.Connection;
 import wifen.commons.network.ConnectionEvent;
 import wifen.commons.network.ConnectionListener;
 import wifen.commons.network.Packet;
+import wifen.commons.network.events.impl.ConnectionClosedEventImpl;
+import wifen.commons.network.events.impl.PacketReceivedEventImpl;
 
 /**
- * @author Marius Vogelsang, David Joachim
- *
+ * @author Marius Vogelsang
+ * @author David Joachim
+ * @author Konstantin Schaper
  */
 public class ConnectionImpl implements Connection {
 	
@@ -32,7 +35,7 @@ public class ConnectionImpl implements Connection {
 	public ConnectionImpl(Socket s) throws IOException
 	{
 		this.socket = s;
-		this.oos = new ObjectOutputStream(socket.getOutputStream());
+		this.oos = new ObjectOutputStream(getSocket().getOutputStream());
 		logger.info("Connection has been established.");
 		
 	}
@@ -55,13 +58,13 @@ public class ConnectionImpl implements Connection {
 
 	@Override
 	public boolean addListener(ConnectionListener listener) {
-		return listeners.add(listener);
+		return getListeners().add(listener);
 	}
 	
 	@Override
 	public void readPackets() {
 			try {
-				ois = new ObjectInputStream(socket.getInputStream());
+				ois = new ObjectInputStream(getSocket().getInputStream());
 				Object obj = null;
 				while ((obj = ois.readObject()) != null) { 
 					if(obj instanceof Packet)
@@ -70,6 +73,7 @@ public class ConnectionImpl implements Connection {
 			} catch (ClassNotFoundException e) {
 				logger.log(Level.WARNING, "Input type could not be found", e);
 			} catch (IOException e) {
+				fireEvent(new ConnectionClosedEventImpl(this));
 				logger.log(Level.WARNING, "Connection has been closed while reading packets", e);
 			}
 
@@ -78,7 +82,10 @@ public class ConnectionImpl implements Connection {
 	@Override
 	public boolean close() {
 		try {
-			socket.close();
+			if (!getSocket().isClosed()) {
+				getSocket().close();
+				fireEvent(new ConnectionClosedEventImpl(this));
+			}
 			return true;
 		} catch (IOException e) {
 			logger.log(Level.WARNING, "An exception occurred when closing the connection", e);
@@ -86,9 +93,18 @@ public class ConnectionImpl implements Connection {
 		}
 	}
 	protected final void fireEvent(ConnectionEvent event){
-		for (ConnectionListener connectionListener : listeners) {
+		for (ConnectionListener connectionListener : getListeners()) {
 			connectionListener.handle(event);
 			if (event.isConsumed()) break;
 		}
+	}
+	
+	// Getter & Setter
+	
+	public List<ConnectionListener> getListeners() {
+		return listeners;
+	}
+	public Socket getSocket() {
+		return socket;
 	}
 }

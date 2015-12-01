@@ -1,6 +1,7 @@
-package wifen.commons.network;
+package wifen.commons.services;
 
 import wifen.commons.RoundDataListener;
+import wifen.commons.network.Connection;
 
 /**
  * Round Data Updater Interface

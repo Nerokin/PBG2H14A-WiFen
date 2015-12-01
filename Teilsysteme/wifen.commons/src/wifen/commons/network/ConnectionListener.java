@@ -1,7 +1,5 @@
 package wifen.commons.network;
 
-import java.lang.reflect.Type;
-
 /**
  * Super interface for all entities interested in
  * events fired from {@linkplain Connection}s.

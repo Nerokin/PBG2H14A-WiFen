@@ -1,7 +1,10 @@
 /**
  *
  */
-package wifen.commons.network;
+package wifen.commons.network.events;
+
+import wifen.commons.network.ConnectionEvent;
+import wifen.commons.network.Packet;
 
 /**
  * @author Oliver Bardong

@@ -1,6 +1,6 @@
-package wifen.commons.network;
+package wifen.commons.network.events;
 
-import wifen.commons.network.impl.RoundDataPacketImpl;
+import wifen.commons.network.packets.impl.RoundDataPacketImpl;
 
 /**
  * Round Data Updated Event interface
