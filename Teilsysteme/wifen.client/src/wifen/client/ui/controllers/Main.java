@@ -9,7 +9,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			primaryStage.setScene(new Scene(new EreignisFenster()));
+			primaryStage.setScene(new Scene(new Wuerfelfenster()));
 			primaryStage.centerOnScreen();
 			primaryStage.setTitle("Tiel");
 			primaryStage.show();
