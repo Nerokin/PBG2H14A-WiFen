@@ -1,12 +1,12 @@
 /**
  *
  */
-package wifen.commons.network.impl;
+package wifen.commons.network.events.impl;
 
-import wifen.commons.network.Connection;
-import wifen.commons.network.ConnectionEvent;
-import wifen.commons.network.RoundDataRecivedEvent;
 import wifen.commons.impl.CustomEventImpl;
+import wifen.commons.network.Connection;
+import wifen.commons.network.events.RoundDataRecivedEvent;
+import wifen.commons.network.packets.impl.RoundDataPacketImpl;
 
 /**
  * @author Oliver Bardong

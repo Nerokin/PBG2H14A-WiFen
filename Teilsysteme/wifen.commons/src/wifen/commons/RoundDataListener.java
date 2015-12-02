@@ -4,7 +4,7 @@
 package wifen.commons;
 
 import wifen.commons.network.ConnectionEvent;
-import wifen.commons.network.RoundDataRecivedEvent;
+import wifen.commons.network.events.RoundDataRecivedEvent;
 
 /**
  * @author Oliver Bardong

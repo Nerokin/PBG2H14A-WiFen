@@ -56,5 +56,13 @@ public interface Server {
 	 * @return Whether the listener has been added
 	 */
 	public boolean addListener(ServerListener listener);
+	
+	/**
+	 * Registers a listener for all upcoming {@linkplain ConnectionEvent}s
+	 * that occur on any connection maintained by this server instance
+	 * 
+	 * @param listener to add
+	 * @return whether the listener has been successfully added
+	 */
 	public boolean addListener(ConnectionListener listener);
 }

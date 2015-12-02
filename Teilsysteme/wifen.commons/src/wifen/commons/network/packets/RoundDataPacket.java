@@ -1,4 +1,4 @@
-package wifen.commons.network;
+package wifen.commons.network.packets;
 
 /**
  * Round Data packages interface

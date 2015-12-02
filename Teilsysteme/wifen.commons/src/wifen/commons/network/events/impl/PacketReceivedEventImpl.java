@@ -1,8 +1,9 @@
-package wifen.commons.network.impl;
+package wifen.commons.network.events.impl;
 
 import wifen.commons.network.Connection;
 import wifen.commons.network.Packet;
-import wifen.commons.network.PacketReceivedEvent;
+import wifen.commons.network.events.PacketReceivedEvent;
+import wifen.commons.network.impl.ConnectionEventImpl;
 
 public class PacketReceivedEventImpl extends ConnectionEventImpl implements PacketReceivedEvent{
 

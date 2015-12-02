@@ -1,4 +1,6 @@
-package wifen.commons.network.impl;
+package wifen.commons.network.packets.impl;
+
+import wifen.commons.network.impl.PacketImpl;
 
 /**
  * Implementation of Round Data packages
@@ -6,6 +8,11 @@ package wifen.commons.network.impl;
  * @requirement LF300
  */
 public class RoundDataPacketImpl extends PacketImpl {
+	
+	// Class Constants
+
+	private static final long serialVersionUID = 6776060734464805312L;
+	
 	private Object[] roundData;
 
 	public RoundDataPacketImpl(Object[] data)
