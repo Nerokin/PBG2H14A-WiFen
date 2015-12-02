@@ -95,7 +95,7 @@ public class ChatController extends TitledPane{
 		//Was noch fehlt :
 		//SpielerRollen Unterscheidung und Erstellung von 2 Chatfenstern und deren Kommunikation
 		
-
+		txt_Eingabe.setText("");
 	}
 
 	// Getter & Setter
