@@ -25,14 +25,14 @@ public class Wuerfelfenster extends VBox {
 	
 		//constants
 		//public static final String CSS_PATH = "/css/MainView.css";
-		public static final String FXML_PATH ="/view/Wuerfelfenster.fxml";
+		public static final String FXML_PATH ="/wifen/client/ui/views/Wuerfelfenster.fxml";
 		@FXML public Label wuerfel1;
 		//@FXML public Label dropped;
 		double orgSceneX,orgSceneY;
 		double orgTranslateX,orgTranslateY;
 	
 		double mousex,mousey;
-		Image wuerfelImage = new Image("/view/123.png");
+		Image wuerfelImage = new Image("/wifen/client/ui/views/wuerfel.png");
 		@FXML public Pane dropped;
 		
 		

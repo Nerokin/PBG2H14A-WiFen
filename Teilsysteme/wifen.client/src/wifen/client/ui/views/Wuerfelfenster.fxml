@@ -23,12 +23,12 @@
                   <Insets right="30.0" />
                </padding>
             </Label>
-            <Label fx:id="wuerfel2" text="2.Würfel">
+            <Label fx:id="wuerfel2" onDragDetected="#wuerfelDrag" onDragDone="#wuerfelDone" onDragOver="#wuerfelDragOver" text="2.Würfel">
                <padding>
                   <Insets right="30.0" />
                </padding>
             </Label>
-            <Label fx:id="wuerfel3" text="Würfel Nr. 3">
+            <Label fx:id="wuerfel3" onDragDetected="#wuerfelDrag" onDragDone="#wuerfelDone" onDragOver="#wuerfelDragOver" text="Würfel Nr. 3">
                <padding>
                   <Insets right="30.0" />
                </padding>

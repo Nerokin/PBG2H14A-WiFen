@@ -1,6 +1,12 @@
 package wifen.client.services.impl;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Random;
+
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 public class dice {
 	//Überprüfung des Strings der Texteigabe des Würfelfeldes
@@ -398,7 +404,7 @@ public class dice {
     //"EreignisFenster.log(output);" , wenn nich satisch, objekt ansprechen
     public void output(int[] input){
     	String output = new String();
-    	output = "Ergebniss: "+input[0]+" (";
+    	output = "Ergebniss: "+input[input.length-1]+" (";
     	for(int i = 1; i < input.length; i++){
     		output += " "+i+". W�rfel: "+input[i];
     		if(i != input.length-1){
@@ -410,4 +416,13 @@ public class dice {
     	}
     	EreignisFenster.log(output);
     }
+    
+  //Wuerfel sound apsielen/ Funktioniert pfad?(unsicher)
+    public void playWuerfeln() throws IOException{
+		String wuerfelSound = "./ressources/wuerfeln.WAV";
+		InputStream in = new FileInputStream(wuerfelSound);
+		AudioStream audio = new AudioStream(in);
+		AudioPlayer.player.start(audio);
+    }
+    
 }
