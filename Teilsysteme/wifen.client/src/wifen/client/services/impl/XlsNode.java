@@ -1,5 +1,6 @@
 package wifen.client.services.impl;
 
+import wifen.client.application.ClientApplication;
 import wifen.client.services.FileNode;
 
 /*
@@ -23,6 +24,7 @@ public class XlsNode implements FileNode<Void> {
 	}
 
 	public Void getFileContent() {
-		ClientApplication.getInstance().getHostServices().showDocument(this.path);
+		ClientApplication.instance().getHostServices().showDocument(this.path);
+		return null;
 	}
 }

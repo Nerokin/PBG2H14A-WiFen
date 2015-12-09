@@ -4,6 +4,7 @@ package wifen.client.services.impl;
  * Öffnet die Datei in der Standardanwendung des Betriebsystems
  */
 
+import wifen.client.application.ClientApplication;
 import wifen.client.services.FileNode;
 
 public class PdfNode implements FileNode<Void>{
@@ -22,6 +23,7 @@ public class PdfNode implements FileNode<Void>{
 	}
 
 	public Void getFileContent() {
-		ClientApplication.getInstance().getHostServices().showDocument(this.path);
+		ClientApplication.instance().getHostServices().showDocument(this.path);
+		return null;
 	}
 }

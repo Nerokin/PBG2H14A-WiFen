@@ -7,6 +7,7 @@ import java.util.Random;
 
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
+import wifen.client.ui.controllers.EreignisFenster;
 
 public class dice {
 	//Überprüfung des Strings der Texteigabe des Würfelfeldes
