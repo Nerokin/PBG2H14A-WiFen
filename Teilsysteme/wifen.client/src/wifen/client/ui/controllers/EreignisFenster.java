@@ -24,6 +24,8 @@ public class EreignisFenster extends AnchorPane {
 
 	// Injected Nodes
 
+	
+	// OH GOTT bitte einen Listview verwenden
 	@FXML private TextArea ereignislogTF;
 	
 	// Constructor
@@ -63,6 +65,8 @@ public class EreignisFenster extends AnchorPane {
 
 	public String getLog()
 	{
+		
+		// Bitte eine Liste zurückgeben Observable List
 		return ereignislogTF.getText();
 	}
 
