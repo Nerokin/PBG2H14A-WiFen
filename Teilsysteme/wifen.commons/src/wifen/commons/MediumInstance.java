@@ -2,7 +2,7 @@ package wifen.commons;
 
 public class MediumInstance
 {
-	Medium medium;
+	private Medium medium;
 	private String caption;
 	
 	public MediumInstance(Medium medium)

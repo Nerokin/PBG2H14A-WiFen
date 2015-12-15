@@ -23,6 +23,6 @@ public class ImageNode implements FileNode<Image>{
 	}
 
 	public Image getFileContent() {
-		return new Image(path, true);
+		return new Image("file:\\" + path, true);
 	}
 }

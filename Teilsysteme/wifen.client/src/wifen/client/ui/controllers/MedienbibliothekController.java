@@ -3,7 +3,6 @@ package wifen.client.ui.controllers;
 import java.io.File;
 import java.io.IOException;
 
-import Medien.Medium;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -16,6 +15,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import wifen.client.services.impl.DocNode;
+import wifen.client.services.impl.PdfNode;
+import wifen.client.services.impl.XlsNode;
+import wifen.commons.Medium;
 
 public class MedienbibliothekController extends AnchorPane
 {
@@ -69,13 +72,21 @@ public class MedienbibliothekController extends AnchorPane
 		fileChooser.setTitle("Open Media File");
 		File file = fileChooser.showOpenDialog(this.getScene().getWindow());
 		
-		tbxMedienBrowser.setUserData(file);
-		tbxMedienBrowser.setText(file.getAbsolutePath());
+		if(file != null)
+		{
+			tbxMedienBrowser.setUserData(file);
+			tbxMedienBrowser.setText(file.getAbsolutePath());
+		}
 	}
 	
 	public void Medien÷ffnen(ActionEvent event)
 	{
-		// TODO: find ANY way to open file irrespective of actual FileNode implementation
+		Medium selectedMedium = listViewMedien.getSelectionModel().getSelectedItem();
+		// For some types just call the function which handles the viewing of that file alone
+		if(selectedMedium.getFile() instanceof PdfNode || selectedMedium.getFile() instanceof DocNode || selectedMedium.getFile() instanceof XlsNode)
+			selectedMedium.getFile().getFileContent();
+		else // Show content in seperate window. TODO: create window to show content
+			selectedMedium.getFile().getFileContent();
 	}
 		
 	//Getter & Setter

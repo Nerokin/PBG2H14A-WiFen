@@ -8,7 +8,7 @@ import wifen.client.services.impl.FileLoaderProvider;
 public class Medium
 {
 	private String name;
-	FileNode<?> file;
+	private FileNode<?> file;
 	
 	public Medium(File file)
 	{
@@ -18,13 +18,29 @@ public class Medium
 		FileLoaderProvider loader = new FileLoaderProvider();
 		
 		String ext = name.substring(name.lastIndexOf('.'));
-		if(ext.equals("txt"))
+		if(ext.equalsIgnoreCase("txt"))
 		{
 			this.file = loader.loadText(file.getPath()); 
 		}
-		else if(ext.equals("csv"))
+		else if(ext.equalsIgnoreCase("csv"))
 		{
-			this.file = loader.loadCsv(file.getPath()); 
+			this.file = loader.loadCsv(file.getPath(), ";"); 
+		}
+		else if(ext.equalsIgnoreCase("pdf"))
+		{
+			this.file = loader.loadPdf(file.getPath()); 
+		}
+		else if(ext.equalsIgnoreCase("png") || ext.equalsIgnoreCase("jpg") || ext.equalsIgnoreCase("bmp") || ext.equalsIgnoreCase("gif"))
+		{
+			this.file = loader.loadImage(file.getPath()); 
+		}
+		else if(ext.equalsIgnoreCase("doc") || ext.equalsIgnoreCase("docx"))
+		{
+			this.file = loader.loadDoc(file.getPath()); 
+		}
+		else if(ext.equalsIgnoreCase("xls") || ext.equalsIgnoreCase("xlsx"))
+		{
+			this.file = loader.loadXls(file.getPath()); 
 		}
 		else
 		{
@@ -38,9 +54,20 @@ public class Medium
 		return name;
 	}
 	
+	public FileNode<?> getFile()
+	{
+		return file;
+	}
+
 	@Override
 	public String toString()
 	{
 		return name;
+	}
+	
+	// Create instance
+	public MediumInstance createInstance()
+	{
+		return new MediumInstance(this);
 	}
 }
