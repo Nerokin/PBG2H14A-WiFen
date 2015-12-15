@@ -10,6 +10,9 @@ import sun.audio.AudioStream;
 import wifen.client.ui.controllers.EreignisFenster;
 
 public class dice {
+	//-----------------------
+	//David Kühlmann -- Start
+	//-----------------------
 	//Überprüfung des Strings der Texteigabe des Würfelfeldes
 	public static int[] checkInput(String in){
             //Formel: XwY+M
@@ -107,7 +110,7 @@ public class dice {
                 int m_y = Integer.parseInt(in_m_y);
                 int m_m = Integer.parseInt(in_m_m);
                 int m = dice_Throw(m_x,m_y,m_m)[0];
-                System.out.println(m);
+                
                 //Auswertung des ersten Ausdrucks um End Ergebniss zu bestimmen
                 int index_x = erster.indexOf('w');
                 int index_y = erster.indexOf('e');
@@ -136,7 +139,7 @@ public class dice {
                 int m_y = Integer.parseInt(in_m_y);
                 int m_m = Integer.parseInt(in_m_m);
                 int m = dice_Throw(m_x,m_y,m_m)[0];
-                System.out.println(m);
+                
                 //Auswertung 1. AUsdrucksteil, Endberechnung
                 int index_x = erster.indexOf('w');
                 int index_y = erster.indexOf('e', index_x);
@@ -164,7 +167,7 @@ public class dice {
                 int m_y = Integer.parseInt(in_m_y);
                 int m_m = Integer.parseInt(in_m_m);
                 int m = dice_Throw(m_x,m_y,m_m)[0];
-                System.out.println(m);
+                
                 //Auswertung 1. AUsdrucksteil, Endberechnung
                 int index_x = erster.indexOf('w');
                 int index_y = erster.indexOf('e', index_x);
@@ -192,7 +195,7 @@ public class dice {
                 int m_y = Integer.parseInt(in_m_y);
                 int m_m = Integer.parseInt(in_m_m);
                 int m = dice_Throw(m_x,m_y,m_m)[0];
-                System.out.println(m);
+                
                 //Auswertung 1. AUsdrucksteil, Endberechnung
                 int index_x = erster.indexOf('w');
                 int index_y = erster.indexOf('e', index_x);
@@ -217,7 +220,7 @@ public class dice {
                 int m_x = Integer.parseInt(in_m_x);
                 int m_y = Integer.parseInt(in_m_y);
                 int m = dice_Throw(m_x,m_y,0)[0];
-                System.out.println(m);
+                
                 //Auswertung 1. AUsdrucksteil, Endberechnung
                 int index_x = erster.indexOf('w');
                 int index_y = erster.indexOf('e', index_x);
@@ -242,7 +245,7 @@ public class dice {
                 int m_x = Integer.parseInt(in_m_x);
                 int m_y = Integer.parseInt(in_m_y);
                 int m = dice_Throw(m_x,m_y,0)[0];
-                System.out.println(m);
+                
                 //Auswertung 1. AUsdrucksteil, Endberechnung
                 int index_x = erster.indexOf('w');
                 int index_y = erster.indexOf('e', index_x);
@@ -389,7 +392,9 @@ public class dice {
 	    dice[x]=out;
 	    return dice;
 	}
-	
+	//-----------------------
+	//David Kühlmann -- Ende
+	//-----------------------
 	//Formel: XwY+/-M
 	// x: Anzahl der W�rfel, y: Anzahl der Seiten, m: Modifikator
 	 public static int[] dice_Throw(int x,int y,int m){
