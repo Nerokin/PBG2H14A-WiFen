@@ -57,6 +57,8 @@ public class ClientApplication extends Application implements ServerListener, Co
 
 		services.add(Server.class);
 		services.add(Connection.class);
+		services.add(ClientChatService.class);
+		services.add(ServerChatService.class);
 
 		// ...
 		SERVICES = services.iterator();
@@ -79,7 +81,19 @@ public class ClientApplication extends Application implements ServerListener, Co
 
 	@Override
 	public void init() {
-		// TOOD What happens before the initialization of the GUI
+		// TODO What happens before the initialization of the GUI
+		
+		// Initialize a simple test which instantiates a server with a single connection on localhost
+		try {
+			startServer();
+			try {
+				startConnection(InetAddress.getLocalHost());
+			} catch (IOException e) {
+				logger.severe("Connection could not be established!");
+			}
+		} catch (IOException e) {
+			logger.severe("Server could not be started!");
+		}
 	}
 
 	@Override
@@ -93,7 +107,7 @@ public class ClientApplication extends Application implements ServerListener, Co
 		// Return null if there already is a connection registered
 		if (getServiceRegistry().getServiceProviderByClass(Connection.class) != null) return null;
 		else {
-			Connection conn = new ConnectionImpl(address, ApplicationConstants.APPLICATION_PORT);
+			Connection conn = new ConnectionImpl(address, ApplicationConstants.APPLICATION_PORT, this);
 			getServiceRegistry().registerServiceProvider(conn, Connection.class);
 			return conn;
 		}
@@ -106,7 +120,7 @@ public class ClientApplication extends Application implements ServerListener, Co
 		else {
 		
 			// Instantiate the server
-			Server server = new ServerImpl(ApplicationConstants.APPLICATION_PORT);
+			Server server = new ServerImpl(ApplicationConstants.APPLICATION_PORT, this);
 			
 			// Actually start the server
 			Thread t = new Thread(() -> {
@@ -137,8 +151,15 @@ public class ClientApplication extends Application implements ServerListener, Co
 		if (event instanceof ServerStartedEvent) {
 			
 			// Register a new chat service provider if the is none present
-			if (getServiceRegistry().getServiceProviderByClass(ServerChatService.class) == null)
-				getServiceRegistry().registerServiceProvider(new ServerChatProvider(event.getSource()), ServerChatService.class);
+			if (getServiceRegistry().getServiceProviderByClass(ServerChatService.class) == null) {
+				try {
+					getServiceRegistry().registerServiceProvider(new ServerChatProvider(event.getSource()), ServerChatService.class);
+					logger.info("A new ServerChatProvider has been registered");
+				} catch (Exception e) {
+					logger.log(Level.SEVERE, "ServerChatProvider could not be registered", e);
+				}
+				
+			}
 			
 		} else if (event instanceof ServerShutdownEvent) {
 			
@@ -168,8 +189,14 @@ public class ClientApplication extends Application implements ServerListener, Co
 			
 			
 			// Whenever a player connects to a server, create a new chat service for that connection and register it if there is none present yet
-			if (getServiceRegistry().getServiceProviderByClass(ClientChatService.class) == null)
+			if (getServiceRegistry().getServiceProviderByClass(ClientChatService.class) == null) {
+				try {
 					getServiceRegistry().registerServiceProvider(new ClientChatProvider(connectionEvent.getSource()), ClientChatService.class);
+					logger.info("A new ClientChatProvider has been registered");
+				} catch (Exception e) {
+					logger.log(Level.SEVERE, "ClientChatProvider could not be registered", e);
+				}
+			}
 			
 		} else if (connectionEvent instanceof ConnectionClosedEvent) {
 			

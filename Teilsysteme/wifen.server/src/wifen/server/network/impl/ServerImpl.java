@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
@@ -36,11 +37,17 @@ public class ServerImpl implements Server, ConnectionListener {
 	private final List<ServerListener> listeners = new ArrayList<ServerListener>();
 	private final List<ConnectionListener> connectionListeners = new ArrayList<ConnectionListener>();
 	private final List<Connection> connectionList = new ArrayList<Connection>();
-	// TODO
 	
 	// Constructor(s)
 	public ServerImpl(int port) throws IOException {
 		serverSocket = new ServerSocket(port);
+		fireEvent(new ServerStartedEventImpl(this));
+		logger.info("Server has been successfully started.");
+	}
+	
+	public ServerImpl(int port, ServerListener... listeners) throws IOException {
+		serverSocket = new ServerSocket(port);
+		Arrays.asList(listeners).forEach((listener) -> addListener(listener));
 		fireEvent(new ServerStartedEventImpl(this));
 		logger.info("Server has been successfully started.");
 	}

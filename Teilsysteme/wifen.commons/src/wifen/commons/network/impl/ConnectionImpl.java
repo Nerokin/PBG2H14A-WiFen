@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,8 +42,17 @@ public class ConnectionImpl implements Connection {
 		logger.info("Connection has been established.");
 		
 	}
+	
 	public ConnectionImpl(InetAddress address, int port) throws IOException {
 		this(new Socket(address, port));
+	}
+	
+	public ConnectionImpl(InetAddress address, int port, ConnectionListener... listeners) throws IOException {
+		this.socket = new Socket(address, port);
+		this.oos = new ObjectOutputStream(getSocket().getOutputStream());
+		Arrays.asList(listeners).forEach((listener) -> addListener(listener));
+		fireEvent(new ConnectionEstablishedEventImpl(this));
+		logger.info("Connection has been established.");
 	}
 	
 	@Override
@@ -100,7 +110,7 @@ public class ConnectionImpl implements Connection {
 		}
 	}
 	protected final void fireEvent(ConnectionEvent event){
-		for (ConnectionListener connectionListener : getListeners()) {
+		for (ConnectionListener connectionListener : new ArrayList<>(getListeners())) {
 			connectionListener.handle(event);
 			if (event.isConsumed()) break;
 		}
