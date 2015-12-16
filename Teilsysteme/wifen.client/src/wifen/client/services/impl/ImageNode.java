@@ -7,22 +7,27 @@ import javafx.scene.image.Image;
  */
 import wifen.client.services.FileNode;
 
-public class ImageNode implements FileNode<Image>{
+public class ImageNode implements FileNode<Image>
+{
 	String path;
 
-	public ImageNode(String p) {
+	public ImageNode(String p)
+	{
 		this.path = p;
 	}
 
-	public void setPath(String p) {
+	public void setPath(String p)
+	{
 		this.path = p;
 	}
 
-	public String getPath() {
+	public String getPath()
+	{
 		return this.path;
 	}
 
-	public Image getFileContent() {
+	public Image getFileContent()
+	{
 		return new Image("file:\\" + path, false);
 	}
 }
