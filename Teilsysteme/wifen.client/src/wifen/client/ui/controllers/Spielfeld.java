@@ -307,7 +307,8 @@ public class Spielfeld implements MarkerService {
 	public int getTyp() {
 		return typ;
 	}
-=======
+}
+/*
 	 * 
 	 * @Override public void changeMarkerType(Marker m, MarkerType mt) {
 	 * m.changeType(mt); }
@@ -315,5 +316,4 @@ public class Spielfeld implements MarkerService {
 	 * @Override public void changeMarkerDescription(Marker m, String newd) {
 	 * m.changeDescription(newd); }
 	 */
->>>>>>> 2e1c9f1f96efd10a3190e1bc22058a5dde8764a9
-}
+

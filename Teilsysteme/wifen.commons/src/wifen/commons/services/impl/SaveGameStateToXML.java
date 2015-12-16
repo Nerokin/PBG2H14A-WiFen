@@ -19,7 +19,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import wifen.commons.impl.Player;
+import wifen.client.application.ClientApplication;
 import wifen.client.resources.Marker;
+import wifen.client.services.ClientChatService;
 import wifen.client.ui.controllers.ChatController;
 import wifen.client.ui.controllers.EreignisFenster;
 import wifen.client.ui.controllers.Spielfeld;
@@ -29,7 +31,7 @@ public class SaveGameStateToXML {
 	int playerid = 0;
 	int markerid = 0;
 	
-	public void saveToXML(String xml, List<Player> players, Spielfeld spielfeld, List<Marker> markers, ChatController chat, EreignisFenster ereignis) {
+	public void saveToXML(String xml, List<Player> players, Spielfeld spielfeld, List<Marker> markers, EreignisFenster ereignis) {
 			
 		// benötigt eine Liste der Spieler
 		// benötigt eine Liste aller Marker auf dem Spielfeld
@@ -155,7 +157,7 @@ public class SaveGameStateToXML {
 			
 			int linecountC = 0;
 			
-			for (String s : chat.getChatHistory()){
+			for (String s : ClientApplication.instance().getServiceRegistry().getServiceProviderByClass(ClientChatService.class).getChatHistory()){
 
 				Element lines = doc.createElement("Chat_Zeilen");
 				lines.appendChild(doc.createTextNode(s));
@@ -167,6 +169,10 @@ public class SaveGameStateToXML {
 				linecountC++;
 				
 			}
+			
+			
+			// EreignisLog muss nochmal überarbeitet werden
+			/*
 			
 			Element ereignisLog = doc.createElement("Chat");
 			logs.appendChild(ereignisLog);
@@ -185,7 +191,7 @@ public class SaveGameStateToXML {
 				linecountE++;
 				
 			}
-			
+			*/
 			
 			
 			
