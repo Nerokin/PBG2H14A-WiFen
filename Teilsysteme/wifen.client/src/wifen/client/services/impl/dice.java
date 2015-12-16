@@ -408,11 +408,8 @@ public class dice {
 
 	// Wuerfel sound apsielen/ Funktioniert pfad?(unsicher)
 	public void playWuerfeln() throws IOException {
-		String wuerfelSound = "./ressources/wuerfeln.WAV";
-		InputStream input = null;
-		try {
-			input = new FileInputStream(wuerfelSound);
-			AudioStream audio = new AudioStream(in);
+		try (FileReader input = new FileInputStream("./ressources/wuerfeln.WAV");
+				AudioStream audio = new Audiostream(input)) {
 			AudioPlayer.player.start(audio);
 		} finally {
 			if (input != null)
