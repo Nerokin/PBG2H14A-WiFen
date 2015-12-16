@@ -21,4 +21,7 @@ public class MarkerType {
 		String path = "file:src/resources/"+name+".png";
 		return path;
 	}
+	public String getName() {
+		return name;
+	}
 }

@@ -95,5 +95,9 @@ public class Marker extends Parent {
 		this.setTranslateX(getTranslateX() - (type.img.getWidth()/2));
 		this.setTranslateY(getTranslateY() - (type.img.getHeight()/2));
 	}
+	
+	public MarkerType getType() {
+		return type;
+	}
 }
 

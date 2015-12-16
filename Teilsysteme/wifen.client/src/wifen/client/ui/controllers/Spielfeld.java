@@ -262,4 +262,32 @@ public class Spielfeld implements MarkerService {
 		m.changeDescription(newd);
 	}
 	*/
+
+	public double getSizeFieldX() {
+		return sizeFieldX;
+	}
+
+	public double getSizeFieldY() {
+		return sizeFieldY;
+	}
+
+	public double getSizeSceneX() {
+		return sizeSceneX;
+	}
+
+	public double getSizeSceneY() {
+		return sizeSceneY;
+	}
+
+	public int getTilesPerRow() {
+		return tilesPerRow;
+	}
+
+	public int getTilesPerCol() {
+		return tilesPerCol;
+	}
+
+	public int getTyp() {
+		return typ;
+	}
 }

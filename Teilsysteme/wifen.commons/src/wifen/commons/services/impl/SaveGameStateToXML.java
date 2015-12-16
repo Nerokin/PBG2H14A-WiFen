@@ -19,6 +19,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import wifen.commons.impl.Player;
+import wifen.client.resources.Marker;
 import wifen.client.ui.controllers.ChatController;
 import wifen.client.ui.controllers.EreignisFenster;
 import wifen.client.ui.controllers.Spielfeld;
@@ -49,6 +50,8 @@ public class SaveGameStateToXML {
 			Element player = doc.createElement("Players");
 				rootElement.appendChild(player);
 			
+			// Nicht nötig aber geschrieben falls gebraucht
+				/*
 			for (Player p : players) {
 				playerid++;
 				//Player
@@ -72,6 +75,7 @@ public class SaveGameStateToXML {
 				player.appendChild(playerRole);
 			
 			}
+			*/
 			
 			// Spielfeld
 			Element field = doc.createElement("Spielfeld");
@@ -125,6 +129,18 @@ public class SaveGameStateToXML {
 				Attr markerAttr = doc.createAttribute("MarkerID");
 				markerAttr.setValue("" + markerid);
 				marker.setAttributeNode(markerAttr);
+				
+				Element markerX = doc.createElement("MarkerX");
+				marker.appendChild(doc.createTextNode("" + m.getTranslateX()));
+				marker.appendChild(fieldType);
+				
+				Element markerY = doc.createElement("MarkerY");
+				marker.appendChild(doc.createTextNode("" + m.getTranslateY()));
+				marker.appendChild(fieldType);
+				
+				Element markerType = doc.createElement("MarkerTyp");
+				marker.appendChild(doc.createTextNode("" + m.getType().getName()));
+				marker.appendChild(fieldType);
 				
 				// Alle weiteren wichtigen Attribute des Markers
 				
