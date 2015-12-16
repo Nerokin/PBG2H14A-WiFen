@@ -10,7 +10,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 
-
 public class EreignisFenster extends AnchorPane {
 
 	// Constants
@@ -24,10 +23,9 @@ public class EreignisFenster extends AnchorPane {
 
 	// Injected Nodes
 
-	
 	// OH GOTT bitte einen Listview verwenden
 	@FXML private TextArea ereignislogTF;
-	
+
 	// Constructor
 
 	public EreignisFenster() throws IOException {
@@ -50,22 +48,19 @@ public class EreignisFenster extends AnchorPane {
 	@FXML
 	private void initialize() {
 		// TODO: Data Binding and Setup of Event Handling
-		}
-	
+	}
+
 	// Event Handler
 
-
-	public void log(String text)
-	{
-		if(text.charAt(text.length()-1) == '\n')
+	public void log(String text) {
+		if (text.charAt(text.length() - 1) == '\n')
 			ereignislogTF.appendText(text);
 		else
 			ereignislogTF.appendText(text + "\n");
 	}
 
-	public String getLog()
-	{
-		
+	public String getLog() {
+
 		// Bitte eine Liste zurückgeben Observable List
 		return ereignislogTF.getText();
 	}

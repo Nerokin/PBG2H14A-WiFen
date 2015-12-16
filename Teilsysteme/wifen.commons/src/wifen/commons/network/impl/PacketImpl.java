@@ -20,14 +20,21 @@ public abstract class PacketImpl implements Packet {
 	
 	private Connection source;
 	
+	// Constructor(s)
+	
+	public PacketImpl() {
+		super();
+	}
+	
 	// Getters & Setters
 
 	@Override
 	public final Connection getSource() {
 		return source;
 	}
-	
-	protected final void setSource(Connection source) {
+
+	@Override
+	public void setSource(Connection source) {
 		this.source = source;
 	}
 

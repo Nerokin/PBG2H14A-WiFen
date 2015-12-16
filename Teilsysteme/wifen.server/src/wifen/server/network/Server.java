@@ -65,4 +65,20 @@ public interface Server {
 	 * @return whether the listener has been successfully added
 	 */
 	public boolean addListener(ConnectionListener listener);
+	
+	/**
+	 * Unregisters a previously registered listener.
+	 * 
+	 * @param listener The listener to remove
+	 * @return Whether the listener was registered and has been successfully unregistered
+	 */
+	public boolean removeListener(ServerListener listener);
+	
+	/**
+	 * Unregisters a previously registered listener.
+	 * 
+	 * @param listener The listener to remove
+	 * @return Whether the listener was registered and has been successfully unregistered
+	 */
+	public boolean removeListener(ConnectionListener listener);
 }

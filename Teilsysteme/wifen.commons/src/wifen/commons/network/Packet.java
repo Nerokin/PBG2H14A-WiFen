@@ -18,5 +18,14 @@ public interface Packet extends Serializable {
 	 * @return The connection this packet originated from
 	 */
 	public Connection getSource();
+	
+	
+	/**
+	 * Internally called by the receiving connection to
+	 * define the source of a packet.<br>
+	 * <br>
+	 * <i>WARNING: Do not call this unless you know what you're doing!</i>
+	 */
+	public void setSource(Connection source);
 
 }

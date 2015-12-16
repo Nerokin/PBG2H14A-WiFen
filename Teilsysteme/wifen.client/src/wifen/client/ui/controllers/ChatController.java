@@ -1,15 +1,15 @@
 package wifen.client.ui.controllers;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.logging.Logger;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,10 +17,21 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import wifen.client.services.ClientChatService;
 
-public class ChatController extends TitledPane{
+/**
+ * Responsible for managing a window to use for any cross player communcation.
+ * This class also performs other informing tasks as displaying player roles.
+ * 
+ * @author Konstantin Schaper
+ * @author Jannik Metzger (Vorlage)
+ */
+	
+public class ChatController extends TitledPane {
+	
+	// Class Constants
+	
+	private final Logger logger = Logger.getLogger(ChatController.class.getName());
 
 	// Constants
 
@@ -29,28 +40,25 @@ public class ChatController extends TitledPane{
 
 	// Properties
 
-	PrintWriter _out;
-	BufferedReader _in;
-
-	ChatController(PrintWriter out, BufferedReader in) {
-		_out = out;
-		_in = in;
-	}
-
+	private final ObjectProperty<ClientChatService> chatService = new SimpleObjectProperty<>();
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
+	private final StringProperty playerName = new SimpleStringProperty();
 	
+	// Attributes
+	
+	private final EventHandler<ActionEvent> onChatMessageAction = this::onChatMessageAction;
+
 	// Customer
 
 	// Injected Nodes
+	
 	@FXML
 	private TextField txt_Eingabe;
+	
 	@FXML
 	private ListView<String> Lv_Chat;
 
-	private ObservableList<String> chatter = FXCollections.observableArrayList();
-	private ObservableList<String> chatHistory = FXCollections.observableArrayList();
-
-	// Constructor
+	// Constructor(s)
 
 	public ChatController() throws IOException {
 		super();
@@ -67,36 +75,52 @@ public class ChatController extends TitledPane{
 		// Load the View
 		getFXMLLoader().load();
 	}
+	
+	public ChatController(ClientChatService chatService) throws IOException {
+		this();
+		setChatService(chatService);
+	}
+	
+	public ChatController(ClientChatService chatService, String playerName) throws IOException {
+		this(chatService);
+		setPlayerName(playerName);
+	}
 
 	// Initialization
 	@FXML
 	private void initialize() {
-		// TODO: Data Binding and Setup of Event Handling
-		// playerView.setPlayer(player);
-		// playerView.componentInitialization();
-
+		
+		// Send a chat packet when the user presses ENTER on the message input control
+		txt_Eingabe.setOnAction(getOnChatMessageAction());
+		
+		// Initially disable the chat as no connection has been established
+		setDisable(true);
 	}
 
 	// Event Handlers
+	
+	public void onChatServiceChanged(ObservableValue<? extends ClientChatService> observable, ClientChatService oldValue, ClientChatService newValue) {
+		if (newValue != null) {
+			// Make the chat display the chat history
+			Lv_Chat.setItems(newValue.getChatHistory());
+		} else {
+			Lv_Chat.setItems(null);
+		}
+	}
 
 	// TODO
-
-	public void addAusgabe(ActionEvent event) {
-
-		String chat1 = txt_Eingabe.getText();
-
-		//Ein & Ausgabe:
-		chatter.add(chat1);
-		Lv_Chat.setItems(chatter);
-		//Chat_History:
-		chatHistory.add(chat1);
-		System.out.println(chatHistory);
-		
-		//Was noch fehlt :
-		//SpielerRollen Unterscheidung und Erstellung von 2 Chatfenstern und deren Kommunikation
-		
-		txt_Eingabe.setText("");
-	}
+	
+	public void onChatMessageAction(ActionEvent event) {
+		if (getChatService() != null) {
+			// Call the chat service to send the message
+			getChatService().sendMessage(getPlayerName(), txt_Eingabe.getText());
+				
+			// Reset the text input
+			txt_Eingabe.setText(null);
+		} else {
+			logger.warning("Es ist kein ChatService registriert. Die Nachricht konnte nicht gesendet werden.");
+		}
+	} 
 
 	// Getter & Setter
 
@@ -112,4 +136,37 @@ public class ChatController extends TitledPane{
 		return fxmlLoader;
 	}
 
+	public EventHandler<ActionEvent> getOnChatMessageAction() {
+		return onChatMessageAction;
+	}
+
+	public final StringProperty playerNameProperty() {
+		return this.playerName;
+	}
+	
+
+	public final java.lang.String getPlayerName() {
+		return this.playerNameProperty().get();
+	}
+	
+
+	public final void setPlayerName(final java.lang.String playerName) {
+		this.playerNameProperty().set(playerName);
+	}
+
+	public final ObjectProperty<ClientChatService> chatServiceProperty() {
+		return this.chatService;
+	}
+	
+
+	public final wifen.client.services.ClientChatService getChatService() {
+		return this.chatServiceProperty().get();
+	}
+	
+
+	public final void setChatService(final wifen.client.services.ClientChatService chatService) {
+		this.chatServiceProperty().set(chatService);
+	}
+	
+	
 }

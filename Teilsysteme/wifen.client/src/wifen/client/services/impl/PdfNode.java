@@ -7,7 +7,7 @@ package wifen.client.services.impl;
 import wifen.client.application.ClientApplication;
 import wifen.client.services.FileNode;
 
-public class PdfNode implements FileNode<Void>{
+public class PdfNode implements FileNode<Void> {
 	String path;
 
 	public PdfNode(String p) {
