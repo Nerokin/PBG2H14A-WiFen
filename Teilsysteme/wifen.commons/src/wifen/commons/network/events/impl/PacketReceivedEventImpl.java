@@ -21,8 +21,7 @@ public class PacketReceivedEventImpl extends ConnectionEventImpl implements Pack
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return getPacket().toString();
+		return getClass().getSimpleName() + "{" + getPacket().toString() + "}";
 	}
 
 }

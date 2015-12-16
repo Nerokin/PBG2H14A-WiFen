@@ -96,6 +96,7 @@ public class ServerImpl implements Server, ConnectionListener {
 	// Event Handling
 	
 	protected final void fireEvent(ServerEvent event){
+		logger.info("A server event is being fired on " + getListeners().size() + " listeners.");
 		for (ServerListener serverListener : getListeners()) {
 			serverListener.handle(event);
 			if (event.isConsumed()) break;

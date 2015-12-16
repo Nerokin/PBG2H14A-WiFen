@@ -28,6 +28,13 @@ public class ChatPacketImpl extends PacketImpl implements ChatPacket {
 		this.message = message;
 	}
 	
+	// Methods
+	
+	@Override
+	public String toString() {
+		return "{" +  getSourceName() + ": " + getMessage() + "}";
+	}
+	
 	// Getter & Setter
 
 	@Override

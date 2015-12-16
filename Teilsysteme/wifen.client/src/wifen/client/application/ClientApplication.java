@@ -14,6 +14,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import wifen.client.services.ClientChatService;
 import wifen.client.services.impl.ClientChatProvider;
+import wifen.client.ui.controllers.Spielfeld;
 import wifen.commons.network.Connection;
 import wifen.commons.network.ConnectionEvent;
 import wifen.commons.network.ConnectionListener;
@@ -59,6 +60,8 @@ public class ClientApplication extends Application implements ServerListener, Co
 		services.add(Connection.class);
 		services.add(ClientChatService.class);
 		services.add(ServerChatService.class);
+		services.add(Spielfeld.class);
+		services.add(Stage.class);
 
 		// ...
 		SERVICES = services.iterator();
@@ -67,8 +70,7 @@ public class ClientApplication extends Application implements ServerListener, Co
 	// Constructor(s)
 
 	public ClientApplication() {
-		if (INSTANCE == null)
-			INSTANCE = this;
+		if (INSTANCE == null) INSTANCE = this;
 		serviceRegistry = new ServiceRegistry(SERVICES);
 	}
 
@@ -77,6 +79,10 @@ public class ClientApplication extends Application implements ServerListener, Co
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Initialize the GUI
+		
+		// Simple test for the playfield user interface
+		//getServiceRegistry().registerServiceProvider(new Spielfeld(1920, 1080, 800, 600, 10, 10, null), Spielfeld.class);
+		//getServiceRegistry().getServiceProviderByClass(Spielfeld.class).draw();
 	}
 
 	@Override
@@ -88,6 +94,11 @@ public class ClientApplication extends Application implements ServerListener, Co
 			startServer();
 			try {
 				startConnection(InetAddress.getLocalHost());
+				try {
+					getServiceRegistry().getServiceProviders(ClientChatService.class, false).next().sendMessage("ME", "Ich bin soooo klasse!");
+				} catch (Exception e) {
+					logger.log(Level.WARNING, "ChatMessage could not be sent", e);
+				}
 			} catch (IOException e) {
 				logger.severe("Connection could not be established!");
 			}
@@ -105,9 +116,10 @@ public class ClientApplication extends Application implements ServerListener, Co
 
 	public Connection startConnection(InetAddress address) throws IOException {
 		// Return null if there already is a connection registered
-		if (getServiceRegistry().getServiceProviderByClass(Connection.class) != null) return null;
+		if (getServiceRegistry().getServiceProviders(Connection.class, false).hasNext()) return null;
 		else {
 			Connection conn = new ConnectionImpl(address, ApplicationConstants.APPLICATION_PORT, this);
+			new Thread(conn::readPackets).start();
 			getServiceRegistry().registerServiceProvider(conn, Connection.class);
 			return conn;
 		}
@@ -116,7 +128,7 @@ public class ClientApplication extends Application implements ServerListener, Co
 	public Server startServer() throws IOException {
 
 		// Return null if there already is a server registered
-		if (getServiceRegistry().getServiceProviderByClass(Server.class) != null) return null;
+		if (getServiceRegistry().getServiceProviders(Server.class, false).hasNext()) return null;
 		else {
 		
 			// Instantiate the server
@@ -151,7 +163,7 @@ public class ClientApplication extends Application implements ServerListener, Co
 		if (event instanceof ServerStartedEvent) {
 			
 			// Register a new chat service provider if the is none present
-			if (getServiceRegistry().getServiceProviderByClass(ServerChatService.class) == null) {
+			if (!getServiceRegistry().getServiceProviders(ServerChatService.class, false).hasNext()) {
 				try {
 					getServiceRegistry().registerServiceProvider(new ServerChatProvider(event.getSource()), ServerChatService.class);
 					logger.info("A new ServerChatProvider has been registered");
@@ -164,7 +176,7 @@ public class ClientApplication extends Application implements ServerListener, Co
 		} else if (event instanceof ServerShutdownEvent) {
 			
 			// Fetch the current chat service
-			ServerChatService chatService = getServiceRegistry().getServiceProviderByClass(ServerChatService.class);
+			ServerChatService chatService = getServiceRegistry().getServiceProviders(ServerChatService.class, false).next();
 			
 			if (chatService != null) {
 			
@@ -189,7 +201,7 @@ public class ClientApplication extends Application implements ServerListener, Co
 			
 			
 			// Whenever a player connects to a server, create a new chat service for that connection and register it if there is none present yet
-			if (getServiceRegistry().getServiceProviderByClass(ClientChatService.class) == null) {
+			if (!getServiceRegistry().getServiceProviders(ClientChatService.class, false).hasNext()) {
 				try {
 					getServiceRegistry().registerServiceProvider(new ClientChatProvider(connectionEvent.getSource()), ClientChatService.class);
 					logger.info("A new ClientChatProvider has been registered");
@@ -201,7 +213,7 @@ public class ClientApplication extends Application implements ServerListener, Co
 		} else if (connectionEvent instanceof ConnectionClosedEvent) {
 			
 			// Fetch the current chat service
-			ClientChatService chatService = getServiceRegistry().getServiceProviderByClass(ClientChatService.class);
+			ClientChatService chatService = getServiceRegistry().getServiceProviders(ClientChatService.class, false).next();
 			
 			if (chatService != null) {
 			
