@@ -1,6 +1,5 @@
 package wifen.client.ui.controllers;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,7 +19,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-public class ChatController extends TitledPane{
+public class ChatController extends TitledPane {
 
 	// Constants
 
@@ -38,7 +37,7 @@ public class ChatController extends TitledPane{
 	}
 
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
-	
+
 	// Customer
 
 	// Injected Nodes
@@ -85,16 +84,17 @@ public class ChatController extends TitledPane{
 
 		String chat1 = txt_Eingabe.getText();
 
-		//Ein & Ausgabe:
+		// Ein & Ausgabe:
 		chatter.add(chat1);
 		Lv_Chat.setItems(chatter);
-		//Chat_History:
+		// Chat_History:
 		chatHistory.add(chat1);
 		System.out.println(chatHistory);
-		
-		//Was noch fehlt :
-		//SpielerRollen Unterscheidung und Erstellung von 2 Chatfenstern und deren Kommunikation
-		
+
+		// Was noch fehlt :
+		// SpielerRollen Unterscheidung und Erstellung von 2 Chatfenstern und
+		// deren Kommunikation
+
 		txt_Eingabe.setText("");
 	}
 

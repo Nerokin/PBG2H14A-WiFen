@@ -4,23 +4,22 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class MainMarker extends Application{
+public class MainMarker extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
 
 	}
 
-	public void start(Stage stage) throws Exception{
+	public void start(Stage stage) throws Exception {
 		try {
 			stage.setScene(new Scene(new MarkerView()));
 			stage.centerOnScreen();
 			stage.setTitle("MarkerView");
 			stage.show();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
 
 }

@@ -32,45 +32,46 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-public class MarkerView extends Pane{
+public class MarkerView extends Pane {
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 	public ObservableList<Button> button_colors = FXCollections.observableArrayList();
 	public ObservableList<ImageView> image_shapes = FXCollections.observableArrayList();
-	
-	public String[] colors = new String[]{"orange","lightblue","yellow","green","red","greenyellow"};
+
+	public String[] colors = new String[] { "orange", "lightblue", "yellow", "green", "red", "greenyellow" };
 	@FXML ListView<Button> markerColor;
 	@FXML ListView<ImageView> markerShape;
-	
-	public MarkerView() throws IOException{
+
+	public MarkerView() throws IOException {
 		super();
-		//Apply CSS
+		// Apply CSS
 		getStylesheets().add(getClass().getResource("../css/MarkerView.css").toExternalForm());
-		//Setup FXMLLoader
+		// Setup FXMLLoader
 		setFXMLLoader(new FXMLLoader());
 		getFXMLLoader().setRoot(this);
 		getFXMLLoader().setLocation(getClass().getResource("../views/MarkerView.fxml"));
 		getFXMLLoader().setController(this);
-		
-		//Load the View
+
+		// Load the View
 		getFXMLLoader().load();
 	}
-	
+
 	@FXML
-	private void initialize(){
-		//Beispiel für das erstellen einer Farbe
+	private void initialize() {
+		// Beispiel für das erstellen einer Farbe
 		Button temp;
 		System.out.println(colors.length);
-		for(int i = 0; i < colors.length;i++){
-		temp = new Button(colors[i]);
-		temp.setId(colors[i]);
-		temp.setPrefWidth(markerColor.getPrefWidth());
-		temp.setBackground(new Background(new BackgroundFill(Color.web(colors[i]), CornerRadii.EMPTY, Insets.EMPTY)));
-		button_colors.add(temp);
+		for (int i = 0; i < colors.length; i++) {
+			temp = new Button(colors[i]);
+			temp.setId(colors[i]);
+			temp.setPrefWidth(markerColor.getPrefWidth());
+			temp.setBackground(
+					new Background(new BackgroundFill(Color.web(colors[i]), CornerRadii.EMPTY, Insets.EMPTY)));
+			button_colors.add(temp);
 		}
 		markerColor.setItems(button_colors);
-		
+
 		File file = new File(getClass().getResource("../../resources/marker").getFile());
-		for(File f : file.listFiles()){
+		for (File f : file.listFiles()) {
 			ImageView tempView = new ImageView(new Image(f.toURI().toString()));
 			tempView.setId(f.getName().substring(0, f.getName().indexOf('.')));
 			image_shapes.add(tempView);
@@ -78,30 +79,31 @@ public class MarkerView extends Pane{
 		}
 		markerShape.setItems(image_shapes);
 		markerShape.getSelectionModel().select(0);
-		for(Button b : button_colors){
-			b.setOnAction(new EventHandler<ActionEvent>(){
-				
-				 @Override public void handle(ActionEvent e) {
+		for (Button b : button_colors) {
+			b.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent e) {
 					String colorName = b.getId();
 					ImageView selected;
-					if((selected = markerShape.getSelectionModel().getSelectedItem()) != null){
+					if ((selected = markerShape.getSelectionModel().getSelectedItem()) != null) {
 						selected.setEffect(getColor(colorName));
 					}
-				 }
+				}
 			});
 		}
-		
+
 		markerShape.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ImageView>() {
 			@Override
 			public void changed(ObservableValue<? extends ImageView> observable, ImageView oldValue,
 					ImageView newValue) {
-				if(oldValue != null){
+				if (oldValue != null) {
 					oldValue.setEffect(null);
 				}
-				
+
 			}
 		});
-		markerShape.setOnMouseClicked(new EventHandler<MouseEvent>(){
+		markerShape.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				System.out.println(markerShape.getSelectionModel().getSelectedItem());
@@ -110,27 +112,27 @@ public class MarkerView extends Pane{
 		});
 
 	}
+
 	public FXMLLoader getFXMLLoader() {
 		return fxmlLoader.get();
 	}
-	
+
 	public void setFXMLLoader(FXMLLoader value) {
 		fxmlLoader.set(value);
 	}
-	
-	public static ColorAdjust getColor(String colorName){
+
+	public static ColorAdjust getColor(String colorName) {
 		ColorAdjust adjust = new ColorAdjust();
-		Color targetColor = Color.web(colorName); 
-	          //calculate hue: map from [0,360] to [-1,1];
-	    double hue = map( targetColor.getHue() + 180, 0, 360, -1, 1);
+		Color targetColor = Color.web(colorName);
+		// calculate hue: map from [0,360] to [-1,1];
+		double hue = map(targetColor.getHue() + 180, 0, 360, -1, 1);
 
 		adjust.setHue(hue);
 		adjust.setSaturation(1);
 		return adjust;
 	}
-	
-	
+
 	public static double map(double value, double start, double stop, double targetStart, double targetStop) {
-	     return targetStart + (targetStop - targetStart) * ((value - start) / (stop - start));
+		return targetStart + (targetStop - targetStart) * ((value - start) / (stop - start));
 	}
 }

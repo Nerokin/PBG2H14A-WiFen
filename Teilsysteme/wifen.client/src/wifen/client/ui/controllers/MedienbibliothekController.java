@@ -20,93 +20,82 @@ import wifen.client.services.impl.PdfNode;
 import wifen.client.services.impl.XlsNode;
 import wifen.commons.Medium;
 
-public class MedienbibliothekController extends AnchorPane
-{
+public class MedienbibliothekController extends AnchorPane {
 	ObservableList<Medium> liste = FXCollections.observableArrayList();
-	
-	//Properties
+
+	// Properties
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
-	
-	//Injected Nodes	
-	@FXML
-	private ListView<Medium> listViewMedien;
-	@FXML
-	private TextField tbxMedienBrowser;
-	
-	//Constructor
-	public MedienbibliothekController() throws IOException
-	{
+
+	// Injected Nodes
+	@FXML private ListView<Medium> listViewMedien;
+	@FXML private TextField tbxMedienBrowser;
+
+	// Constructor
+	public MedienbibliothekController() throws IOException {
 		super();
-		
-		//Setup FXMLLoader
+
+		// Setup FXMLLoader
 		setFXMLLoader(new FXMLLoader());
 		getFXMLLoader().setRoot(this);
 		getFXMLLoader().setLocation(getClass().getResource("/fxml/Medienbibliothek.fxml"));
 		getFXMLLoader().setController(this);
-		
-		//Load the View
+
+		// Load the View
 		getFXMLLoader().load();
 	}
-	
-	//Initialization
+
+	// Initialization
 	@FXML
-	private void initialize()
-	{		
-		listViewMedien.setItems(liste);	
+	private void initialize() {
+		listViewMedien.setItems(liste);
 	}
-	
-	//Event Handlers
-	public void MedienUpload(ActionEvent event)
-	{
-		File file = (File)tbxMedienBrowser.getUserData();
-		if(file != null)
-		{
+
+	// Event Handlers
+	public void MedienUpload(ActionEvent event) {
+		File file = (File) tbxMedienBrowser.getUserData();
+		if (file != null) {
 			// TODO: upload file to server
 			liste.add(new Medium(file));
 		}
 	}
-	
-	public void MedienBrowser(ActionEvent event)
-	{
+
+	public void MedienBrowser(ActionEvent event) {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Media File");
 		File file = fileChooser.showOpenDialog(this.getScene().getWindow());
-		
-		if(file != null)
-		{
+
+		if (file != null) {
 			tbxMedienBrowser.setUserData(file);
 			tbxMedienBrowser.setText(file.getAbsolutePath());
 		}
 	}
-	
-	public void Medien÷ffnen(ActionEvent event)
-	{
+
+	public void Medien÷ffnen(ActionEvent event) {
 		Medium selectedMedium = listViewMedien.getSelectionModel().getSelectedItem();
-		// For some types just call the function which handles the viewing of that file alone
-		if(selectedMedium.getFile() instanceof PdfNode || selectedMedium.getFile() instanceof DocNode || selectedMedium.getFile() instanceof XlsNode)
+		// For some types just call the function which handles the viewing of
+		// that file alone
+		if (selectedMedium.getFile() instanceof PdfNode || selectedMedium.getFile() instanceof DocNode
+				|| selectedMedium.getFile() instanceof XlsNode)
 			selectedMedium.getFile().getFileContent();
-		else // Show content in seperate window. TODO: create window to show content
+		else // Show content in seperate window. TODO: create window to show
+				// content
 			selectedMedium.getFile().getFileContent();
 	}
-		
-	//Getter & Setter
-	public ListView<Medium> getListViewMedien()
-	{
+
+	// Getter & Setter
+	public ListView<Medium> getListViewMedien() {
 		return listViewMedien;
 	}
-	
-	public FXMLLoader getFXMLLoader()
-	{
+
+	public FXMLLoader getFXMLLoader() {
 		return fxmlLoader.get();
 	}
-	
-	public void setFXMLLoader(FXMLLoader value)
-	{
+
+	public void setFXMLLoader(FXMLLoader value) {
 		fxmlLoader.set(value);
 	}
-	
-	public ReadOnlyObjectProperty<FXMLLoader> fxmlLoaderProperty()
-	{
+
+	public ReadOnlyObjectProperty<FXMLLoader> fxmlLoaderProperty() {
 		return fxmlLoader;
 	}
 }
