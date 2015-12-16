@@ -8,7 +8,7 @@ import wifen.client.services.FileNode;
  * Öffnet die Datei in der Standardanwendung des Betriebsystems
  */
 
-public class DocNode implements FileNode<Void>{
+public class DocNode implements FileNode<Void> {
 	String path;
 
 	public DocNode(String p) {

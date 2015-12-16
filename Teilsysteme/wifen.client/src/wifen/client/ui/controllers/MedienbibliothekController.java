@@ -11,13 +11,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
-import wifen.client.services.impl.DocNode;
-import wifen.client.services.impl.PdfNode;
-import wifen.client.services.impl.XlsNode;
+import javafx.stage.Stage;
+import wifen.client.services.impl.ImageNode;
+import wifen.client.services.impl.TxtNode;
 import wifen.commons.Medium;
 
 public class MedienbibliothekController extends AnchorPane
@@ -56,17 +57,21 @@ public class MedienbibliothekController extends AnchorPane
 	}
 	
 	//Event Handlers
-	public void MedienUpload(ActionEvent event)
+	public void medienUpload(ActionEvent event)
 	{
 		File file = (File)tbxMedienBrowser.getUserData();
 		if(file != null)
 		{
 			// TODO: upload file to server
 			liste.add(new Medium(file));
+			
+			// Clear text field
+			tbxMedienBrowser.setText(null);
+			tbxMedienBrowser.setUserData(null);
 		}
 	}
 	
-	public void MedienBrowser(ActionEvent event)
+	public void medienBrowser(ActionEvent event)
 	{
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Media File");
@@ -79,16 +84,48 @@ public class MedienbibliothekController extends AnchorPane
 		}
 	}
 	
-	public void Medien÷ffnen(ActionEvent event)
+	public void medien÷ffnen(ActionEvent event)
 	{
 		Medium selectedMedium = listViewMedien.getSelectionModel().getSelectedItem();
-		// For some types just call the function which handles the viewing of that file alone
-		if(selectedMedium.getFile() instanceof PdfNode || selectedMedium.getFile() instanceof DocNode || selectedMedium.getFile() instanceof XlsNode)
-			selectedMedium.getFile().getFileContent();
-		else // Show content in seperate window. TODO: create window to show content
+		if(selectedMedium == null)
+			return;
+		
+		// Show content in seperate window. TODO: create window to show content
+		if(selectedMedium.getFile() instanceof ImageNode)
+		{
+			try
+			{
+				createSubWindow("Medienbibliothek", new Scene(new ImageViewController(((ImageNode)selectedMedium.getFile()).getFileContent())));
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		else if(selectedMedium.getFile() instanceof TxtNode)
+		{
+			try
+			{
+				createSubWindow("Medienbibliothek", new Scene(new TextViewController(((TxtNode)selectedMedium.getFile()).getFileContent())));
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		else // All other filetypes open on their own
 			selectedMedium.getFile().getFileContent();
 	}
-		
+	
+	private void createSubWindow(String title, Scene scene)
+	{
+		Stage stage = new Stage();
+		stage.setScene(scene);
+		stage.centerOnScreen();
+		stage.setTitle(title);
+		stage.show();
+	}
+	
 	//Getter & Setter
 	public ListView<Medium> getListViewMedien()
 	{

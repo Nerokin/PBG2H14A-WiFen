@@ -29,6 +29,7 @@ import wifen.server.network.impl.ServerImpl;
 import wifen.server.services.ServerChatService;
 import wifen.server.services.impl.ServerChatProvider;
 
+
 /**
  * Core of the Application. 
  * Manages all services and is responsible for 
@@ -39,54 +40,55 @@ import wifen.server.services.impl.ServerChatProvider;
  *
  */
 public class ClientApplication extends Application implements ServerListener, ConnectionListener {
-	
+
 	// Class Constants
-	
+
 	private static ClientApplication INSTANCE;
 	private static final Iterator<Class<?>> SERVICES;
 	private static final Logger logger = Logger.getLogger(ClientApplication.class.getName());
-	
+
 	// Attributes
-	
+
 	private final ServiceRegistry serviceRegistry;
-	
+
 	static {
 		Set<Class<?>> services = new HashSet<>();
 		// Define all available services here
-		
+
 		services.add(Server.class);
 		services.add(Connection.class);
-		
+
 		// ...
 		SERVICES = services.iterator();
 	}
-	
+
 	// Constructor(s)
-	
+
 	public ClientApplication() {
-		if (INSTANCE == null) INSTANCE = this;
+		if (INSTANCE == null)
+			INSTANCE = this;
 		serviceRegistry = new ServiceRegistry(SERVICES);
 	}
-	
+
 	// Overridden Methods
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Initialize the GUI
 	}
-	
+
 	@Override
 	public void init() {
 		// TOOD What happens before the initialization of the GUI
 	}
-	
+
 	@Override
 	public void stop() {
 		// TODO What happens, when the application terminates
 	}
-	
+
 	// Methods
-	
+
 	public Connection startConnection(InetAddress address) throws IOException {
 		// Return null if there already is a connection registered
 		if (getServiceRegistry().getServiceProviderByClass(Connection.class) != null) return null;
@@ -96,8 +98,9 @@ public class ClientApplication extends Application implements ServerListener, Co
 			return conn;
 		}
 	}
-	
+
 	public Server startServer() throws IOException {
+
 		// Return null if there already is a server registered
 		if (getServiceRegistry().getServiceProviderByClass(Server.class) != null) return null;
 		else {
@@ -186,10 +189,11 @@ public class ClientApplication extends Application implements ServerListener, Co
 			// Deregister the Connection
 			getServiceRegistry().deregisterServiceProvider(connectionEvent.getSource(), Connection.class);
 		}
+
 	}
-	
+
 	// Getter & Setter
-	
+
 	public static ClientApplication instance() {
 		return INSTANCE;
 	}

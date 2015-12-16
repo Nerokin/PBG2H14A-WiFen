@@ -1,6 +1,6 @@
 package wifen.client.ui.controllers;
 
-
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.logging.Logger;
 
@@ -26,6 +26,7 @@ import wifen.client.services.ClientChatService;
  * @author Konstantin Schaper
  * @author Jannik Metzger (Vorlage)
  */
+	
 public class ChatController extends TitledPane {
 	
 	// Class Constants
@@ -46,6 +47,8 @@ public class ChatController extends TitledPane {
 	// Attributes
 	
 	private final EventHandler<ActionEvent> onChatMessageAction = this::onChatMessageAction;
+
+	// Customer
 
 	// Injected Nodes
 	
@@ -104,6 +107,8 @@ public class ChatController extends TitledPane {
 			Lv_Chat.setItems(null);
 		}
 	}
+
+	// TODO
 	
 	public void onChatMessageAction(ActionEvent event) {
 		if (getChatService() != null) {

@@ -13,97 +13,86 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
-public class Wuerfelfenster_backup extends VBox 
-{
-		
-	//Properties
-	
+public class Wuerfelfenster_backup extends VBox {
+
+	// Properties
+
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 	private final ObjectProperty<String> dice = new SimpleObjectProperty<>(); // String zu Wuerfelklasse gilt auch f�r die Getter und Setter
 	private final ObjectProperty<Image> image = new SimpleObjectProperty<>();
-	
-	//Injected Nodes
-	
+
+	// Injected Nodes
+
 	@FXML private ToolBar diceTools;
 	@FXML private Label diceLabel;
 	@FXML private ImageView diceView;
 	@FXML private TextField diceTex;
-	
-	
-	
-	//TODO
-	
-	//Constructor
-	
+
+	// TODO
+
+	// Constructor
+
 	public Wuerfelfenster_backup() throws IOException {
-		//super();
-		
-		//Apply CSS
-		//getStylesheets().add(getClass().getResource("/wifen/client/ui/css/Wuerfelfenser.css").toExternalForm());
-		
-		//Setup FXMLLoader
+		// super();
+
+		// Apply CSS
+		// getStylesheets().add(getClass().getResource("/wifen/client/ui/css/Wuerfelfenser.css").toExternalForm());
+
+		// Setup FXMLLoader
 		setFxmlLoader(new FXMLLoader());
 		getFxmlLoader().setRoot(this);
 		getFxmlLoader().setLocation(getClass().getResource("/wifen/client/ui/views/Wuerfelfenster.fxml"));
 		getFxmlLoader().setController(this);
-		
-		//Load the View
+
+		// Load the View
 		getFxmlLoader().load();
 	}
-	
-	//Initialization
-	
+
+	// Initialization
+
 	@FXML
 	private void initialize() {
-		//TODO: Data Binding and Setup of Event Handling
-		
-		
+		// TODO: Data Binding and Setup of Event Handling
+
 	}
 
-	
-	//Event Handlers
-	
-	//TODO
-	
-	//Getter & Setter
-	
+	// Event Handlers
+
+	// TODO
+
+	// Getter & Setter
+
 	public final ObjectProperty<FXMLLoader> fxmlLoaderProperty() {
 		return this.fxmlLoader;
 	}
-	
 
 	public final javafx.fxml.FXMLLoader getFxmlLoader() {
 		return this.fxmlLoaderProperty().get();
 	}
-	
 
 	public final void setFxmlLoader(final javafx.fxml.FXMLLoader fxmlLoader) {
 		this.fxmlLoaderProperty().set(fxmlLoader);
 	}
-	
+
 	public final ObjectProperty<String> diceProperty() {
 		return this.dice;
 	}
-	
 
 	public final java.lang.String getDice() {
 		return this.diceProperty().get();
 	}
-	
 
 	public final void setDice(final java.lang.String dice) {
 		this.diceProperty().set(dice);
 	}
-	
+
 	public final ObjectProperty<Image> imageProperty() {
 		return this.image;
 	}
-	
 
 	public final javafx.scene.image.Image getImage() {
 		return this.imageProperty().get();
 	}
-	
 
 	public final void setImage(final javafx.scene.image.Image image) {
 		this.imageProperty().set(image);

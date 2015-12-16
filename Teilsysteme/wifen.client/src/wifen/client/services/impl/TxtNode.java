@@ -40,7 +40,7 @@ public class TxtNode implements FileNode<String[]>{
 				}
 			}
 			sc.close();
-			return (String[]) l.toArray();
+			return (String[]) l.toArray(new String[l.size()]);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

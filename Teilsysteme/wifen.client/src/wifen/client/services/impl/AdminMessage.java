@@ -35,18 +35,18 @@ public class AdminMessage implements IAdminMessage {
 	private Connection connection;
 	private Player currentPlayer;
 
-	public AdminMessage(EreignisFenster logWindow, Player currentPlayer)
-	{
+	public AdminMessage(EreignisFenster logWindow, Player currentPlayer) {
 		this.logWindow = logWindow;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see wifen.client.services.IAdminMessage#OpenDialog()
 	 */
 	@Override
 	public boolean OpenDialog() {
-		if(!isAvailable())
-		{
+		if (!isAvailable()) {
 			logWindow.log("Cannot send Admin message with current player privileges!");
 			return false;
 		}
@@ -55,8 +55,7 @@ public class AdminMessage implements IAdminMessage {
 		dialog.setHeaderText("Send a message to all players");
 		dialog.setContentText("Message:");
 		Optional<String> result = dialog.showAndWait();
-		if(result.isPresent())
-		{
+		if (result.isPresent()) {
 			logWindow.log("Admin says: " + result.get());
 			AdminMessageDataPacketImpl packet = new AdminMessageDataPacketImpl();
 			packet.setAdminMessage(result.get());
@@ -79,10 +78,9 @@ public class AdminMessage implements IAdminMessage {
 				}
 				Packet tmp = packetEvent.getPacket();
 
-				if(tmp instanceof AdminMessageDataPacket)
-				{
+				if (tmp instanceof AdminMessageDataPacket) {
 					event.consume();
-					AdminMessageDataPacket packet = (AdminMessageDataPacket)tmp;
+					AdminMessageDataPacket packet = (AdminMessageDataPacket) tmp;
 					logWindow.log("Admin says: " + packet.getAdminMessage());
 				}
 			}
