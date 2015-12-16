@@ -310,6 +310,10 @@ public class Spielfeld implements MarkerService {
 	}
 
 	/*
+=======
+}
+/*
+>>>>>>> branch 'master' of https://github.com/Nerokin/PBG2H14A-WiFen
 	 * 
 	 * @Override public void changeMarkerType(Marker m, MarkerType mt) {
 	 * m.changeType(mt); }

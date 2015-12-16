@@ -12,7 +12,9 @@ import org.w3c.dom.NodeList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import wifen.client.application.ClientApplication;
 import wifen.client.resources.MarkerType;
+import wifen.client.services.ClientChatService;
 import wifen.client.ui.controllers.MarkerView;
 import wifen.client.ui.controllers.Spielfeld;
 
@@ -136,10 +138,12 @@ public class LoadGameStateFromXML {
 					Element cElement = (Element) nNode;
 					
 					chatHistory.add(cElement.getElementsByTagName("Chat_Zeilen").item(temp).getTextContent());
+					ClientApplication.instance().getServiceRegistry().getServiceProviderByClass(ClientChatService.class).loadChatlog(chatHistory);
 					// die loadChatLog Methode aufrufen ./ ClientChatService		
 				}
 			}
 			
+			// Momentan wird kein Ereignislog gespecihert da die Klasse dafür noch nicht funktioniert
 			NodeList eList = doc.getElementsByTagName("Ereignis_Zeilen");
 			ObservableList<String> ereignistHistory = FXCollections.observableArrayList();
 			for (int temp = 0; temp < cList.getLength(); temp++) {

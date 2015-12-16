@@ -11,37 +11,46 @@ import java.util.Scanner;
 
 import wifen.client.services.FileNode;
 
-public class TxtNode implements FileNode<String[]>{
+public class TxtNode implements FileNode<String[]>
+{
 	String path;
 
-	public TxtNode(String p) {
+	public TxtNode(String p)
+	{
 		this.path = p;
 	}
 
-	public void setPath(String p) {
+	public void setPath(String p)
+	{
 		this.path = p;
 	}
 
-	public String getPath() {
+	public String getPath()
+	{
 		return this.path;
 	}
 
-	public String[] getFileContent() {
+	public String[] getFileContent()
+	{
 		File f = new File(this.path);
 		Scanner sc;
-		try {
+		try
+		{
 			sc = new Scanner(f);
 
 			ArrayList<String> l = new ArrayList<String>();
-			while(sc.hasNextLine()) {
+			while(sc.hasNextLine())
+			{
 				String s = sc.nextLine();
-				if(!s.isEmpty()) {
+				if(!s.isEmpty())
+				{
 					l.add(s);
 				}
 			}
 			sc.close();
 			return (String[]) l.toArray(new String[l.size()]);
-		} catch (FileNotFoundException e) {
+		} catch(FileNotFoundException e)
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

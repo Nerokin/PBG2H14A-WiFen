@@ -17,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import wifen.client.services.impl.CsvNode;
 import wifen.client.services.impl.ImageNode;
 import wifen.client.services.impl.TxtNode;
 import wifen.commons.Medium;
@@ -107,6 +108,17 @@ public class MedienbibliothekController extends AnchorPane
 			try
 			{
 				createSubWindow("Medienbibliothek", new Scene(new TextViewController(((TxtNode)selectedMedium.getFile()).getFileContent())));
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		else if(selectedMedium.getFile() instanceof CsvNode)
+		{
+			try
+			{
+				createSubWindow("Medienbibliothek", new Scene(new TableViewController(((CsvNode)selectedMedium.getFile()).getFileContent())));
 			}
 			catch (IOException e)
 			{
