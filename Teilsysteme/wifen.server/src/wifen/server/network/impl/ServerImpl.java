@@ -18,9 +18,12 @@ import wifen.commons.network.impl.ConnectionImpl;
 import wifen.server.network.Server;
 import wifen.server.network.ServerEvent;
 import wifen.server.network.ServerListener;
+import wifen.server.network.events.impl.ServerShutdownEventImpl;
+import wifen.server.network.events.impl.ServerStartedEventImpl;
 /**
- * @author Marius Vogelsang, David Joachim
- *
+ * @author Marius Vogelsang
+ * @author David Joachim
+ * @author Konstantin Schaper
  */
 public class ServerImpl implements Server, ConnectionListener {
 	
@@ -38,6 +41,7 @@ public class ServerImpl implements Server, ConnectionListener {
 	// Constructor(s)
 	public ServerImpl(int port) throws IOException {
 		serverSocket = new ServerSocket(port);
+		fireEvent(new ServerStartedEventImpl(this));
 		logger.info("Server has been successfully started.");
 	}
 	
@@ -66,6 +70,7 @@ public class ServerImpl implements Server, ConnectionListener {
 	public boolean shutdown() {
 		try {
 			getServerSocket().close();
+			fireEvent(new ServerShutdownEventImpl(this));
 			return true;
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, "An exception occurred while closing the server socket", e);
@@ -106,7 +111,20 @@ public class ServerImpl implements Server, ConnectionListener {
 	
 	@Override
 	public boolean addListener(ConnectionListener listener){
+		logger.info("ConnectionListener added");
 		return getConnectionListeners().add(listener);
+	}
+	
+	@Override
+	public boolean removeListener(ServerListener listener) {
+		logger.info("ServerListener removed");
+		return getListeners().remove(listener);
+	}
+
+	@Override
+	public boolean removeListener(ConnectionListener listener) {
+		logger.info("ConnectionListener removed");
+		return getConnectionListeners().remove(listener);
 	}
 	
 	// Getter & Setter
@@ -134,4 +152,5 @@ public class ServerImpl implements Server, ConnectionListener {
 	public List<ConnectionListener> getConnectionListeners() {
 		return connectionListeners;
 	}
+	
 }

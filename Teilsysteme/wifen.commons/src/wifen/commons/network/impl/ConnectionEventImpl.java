@@ -18,7 +18,6 @@ public class ConnectionEventImpl extends CustomEventImpl implements ConnectionEv
 	
 	@Override
 	public Connection getSource() {
-		// TODO Auto-generated method stub
 		return connection;
 	}
 

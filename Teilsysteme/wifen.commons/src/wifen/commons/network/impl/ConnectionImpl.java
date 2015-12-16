@@ -15,6 +15,7 @@ import wifen.commons.network.ConnectionEvent;
 import wifen.commons.network.ConnectionListener;
 import wifen.commons.network.Packet;
 import wifen.commons.network.events.impl.ConnectionClosedEventImpl;
+import wifen.commons.network.events.impl.ConnectionEstablishedEventImpl;
 import wifen.commons.network.events.impl.PacketReceivedEventImpl;
 
 /**
@@ -36,6 +37,7 @@ public class ConnectionImpl implements Connection {
 	{
 		this.socket = s;
 		this.oos = new ObjectOutputStream(getSocket().getOutputStream());
+		fireEvent(new ConnectionEstablishedEventImpl(this));
 		logger.info("Connection has been established.");
 		
 	}
@@ -59,6 +61,11 @@ public class ConnectionImpl implements Connection {
 	@Override
 	public boolean addListener(ConnectionListener listener) {
 		return getListeners().add(listener);
+	}
+	
+	@Override
+	public boolean removeListener(ConnectionListener listener) {
+		return getListeners().remove(listener);
 	}
 	
 	@Override
@@ -106,5 +113,9 @@ public class ConnectionImpl implements Connection {
 	}
 	public Socket getSocket() {
 		return socket;
+	}
+	@Override
+	public boolean isConnected() {
+		return getSocket().isConnected();
 	}
 }

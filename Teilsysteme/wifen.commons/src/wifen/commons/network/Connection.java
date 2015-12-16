@@ -27,6 +27,14 @@ public interface Connection {
 	public boolean addListener(ConnectionListener listener);
 	
 	/**
+	 * Unregisters a previously registered listener.
+	 * 
+	 * @param listener The listener to remove
+	 * @return Whether the listener was registered and has been successfully unregistered
+	 */
+	public boolean removeListener(ConnectionListener listener);
+	
+	/**
 	 * Starts reading packets from the sockets input stream.<br>
 	 * Blocks until the Connection is closed or an exception occurs.
 	 */
@@ -38,5 +46,10 @@ public interface Connection {
 	 * @return Whether the connection has been successfully closed
 	 */
 	public boolean close();
+	
+	/**
+	 * @return If the connection is currently tied to a running network socket.
+	 */
+	public boolean isConnected();
 
 }
