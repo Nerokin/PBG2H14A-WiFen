@@ -13,7 +13,7 @@ import wifen.client.services.FileNode;
  * Dateiinhalt wird als String[][] ausgegeben, jedes Feld also als String interpretiert
  */
 
-public class CsvNode implements FileNode<String[][]>{
+public class CsvNode implements FileNode<String[][]> {
 	String path;
 	String delimiter;
 
@@ -36,11 +36,10 @@ public class CsvNode implements FileNode<String[][]>{
 			sc = new Scanner(f);
 
 			ArrayList<String[]> ls = new ArrayList<String[]>();
-			while(sc.hasNextLine()) {
+			while (sc.hasNextLine()) {
 				String s = sc.nextLine();
-				if(!s.isEmpty()) {
+				if (!s.isEmpty())
 					ls.add(s.split(this.delimiter));
-				}
 			}
 			sc.close();
 			return (String[][]) ls.toArray();
