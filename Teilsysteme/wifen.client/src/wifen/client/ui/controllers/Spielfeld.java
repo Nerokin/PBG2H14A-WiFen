@@ -4,16 +4,23 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polyline;
 import javafx.stage.Stage;
+import wifen.client.resources.Marker;
+import wifen.client.resources.MarkerType;
+import wifen.client.services.MarkerService;
+import wifen.client.ui.controllers.MarkerView;
 
-public class Spielfeld {
+public class Spielfeld implements MarkerService {
 	private Stage stage;
-	private StackPane stack;
+	private ScrollPane scrollPane;
+	private Pane pane;
 	private double sizeFieldX;
 	private double sizeFieldY;
 	private double sizeSceneX;
@@ -23,6 +30,31 @@ public class Spielfeld {
 	private int typ;
 	private double lastX=0;
 	private double lastY=0;
+	private boolean hasDragged = false;
+	private MarkerView markerWindow;
+	
+	private Spielfeld(double sizeFieldX, double sizeFieldY, double sizeSceneX, double sizeSceneY, int tilesPerRow, int tilePerCol, int type, MarkerView markerWindow) {
+		this.stage = new Stage();
+		this.pane = new Pane();
+		this.scrollPane = new ScrollPane(pane);
+		this.sizeFieldX = sizeFieldX;
+		this.sizeFieldY = sizeFieldY;
+		this.sizeSceneX = sizeSceneX;
+		this.sizeSceneY = sizeSceneY;
+		scrollPane.setMaxHeight(sizeFieldY);
+		scrollPane.setMaxWidth(sizeFieldX);
+		scrollPane.setMinHeight(sizeFieldY);
+		scrollPane.setMinWidth(sizeFieldX);
+		stage.setHeight(sizeSceneY);
+		stage.setWidth(sizeSceneX);
+		scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+		scrollPane.setVbarPolicy(ScrollBarPolicy.NEVER);
+		scrollPane.setPannable(true);
+		this.tilesPerCol = tilePerCol;
+		this.tilesPerRow = tilesPerRow;
+		this.typ = type;
+		this.markerWindow = markerWindow; 
+	}
 	
 	/**initialize a field with a rectangle grid
 	 * sizeFieldX => Stack width
@@ -31,16 +63,8 @@ public class Spielfeld {
 	 * sizeSceneY => Scene height
 	 * tilesPerRow => rectangle per row
 	 * tilesPerCol => rectangle per column*/
-	Spielfeld(double sizeFieldX, double sizeFieldY, double sizeSceneX, double sizeSceneY, int tilesPerRow, int tilesPerCol){
-		this.stage = new Stage();
-		this.stack = new StackPane();
-		this.sizeFieldX = sizeFieldX;
-		this.sizeFieldY = sizeFieldY;
-		this.sizeSceneX = sizeSceneX;
-		this.sizeSceneY = sizeSceneY;
-		this.tilesPerRow = tilesPerRow;
-		this.tilesPerCol = tilesPerCol;
-		this.typ = 1;		
+	public Spielfeld(double sizeFieldX, double sizeFieldY, double sizeSceneX, double sizeSceneY, int tilesPerRow, int tilesPerCol, MarkerView markerWindow){
+		this(sizeFieldX, sizeFieldY, sizeSceneX, sizeSceneY, tilesPerRow, tilesPerCol, 1, markerWindow);
 	}
 	/**initialize a field with a hexagon grid
 	 * sizeFieldX => Stack width
@@ -48,61 +72,30 @@ public class Spielfeld {
 	 * sizeSceneX => Scene width
 	 * sizeSceneY => Scene height
 	 * tilesPerCol => hexagons per column*/
-	Spielfeld(double sizeFieldX, double sizeFieldY, double sizeSceneX, double sizeSceneY, int tilesPerCol){
-		this.stage = new Stage();
-		this.stack = new StackPane();
-		this.sizeFieldX = sizeFieldX;
-		this.sizeFieldY = sizeFieldY;
-		this.sizeSceneX = sizeSceneX;
-		this.sizeSceneY = sizeSceneY;
-		this.tilesPerCol = tilesPerCol;
-		this.typ = 2;
+	public Spielfeld(double sizeFieldX, double sizeFieldY, double sizeSceneX, double sizeSceneY, int tilesPerCol, MarkerView markerWindow){
+		this(sizeFieldX, sizeFieldY, sizeSceneX, sizeSceneY, 0, tilesPerCol, 2, markerWindow);
 	}
 	/**initialize a field without a grid
 	 * sizeFieldX => Stack width
 	 * sizeFieldY => Stack height
 	 * sizeSceneX => Scene width
 	 * sizeSceneY => Scene height*/
-	Spielfeld(double sizeFieldX, double sizeFieldY, double sizeSceneX, double sizeSceneY){
-		this.stage = new Stage();
-		this.stack = new StackPane();
-		this.sizeFieldX = sizeFieldX;
-		this.sizeFieldY = sizeFieldY;
-		this.sizeSceneX = sizeSceneX;
-		this.sizeSceneY = sizeSceneY;
-		this.typ = 0;
+	public Spielfeld(double sizeFieldX, double sizeFieldY, double sizeSceneX, double sizeSceneY, MarkerView markerWindow){
+		this(sizeFieldX, sizeFieldY, sizeSceneX, sizeSceneY, 0, 0, 0, markerWindow);
 	}
 	/**draws the field in a new scene*/
 	public void draw(){
-		Scene scene = new Scene(stack,sizeFieldX,sizeFieldY);
+		Scene scene = new Scene(scrollPane,sizeFieldX,sizeFieldY);
 		stage.setScene(scene);
-		stage.setWidth(sizeSceneX);
-		stage.setHeight(sizeSceneY);
-		stack.setStyle("-fx-background-color: #FFFFFF;");
-		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-			public void handle(KeyEvent event) {
-				if(event.getText().toLowerCase().equals("w")&&stack.getTranslateY()<(sizeFieldY/2-((stack.getHeight())/2))){
-					stack.setTranslateY(stack.getTranslateY()+5);
-				}
-				else if(event.getText().toLowerCase().equals("a")&&stack.getTranslateX()<(sizeFieldX/2-(sizeSceneX/2))){
-					stack.setTranslateX(stack.getTranslateX()+5);
-				}
-				else if(event.getText().toLowerCase().equals("s")&&stack.getTranslateY()>(-1*(sizeFieldY/2-((stack.getHeight())/2)))){
-					stack.setTranslateY(stack.getTranslateY()-5);
-				}
-				else if(event.getText().toLowerCase().equals("d")&&stack.getTranslateX()>(-1*(sizeFieldX/2-(sizeSceneX/2)))){
-					stack.setTranslateX(stack.getTranslateX()-5);
-				}
-			}
-		});
+		scrollPane.setStyle("-fx-background-color: #FFFFFF;");
 		if(this.typ == 1){
 			Polyline line = new Polyline();
-			double a = stack.getWidth()/tilesPerRow;
-			double b = stack.getHeight()/tilesPerCol;
+			double a = scrollPane.getWidth()/tilesPerRow;
+			double b = scrollPane.getHeight()/tilesPerCol;
 			line.autosize();
 			line.getPoints().addAll(new Double[]{
 			        0.00, 0.00,
-			        0.00, stack.getHeight()});
+			        0.00, scrollPane.getHeight()});
 			for(int i=0; i<tilesPerCol;i++){
 				for(int j=0; j<tilesPerRow;j++){
 					line.getPoints().addAll(new Double[]{
@@ -115,14 +108,14 @@ public class Spielfeld {
 				line.getPoints().addAll(new Double[]{
 				        (tilesPerRow-1)*a, (i+1)*b});	
 			}
-			stack.getChildren().add(line);
+			this.add(line);
 		}else if(this.typ == 2){
 			boolean toggle = true;
-			double height = stack.getHeight()/tilesPerCol;
+			double height = scrollPane.getHeight()/tilesPerCol;
 			double b = height/2;
 			double c = b/Math.sin(Math.toRadians(60));
 			double a = 0.5*c;
-			int tilesPerRow = (int) (stack.getWidth()/(2*b+c));
+			int tilesPerRow = (int) (scrollPane.getWidth()/(2*a+2*c));
 			Polyline line = new Polyline();
 			for(int i=0; i<tilesPerCol;i++){
 				if(toggle){
@@ -167,31 +160,40 @@ public class Spielfeld {
 					}
 				}
 			}
-			stack.getChildren().add(line);
+			this.add(line);
+		}else if(this.typ==0){
+			
 		}
-		stack.setOnMousePressed(new EventHandler<MouseEvent>(){
+		scrollPane.setOnMousePressed(new EventHandler<MouseEvent>(){
+			@Override
+			public void handle(MouseEvent event) {
+				hasDragged = false;
+			}	
+		});
+		scrollPane.setOnDragDetected(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event) {
-				lastX=event.getSceneX()-scene.getWidth()/2;
-				lastY=event.getSceneY()-scene.getHeight()/2;	
+				hasDragged = true;				
 			}
 			
 		});
-		stack.setOnMouseDragged(new EventHandler<MouseEvent>(){
-
+		pane.setOnMouseReleased(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				double x = event.getSceneX()-scene.getWidth()/2;
-				double y = event.getSceneY()-scene.getHeight()/2;
-				stack.setTranslateX(stack.getTranslateX()+((x-lastX)));
-				stack.setTranslateY(stack.getTranslateY()+((y-lastY)));
-				lastX = event.getSceneX()-scene.getWidth()/2;
-				lastY = event.getSceneY()-scene.getHeight()/2;
+				if(!hasDragged&&event.getButton() == MouseButton.PRIMARY) {
+					if(event.getX() > pane.getWidth() || event.getY() > pane.getHeight()) {
+						System.out.println("Invalid coordinates for placing Marker: Out of field!");
+					} else {
+						System.out.println("Event X: "+event.getX()+" Event Y: "+event.getY());
+						placeMarker(getSelectedType(), event.getX(), event.getY());
+						// beinhaltet Neurendern der ScrollPane und aller Children, damit Marker korrekt nach dem Erstellen angezeigt werden
+						scrollPane.snapshot(null,null);
+					}
+				}
 			}
-			
 		});
-		stage.setResizable(false);
+		stage.setResizable(true);
 		stage.show();
 	}
 	/**resize the grid. 
@@ -212,14 +214,52 @@ public class Spielfeld {
 	}
 	/**Get all Children of the Pane*/
 	public ObservableList<Node> getChildren(){
-		return stack.getChildren();
+		return pane.getChildren();
 	}
+	/**Get ScrollPane*/
+	public ScrollPane getScrollPane(){
+		return scrollPane;
+	}
+	
 	/**Add Node to stack*/
 	public void add(Node value){
-		stack.getChildren().add(value);
+		pane.getChildren().add(value);
 	}
 	/**Delete Node from stack*/
 	public void remove(Node value){
-		stack.getChildren().remove(value);
+		pane.getChildren().remove(value);
 	}
+	
+	/**
+	 * Return the type of marker currently selected in the marker-selection window.
+	 */
+	@Override
+	public MarkerType getSelectedType() {
+		ImageView iv = markerWindow.getSelectedMarkerType();
+		return new MarkerType(iv.getImage(), iv.getId());
+	}
+	
+	/**
+	 * Places one marker of the currently selected type at the mouse's current position.
+	 */
+	@Override
+	public void placeMarker(MarkerType mt, double x, double y) {		
+		add(new Marker(x, y, mt, this));
+	}
+	
+	@Override
+	public void removeMarker(Marker m) {
+		pane.getChildren().remove(m);
+	}
+	/*
+	 * Optional functionalities
+	@Override
+	public void changeMarkerType(Marker m, MarkerType mt) {
+		m.changeType(mt);		
+	}
+	@Override
+	public void changeMarkerDescription(Marker m, String newd) {
+		m.changeDescription(newd);
+	}
+	*/
 }
