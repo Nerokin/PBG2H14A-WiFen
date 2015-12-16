@@ -14,5 +14,6 @@ public interface IAdminMessage {
 	public boolean OpenDialog();
 
 	public void setConnection(Connection connection);
+
 	public boolean isAvailable();
 }

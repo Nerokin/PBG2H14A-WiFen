@@ -7,7 +7,7 @@ import wifen.client.services.FileNode;
  * Gibt den Dateiinhalt als Image-Objekt zurück
  */
 
-public class ImageNode implements FileNode<Image>{
+public class ImageNode implements FileNode<Image> {
 	String path;
 
 	public ImageNode(String p) {

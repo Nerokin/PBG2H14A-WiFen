@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 import wifen.client.services.FileNode;
 
-public class TxtNode implements FileNode<String[]>{
+public class TxtNode implements FileNode<String[]> {
 	String path;
 
 	public TxtNode(String p) {
@@ -33,11 +33,10 @@ public class TxtNode implements FileNode<String[]>{
 			sc = new Scanner(f);
 
 			ArrayList<String> l = new ArrayList<String>();
-			while(sc.hasNextLine()) {
+			while (sc.hasNextLine()) {
 				String s = sc.nextLine();
-				if(!s.isEmpty()) {
+				if (!s.isEmpty())
 					l.add(s);
-				}
 			}
 			sc.close();
 			return (String[]) l.toArray();
