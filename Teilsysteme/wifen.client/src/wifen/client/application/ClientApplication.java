@@ -11,10 +11,17 @@ import java.util.logging.Logger;
 import javax.imageio.spi.ServiceRegistry;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import wifen.client.services.ClientChatService;
 import wifen.client.services.impl.ClientChatProvider;
+import wifen.client.ui.controllers.Hauptmenu;
 import wifen.client.ui.controllers.Spielfeld;
+import wifen.commons.GridType;
+import wifen.commons.SpielerRolle;
 import wifen.commons.network.Connection;
 import wifen.commons.network.ConnectionEvent;
 import wifen.commons.network.ConnectionListener;
@@ -80,6 +87,12 @@ public class ClientApplication extends Application implements ServerListener, Co
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Initialize the GUI
 		
+		primaryStage.setMinWidth(800);
+		primaryStage.setMinHeight(600);
+		primaryStage.setScene(new Scene(new Hauptmenu()));
+		primaryStage.show();
+		getServiceRegistry().registerServiceProvider(primaryStage, Stage.class);
+		
 		// Simple test for the playfield user interface
 		//getServiceRegistry().registerServiceProvider(new Spielfeld(1920, 1080, 800, 600, 10, 10, null), Spielfeld.class);
 		//getServiceRegistry().getServiceProviderByClass(Spielfeld.class).draw();
@@ -90,21 +103,21 @@ public class ClientApplication extends Application implements ServerListener, Co
 		// TODO What happens before the initialization of the GUI
 		
 		// Initialize a simple test which instantiates a server with a single connection on localhost
-		try {
-			startServer();
-			try {
-				startConnection(InetAddress.getLocalHost());
-				try {
-					getServiceRegistry().getServiceProviders(ClientChatService.class, false).next().sendMessage("ME", "Ich bin soooo klasse!");
-				} catch (Exception e) {
-					logger.log(Level.WARNING, "ChatMessage could not be sent", e);
-				}
-			} catch (IOException e) {
-				logger.severe("Connection could not be established!");
-			}
-		} catch (IOException e) {
-			logger.severe("Server could not be started!");
-		}
+//		try {
+//			startServer();
+//			try {
+//				startConnection(InetAddress.getLocalHost());
+//				try {
+//					getServiceRegistry().getServiceProviders(ClientChatService.class, false).next().sendMessage("ME", "Ich bin soooo klasse!");
+//				} catch (Exception e) {
+//					logger.log(Level.WARNING, "ChatMessage could not be sent", e);
+//				}
+//			} catch (IOException e) {
+//				logger.severe("Connection could not be established!");
+//			}
+//		} catch (IOException e) {
+//			logger.severe("Server could not be started!");
+//		}
 	}
 
 	@Override
@@ -153,6 +166,21 @@ public class ClientApplication extends Application implements ServerListener, Co
 			// Return the instantiated server instance
 			return server;
 			
+		}
+	}
+	
+	public void hostGame(int maximumPlayerCount, boolean spectatorsAllowed, boolean mediaInitiallyVisible, int maxDiceFaceCount, String playerName, SpielerRolle standardPlayerRole, GridType gridType) {
+		try {
+			startServer();
+			
+		} catch (Exception e) {
+			new Alert(AlertType.ERROR, "Das Spiel konnte nicht erstellt werden (" + e.getMessage() + ")").showAndWait();
+			try {
+				getServiceRegistry().getServiceProviders(Stage.class, false).next().getScene().setRoot(new Hauptmenu());
+			} catch (IOException e1) {
+				new Alert(AlertType.ERROR, "Das Hauptmenü konnte nicht initialisiert werden, die Anwendung wird geschlossen").showAndWait();
+				Platform.exit();
+			}
 		}
 	}
 	

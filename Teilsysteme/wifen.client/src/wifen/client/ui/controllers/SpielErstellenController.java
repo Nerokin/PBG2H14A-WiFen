@@ -2,17 +2,31 @@ package wifen.client.ui.controllers;
 
 import java.io.IOException;
 
+import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
+import wifen.client.application.ClientApplication;
+import wifen.commons.GridType;
+import wifen.commons.SpielerRolle;
 
+/**
+ * 
+ * @author Justin Nussbaum
+ * @author Konstantin Schaper (Logik/Fehlerbehebungen)
+ *
+ */
 public class SpielErstellenController extends Pane {
 
 	// constants
@@ -30,8 +44,9 @@ public class SpielErstellenController extends Pane {
 	@FXML CheckBox cbBeobachterZulassen;
 	@FXML CheckBox tfMedienSichtbarkeit;
 	@FXML ComboBox<String> comboSeitenzahl;
-	@FXML ComboBox<String> comboStandardRolle;
-	@FXML ComboBox<String> comboRaster;
+	@FXML ComboBox<SpielerRolle> comboStandardRolle;
+	@FXML ComboBox<GridType> comboRaster;
+	@FXML Button btnSpielErstellen;
 
 	// @FXML private FormationDisplay formatDisplay;
 	// TODO
@@ -60,13 +75,22 @@ public class SpielErstellenController extends Pane {
 	private void initialize() {
 		// formatDisplay.setOnMouseClicked(this::click);
 		// TODO: Data Binding and Setup of Event Handling
+		btnSpielErstellen.setOnAction(this::btnSpielErstellenOnAction);
+		comboStandardRolle.setItems(FXCollections.observableArrayList(SpielerRolle.values()));
+		//comboRaster.setItems(FXCollections.observableArrayList(GridType.values()));
 	}
 
 	// Event Handlers
-	private void click(MouseEvent event) {
-
+	
+	private final void btnSpielErstellenOnAction(ActionEvent event) {
+		try {
+			ClientApplication.instance().hostGame(Integer.valueOf(tfMaxSpieler.getText()), cbBeobachterZulassen.isSelected(),
+					tfMedienSichtbarkeit.isSelected(), Integer.valueOf(tfMaxSpieler.getText()), tfName.getText(),
+					comboStandardRolle.getSelectionModel().getSelectedItem(), comboRaster.getSelectionModel().getSelectedItem());
+		} catch (Exception e) {
+			new Alert(AlertType.ERROR, "Das Spiel konnte nicht erstellt werden (" + e.getMessage() + ")").showAndWait();
+		}
 	}
-	// TODO
 
 	// Getter & Setter
 
