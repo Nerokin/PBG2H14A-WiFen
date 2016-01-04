@@ -411,9 +411,6 @@ public class dice {
 		try (FileReader input = new FileInputStream("./ressources/wuerfeln.WAV");
 				AudioStream audio = new Audiostream(input)) {
 			AudioPlayer.player.start(audio);
-		} finally {
-			if (input != null)
-				input.close();
 		}
 	}
 
