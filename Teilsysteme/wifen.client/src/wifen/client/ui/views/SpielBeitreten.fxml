@@ -27,7 +27,7 @@
             <Font size="44.0" />
          </font>
       </Label>
-      <TextField id="tfIp" layoutX="566.0" layoutY="524.0" prefHeight="86.0" prefWidth="466.0">
+      <TextField fx:id="tfIp" id="tfIp" layoutX="566.0" layoutY="524.0" prefHeight="86.0" prefWidth="466.0">
          <font>
             <Font size="40.0" />
          </font>
@@ -37,18 +37,18 @@
             <Font size="44.0" />
          </font>
       </Label>
-      <TextField id="tfPort" layoutX="1171.0" layoutY="524.0" prefHeight="86.0" prefWidth="203.0">
+      <TextField fx:id="tfPort" id="tfPort" layoutX="1171.0" layoutY="524.0" prefHeight="86.0" prefWidth="203.0">
          <font>
             <Font size="40.0" />
          </font>
       </TextField>
-      <Button layoutX="1262.0" layoutY="663.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="72.0" scaleX="2.0" scaleY="2.0" text="Beitreten" />
+      <Button fx:id="btnEnter" id="btnEnter" layoutX="1262.0" layoutY="663.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="72.0" scaleX="2.0" scaleY="2.0" text="Beitreten" />
       <Label id="ipAdress" layoutX="44.0" layoutY="1021.0" text="IP:">
          <font>
             <Font size="44.0" />
          </font>
       </Label>
-      <Label id="versionNumber" layoutX="44.0" layoutY="967.0" text="Version: 0.01">
+      <Label fx:id="versionNumber" id="versionNumber" layoutX="44.0" layoutY="967.0" text="Version: 0.01">
          <font>
             <Font size="44.0" />
          </font>
