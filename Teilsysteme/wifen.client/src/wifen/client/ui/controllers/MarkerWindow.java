@@ -77,11 +77,8 @@ public class MarkerWindow extends Pane{
 		}
 		markerColor.setItems(button_colors);
 		
-		FileLoaderProvider test = new FileLoaderProvider(100);
-		
 		File file = new File(getClass().getResource("../../resources/marker").getFile());
 		for(File f : file.listFiles()){
-			test.loadImage(f.getAbsolutePath());
 			ImageView tempView = new ImageView(new Image(f.toURI().toString()));
 			tempView.setId(f.getName().substring(0, f.getName().indexOf('.')));
 			image_shapes.add(tempView);
