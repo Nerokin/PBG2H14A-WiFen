@@ -11,11 +11,11 @@ import wifen.client.services.impl.XlsNode;
  * Diese Klasse bietet Methoden zum Zugriff auf Dateiinhalte mit einheitlichen Funktionsparametern.
  */
 
+
 public interface FileLoaderService {
 
 	/*
-	 * Methoden geben Nodes auf die jeweiligen Dateitypen aus. Nodes sind nach
-	 * Auslesemethode und sinnhaft getrennt.
+	 * Methoden geben Nodes auf die jeweiligen Dateitypen aus. Nodes sind nach Auslesemethode und sinnhaft getrennt.
 	 */
 	public ImageNode loadImage(String path);
 
@@ -30,4 +30,12 @@ public interface FileLoaderService {
 	public XlsNode loadXls(String path);
 
 	public PdfNode loadPdf(String path);
+	
+	public boolean controlSize(String path);
+	
+	public long getMaxSize();
+	
+	public void setMaxSize(long maxSize);
+
+	
 }
