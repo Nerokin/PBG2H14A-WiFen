@@ -19,9 +19,8 @@ public interface Server {
 	/**
 	 * Starts waiting for incoming connection attempts.<br>
 	 * Does block the calling thread until the server is
-	 * shutdown or any exception occurs.
+	 * shutdown or any exception occurs. 
 	 * 
-	 * @throws IOException 
 	 */
 	public void acceptConnections() throws IOException;
 	
