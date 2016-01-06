@@ -10,6 +10,12 @@ import javafx.scene.input.MouseEvent;
 import wifen.client.ui.controllers.SpielfeldView;
 import wifen.commons.MarkerModel;
 
+/**
+ * Put description here
+ * 
+ * @author unknown
+ *
+ */
 public class MarkerView extends Parent {
 	
 	double lastX=0;
@@ -18,6 +24,12 @@ public class MarkerView extends Parent {
 	MarkerModel marker;
 	
 
+	/**
+	 * Put description here
+	 * 
+	 * @param m
+	 * @param f
+	 */
 	public MarkerView(MarkerModel m, SpielfeldView f) {
 		parent = f;
 		marker = m;
@@ -76,6 +88,9 @@ public class MarkerView extends Parent {
 		});
 	}
 	
+	/**
+	 * Put description here
+	 */
 	protected void adjustPosition() {
 		this.setTranslateX(getTranslateX() - (marker.getType().getImg().getWidth()/2));
 		this.setTranslateY(getTranslateY() - (marker.getType().getImg().getHeight()/2));

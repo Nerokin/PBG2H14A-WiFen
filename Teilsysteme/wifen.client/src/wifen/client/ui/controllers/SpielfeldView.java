@@ -16,6 +16,12 @@ import wifen.commons.MarkerModel;
 import wifen.commons.MarkerType;
 import wifen.commons.SpielfeldModel;
 
+/**
+ * Put description here
+ * 
+ * @author unknown
+ *
+ */
 public class SpielfeldView extends ScrollPane implements MarkerService {
 	private double sizeFieldX;
 	private double sizeFieldY;

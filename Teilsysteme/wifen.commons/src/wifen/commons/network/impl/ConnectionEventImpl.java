@@ -4,13 +4,21 @@ import wifen.commons.impl.CustomEventImpl;
 import wifen.commons.network.Connection;
 import wifen.commons.network.ConnectionEvent;
 /**
- * @author Marius Vogelsang, David Joachim
+ * Put description here
+ * 
+ * @author Marius Vogelsang
+ * @author David Joachim
  *
  */
 public class ConnectionEventImpl extends CustomEventImpl implements ConnectionEvent {
 
 	protected Connection connection;
 	
+	/**
+	 * Put description here
+	 * 
+	 * @param connection
+	 */
 	public ConnectionEventImpl(Connection connection)
 	{
 		this.connection = connection;

@@ -132,6 +132,7 @@ public class ClientApplication extends Application implements ServerListener, Co
 	// Methods
 
 	/**
+<<<<<<< HEAD
 	 * Connects to a remote or local host (server) and registers it with this
 	 * application's service registry. 
 	 * Does not refresh the connection if there already is
@@ -141,6 +142,13 @@ public class ClientApplication extends Application implements ServerListener, Co
 	 * @param address The internet address to connect to
 	 * @return Either the newly established connection or the currently active connection, if there is any
 	 * @throws IOException If a network error occurred
+=======
+	 * Put description here
+	 * 
+	 * @param address
+	 * @return
+	 * @throws IOException
+>>>>>>> branch 'master' of https://github.com/Nerokin/PBG2H14A-WiFen
 	 */
 	public Connection startConnection(InetAddress address) throws IOException {
 		// Return active connection if there already is one registered
@@ -155,12 +163,19 @@ public class ClientApplication extends Application implements ServerListener, Co
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Creates a new server on the default port ({@linkplain ApplicationConstants#APPLICATION_PORT})
 	 * and registers it with this application's service registry.
 	 * If there already is an active server, it is returned and no new server is created.
 	 * 
 	 * @return The freshly created server or the active one, if there is any
 	 * @throws IOException If a network error occurred
+=======
+	 * Put description here
+	 * 
+	 * @return
+	 * @throws IOException
+>>>>>>> branch 'master' of https://github.com/Nerokin/PBG2H14A-WiFen
 	 */
 	public Server startServer() throws IOException {
 		// Return active server if there already is one registered

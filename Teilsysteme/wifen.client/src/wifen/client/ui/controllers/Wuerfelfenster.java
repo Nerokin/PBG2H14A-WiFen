@@ -18,6 +18,12 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+/**
+ * Put description here
+ * 
+ * @author unknown
+ *
+ */
 public class Wuerfelfenster extends VBox {
 
 	// constants
@@ -43,6 +49,11 @@ public class Wuerfelfenster extends VBox {
 
 	// Constructor
 
+	/**
+	 * Put description here
+	 * 
+	 * @throws IOException
+	 */
 	public Wuerfelfenster() throws IOException {
 		super();
 
@@ -74,6 +85,11 @@ public class Wuerfelfenster extends VBox {
 
 	// Event Handlers
 
+	/**
+	 * Put description here
+	 * 
+	 * @param ev
+	 */
 	@FXML
 	public void wuerfelDrag(MouseEvent ev) { // Erst beim Klicken und
 												// gleichzeitig ziehen!
@@ -88,6 +104,11 @@ public class Wuerfelfenster extends VBox {
 		ev.consume();
 	}
 
+	/**
+	 * Put description here
+	 * 
+	 * @param ev
+	 */
 	public void onMouseDragged(MouseEvent ev) {
 
 		System.out.println("OnMouseDragged");
@@ -99,6 +120,11 @@ public class Wuerfelfenster extends VBox {
 		ev.consume();
 	}
 
+	/**
+	 * Put description here
+	 * 
+	 * @param ev
+	 */
 	public void onMousePressed(MouseEvent ev) {
 		System.out.println("onMousePressed");
 		/*
@@ -107,6 +133,9 @@ public class Wuerfelfenster extends VBox {
 		ev.consume();
 	}
 
+	/**
+	 * Put description here
+	 */
 	@FXML
 	public void wuerfelDone() {
 
@@ -136,11 +165,19 @@ public class Wuerfelfenster extends VBox {
 		 * System.out.println("MouseDragReleased"); }
 		 */
 
+	/**
+	 * Put description here
+	 */
 	@FXML
 	public void wuerfelDragOver() {
 
 	}
 
+	/**
+	 * Put description here
+	 * 
+	 * @param ev
+	 */
 	@FXML
 	public void wuerfelDrop(DragEvent ev) {
 		Dragboard db = ev.getDragboard();
@@ -150,6 +187,11 @@ public class Wuerfelfenster extends VBox {
 
 	}
 
+	/**
+	 * Put description here
+	 * 
+	 * @param ev
+	 */
 	@FXML
 	public void overLabel(DragEvent ev) {
 		Dragboard db = ev.getDragboard();

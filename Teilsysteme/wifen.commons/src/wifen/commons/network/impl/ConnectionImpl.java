@@ -34,6 +34,12 @@ public class ConnectionImpl implements Connection {
 	private ObjectOutputStream oos;
 	private final List<ConnectionListener> listeners = new ArrayList<ConnectionListener>();
 	
+	/**
+	 * Put description here
+	 * 
+	 * @param s
+	 * @throws IOException
+	 */
 	public ConnectionImpl(Socket s) throws IOException
 	{
 		this.socket = s;
@@ -43,10 +49,25 @@ public class ConnectionImpl implements Connection {
 		
 	}
 	
+	/**
+	 * Put description here
+	 * 
+	 * @param address
+	 * @param port
+	 * @throws IOException
+	 */
 	public ConnectionImpl(InetAddress address, int port) throws IOException {
 		this(new Socket(address, port));
 	}
 	
+	/**
+	 * Put description here
+	 * 
+	 * @param address
+	 * @param port
+	 * @param listeners
+	 * @throws IOException
+	 */
 	public ConnectionImpl(InetAddress address, int port, ConnectionListener... listeners) throws IOException {
 		this.socket = new Socket(address, port);
 		this.oos = new ObjectOutputStream(getSocket().getOutputStream());
@@ -109,6 +130,12 @@ public class ConnectionImpl implements Connection {
 			return false;
 		}
 	}
+	
+	/**
+	 * Put description here
+	 * 
+	 * @param event
+	 */
 	protected final void fireEvent(ConnectionEvent event){
 		for (ConnectionListener connectionListener : new ArrayList<>(getListeners())) {
 			connectionListener.handle(event);

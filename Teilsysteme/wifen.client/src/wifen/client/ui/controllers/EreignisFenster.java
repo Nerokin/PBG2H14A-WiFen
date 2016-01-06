@@ -10,6 +10,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * Put description here
+ * 
+ * @author unknown
+ *
+ */
 public class EreignisFenster extends AnchorPane {
 
 	// Constants
@@ -28,6 +34,11 @@ public class EreignisFenster extends AnchorPane {
 
 	// Constructor
 
+	/**
+	 * Put description here
+	 * 
+	 * @throws IOException
+	 */
 	public EreignisFenster() throws IOException {
 		super();
 
@@ -52,6 +63,11 @@ public class EreignisFenster extends AnchorPane {
 
 	// Event Handler
 
+	/**
+	 * Put description here
+	 * 
+	 * @param text
+	 */
 	public void log(String text) {
 		if (text.charAt(text.length() - 1) == '\n')
 			ereignislogTF.appendText(text);
@@ -59,6 +75,11 @@ public class EreignisFenster extends AnchorPane {
 			ereignislogTF.appendText(text + "\n");
 	}
 
+	/**
+	 * Put description here
+	 * 
+	 * @return
+	 */
 	public String getLog() {
 
 		// Bitte eine Liste zurückgeben Observable List

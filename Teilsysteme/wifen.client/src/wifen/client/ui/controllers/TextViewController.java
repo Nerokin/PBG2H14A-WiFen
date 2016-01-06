@@ -11,6 +11,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 
+/**
+ * Put description here
+ * 
+ * @author unknown
+ *
+ */
 public class TextViewController extends ScrollPane
 {
 	//Properties
@@ -22,6 +28,12 @@ public class TextViewController extends ScrollPane
 	@FXML private TextArea txtArea;
 	
 	//Constructor
+	/**
+	 * Put description here
+	 * 
+	 * @param text
+	 * @throws IOException
+	 */
 	public TextViewController(String[] text) throws IOException
 	{
 		super();
@@ -50,11 +62,25 @@ public class TextViewController extends ScrollPane
 	}
 	
 	// Events
+	/**
+	 * Put description here
+	 * 
+	 * @param observableValue
+	 * @param oldSceneWidth
+	 * @param newSceneWidth
+	 */
 	private void OnWidthChanged(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth)
 	{
 		txtArea.setPrefWidth((double)newSceneWidth - 2);
 	}
 	
+	/**
+	 * Put description here
+	 * 
+	 * @param observableValue
+	 * @param oldSceneHeight
+	 * @param newSceneHeight
+	 */
 	private void OnHeightChanged(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight)
 	{
 		txtArea.setPrefHeight((double)newSceneHeight - 2);

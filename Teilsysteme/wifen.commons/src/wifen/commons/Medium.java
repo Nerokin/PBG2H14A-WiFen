@@ -5,11 +5,22 @@ import java.io.File;
 import wifen.client.services.FileNode;
 import wifen.client.services.impl.FileLoaderProvider;
 
+/**
+ * Put description here
+ * 
+ * @author unknown
+ *
+ */
 public class Medium
 {
 	private String name;
 	private FileNode<?> file;
 	
+	/**
+	 * Put description here
+	 * 
+	 * @param file
+	 */
 	public Medium(File file)
 	{
 		name = file.getName();
@@ -66,6 +77,11 @@ public class Medium
 	}
 	
 	// Create instance
+	/**
+	 * Put description here
+	 * 
+	 * @return
+	 */
 	public MediumInstance createInstance()
 	{
 		return new MediumInstance(this);

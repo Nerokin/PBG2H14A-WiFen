@@ -7,6 +7,8 @@ import wifen.commons.network.ConnectionEvent;
 import wifen.commons.network.events.RoundDataRecivedEvent;
 
 /**
+ * Put description here
+ * 
  * @author Oliver Bardong
  *
  */

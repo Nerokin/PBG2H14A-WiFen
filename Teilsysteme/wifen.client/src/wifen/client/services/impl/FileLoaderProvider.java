@@ -17,6 +17,12 @@ import wifen.commons.services.impl.PdfNode;
 import wifen.commons.services.impl.TxtNode;
 import wifen.commons.services.impl.XlsNode;
 
+/**
+ * Put description here
+ * 
+ * @author unknown
+ *
+ */
 public class FileLoaderProvider implements FileLoaderService {
 	
 	private long maxSize;

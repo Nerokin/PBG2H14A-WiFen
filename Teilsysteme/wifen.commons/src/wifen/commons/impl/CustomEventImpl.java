@@ -2,6 +2,12 @@ package wifen.commons.impl;
 
 import wifen.commons.CustomEvent;
 
+/**
+ * Put description here
+ * 
+ * @author unknown
+ *
+ */
 public class CustomEventImpl implements CustomEvent {
 
 	private boolean isConsumed;

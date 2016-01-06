@@ -13,6 +13,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
+/**
+ * Put description here
+ * 
+ * @author unknown
+ *
+ */
 public class Wuerfelfenster_backup extends VBox {
 
 	// Properties
@@ -32,6 +38,11 @@ public class Wuerfelfenster_backup extends VBox {
 
 	// Constructor
 
+	/**
+	 * Put description here
+	 * 
+	 * @throws IOException
+	 */
 	public Wuerfelfenster_backup() throws IOException {
 		// super();
 

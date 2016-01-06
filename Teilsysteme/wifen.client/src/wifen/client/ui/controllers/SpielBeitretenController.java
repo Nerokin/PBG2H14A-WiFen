@@ -12,6 +12,12 @@ import javafx.scene.control.TextField;
 //import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * Put description here
+ * 
+ * @author unknown
+ *
+ */
 public class SpielBeitretenController extends AnchorPane {
 
 	// constants
@@ -34,6 +40,11 @@ public class SpielBeitretenController extends AnchorPane {
 
 	// Constructor
 
+	/**
+	 * Put description here
+	 * 
+	 * @throws IOException
+	 */
 	public SpielBeitretenController() throws IOException {
 		super();
 

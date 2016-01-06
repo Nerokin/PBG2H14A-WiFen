@@ -17,6 +17,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
 import javafx.util.Callback;
 
+/**
+ * Put description here
+ * 
+ * @author unknown
+ *
+ */
 public class TableViewController extends Pane
 {
 	// Properties
@@ -30,6 +36,12 @@ public class TableViewController extends Pane
 	private TableView<ObservableList<String>> tblView;
 
 	// Constructor
+	/**
+	 * Put description here
+	 * 
+	 * @param data
+	 * @throws IOException
+	 */
 	public TableViewController(String[][] data) throws IOException
 	{
 		super();
@@ -90,6 +102,13 @@ public class TableViewController extends Pane
 	}
 
 	// Events
+	/**
+	 * Put description here
+	 * 
+	 * @param observableValue
+	 * @param oldSceneWidth
+	 * @param newSceneWidth
+	 */
 	private void OnWidthChanged(
 			ObservableValue<? extends Number> observableValue,
 			Number oldSceneWidth, Number newSceneWidth)
@@ -97,6 +116,13 @@ public class TableViewController extends Pane
 		tblView.setPrefWidth((double) newSceneWidth - 2);
 	}
 
+	/**
+	 * Put description here
+	 * 
+	 * @param observableValue
+	 * @param oldSceneHeight
+	 * @param newSceneHeight
+	 */
 	private void OnHeightChanged(
 			ObservableValue<? extends Number> observableValue,
 			Number oldSceneHeight, Number newSceneHeight)

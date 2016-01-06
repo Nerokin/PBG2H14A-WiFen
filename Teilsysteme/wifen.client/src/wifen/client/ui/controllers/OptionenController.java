@@ -18,6 +18,12 @@ import javafx.scene.control.Alert.AlertType;
 //import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * Put description here
+ * 
+ * @author unknown
+ *
+ */
 public class OptionenController extends AnchorPane {
 
 	// constants
@@ -43,6 +49,11 @@ public class OptionenController extends AnchorPane {
 
 	// Constructor
 
+	/**
+	 * Put description here
+	 * 
+	 * @throws IOException
+	 */
 	public OptionenController() throws IOException {
 		super();
 

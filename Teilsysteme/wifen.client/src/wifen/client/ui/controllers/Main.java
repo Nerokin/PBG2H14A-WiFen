@@ -4,6 +4,12 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Put description here
+ * 
+ * @author unknown
+ *
+ */
 public class Main extends Application {
 
 	@Override

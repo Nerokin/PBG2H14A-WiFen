@@ -9,11 +9,23 @@ import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 import wifen.client.ui.controllers.EreignisFenster;
 
+/**
+ * Bereitstellung der Würfelfunktionen: Normaler Würfelwurf (mit Modifikator), Schwellentest (mit Modifikator)
+ * 
+ * @author David Kühlmann, Johnny Gunko
+ *
+ */
 public class dice {
 	// -----------------------
 	// David Kühlmann -- Start
 	// -----------------------
 	// Überprüfung des Strings der Texteigabe des Würfelfeldes
+	/**
+	 *  Überprüfung des Strings der Texteingabe des Würfelfensters
+	 * 
+	 * @param in Würfelausdruck der Texteingabe des Würfelfensters
+	 * @return
+	 */
 	public static int[] checkInput(String in) {
 		// Formel: XwY+M
 		if (in.matches("^[1-9][0-9]*w[1-9][0-9]*\\+[1-9][0-9]*$")) {
@@ -361,6 +373,15 @@ public class dice {
 	}
 
 	// Formel: XwYeZ+/-M X:Anzahl der Würfel Y:ANzhal Augen Z:Schwelle
+	/**
+	 * Methode um einen Schwellentest mit der Formlel XwYeZ+/-M durchzuführen
+	 * 
+	 * @param x Anzahl der zu Werfenden Würfel
+	 * @param y Anzahl der Würfelaugen
+	 * @param z Schwelle die erreicht werden oder überschritten werden muss
+	 * @param m Zusätzlicher Modifikator für Positive oder Negative effekte
+	 * @return
+	 */
 	public static int[] dice_Test(int x, int y, int z, int m) {
 		int out = 0;
 		int[] dice = new int[x + 1];
@@ -380,6 +401,14 @@ public class dice {
 	// -----------------------
 	// Formel: XwY+/-M
 	// x: Anzahl der W�rfel, y: Anzahl der Seiten, m: Modifikator
+	/**
+	 * Put description here
+	 * 
+	 * @param x
+	 * @param y
+	 * @param m
+	 * @return
+	 */
 	public static int[] dice_Throw(int x, int y, int m) {
 		int dice[] = new int[x + 1];
 		Random ran = new Random();
@@ -392,6 +421,11 @@ public class dice {
 	}
 
 	// "EreignisFenster.log(output);" , wenn nich satisch, objekt ansprechen
+	/**
+	 * Put description here
+	 * 
+	 * @param input
+	 */
 	public void output(int[] input) {
 		String output = new String();
 		output = "Ergebniss: " + input[input.length - 1] + " (";
@@ -407,6 +441,11 @@ public class dice {
 	}
 
 	// Wuerfel sound apsielen/ Funktioniert pfad?(unsicher)
+	/**
+	 * Put description here
+	 * 
+	 * @throws IOException
+	 */
 	public void playWuerfeln() throws IOException {
 		try (FileInputStream input = new FileInputStream("./ressources/wuerfeln.WAV");
 				AudioStream audio = new AudioStream(input)) {

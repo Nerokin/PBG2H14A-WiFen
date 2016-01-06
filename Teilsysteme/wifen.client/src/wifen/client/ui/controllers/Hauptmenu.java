@@ -18,6 +18,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 
 /**
+ * Put description here
+ * 
  * @author Kevin Curtis
  * @author Konstantin Schaper (Logik)
  */
@@ -45,6 +47,11 @@ public class Hauptmenu extends AnchorPane {
 	
 	// Constructor
 
+	/**
+	 * Put description here
+	 * 
+	 * @throws IOException
+	 */
 	public Hauptmenu() throws IOException {
 		super();
 
@@ -62,6 +69,9 @@ public class Hauptmenu extends AnchorPane {
 	}
 
 	// Initialization
+	/**
+	 * Put description here
+	 */
 	@FXML
 	private void initialize() {
 		// TODO: Data Binding and Setup of Event Handling
@@ -82,6 +92,11 @@ public class Hauptmenu extends AnchorPane {
 	
 	// Event Handlers
 
+	/**
+	 * Put description here
+	 * 
+	 * @param event
+	 */
 	private final void erstellenHmBtnOnAction(ActionEvent event) {
 		Parent p = null;
 		try {
