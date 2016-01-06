@@ -1,4 +1,4 @@
-package wifen.client.services;
+package wifen.commons.services;
 /*
  * Generischer Knoten zum Verweis auf eine im Client verwendete Externe Datei.
  * <T> = Rückgabetyp für den Dateiinhalt
@@ -6,6 +6,12 @@ package wifen.client.services;
  */
 
 public interface FileNode<T> {
+	
+	public double getX();
+	public double getY();
+	
+	public void setX(double x);
+	public void setY(double y);
 
 	public void setPath(String p);
 

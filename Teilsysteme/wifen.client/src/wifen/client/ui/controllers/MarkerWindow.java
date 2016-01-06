@@ -1,6 +1,6 @@
 /**
  * 
- * MarkerView shows and handles the main functions of the Marker
+ * MarkerWindow shows and handles the main functions of the Marker
  * 
  * @author Hitziger Fabian (pbg2h14ahi)
  */
@@ -33,7 +33,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import wifen.client.services.impl.FileLoaderProvider;
 
-public class MarkerView extends Pane{
+public class MarkerWindow extends Pane{
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 	public ObservableList<Button> button_colors = FXCollections.observableArrayList();
 	public ObservableList<ImageView> image_shapes = FXCollections.observableArrayList();
@@ -47,7 +47,7 @@ public class MarkerView extends Pane{
 	@FXML ListView<Button> markerColor;
 	@FXML ListView<ImageView> markerShape;
 	
-	public MarkerView() throws IOException{
+	public MarkerWindow() throws IOException{
 		super();
 		//Apply CSS
 		getStylesheets().add(getClass().getResource("../css/MarkerView.css").toExternalForm());
