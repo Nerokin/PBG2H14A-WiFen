@@ -7,7 +7,6 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -68,7 +67,7 @@ public class SpielbrettController extends AnchorPane {
 		this();
 		// Initialize Playfield
 		setMarkerWindow(new MarkerWindow());
-		setPlayfield(new SpielfeldView(1980, 1080, 10, 10, initialModel.getViewModel(), getMarkerWindow()));
+		setPlayfield(new SpielfeldView(1980, 1080, 10, 0, initialModel.getViewModel(), getMarkerWindow()));
 		SpielbrettID.getChildren().add(getPlayfield());
 	}
 	

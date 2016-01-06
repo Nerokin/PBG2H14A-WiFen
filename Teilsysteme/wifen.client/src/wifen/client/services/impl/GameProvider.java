@@ -17,16 +17,14 @@ public class GameProvider implements GameService {
 	// Attributes
 	
 	private SpielbrettController gameView;
-	private GameStateModel currentModel;
 	
 	// Constructor(s)
 	
 	public GameProvider(GameStateModel initialModel) {
 		try {
-			setCurrentModel(initialModel);
-			gameView = new SpielbrettController(getCurrentModel());
+			gameView = new SpielbrettController(initialModel);
 		} catch (IOException e) {
-			// TODO
+			e.printStackTrace();
 		}
 	}
 
@@ -45,10 +43,6 @@ public class GameProvider implements GameService {
 	@Override
 	public SpielbrettController getGameView() {
 		return gameView;
-	}
-
-	private void setCurrentModel(GameStateModel currentModel) {
-		this.currentModel = currentModel;
 	}
 
 }

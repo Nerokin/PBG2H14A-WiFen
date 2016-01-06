@@ -42,6 +42,8 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		super(new Pane());
 		this.sizeFieldX = sizeFieldX;
 		this.sizeFieldY = sizeFieldY;
+		this.setMaxSize(sizeFieldX, sizeFieldY);
+		this.setMinSize(sizeFieldX, sizeFieldY);
 		((Pane) this.getContent()).setMaxSize(sizeFieldX, sizeFieldY);
 		((Pane) this.getContent()).setMinSize(sizeFieldX, sizeFieldY);
 		this.setMaxHeight(sizeFieldY);
@@ -68,8 +70,9 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		this.setStyle("-fx-background-color: #FFFFFF;");
 		if(typ == GridType.SQUARE){
 			Polyline line = new Polyline();
-			double a = this.getWidth()/tilesPerRow;
-			double b = this.getHeight()/tilesPerCol;
+			double a = sizeFieldX/tilesPerRow;
+			double b = sizeFieldY/tilesPerCol;
+			System.out.println(this.getWidth()+" "+this.getHeight());
 			line.autosize();
 			line.getPoints().addAll(new Double[]{
 			        0.00, 0.00,
@@ -86,10 +89,10 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 				line.getPoints().addAll(new Double[]{
 				        (tilesPerRow-1)*a, (i+1)*b});	
 			}
-			this.addToView(line);
+			((Pane) this.getContent()).getChildren().add(line);
 		}else if(typ == GridType.HEX){
 			boolean toggle = true;
-			double height = this.getHeight()/tilesPerCol;
+			double height = sizeFieldY/tilesPerCol;
 			double b = height/2;
 			double c = b/Math.sin(Math.toRadians(60));
 			double a = 0.5*c;
@@ -168,6 +171,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		((Pane) this.getContent()).setOnMouseReleased(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
+				SpielfeldView sv = ((SpielfeldView) ((Pane) event.getSource()).getParent());
 				if(!hasDragged&&event.getButton() == MouseButton.PRIMARY) {
 					if(event.getX() > ((Pane) event.getSource()).getWidth() || event.getY() > ((Pane) event.getSource()).getHeight()) {
 						System.out.println("Invalid coordinates for placing Marker: Out of field!");
@@ -175,12 +179,11 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 						System.out.println("Event X: "+event.getX()+" Event Y: "+event.getY());
 						MarkerModel m = new MarkerModel(event.getX(), event.getY(), getSelectedType(), "");
 						model.placeMarker(m);
-						((Pane) event.getSource()).getChildren().add(new MarkerView(m, ((SpielfeldView) ((Pane) event.getSource()).getParent())));
+						((Pane) event.getSource()).getChildren().add(new MarkerView(m, sv));
 						// beinhaltet Neurendern der ScrollPane und aller Children, damit Marker korrekt nach dem Erstellen angezeigt werden
 						//scrollPane.snapshot(null,null);
 					}
 				}
-				SpielfeldView sv = ((SpielfeldView) ((Pane) event.getSource()).getParent());
 				scale.setTranslateX(sv.getHvalue()*(sizeFieldX-sv.getScene().getWidth()));
 				scale.setTranslateY(sv.getVvalue()*(sizeFieldY-sv.getScene().getHeight()+32));
 			}
