@@ -13,6 +13,7 @@ public class GameStateModel implements Serializable {
 	private int maxDiceSideCount;
 	private SpielerRolle standardRolle;
 	private GridType grid;
+	private SpielfeldModel viewModel;
 
 	public GameStateModel(int maxPlayerCount, boolean spectatingAllowed, boolean mediaVisible, int maxSideCount,
 			SpielerRolle standard, GridType grid) {
@@ -48,27 +49,35 @@ public class GameStateModel implements Serializable {
 		this.grid = newGridType;
 	}
 
-	int getMaxPlayerCount() {
+	public int getMaxPlayerCount() {
 		return this.maxPlayerCount;
 	}
 
-	boolean isSpectatingAllowed() {
+	public boolean isSpectatingAllowed() {
 		return this.spectatingAllowed;
 	}
 
-	boolean isMediaVisibleInitially() {
+	public boolean isMediaVisibleInitially() {
 		return this.mediaVisible;
 	}
 
-	int maxDiceFaceCount() {
+	public int maxDiceFaceCount() {
 		return this.maxDiceSideCount;
 	}
 
-	SpielerRolle standardPlayerRole() {
+	public SpielerRolle standardPlayerRole() {
 		return this.standardRolle;
 	}
 
-	GridType gridType() {
+	public GridType gridType() {
 		return this.grid;
+	}
+
+	public SpielfeldModel getViewModel() {
+		return viewModel;
+	}
+
+	public void setViewModel(SpielfeldModel viewModel) {
+		this.viewModel = viewModel;
 	}
 }
