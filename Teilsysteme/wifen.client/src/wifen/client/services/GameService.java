@@ -1,5 +1,6 @@
 package wifen.client.services;
 
+import wifen.client.ui.controllers.SpielbrettController;
 import wifen.client.ui.controllers.SpielfeldView;
 import wifen.commons.GameStateModel;
 

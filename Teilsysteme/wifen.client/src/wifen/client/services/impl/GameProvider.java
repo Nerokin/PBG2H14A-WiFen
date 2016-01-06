@@ -1,7 +1,9 @@
 package wifen.client.services.impl;
 
+import java.io.IOException;
+
 import wifen.client.services.GameService;
-import wifen.client.ui.controllers.SpielfeldView;
+import wifen.client.ui.controllers.SpielbrettController;
 import wifen.commons.GameStateModel;
 
 /**
@@ -14,13 +16,18 @@ public class GameProvider implements GameService {
 	
 	// Attributes
 	
-	private final SpielbrettController gameView;
+	private SpielbrettController gameView;
 	private GameStateModel currentModel;
 	
 	// Constructor(s)
 	
 	public GameProvider(GameStateModel initialModel) {
-		playfield = new SpielfeldView(sizeFieldX, sizeFieldY, 10, 10, initialModel, markerWindow);
+		try {
+			setCurrentModel(initialModel);
+			gameView = new SpielbrettController(getCurrentModel());
+		} catch (IOException e) {
+			// TODO
+		}
 	}
 
 	// Getter & Setter
@@ -38,6 +45,10 @@ public class GameProvider implements GameService {
 	@Override
 	public SpielbrettController getGameView() {
 		return gameView;
+	}
+
+	private void setCurrentModel(GameStateModel currentModel) {
+		this.currentModel = currentModel;
 	}
 
 }

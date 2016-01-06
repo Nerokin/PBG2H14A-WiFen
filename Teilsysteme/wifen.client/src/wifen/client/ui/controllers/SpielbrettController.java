@@ -15,6 +15,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import wifen.commons.GameStateModel;
 
 public class SpielbrettController extends AnchorPane {
 
@@ -25,6 +26,7 @@ public class SpielbrettController extends AnchorPane {
 	//Properties
 	
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
+	private final ObjectProperty<GameStateModel> currentModel = new SimpleObjectProperty<>();
 
 	@FXML ChoiceBox choiceID;
 	@FXML Button optionID;
@@ -36,6 +38,8 @@ public class SpielbrettController extends AnchorPane {
 	@FXML Pane SpielbrettID;
 	
 	private ObservableList<String> ereignisse = FXCollections.observableArrayList();
+	private SpielfeldView playfield;
+	private MarkerWindow markerWindow;
 	
 	//@FXML private FormationDisplay formatDisplay;
 	//TODO
@@ -56,6 +60,16 @@ public class SpielbrettController extends AnchorPane {
 		
 		//Load the View
 		getFXMLLoader().load();
+		
+		
+	}
+	
+	public SpielbrettController(GameStateModel initialModel) throws IOException {
+		this();
+		// Initialize Playfield
+		setMarkerWindow(new MarkerWindow());
+		setPlayfield(new SpielfeldView(1980, 1080, 10, 10, initialModel.getViewModel(), getMarkerWindow()));
+		SpielbrettID.getChildren().add(getPlayfield());
 	}
 	
 	//Initialization
@@ -100,5 +114,36 @@ public class SpielbrettController extends AnchorPane {
 	public ReadOnlyObjectProperty<FXMLLoader> fxmlLoaderProperty() {
 		return fxmlLoader;
 	}
+
+	public final ObjectProperty<GameStateModel> currentModelProperty() {
+		return this.currentModel;
+	}
+	
+
+	public final wifen.commons.GameStateModel getCurrentModel() {
+		return this.currentModelProperty().get();
+	}
+	
+
+	public final void setCurrentModel(final wifen.commons.GameStateModel currentModel) {
+		this.currentModelProperty().set(currentModel);
+	}
+
+	public MarkerWindow getMarkerWindow() {
+		return markerWindow;
+	}
+
+	public void setMarkerWindow(MarkerWindow markerWindow) {
+		this.markerWindow = markerWindow;
+	}
+
+	public SpielfeldView getPlayfield() {
+		return playfield;
+	}
+
+	public void setPlayfield(SpielfeldView playfield) {
+		this.playfield = playfield;
+	}
+	
 
 }
