@@ -16,6 +16,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import wifen.client.application.ApplicationConstants;
 import wifen.client.application.ClientApplication;
 import wifen.commons.GridType;
 import wifen.commons.SpielerRolle;
@@ -78,6 +79,11 @@ public class SpielErstellenController extends Pane {
 		comboRaster.getSelectionModel().select(GridType.NONE);
 		comboSeitenanzahl.setItems(FXCollections.observableArrayList(2, 4, 6, 10, 12, 20));
 		comboSeitenanzahl.getSelectionModel().select(new Integer(20));
+		tfPort.setEditable(false);
+		tfPort.setText(String.valueOf(ApplicationConstants.APPLICATION_PORT));
+		tfName.setPromptText("...");
+		tfMaxSpieler.setText("4");
+		cbBeobachterZulassen.setSelected(true);
 	}
 
 	// Event Handlers

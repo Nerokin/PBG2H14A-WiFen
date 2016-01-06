@@ -76,6 +76,8 @@ public class Hauptmenu extends AnchorPane {
 		
 		// Events
 		erstellenHmBtn.setOnAction(this::erstellenHmBtnOnAction);
+		optionenHmBtn.setOnAction(this::optionenHmBtnOnAction);
+		beitretenHmBtn.setOnAction(this::beitretenHmBtnOnAction);
 	}
 	
 	// Event Handlers
@@ -89,6 +91,26 @@ public class Hauptmenu extends AnchorPane {
 			new Alert(AlertType.ERROR, "Spielerstellung konnte nicht geladen werden").showAndWait();
 		}
 		
+	}
+	
+	private final void beitretenHmBtnOnAction(ActionEvent event) {
+		Parent p = null;
+		try {
+			p = new SpielBeitretenController();
+			getScene().setRoot(p);
+		} catch (IOException e) {
+			new Alert(AlertType.ERROR, "Spielbeitrittsformular konnte nicht geladen werden").showAndWait();
+		}
+	}
+	
+	private final void optionenHmBtnOnAction(ActionEvent event) {
+		Parent p = null;
+		try {
+			p = new OptionenController();
+			getScene().setRoot(p);
+		} catch (IOException e) {
+			new Alert(AlertType.ERROR, "Optionsmenü konnte nicht geladen werden").showAndWait();
+		}
 	}
 
 	// Getter & Setter
