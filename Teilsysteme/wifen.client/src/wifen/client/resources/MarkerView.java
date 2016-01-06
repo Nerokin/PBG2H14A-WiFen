@@ -18,10 +18,10 @@ import wifen.commons.MarkerModel;
  */
 public class MarkerView extends Parent {
 	
-	double lastX=0;
-	double lastY=0;
-	SpielfeldView parent;
-	MarkerModel marker;
+	private double lastX=0;
+	private double lastY=0;
+	private SpielfeldView parent;
+	private MarkerModel marker;
 	
 
 	/**
@@ -94,5 +94,9 @@ public class MarkerView extends Parent {
 	protected void adjustPosition() {
 		this.setTranslateX(getTranslateX() - (marker.getType().getImg().getWidth()/2));
 		this.setTranslateY(getTranslateY() - (marker.getType().getImg().getHeight()/2));
+	}
+	
+	public MarkerModel getMarkerModel() {
+		return this.marker;
 	}
 }
