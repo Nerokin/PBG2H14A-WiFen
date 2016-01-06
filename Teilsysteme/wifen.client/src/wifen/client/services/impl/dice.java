@@ -10,9 +10,9 @@ import sun.audio.AudioStream;
 import wifen.client.ui.controllers.EreignisFenster;
 
 /**
- * Put description here
+ * Bereitstellung der Würfelfunktionen: Normaler Würfelwurf (mit Modifikator), Schwellentest (mit Modifikator)
  * 
- * @author unknown
+ * @author David Kühlmann, Johnny Gunko
  *
  */
 public class dice {
@@ -21,9 +21,9 @@ public class dice {
 	// -----------------------
 	// Überprüfung des Strings der Texteigabe des Würfelfeldes
 	/**
-	 * Put description here
+	 *  Überprüfung des Strings der Texteingabe des Würfelfensters
 	 * 
-	 * @param in
+	 * @param in Würfelausdruck der Texteingabe des Würfelfensters
 	 * @return
 	 */
 	public static int[] checkInput(String in) {
@@ -374,12 +374,12 @@ public class dice {
 
 	// Formel: XwYeZ+/-M X:Anzahl der Würfel Y:ANzhal Augen Z:Schwelle
 	/**
-	 * Put description here
+	 * Methode um einen Schwellentest mit der Formlel XwYeZ+/-M durchzuführen
 	 * 
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param m
+	 * @param x Anzahl der zu Werfenden Würfel
+	 * @param y Anzahl der Würfelaugen
+	 * @param z Schwelle die erreicht werden oder überschritten werden muss
+	 * @param m Zusätzlicher Modifikator für Positive oder Negative effekte
 	 * @return
 	 */
 	public static int[] dice_Test(int x, int y, int z, int m) {
