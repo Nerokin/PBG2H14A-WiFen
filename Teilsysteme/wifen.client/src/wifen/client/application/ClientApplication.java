@@ -148,7 +148,9 @@ public class ClientApplication extends Application implements ServerListener, Co
 			return getServiceRegistry().getServiceProviders(Connection.class, false).next();
 		} catch (NoSuchElementException e) {
 			Connection conn = new ConnectionImpl(address, ApplicationConstants.APPLICATION_PORT, this);
-			new Thread(conn::readPackets).start();
+			Thread t = new Thread(conn::readPackets);
+			t.setDaemon(true);
+			t.start();
 			getServiceRegistry().registerServiceProvider(conn, Connection.class);
 			return conn;
 		}
