@@ -42,7 +42,7 @@ public class MarkerWindow extends Pane{
 	@FXML ListView<ImageView> markerShape;
 	
 	/**
-	 * Put description here
+	 * Erstellt die Standard Anzeige des Marker Windows
 	 * 
 	 * @throws IOException
 	 */
@@ -61,7 +61,7 @@ public class MarkerWindow extends Pane{
 	}
 	
 	/**
-	 * Put description here
+	 * Initialize gibt das Verhalten des Marker Windows an
 	 */
 	@FXML
 	private void initialize(){
@@ -132,9 +132,9 @@ public class MarkerWindow extends Pane{
 	}
 	
 	/**
-	 * Put description here
+	 * Setzt den Farbeffekt eines Bildes zu der angegebenen Farbe
 	 * 
-	 * @param colorName
+	 * @param colorName colorName beschreibt den Namen der Farbe
 	 * @return
 	 */
 	public static ColorAdjust getColor(String colorName){
@@ -149,7 +149,7 @@ public class MarkerWindow extends Pane{
 	}
 	
 	/**
-	 * Put description here
+	 * Gibt den aktuell ausgewählten Marker zurück
 	 * 
 	 * @return
 	 */
@@ -158,13 +158,13 @@ public class MarkerWindow extends Pane{
 	}	
 	
 	/**
-	 * Put description here
+	 * Berechnet den benötigten Wert für den Farbeffekt
 	 * 
-	 * @param value
-	 * @param start
-	 * @param stop
-	 * @param targetStart
-	 * @param targetStop
+	 * @param value Der Farbwert der ausgewählten Farbe
+	 * @param start Der Minimale Farbwert für die Farbe
+	 * @param stop Der Maximale Farbwert für die Farbe
+	 * @param targetStart Der Minimale Wert für den Farbeffekt
+	 * @param targetStop Der Maximale Wert für den Farbeffekt
 	 * @return
 	 */
 	public static double map(double value, double start, double stop, double targetStart, double targetStop) {
