@@ -21,6 +21,7 @@ import wifen.commons.GridType;
 import wifen.commons.SpielerRolle;
 
 /**
+ * Put description here
  * 
  * @author Justin Nussbaum
  * @author Konstantin Schaper (Logik/Fehlerbehebungen)
@@ -51,6 +52,11 @@ public class SpielErstellenController extends Pane {
 
 	// Constructor
 
+	/**
+	 * Put description here
+	 * 
+	 * @throws IOException
+	 */
 	public SpielErstellenController() throws IOException {
 		super();
 
@@ -82,6 +88,11 @@ public class SpielErstellenController extends Pane {
 
 	// Event Handlers
 	
+	/**
+	 * Put description here
+	 * 
+	 * @param event
+	 */
 	private final void btnSpielErstellenOnAction(ActionEvent event) {
 		try {
 			ClientApplication.instance().hostGame(Integer.valueOf(tfMaxSpieler.getText()), cbBeobachterZulassen.isSelected(),

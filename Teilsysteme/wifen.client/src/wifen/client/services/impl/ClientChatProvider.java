@@ -19,6 +19,12 @@ import wifen.commons.network.events.PacketReceivedEvent;
 import wifen.commons.network.packets.ChatPacket;
 import wifen.commons.network.packets.impl.ChatPacketImpl;
 
+/**
+ * Put description here
+ * 
+ * @author unknown
+ *
+ */
 public class ClientChatProvider implements ClientChatService, ConnectionListener {
 	
 	// Class Constants
@@ -42,6 +48,11 @@ public class ClientChatProvider implements ClientChatService, ConnectionListener
 		connectionProperty().addListener(getOnConnectionChangeListener());
 	}
 	
+	/**
+	 * Put description here
+	 * 
+	 * @param connection
+	 */
 	public ClientChatProvider(Connection connection) {
 		this();
 		setConnection(connection);
@@ -114,6 +125,13 @@ public class ClientChatProvider implements ClientChatService, ConnectionListener
 	
 	// Event Handlers
 	
+	/**
+	 * Put description here
+	 * 
+	 * @param observable
+	 * @param oldValue
+	 * @param newValue
+	 */
 	public void onConnectionChanged(ObservableValue<? extends Connection> observable, Connection oldValue, Connection newValue) {
 		
 		logger.info("Connection changed from " + oldValue + " to " + newValue);

@@ -1,5 +1,13 @@
 package wifen.commons;
 
+
+
+/**
+ * Put description here
+ * 
+ * @author unkown
+ *
+ */
 public class MarkerModel {
 	
 	private MarkerType type;
@@ -7,8 +15,15 @@ public class MarkerModel {
 	private double posy;
 	private String desc;
 	
-	// Constructors
-	
+	// Constructors	
+	/**
+	 * Put description here
+	 * 
+	 * @param x
+	 * @param y
+	 * @param mt
+	 * @param d
+	 */
 	public MarkerModel(double x, double y, MarkerType mt, String d) {
 		this.type = mt;
 		this.posx = x;
@@ -20,8 +35,7 @@ public class MarkerModel {
 	
 	
 
-	// Getters & Setters
-	
+	// Getters & Setters	
 	public MarkerType getType() {
 		return type;
 	}

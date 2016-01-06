@@ -26,6 +26,8 @@ import wifen.commons.network.packets.impl.AdminMessageDataPacketImpl;
 import wifen.commons.network.packets.impl.RoundDataPacketImpl;
 
 /**
+ * Put description here
+ * 
  * @author Oliver Bardong
  *
  */
@@ -35,15 +37,16 @@ public class AdminMessage implements IAdminMessage {
 	private Connection connection;
 	private PlayerImpl currentPlayer;
 
+	/**
+	 * Put description here
+	 * 
+	 * @param logWindow
+	 * @param currentPlayer
+	 */
 	public AdminMessage(EreignisFenster logWindow, PlayerImpl currentPlayer) {
 		this.logWindow = logWindow;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see wifen.client.services.IAdminMessage#OpenDialog()
-	 */
+	
 	@Override
 	public boolean OpenDialog() {
 		if (!isAvailable()) {

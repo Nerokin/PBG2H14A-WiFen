@@ -1,5 +1,11 @@
 package wifen.commons;
 
+/**
+ * Put description here
+ * 
+ * @author unknown
+ *
+ */
 public enum SpielerRolle
 {
 	ADMIN,

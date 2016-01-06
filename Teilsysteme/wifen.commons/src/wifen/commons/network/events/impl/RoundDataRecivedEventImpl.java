@@ -17,6 +17,12 @@ public class RoundDataRecivedEventImpl extends CustomEventImpl implements RoundD
 
 	RoundDataPacketImpl packet;
 	Connection source;
+	/**
+	 * Put description here
+	 * 
+	 * @param packet
+	 * @param source
+	 */
 	public RoundDataRecivedEventImpl(RoundDataPacketImpl packet, Connection source)
 	{
 		this.packet = packet;

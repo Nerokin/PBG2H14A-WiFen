@@ -133,6 +133,13 @@ public class ClientApplication extends Application implements ServerListener, Co
 
 	// Methods
 
+	/**
+	 * Put description here
+	 * 
+	 * @param address
+	 * @return
+	 * @throws IOException
+	 */
 	public Connection startConnection(InetAddress address) throws IOException {
 		// Return null if there already is a connection registered
 		if (getServiceRegistry().getServiceProviders(Connection.class, false).hasNext()) return null;
@@ -144,6 +151,12 @@ public class ClientApplication extends Application implements ServerListener, Co
 		}
 	}
 
+	/**
+	 * Put description here
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
 	public Server startServer() throws IOException {
 
 		// Return null if there already is a server registered
@@ -175,6 +188,17 @@ public class ClientApplication extends Application implements ServerListener, Co
 		}
 	}
 	
+	/**
+	 * Put description here
+	 * 
+	 * @param maximumPlayerCount
+	 * @param spectatorsAllowed
+	 * @param mediaInitiallyVisible
+	 * @param maxDiceFaceCount
+	 * @param playerName
+	 * @param standardPlayerRole
+	 * @param gridType
+	 */
 	public void hostGame(int maximumPlayerCount, boolean spectatorsAllowed, boolean mediaInitiallyVisible, int maxDiceFaceCount, String playerName, SpielerRolle standardPlayerRole, GridType gridType) {
 		try {
 			

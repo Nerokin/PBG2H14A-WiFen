@@ -1,10 +1,3 @@
-/**
- * 
- * MarkerWindow shows and handles the main functions of the Marker
- * 
- * @author Hitziger Fabian (pbg2h14ahi)
- */
-
 package wifen.client.ui.controllers;
 
 import java.io.File;
@@ -33,20 +26,26 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import wifen.client.services.impl.FileLoaderProvider;
 
+/**
+ * 
+ * MarkerWindow shows and handles the main functions of the Marker
+ * 
+ * @author Hitziger Fabian (pbg2h14ahi)
+ */
 public class MarkerWindow extends Pane{
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 	public ObservableList<Button> button_colors = FXCollections.observableArrayList();
 	public ObservableList<ImageView> image_shapes = FXCollections.observableArrayList();
 	public String[] colors = new String[]{"orange","lightblue","yellow","green","red","greenyellow"};
 	
-	
-	
-	
-	
-	
 	@FXML ListView<Button> markerColor;
 	@FXML ListView<ImageView> markerShape;
 	
+	/**
+	 * Put description here
+	 * 
+	 * @throws IOException
+	 */
 	public MarkerWindow() throws IOException{
 		super();
 		//Apply CSS
@@ -61,6 +60,9 @@ public class MarkerWindow extends Pane{
 		getFXMLLoader().load();
 	}
 	
+	/**
+	 * Put description here
+	 */
 	@FXML
 	private void initialize(){
 		//Beispiel für das erstellen einer Farbe
@@ -129,6 +131,12 @@ public class MarkerWindow extends Pane{
 		fxmlLoader.set(value);
 	}
 	
+	/**
+	 * Put description here
+	 * 
+	 * @param colorName
+	 * @return
+	 */
 	public static ColorAdjust getColor(String colorName){
 		ColorAdjust adjust = new ColorAdjust();
 		Color targetColor = Color.web(colorName); 
@@ -140,12 +148,25 @@ public class MarkerWindow extends Pane{
 		return adjust;
 	}
 	
+	/**
+	 * Put description here
+	 * 
+	 * @return
+	 */
 	public ImageView getSelectedMarkerType(){
 		return markerShape.getSelectionModel().selectedItemProperty().getValue();
-	}
+	}	
 	
-	
-	
+	/**
+	 * Put description here
+	 * 
+	 * @param value
+	 * @param start
+	 * @param stop
+	 * @param targetStart
+	 * @param targetStop
+	 * @return
+	 */
 	public static double map(double value, double start, double stop, double targetStart, double targetStop) {
 	     return targetStart + (targetStop - targetStart) * ((value - start) / (stop - start));
 	}
