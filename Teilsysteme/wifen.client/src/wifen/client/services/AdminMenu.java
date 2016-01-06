@@ -5,14 +5,14 @@ import wifen.commons.SpielerRolle;
 /**
  * Put description here
  * 
- * @author unknown
+ * @author Macel Ortmann
  *
  */
 public class AdminMenu {
 	boolean isAdmin = false;
 
 	/**
-	 * Put description here
+	 * Im Spielfeld Medienbibliothek für nicht Admins ausgrauen/unbenutzbar machen
 	 * 
 	 * @param spieler
 	 * @return
