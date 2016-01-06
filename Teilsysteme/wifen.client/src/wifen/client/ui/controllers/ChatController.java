@@ -111,11 +111,18 @@ public class ChatController extends TitledPane {
 	@FXML
 	private void initialize() {
 		
+		// Make the list wrap text within cells
+		
+		
 		// Send a chat packet when the user presses ENTER on the message input control
 		txt_Eingabe.setOnAction(getOnChatMessageAction());
 		
 		// Initially disable the chat as no connection has been established
 		setDisable(true);
+		setText("Chat (Nicht Verbunden)");
+		
+		// Listen on Service change
+		chatServiceProperty().addListener(this::onChatServiceChanged);
 	}
 
 	// Event Handlers
@@ -131,8 +138,12 @@ public class ChatController extends TitledPane {
 		if (newValue != null) {
 			// Make the chat display the chat history
 			Lv_Chat.setItems(newValue.getChatHistory());
+			setText("Chat (Verbunden)");
+			setDisable(false);
 		} else {
+			setDisable(true);
 			Lv_Chat.setItems(null);
+			setText("Chat (Nicht Verbunden)");
 		}
 	}
 

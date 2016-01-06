@@ -12,6 +12,7 @@ import wifen.commons.GameStateModel;
  */
 public interface GameService {
 	
+	public String getPlayerName();
 	public GameStateModel getCurrentModel();
 	public void overrideModel(GameStateModel newModel);
 	public SpielbrettController getGameView();

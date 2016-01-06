@@ -125,6 +125,8 @@ public class ClientApplication extends Application implements ServerListener, Co
 	@Override
 	public void stop() {
 		// TODO What happens, when the application terminates
+		// TODO Close open connections
+		// TODO Shutdown active servers
 	}
 
 	// Methods
@@ -210,12 +212,18 @@ public class ClientApplication extends Application implements ServerListener, Co
 				// Start the Server
 				startServer();
 				
+				// Connect to local Server
+				startConnection(InetAddress.getLocalHost());
+				
 				// Initialize the model
 				GameStateModel model = new GameStateModel(maximumPlayerCount, spectatorsAllowed, mediaInitiallyVisible, maxDiceFaceCount, standardPlayerRole, gridType);
 				
 				// Initialize the game service which ties everything together
-				GameService gameService = new GameProvider(model);
+				GameService gameService = new GameProvider(model, playerName);
 				getServiceRegistry().registerServiceProvider(gameService, GameService.class);
+			
+				// Define the Game's Chat Player Name
+				gameService.getGameView().chatBox.setPlayerName(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getPlayerName());
 				
 				// Display the game's playfield
 				getServiceRegistry().getServiceProviders(Stage.class, false).next().getScene().setRoot(gameService.getGameView());
@@ -223,8 +231,8 @@ public class ClientApplication extends Application implements ServerListener, Co
 			} else throw new IllegalStateException("There already is a game/server running");
 			
 		} catch (Exception e) {
-			e.printStackTrace();
-			//new Alert(AlertType.ERROR, "Das Spiel konnte nicht erstellt werden (" + e.getMessage() + ")").showAndWait();
+			//e.printStackTrace();
+			new Alert(AlertType.ERROR, "Das Spiel konnte nicht erstellt werden (" + e.getMessage() + ")").showAndWait();
 			try {
 				getServiceRegistry().getServiceProviders(Stage.class, false).next().getScene().setRoot(new Hauptmenu());
 			} catch (IOException e1) {

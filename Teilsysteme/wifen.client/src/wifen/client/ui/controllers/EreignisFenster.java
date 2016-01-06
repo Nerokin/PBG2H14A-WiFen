@@ -8,7 +8,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
 /**
  * Put description here
@@ -16,7 +16,7 @@ import javafx.scene.layout.AnchorPane;
  * @author unknown
  *
  */
-public class EreignisFenster extends AnchorPane {
+public class EreignisFenster extends VBox {
 
 	// Constants
 

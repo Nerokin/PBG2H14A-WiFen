@@ -46,8 +46,6 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		((Pane) this.getContent()).setMinSize(this.model.getSizeX(), this.model.getSizeY());
 		this.setMaxHeight(this.model.getSizeY());
 		this.setMaxWidth(this.model.getSizeX());
-		this.setMinHeight(this.model.getSizeY());
-		this.setMinWidth(this.model.getSizeX());
 		this.setHbarPolicy(ScrollBarPolicy.NEVER);
 		this.setVbarPolicy(ScrollBarPolicy.NEVER);
 		this.setPannable(true);
@@ -90,8 +88,12 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 			double b = height/2;
 			double c = b/Math.sin(Math.toRadians(60));
 			double a = 0.5*c;
-			this.tilesPerRow = (int) (this.getWidth()/(2*a+2*c));
+			this.tilesPerRow = (int) (model.getSizeX()/(2*a+2*c));
+			((Pane) this.getContent()).setMaxSize((this.tilesPerRow*(2*a+2*c)), this.model.getSizeY());
+			this.setMaxWidth((this.tilesPerRow*(2*a+2*c)));
+			this.model.setSizeX((this.tilesPerRow*(2*a+2*c)));
 			grid  = new Polyline();
+			System.out.println(tilesPerRow);
 			for(int i=0; i<tilesPerCol;i++){
 				if(toggle){
 					for(int j=0; j<tilesPerRow;j++){
@@ -135,7 +137,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 					}
 				}
 			}
-			addToView(grid);
+			this.addToView(grid);
 		}
 		
 		/* Draw the Scale */

@@ -21,7 +21,7 @@ public class GameStateModel implements Serializable {
 		this.mediaVisible = mediaVisible;
 		this.maxDiceSideCount = maxSideCount;
 		this.standardRolle = standard;
-		this.viewModel = new SpielfeldModel(grid);
+		this.viewModel = new SpielfeldModel(grid, 1920, 1080);
 	}
 
 	void setMaxPlayerCount(int newPlayerCount) {

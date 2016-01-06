@@ -1,22 +1,25 @@
 package wifen.client.ui.controllers;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.BorderPane;
+import wifen.client.application.ClientApplication;
+import wifen.client.services.ClientChatService;
+import wifen.client.services.GameService;
 import wifen.commons.GameStateModel;
 
-public class SpielbrettController extends AnchorPane {
+public class SpielbrettController extends BorderPane {
+	
+	private static final Logger logger = Logger.getLogger(SpielbrettController.class.getName());
 
 	//constants
 	public static final String CSS_PATH = "/wifen/client/ui/css/Spielbrett.css";
@@ -31,12 +34,8 @@ public class SpielbrettController extends AnchorPane {
 	@FXML Button optionID;
 	@FXML Button refreshID;
 	@FXML Button dcID;
-	@FXML TextArea ereignis1ID;
-	@FXML TextArea ereignis2ID;
-	@FXML TextArea ereignis3ID;
-	@FXML Pane SpielbrettID;
+	@FXML public ChatController chatBox;
 	
-	private ObservableList<String> ereignisse = FXCollections.observableArrayList();
 	private SpielfeldView playfield;
 	private MarkerWindow markerWindow;
 	
@@ -67,16 +66,20 @@ public class SpielbrettController extends AnchorPane {
 		this();
 		// Initialize Playfield
 		setMarkerWindow(new MarkerWindow());
-		setPlayfield(new SpielfeldView(1980, 1080, 10, 0, initialModel.getViewModel(), getMarkerWindow()));
-		SpielbrettID.getChildren().add(getPlayfield());
+		setPlayfield(new SpielfeldView(20, 20, initialModel.getViewModel(), getMarkerWindow()));
+		setCenter(getPlayfield());
+		layout();
 	}
 	
 	//Initialization
 	
 	@FXML
 	private void initialize() {
-	//	formatDisplay.setOnMouseClicked(this::click);
-		//TODO: Data Binding and Setup of Event Handling
+		try {
+			chatBox.setChatService(ClientApplication.instance().getServiceRegistry().getServiceProviders(ClientChatService.class, false).next());
+		} catch (Exception e) {
+			logger.log(Level.WARNING, "Es ist kein ChatService registriert", e);
+		}
 	}
 	
 	// Event Handlers

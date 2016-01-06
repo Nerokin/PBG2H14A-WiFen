@@ -109,10 +109,13 @@ public class SpielfeldModel {
 	}
 	
 	public double getSizeY() {
-		return this.sizeX;
+		return this.sizeY;
 	}
 
 	public double getSizeX() {
-		return this.sizeY;
+		return this.sizeX;
+	}
+	public void setSizeX(double x) {
+		this.sizeX=x;
 	}
 }
