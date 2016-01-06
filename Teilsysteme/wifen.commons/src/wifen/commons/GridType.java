@@ -1,4 +1,4 @@
-package models;
+package wifen.commons;
 
 public enum GridType {
 	NONE,

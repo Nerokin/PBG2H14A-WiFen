@@ -14,7 +14,7 @@ import wifen.client.services.IAdminMessage;
 import wifen.client.ui.controllers.EreignisFenster;
 import wifen.commons.RoundDataListener;
 import wifen.commons.SpielerRolle;
-import wifen.commons.impl.Player;
+import wifen.commons.impl.PlayerImpl;
 import wifen.commons.network.Connection;
 import wifen.commons.network.ConnectionEvent;
 import wifen.commons.network.ConnectionListener;
@@ -33,9 +33,9 @@ public class AdminMessage implements IAdminMessage {
 
 	private EreignisFenster logWindow;
 	private Connection connection;
-	private Player currentPlayer;
+	private PlayerImpl currentPlayer;
 
-	public AdminMessage(EreignisFenster logWindow, Player currentPlayer) {
+	public AdminMessage(EreignisFenster logWindow, PlayerImpl currentPlayer) {
 		this.logWindow = logWindow;
 	}
 

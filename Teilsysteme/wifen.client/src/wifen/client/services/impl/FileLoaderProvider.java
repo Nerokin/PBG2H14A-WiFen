@@ -1,6 +1,5 @@
 package wifen.client.services.impl;
 
-import wifen.client.services.FileLoaderService;
 import java.io.RandomAccessFile;
 /*
  * Implementiert die Methoden des FileLoader-Interfaces zur Verwendung.
@@ -9,6 +8,14 @@ import java.io.RandomAccessFile;
  * -> Überprüfung ob die Größe der zum Upload bereitgestellten Datei kleiner als die maximal zulässige
  * -> Datei größe [Falls angegeben] ist.
  */
+
+import wifen.client.services.FileLoaderService;
+import wifen.commons.services.impl.CsvNode;
+import wifen.commons.services.impl.DocNode;
+import wifen.commons.services.impl.ImageNode;
+import wifen.commons.services.impl.PdfNode;
+import wifen.commons.services.impl.TxtNode;
+import wifen.commons.services.impl.XlsNode;
 
 public class FileLoaderProvider implements FileLoaderService {
 	

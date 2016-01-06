@@ -17,9 +17,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import wifen.client.services.ClientChatService;
+import wifen.client.services.GameService;
 import wifen.client.services.impl.ClientChatProvider;
+import wifen.client.services.impl.GameServiceImpl;
 import wifen.client.ui.controllers.Hauptmenu;
 import wifen.client.ui.controllers.Spielfeld;
+import wifen.commons.GameStateModel;
 import wifen.commons.GridType;
 import wifen.commons.SpielerRolle;
 import wifen.commons.network.Connection;
@@ -51,6 +54,9 @@ public class ClientApplication extends Application implements ServerListener, Co
 
 	// Class Constants
 
+	/**
+	 * Singleton 
+	 */
 	private static ClientApplication INSTANCE;
 	private static final Iterator<Class<?>> SERVICES;
 	private static final Logger logger = Logger.getLogger(ClientApplication.class.getName());
@@ -63,12 +69,12 @@ public class ClientApplication extends Application implements ServerListener, Co
 		Set<Class<?>> services = new HashSet<>();
 		// Define all available services here
 
+		services.add(Stage.class);
 		services.add(Server.class);
 		services.add(Connection.class);
 		services.add(ClientChatService.class);
 		services.add(ServerChatService.class);
-		services.add(Spielfeld.class);
-		services.add(Stage.class);
+		services.add(GameService.class);
 
 		// ...
 		SERVICES = services.iterator();
@@ -171,7 +177,24 @@ public class ClientApplication extends Application implements ServerListener, Co
 	
 	public void hostGame(int maximumPlayerCount, boolean spectatorsAllowed, boolean mediaInitiallyVisible, int maxDiceFaceCount, String playerName, SpielerRolle standardPlayerRole, GridType gridType) {
 		try {
-			startServer();
+			
+			// Check if a game is already running
+			if (!(getServiceRegistry().getServiceProviders(GameService.class, false).hasNext()
+				 || getServiceRegistry().getServiceProviders(Server.class, false).hasNext())) {
+				// Start the Server
+				startServer();
+				
+				// Initialize the model
+				GameStateModel model = new GameStateModel(maximumPlayerCount, spectatorsAllowed, mediaInitiallyVisible, maxDiceFaceCount, standardPlayerRole, gridType);
+				
+				// Initialize the game service which ties everything together
+				GameService gameService = new GameServiceImpl(model);
+				getServiceRegistry().registerServiceProvider(gameService, GameService.class);
+				
+				// Display the game's playfield
+				getServiceRegistry().getServiceProviders(Stage.class, false).next().getScene().setRoot(gameService.getPlayfield());
+				
+			} else throw new IllegalStateException("There already is a game/server running");
 			
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, "Das Spiel konnte nicht erstellt werden (" + e.getMessage() + ")").showAndWait();

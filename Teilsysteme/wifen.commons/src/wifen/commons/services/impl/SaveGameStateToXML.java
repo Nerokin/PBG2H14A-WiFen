@@ -18,7 +18,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import wifen.commons.impl.Player;
+import wifen.commons.impl.PlayerImpl;
 import wifen.client.application.ClientApplication;
 import wifen.client.resources.Marker;
 import wifen.client.services.ClientChatService;
@@ -31,7 +31,7 @@ public class SaveGameStateToXML {
 	int playerid = 0;
 	int markerid = 0;
 	
-	public void saveToXML(String xml, List<Player> players, Spielfeld spielfeld, List<Marker> markers, EreignisFenster ereignis) {
+	public void saveToXML(String xml, List<PlayerImpl> players, Spielfeld spielfeld, List<Marker> markers, EreignisFenster ereignis) {
 			
 		// benötigt eine Liste der Spieler
 		// benötigt eine Liste aller Marker auf dem Spielfeld

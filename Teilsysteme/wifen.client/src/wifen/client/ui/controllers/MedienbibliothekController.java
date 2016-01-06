@@ -17,10 +17,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import wifen.client.services.impl.CsvNode;
-import wifen.client.services.impl.ImageNode;
-import wifen.client.services.impl.TxtNode;
 import wifen.commons.Medium;
+import wifen.commons.services.impl.CsvNode;
+import wifen.commons.services.impl.ImageNode;
+import wifen.commons.services.impl.TxtNode;
 
 public class MedienbibliothekController extends AnchorPane
 {
