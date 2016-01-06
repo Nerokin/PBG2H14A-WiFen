@@ -5,12 +5,16 @@ import java.io.IOException;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Alert.AlertType;
 //import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
@@ -70,16 +74,21 @@ public class OptionenController extends AnchorPane {
 
 	@FXML
 	private void initialize() {
-		// formatDisplay.setOnMouseClicked(this::click);
-		// TODO: Data Binding and Setup of Event Handling
+		btnAbbrechen.setOnAction(this::optionenHmBtnOnAction);
 	}
 
 	// Event Handlers
-	/*
-	 * private void click(MouseEvent event){
-	 * 
-	 * } //TODO
-	 */
+	
+	private final void optionenHmBtnOnAction(ActionEvent event) {
+		Parent p = null;
+		try {
+			p = new Hauptmenu();
+			getScene().setRoot(p);
+		} catch (IOException e) {
+			new Alert(AlertType.ERROR, "Hauptmenü konnte nicht geladen werden").showAndWait();
+		}
+	}
+	
 	// Getter & Setter
 
 	public FXMLLoader getFXMLLoader() {
