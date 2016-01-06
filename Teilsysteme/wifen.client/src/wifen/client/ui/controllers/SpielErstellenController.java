@@ -2,7 +2,6 @@ package wifen.client.ui.controllers;
 
 import java.io.IOException;
 
-import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -11,11 +10,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import wifen.client.application.ClientApplication;
 import wifen.commons.GridType;
@@ -29,7 +28,8 @@ import wifen.commons.SpielerRolle;
  */
 public class SpielErstellenController extends Pane {
 
-	// constants
+	// Constants
+	
 	public static final String CSS_PATH = "/wifen/client/ui/css/SpielErstellen.css";
 	public static final String FXML_PATH = "/wifen/client/ui/views/SpielErstellen.fxml";
 
@@ -38,18 +38,16 @@ public class SpielErstellenController extends Pane {
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 
 	// Injected Nodes
+	
 	@FXML TextField tfPort;
 	@FXML TextField tfMaxSpieler;
 	@FXML TextField tfName;
 	@FXML CheckBox cbBeobachterZulassen;
-	@FXML CheckBox tfMedienSichtbarkeit;
-	@FXML ComboBox<String> comboSeitenzahl;
+	@FXML CheckBox cbMedienSichtbarkeit;
+	@FXML ComboBox<Integer> comboSeitenanzahl;
 	@FXML ComboBox<SpielerRolle> comboStandardRolle;
 	@FXML ComboBox<GridType> comboRaster;
 	@FXML Button btnSpielErstellen;
-
-	// @FXML private FormationDisplay formatDisplay;
-	// TODO
 
 	// Constructor
 
@@ -73,11 +71,13 @@ public class SpielErstellenController extends Pane {
 
 	@FXML
 	private void initialize() {
-		// formatDisplay.setOnMouseClicked(this::click);
-		// TODO: Data Binding and Setup of Event Handling
 		btnSpielErstellen.setOnAction(this::btnSpielErstellenOnAction);
 		comboStandardRolle.setItems(FXCollections.observableArrayList(SpielerRolle.values()));
-		//comboRaster.setItems(FXCollections.observableArrayList(GridType.values()));
+		comboStandardRolle.getSelectionModel().select(SpielerRolle.PLAYER);
+		comboRaster.setItems(FXCollections.observableArrayList(GridType.values()));
+		comboRaster.getSelectionModel().select(GridType.NONE);
+		comboSeitenanzahl.setItems(FXCollections.observableArrayList(2, 4, 6, 10, 12, 20));
+		comboSeitenanzahl.getSelectionModel().select(new Integer(20));
 	}
 
 	// Event Handlers
@@ -85,10 +85,10 @@ public class SpielErstellenController extends Pane {
 	private final void btnSpielErstellenOnAction(ActionEvent event) {
 		try {
 			ClientApplication.instance().hostGame(Integer.valueOf(tfMaxSpieler.getText()), cbBeobachterZulassen.isSelected(),
-					tfMedienSichtbarkeit.isSelected(), Integer.valueOf(tfMaxSpieler.getText()), tfName.getText(),
+					cbMedienSichtbarkeit.isSelected(), comboSeitenanzahl.getSelectionModel().getSelectedItem(), tfName.getText(),
 					comboStandardRolle.getSelectionModel().getSelectedItem(), comboRaster.getSelectionModel().getSelectedItem());
 		} catch (Exception e) {
-			new Alert(AlertType.ERROR, "Das Spiel konnte nicht erstellt werden (" + e.getMessage() + ")").showAndWait();
+			new Alert(AlertType.ERROR, "Das Spiel konnte nicht erstellt werden (" + e.getLocalizedMessage() + ")").showAndWait();
 		}
 	}
 
