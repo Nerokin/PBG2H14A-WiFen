@@ -20,8 +20,6 @@ public interface ClientChatService {
 	public void sendMessage(String playerName, String message);
 	
 	public ObservableList<String> getChatHistory();
-	public ChatController getChatDisplay();
-	public void setChatDisplay(ChatController newDisplay);
 	public Connection getConnection();
 	public void setConnection(Connection newConnection);
 }

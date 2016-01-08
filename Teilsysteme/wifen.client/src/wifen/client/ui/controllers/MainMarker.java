@@ -19,7 +19,7 @@ public class MainMarker extends Application {
 
 	public void start(Stage stage) throws Exception {
 		try {
-			stage.setScene(new Scene(new MarkerView()));
+			stage.setScene(new Scene(new MarkerWindow()));
 			stage.centerOnScreen();
 			stage.setTitle("MarkerView");
 			stage.show();

@@ -4,12 +4,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="274.0" prefWidth="217.0" text="Chat" type="TitledPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root text="Chat" type="TitledPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-         <children>
-            <ListView fx:id="Lv_Chat" layoutX="-1.0" prefHeight="217.0" prefWidth="217.0" />
-            <TextField fx:id="txt_Eingabe" layoutX="-1.0" layoutY="217.0" prefHeight="35.0" prefWidth="217.0" />
-         </children></AnchorPane>
+    <VBox>
+       <children>
+          <ListView fx:id="Lv_Chat" />
+          <TextField fx:id="txt_Eingabe" />
+       </children>
+   </VBox>
   </content>
 </fx:root>

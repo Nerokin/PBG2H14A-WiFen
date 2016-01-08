@@ -19,18 +19,22 @@ import wifen.server.services.ServerChatService;
 public class ServerChatProvider implements ServerChatService {
 	
 	// Properties	
+	
 	private final ObjectProperty<Server> server = new SimpleObjectProperty<>();
 	
 	// Attributes	
+	
 	private final ChangeListener<Server> onServerChangedListener = this::onServerChanged;
 	
 	// Constructor(s)	
+	
 	public ServerChatProvider(Server server) {
 		serverProperty().addListener(getOnServerChangedListener());
 		setServer(server);
 	}
 	
 	// <--- ServerListener --->	
+	
 	@Override
 	public void handle(ConnectionEvent connectionEvent) {
 		if (connectionEvent instanceof PacketReceivedEvent) {
@@ -43,6 +47,7 @@ public class ServerChatProvider implements ServerChatService {
 	}
 	
 	// <--- ServerChatService --->	
+	
 	@Override
 	public final Server getServer() {
 		return this.serverProperty().get();
@@ -53,12 +58,10 @@ public class ServerChatProvider implements ServerChatService {
 	}
 	
 	// Event Handling	
+	
 	/**
-	 * Put description here
-	 * 
-	 * @param observable
-	 * @param oldValue
-	 * @param newValue
+	 * Automatically called whenever the associated server changes.<br>
+	 * Stops listening the old server and starts listening the new server value.
 	 */
 	public void onServerChanged(ObservableValue<? extends Server> observable, Server oldValue, Server newValue) {
 		if (oldValue != null) {
@@ -71,6 +74,7 @@ public class ServerChatProvider implements ServerChatService {
 	}
 	
 	// Getter & Setter
+	
 	public final ObjectProperty<Server> serverProperty() {
 		return this.server;
 	}

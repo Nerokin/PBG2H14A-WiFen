@@ -15,6 +15,8 @@ public class SpielfeldModel {
 	private GridType typ;
 	private ArrayList<FileNode<?>> files;
 	private ArrayList<MarkerModel> markers;
+	private double sizeX;
+	private double sizeY;
 	
 	// Constructors
 	
@@ -23,10 +25,12 @@ public class SpielfeldModel {
 	 * 
 	 * @param t
 	 */
-	public SpielfeldModel(GridType t) {
+	public SpielfeldModel(GridType t, double x, double y) {
 		this.typ = t;
 		this.files = new ArrayList<FileNode<?>>();
 		this.markers = new ArrayList<MarkerModel>();
+		this.sizeX = x;
+		this.sizeY = y;
 	}
 	
 	/**
@@ -38,10 +42,12 @@ public class SpielfeldModel {
 		this.typ = sm.getTyp();
 		this.files = new ArrayList<FileNode<?>>(sm.getFiles());
 		this.markers = new ArrayList<MarkerModel>(sm.getMarkers());
+		this.sizeX = sm.getSizeX();
+		this.sizeY = sm.getSizeY();
 	}
 	
 	// Methods
-	
+
 	/**
 	 * Put description here
 	 * 
@@ -100,5 +106,16 @@ public class SpielfeldModel {
 	}
 	public ArrayList<MarkerModel> getMarkers() {
 		return markers;
+	}
+	
+	public double getSizeY() {
+		return this.sizeY;
+	}
+
+	public double getSizeX() {
+		return this.sizeX;
+	}
+	public void setSizeX(double x) {
+		this.sizeX=x;
 	}
 }
