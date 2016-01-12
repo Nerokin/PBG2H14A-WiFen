@@ -1,3 +1,77 @@
+<<<<<<< HEAD
+# Directories #
+/build/
+/bin/
+target/
+ 
+# OS Files #
+.DS_Store
+ 
+*.class
+ 
+# Package Files #
+*.war
+*.ear
+*.db
+ 
+######################
+# Windows
+######################
+ 
+# Windows image file caches
+Thumbs.db 
+ 
+# Folder config file
+Desktop.ini
+ 
+######################
+# OSX
+######################
+ 
+.DS_Store
+.svn
+ 
+# Thumbnails
+._*
+ 
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+ 
+ 
+######################
+# Eclipse
+######################
+ 
+*.pydevproject
+**/.project
+**/.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+/src/main/resources/rebel.xml
+# External tool builders
+.externalToolBuilders/
+ 
+# Locally stored "Eclipse launch configurations"
+*.launch
+ 
+# CDT-specific
+.cproject
+ 
+# PDT-specific
+.buildpath
+Teilsysteme/.recommenders/caches/identified-project-coordinates.json
+Teilsysteme/.recommenders/caches/manual-mappings.json
+=======
 # Directories #
 /build/
 /bin/
@@ -71,3 +145,4 @@ local.properties
 .buildpath
 Teilsysteme/.recommenders/caches/identified-project-coordinates.json
 Teilsysteme/.recommenders/caches/manual-mappings.json
+>>>>>>> 0c36d6e56b852022bc761d6ce60d855cad9b969d

@@ -1,73 +1,91 @@
 package wifen.commons;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Scanner;
 
-import wifen.client.services.FileNode;
+import javafx.util.converter.ByteStringConverter;
 import wifen.client.services.impl.FileLoaderProvider;
+import wifen.commons.services.FileNode;
 
 /**
  * Put description here
- * 
+ *
  * @author unknown
  *
  */
 public class Medium
 {
 	private String name;
+	private String type;
 	private FileNode<?> file;
-	
+	private byte[] rawrData;
+
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param file
 	 */
-	public Medium(File file)
+	public Medium(File file) throws IOException
 	{
 		name = file.getName();
-		
 		// Create filenode
-		FileLoaderProvider loader = new FileLoaderProvider();
-		
-		String ext = name.substring(name.lastIndexOf('.'));
-		if(ext.equalsIgnoreCase("txt"))
+		FileLoaderProvider loader = new FileLoaderProvider(file.length());
+
+		type = name.substring(name.lastIndexOf('.')).toLowerCase();
+		if(type.equalsIgnoreCase("txt"))
 		{
-			this.file = loader.loadText(file.getPath()); 
+			this.file = loader.loadText(file.getPath());
 		}
-		else if(ext.equalsIgnoreCase("csv"))
+		else if(type.equalsIgnoreCase("csv"))
 		{
-			this.file = loader.loadCsv(file.getPath(), ";"); 
+			this.file = loader.loadCsv(file.getPath(), ";");
 		}
-		else if(ext.equalsIgnoreCase("pdf"))
+		else if(type.equalsIgnoreCase("pdf"))
 		{
-			this.file = loader.loadPdf(file.getPath()); 
+			this.file = loader.loadPdf(file.getPath());
 		}
-		else if(ext.equalsIgnoreCase("png") || ext.equalsIgnoreCase("jpg") || ext.equalsIgnoreCase("bmp") || ext.equalsIgnoreCase("gif"))
+		else if(type.equalsIgnoreCase("png") || type.equalsIgnoreCase("jpg") || type.equalsIgnoreCase("bmp") || type.equalsIgnoreCase("gif"))
 		{
-			this.file = loader.loadImage(file.getPath()); 
+			this.file = loader.loadImage(file.getPath());
 		}
-		else if(ext.equalsIgnoreCase("doc") || ext.equalsIgnoreCase("docx"))
+		else if(type.equalsIgnoreCase("doc") || type.equalsIgnoreCase("docx"))
 		{
-			this.file = loader.loadDoc(file.getPath()); 
+			this.file = loader.loadDoc(file.getPath());
 		}
-		else if(ext.equalsIgnoreCase("xls") || ext.equalsIgnoreCase("xlsx"))
+		else if(type.equalsIgnoreCase("xls") || type.equalsIgnoreCase("xlsx"))
 		{
-			this.file = loader.loadXls(file.getPath()); 
+			this.file = loader.loadXls(file.getPath());
 		}
 		else
 		{
 			throw new IllegalArgumentException("Unrecognized file extension");
 		}
+
+		rawrData = Files.readAllBytes(file.toPath());
 	}
-	
-	// Getter & Setter	
+
+	// Getter & Setter
 	public String getName()
 	{
 		return name;
 	}
-	
+
+	public String getType() {
+		return type;
+	}
+
 	public FileNode<?> getFile()
 	{
 		return file;
+	}
+
+	public byte[] getRawData()
+	{
+		return rawrData;
 	}
 
 	@Override
@@ -75,11 +93,11 @@ public class Medium
 	{
 		return name;
 	}
-	
+
 	// Create instance
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @return
 	 */
 	public MediumInstance createInstance()
