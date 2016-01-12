@@ -27,7 +27,6 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 	private int tilesPerRow;
 	private int tilesPerCol;
 	private boolean hasDragged = false;
-	private Polyline scale;
 	private SpielfeldModel model;
 	private MarkerWindow markerWindow;
 	private Polyline grid;
@@ -140,15 +139,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 			this.addToView(grid);
 		}
 		
-		/* Draw the Scale */
-		scale = new Polyline();
-		scale.getPoints().addAll(new Double[]{
-				50.0,40.0,
-				50.0,50.0,
-				106.7,50.0,
-				106.7,40.0});
-		((Pane) this.getContent()).getChildren().add(scale);
-		
+
 		/* Register Listeners */
 		this.setOnMousePressed(new EventHandler<MouseEvent>(){
 			@Override
@@ -171,7 +162,6 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 					if(event.getX() > ((Pane) event.getSource()).getWidth() || event.getY() > ((Pane) event.getSource()).getHeight()) {
 						System.out.println("Invalid coordinates for placing Marker: Out of field!");
 					} else {
-						System.out.println("Event X: "+event.getX()+" Event Y: "+event.getY());
 						MarkerModel m = new MarkerModel(event.getX(), event.getY(), getSelectedType(), "");
 						model.placeMarker(m);
 						((Pane) event.getSource()).getChildren().add(new MarkerView(m, self));
@@ -179,8 +169,6 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 						self.snapshot(null,null);
 					}
 				}
-				scale.setTranslateX(self.getHvalue()*(model.getSizeX()-self.getScene().getWidth()));
-				scale.setTranslateY(self.getVvalue()*(model.getSizeY()-self.getScene().getHeight()+32));
 			}
 		});
 	}
@@ -233,7 +221,6 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		this.model = sm;
 		if(switchtype) {
 			removeFromView(this.grid);
-			removeFromView(this.scale);
 			draw(this.model.getTyp());
 		}
 		addAllFromModel();

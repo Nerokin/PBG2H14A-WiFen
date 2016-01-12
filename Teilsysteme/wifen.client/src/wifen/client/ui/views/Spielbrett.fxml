@@ -4,18 +4,23 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import wifen.client.ui.controllers.ChatController?>
+<?import org.controlsfx.control.CheckComboBox?>
+<?import javafx.scene.layout.StackPane?>
 
 <fx:root maxHeight="1920" maxWidth="1080" minHeight="800" minWidth="600" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <HBox fx:id="HboxID" >
          <children>
-            <ChoiceBox fx:id="choiceID" />
+         	<CheckComboBox fx:id="choiceID" />
             <Button fx:id="optionID" mnemonicParsing="false" text="Optionen" />
             <Button fx:id="refreshID" mnemonicParsing="false" text="Refresh" />
             <Button fx:id="dcID" mnemonicParsing="false" text="Trennen" />
          </children>
       </HBox>
     </top>
+    <center>
+    	<StackPane fx:id="PlayField" />
+    </center>
     <right>
       <VBox fx:id="ereignisVBoxID">
          <children>

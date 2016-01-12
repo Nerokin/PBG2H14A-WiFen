@@ -11,5 +11,5 @@ public enum SpielerRolle
 	ADMIN,
 	MODERATOR,
 	PLAYER,
-	SPECTATOR,
+	SPECTATOR;
 }

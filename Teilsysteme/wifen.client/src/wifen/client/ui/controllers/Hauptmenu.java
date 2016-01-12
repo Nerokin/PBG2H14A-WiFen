@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -22,6 +23,7 @@ import javafx.scene.layout.AnchorPane;
  * 
  * @author Kevin Curtis
  * @author Konstantin Schaper (Logik)
+ * @author Justin Nussbaum (Exit Button)
  */
 public class Hauptmenu extends GridPane {
 
@@ -66,6 +68,9 @@ public class Hauptmenu extends GridPane {
 
 		// Load the View
 		getFXMLLoader().load();
+	}
+	@FXML public void close(){
+		Platform.exit();
 	}
 
 	// Initialization
