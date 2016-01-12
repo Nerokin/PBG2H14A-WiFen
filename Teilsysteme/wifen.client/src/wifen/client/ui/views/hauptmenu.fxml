@@ -6,45 +6,45 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root fx:id="AnchorPaneHM" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="800.0" prefHeight="1080.0" prefWidth="1920.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root fx:id="GridPaneHM" type="GridPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox alignment="CENTER" layoutX="776.0" layoutY="319.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="400.0" snapToPixel="false" AnchorPane.bottomAnchor="158.0" AnchorPane.leftAnchor="776.0" AnchorPane.rightAnchor="749.0" AnchorPane.topAnchor="319.0">
+      <VBox alignment="CENTER" snapToPixel="false" >
          <children>
-            <Button fx:id="beitretenHmBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Spiel beitreten">
+            <Button fx:id="beitretenHmBtn" text="Spiel beitreten">
                <font>
-                  <Font size="25.0" />
+                  <Font size="22.0" />
                </font>
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </Button>
-            <Button fx:id="erstellenHmBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Spiel erstellen">
+            <Button fx:id="erstellenHmBtn" text="Spiel erstellen">
                <font>
-                  <Font size="25.0" />
+                  <Font size="22.0" />
                </font>
                <VBox.margin>
                   <Insets top="25.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="ladenHmBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Spiel laden">
+            <Button fx:id="ladenHmBtn" text="Spiel laden">
                <font>
-                  <Font size="25.0" />
+                  <Font size="22.0" />
                </font>
                <VBox.margin>
                   <Insets top="25.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="optionenHmBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Optionen">
+            <Button fx:id="optionenHmBtn" text="Optionen">
                <font>
-                  <Font size="25.0" />
+                  <Font size="22.0" />
                </font>
                <VBox.margin>
                   <Insets top="25.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="verlassenHmBtn" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#close" prefHeight="60.0" prefWidth="200.0" text="Spiel Verlassen" textAlignment="CENTER">
+            <Button fx:id="verlassenHmBtn" contentDisplay="CENTER" mnemonicParsing="false" text="Spiel Verlassen" textAlignment="CENTER">
                <font>
-                  <Font size="25.0" />
+                  <Font size="22.0" />
                </font>
                <VBox.margin>
                   <Insets top="25.0" />
@@ -52,29 +52,29 @@
             </Button>
          </children>
       </VBox>
-      <Label fx:id="ipHmLabel" layoutX="35.0" layoutY="908.0" prefHeight="50.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="80.0">
+      <Label fx:id="ipHmLabel">
          <font>
-            <Font size="24.0" />
+            <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="versionHmLabel" layoutX="95.0" layoutY="958.0" prefHeight="50.0" prefWidth="95.0" text="0.01" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="140.0">
+      <Label fx:id="versionHmLabel">
          <font>
-            <Font size="24.0" />
+            <Font size="20.0" />
          </font>
       </Label>
-      <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="114.0" layoutY="-314.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="131.0" prefWidth="1720.0" text="WiFeN" textAlignment="CENTER" AnchorPane.bottomAnchor="919.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="30.0">
+      <Label alignment="TOP_CENTER" contentDisplay="CENTER"  text="WiFeN" textAlignment="CENTER">
          <font>
-            <Font size="96.0" />
+            <Font size="80.0" />
          </font>
       </Label>
-      <Label layoutY="958.0" prefHeight="50.0" prefWidth="95.0" text="Version: " AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="50.0">
+      <Label text="Version: ">
          <font>
-            <Font size="24.0" />
+            <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutY="908.0" prefHeight="50.0" prefWidth="323.0" text="IP: " AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0">
+      <Label text="IP: ">
          <font>
-            <Font size="24.0" />
+            <Font size="20.0" />
          </font>
       </Label>
    </children>
