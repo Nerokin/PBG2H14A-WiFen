@@ -5,53 +5,104 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" type="Pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="1920" maxWidth="1080" minHeight="800" minWidth="600" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="729.0" layoutY="88.0" text="WiFeN">
+      <Label text="WiFeN">
          <font>
-            <Font size="90.0" />
+            <Font size="70.0" />
          </font>
       </Label>
-      <Label layoutX="327.0" layoutY="390.0" prefHeight="65.0" prefWidth="175.0" text="Name:">
+      <Label text="Name:">
          <font>
-            <Font size="44.0" />
+            <Font size="24.0" />
          </font>
       </Label>
-      <TextField fx:id="tfname" id="tfName" layoutX="566.0" layoutY="379.0" prefHeight="86.0" prefWidth="808.0">
+      <TextField fx:id="tfname" id="tfName">
          <font>
-            <Font size="40.0" />
+            <Font size="24.0" />
          </font>
       </TextField>
-      <Label layoutX="403.0" layoutY="534.0" text="IP:">
+      <Label text="IP:">
          <font>
-            <Font size="44.0" />
+            <Font size="24.0" />
          </font>
       </Label>
-      <TextField fx:id="tfIp" id="tfIp" layoutX="566.0" layoutY="524.0" prefHeight="86.0" prefWidth="466.0">
+      <TextField id="tfIp" fx:id="tfIp">
          <font>
-            <Font size="40.0" />
+            <Font size="24.0" />
          </font>
       </TextField>
-      <Label layoutX="1067.0" layoutY="534.0" text="Port:">
+      <Label text="Port:">
          <font>
-            <Font size="44.0" />
+            <Font size="24.0" />
          </font>
       </Label>
-      <TextField fx:id="tfPort" id="tfPort" layoutX="1171.0" layoutY="524.0" prefHeight="86.0" prefWidth="203.0">
+      <TextField id="tfPort" fx:id="tfPort">
          <font>
-            <Font size="40.0" />
+            <Font size="24.0" />
          </font>
       </TextField>
-      <Button fx:id="btnEnter" id="btnEnter" layoutX="1262.0" layoutY="663.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="72.0" scaleX="2.0" scaleY="2.0" text="Beitreten" />
-      <Label id="ipAdress" layoutX="44.0" layoutY="1021.0" text="IP:">
+      <Button id="btnEnter" fx:id="btnEnter" mnemonicParsing="false" text="Beitreten" />
+      <Label id="ipAdress" text="IP:">
          <font>
-            <Font size="44.0" />
+            <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="versionNumber" id="versionNumber" layoutX="44.0" layoutY="967.0" text="Version: 0.01">
+      <Label id="versionNumber" fx:id="versionNumber" text="Version: 0.01">
          <font>
-            <Font size="44.0" />
+            <Font size="24.0" />
          </font>
       </Label>
    </children>
+   <top>
+      <Label text="WiFeN" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Label>
+   </top>
+   <center>
+      <SplitPane dividerPositions="0.5" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <items>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label text="Name:">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Label>
+                  <Label text="IP:">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Label>
+                  <Label text="Port:">
+                     <font>
+                        <Font size="32.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <TextField>
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </TextField>
+                  <TextField>
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </TextField>
+                  <TextField>
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </VBox>
+         </items>
+      </SplitPane>
+   </center>
 </fx:root>

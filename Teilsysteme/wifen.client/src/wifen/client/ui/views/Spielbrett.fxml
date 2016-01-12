@@ -7,7 +7,7 @@
 <?import org.controlsfx.control.CheckComboBox?>
 <?import javafx.scene.layout.StackPane?>
 
-<fx:root maxHeight="-Infinity" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="1920" maxWidth="1080" minHeight="800" minWidth="600" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <HBox fx:id="HboxID" >
          <children>

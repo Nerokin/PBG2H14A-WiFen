@@ -33,7 +33,7 @@ import wifen.commons.network.packets.impl.EnterGamePacketImpl;
  * @author unknown
  *
  */
-public class SpielBeitretenController extends AnchorPane {
+public class SpielBeitretenController extends BorderPane {
 
 	private final Logger logger = Logger.getLogger(SpielBeitretenController.class.getName());
 

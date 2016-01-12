@@ -25,7 +25,7 @@ import javafx.scene.layout.AnchorPane;
  * @author Konstantin Schaper (Logik)
  * @author Justin Nussbaum (Exit Button)
  */
-public class Hauptmenu extends AnchorPane {
+public class Hauptmenu extends GridPane {
 
 	// Constants
 
