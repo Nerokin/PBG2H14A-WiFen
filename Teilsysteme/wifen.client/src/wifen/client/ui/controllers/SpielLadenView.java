@@ -9,6 +9,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.GridPane;
 
+/**
+ * Put description here
+ * 
+ * @author unknown
+ *
+ */
 public class SpielLadenView extends GridPane {
 
 	// Properties
@@ -20,6 +26,11 @@ public class SpielLadenView extends GridPane {
 
 	// Constructor
 
+	/**
+	 * Put description here
+	 * 
+	 * @throws IOException
+	 */
 	public SpielLadenView() throws IOException {
 		super();
 

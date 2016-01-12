@@ -22,14 +22,15 @@ import wifen.server.network.ServerListener;
 import wifen.server.network.events.impl.ServerShutdownEventImpl;
 import wifen.server.network.events.impl.ServerStartedEventImpl;
 /**
+ * Put description here
+ * 
  * @author Marius Vogelsang
  * @author David Joachim
  * @author Konstantin Schaper
  */
 public class ServerImpl implements Server, ConnectionListener {
 	
-	//Constants
-	
+	//Constants	
 	private static final Logger logger = Logger.getLogger(ServerImpl.class.getName());
 	
 	// Attributes
@@ -39,12 +40,25 @@ public class ServerImpl implements Server, ConnectionListener {
 	private final List<Connection> connectionList = new ArrayList<Connection>();
 	
 	// Constructor(s)
+	/**
+	 * Put description here
+	 * 
+	 * @param port
+	 * @throws IOException
+	 */
 	public ServerImpl(int port) throws IOException {
 		serverSocket = new ServerSocket(port);
 		fireEvent(new ServerStartedEventImpl(this));
 		logger.info("Server has been successfully started.");
 	}
 	
+	/**
+	 * Put description here
+	 * 
+	 * @param port
+	 * @param listeners
+	 * @throws IOException
+	 */
 	public ServerImpl(int port, ServerListener... listeners) throws IOException {
 		serverSocket = new ServerSocket(port);
 		Arrays.asList(listeners).forEach((listener) -> addListener(listener));
@@ -53,7 +67,6 @@ public class ServerImpl implements Server, ConnectionListener {
 	}
 	
 	// Methods
-
 	@Override
 	public void acceptConnections() throws IOException {
 		Socket clientSocket;
@@ -93,8 +106,12 @@ public class ServerImpl implements Server, ConnectionListener {
 		fireEvent(event);
 	}
 	
-	// Event Handling
-	
+	// Event Handling	
+	/**
+	 * Put description here 
+	 * 
+	 * @param event
+	 */
 	protected final void fireEvent(ServerEvent event){
 		logger.info("A server event is being fired on " + getListeners().size() + " listeners.");
 		for (ServerListener serverListener : getListeners()) {
@@ -103,13 +120,18 @@ public class ServerImpl implements Server, ConnectionListener {
 		}
 	}
 	
+	/**
+	 * Put description here
+	 * 
+	 * @param event
+	 */
 	protected final void fireEvent(ConnectionEvent event){
 		logger.info("A connection event is being fired on " + getConnectionListeners().size() + " listeners.");
 		for (ConnectionListener connectionListener : getConnectionListeners()) {
 			connectionListener.handle(event);
 			if (event.isConsumed()) break;
 		}
-	}
+	}	
 	
 	@Override
 	public boolean addListener(ServerListener listener) {
@@ -136,7 +158,6 @@ public class ServerImpl implements Server, ConnectionListener {
 	}
 	
 	// Getter & Setter
-
 	public List<Connection> getConnectionList() {
 		return connectionList;
 	}

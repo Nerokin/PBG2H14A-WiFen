@@ -3,6 +3,7 @@ package wifen.client.services.impl;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -10,7 +11,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import wifen.client.services.ClientChatService;
-import wifen.client.ui.controllers.ChatController;
 import wifen.commons.network.Connection;
 import wifen.commons.network.ConnectionEvent;
 import wifen.commons.network.ConnectionListener;
@@ -19,6 +19,12 @@ import wifen.commons.network.events.PacketReceivedEvent;
 import wifen.commons.network.packets.ChatPacket;
 import wifen.commons.network.packets.impl.ChatPacketImpl;
 
+/**
+ * Put description here
+ * 
+ * @author unknown
+ *
+ */
 public class ClientChatProvider implements ClientChatService, ConnectionListener {
 	
 	// Class Constants
@@ -29,7 +35,6 @@ public class ClientChatProvider implements ClientChatService, ConnectionListener
 	
 	private final ObjectProperty<Connection> connection = new SimpleObjectProperty<>();
 	private final ObservableList<String> chatHistory = FXCollections.observableArrayList();
-	private final ObjectProperty<ChatController> chatDisplay = new SimpleObjectProperty<>();
 	
 	// Attributes
 	
@@ -42,6 +47,11 @@ public class ClientChatProvider implements ClientChatService, ConnectionListener
 		connectionProperty().addListener(getOnConnectionChangeListener());
 	}
 	
+	/**
+	 * Put description here
+	 * 
+	 * @param connection
+	 */
 	public ClientChatProvider(Connection connection) {
 		this();
 		setConnection(connection);
@@ -73,16 +83,6 @@ public class ClientChatProvider implements ClientChatService, ConnectionListener
 	}
 	
 	@Override
-	public final ChatController getChatDisplay() {
-		return this.chatDisplayProperty().get();
-	}
-	
-	@Override
-	public final void setChatDisplay(final ChatController chatDisplay) {
-		this.chatDisplayProperty().set(chatDisplay);
-	}
-	
-	@Override
 	public ObservableList<String> getChatHistory() {
 		return chatHistory;
 	}
@@ -107,13 +107,22 @@ public class ClientChatProvider implements ClientChatService, ConnectionListener
 			if (packet instanceof ChatPacket) {
 				ChatPacket chatPacket = (ChatPacket) packet;
 				logger.info("Incoming ChatPacket: " + chatPacket);
-				getChatHistory().add(chatPacket.getSourceName() + ": " + chatPacket.getMessage());
+				
+				// Perform change on JavaFX Application Thread as this service is most likely being used by UI Components
+				Platform.runLater(() -> getChatHistory().add(chatPacket.getSourceName() + ": " + chatPacket.getMessage()));
 			}
 		}
 	}
 	
 	// Event Handlers
 	
+	/**
+	 * Put description here
+	 * 
+	 * @param observable
+	 * @param oldValue
+	 * @param newValue
+	 */
 	public void onConnectionChanged(ObservableValue<? extends Connection> observable, Connection oldValue, Connection newValue) {
 		
 		logger.info("Connection changed from " + oldValue + " to " + newValue);
@@ -136,10 +145,6 @@ public class ClientChatProvider implements ClientChatService, ConnectionListener
 	
 	public ChangeListener<Connection> getOnConnectionChangeListener() {
 		return onConnectionChangeListener;
-	}
-
-	public final ObjectProperty<ChatController> chatDisplayProperty() {
-		return this.chatDisplay;
 	}
 
 }

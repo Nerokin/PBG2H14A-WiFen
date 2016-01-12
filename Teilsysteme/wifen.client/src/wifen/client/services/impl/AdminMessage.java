@@ -14,7 +14,7 @@ import wifen.client.services.IAdminMessage;
 import wifen.client.ui.controllers.EreignisFenster;
 import wifen.commons.RoundDataListener;
 import wifen.commons.SpielerRolle;
-import wifen.commons.impl.Player;
+import wifen.commons.impl.PlayerImpl;
 import wifen.commons.network.Connection;
 import wifen.commons.network.ConnectionEvent;
 import wifen.commons.network.ConnectionListener;
@@ -26,6 +26,8 @@ import wifen.commons.network.packets.impl.AdminMessageDataPacketImpl;
 import wifen.commons.network.packets.impl.RoundDataPacketImpl;
 
 /**
+ * Put description here
+ * 
  * @author Oliver Bardong
  *
  */
@@ -33,17 +35,18 @@ public class AdminMessage implements IAdminMessage {
 
 	private EreignisFenster logWindow;
 	private Connection connection;
-	private Player currentPlayer;
+	private PlayerImpl currentPlayer;
 
-	public AdminMessage(EreignisFenster logWindow, Player currentPlayer) {
+	/**
+	 * Put description here
+	 * 
+	 * @param logWindow
+	 * @param currentPlayer
+	 */
+	public AdminMessage(EreignisFenster logWindow, PlayerImpl currentPlayer) {
 		this.logWindow = logWindow;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see wifen.client.services.IAdminMessage#OpenDialog()
-	 */
+	
 	@Override
 	public boolean OpenDialog() {
 		if (!isAvailable()) {

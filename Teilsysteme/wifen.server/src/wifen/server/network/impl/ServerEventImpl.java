@@ -4,13 +4,21 @@ import wifen.commons.impl.CustomEventImpl;
 import wifen.server.network.Server;
 import wifen.server.network.ServerEvent;
 /**
- * @author Marius Vogelsang, David Joachim
+ * Put description here
+ * 
+ * @author Marius Vogelsang
+ * @author David Joachim
  *
  */
 public class ServerEventImpl extends CustomEventImpl implements ServerEvent {
 
 	protected Server server;
 	
+	/**
+	 * Konstruktor für ServerEventImpl
+	 * 
+	 * @param server Server
+	 */
 	public ServerEventImpl(Server server)
 	{
 		this.server = server;

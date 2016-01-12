@@ -12,6 +12,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 
+/**
+ * Put description here
+ * 
+ * @author unknown
+ *
+ */
 public class ImageViewController extends StackPane
 {
 	//Properties
@@ -23,6 +29,12 @@ public class ImageViewController extends StackPane
 	@FXML private ImageView imgView;
 	
 	//Constructor
+	/**
+	 * Put description here
+	 * 
+	 * @param image
+	 * @throws IOException
+	 */
 	public ImageViewController(Image image) throws IOException
 	{
 		super();
@@ -50,11 +62,25 @@ public class ImageViewController extends StackPane
 	}
 	
 	// Events
+	/**
+	 * Put description here
+	 * 
+	 * @param observableValue
+	 * @param oldSceneWidth
+	 * @param newSceneWidth
+	 */
 	private void OnWidthChanged(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth)
 	{
 		imgView.setFitWidth((double)newSceneWidth);
 	}
 	
+	/**
+	 * Put description here
+	 * 
+	 * @param observableValue
+	 * @param oldSceneHeight
+	 * @param newSceneHeight
+	 */
 	private void OnHeightChanged(ObservableValue<? extends Number> observableValue, Number oldSceneHeight, Number newSceneHeight)
 	{
 		imgView.setFitHeight((double)newSceneHeight);

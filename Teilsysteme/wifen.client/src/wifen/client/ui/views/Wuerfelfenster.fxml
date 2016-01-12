@@ -18,27 +18,38 @@
       </Label>
       <ToolBar fx:id="diceTools" prefHeight="70.0" prefWidth="360.0">
          <items>
-            <Label fx:id="wuerfel1" onDragDetected="#wuerfelDrag" onDragDone="#wuerfelDone" onDragOver="#wuerfelDragOver" text="Würfel1">
-               <padding>
-                  <Insets right="30.0" />
-               </padding>
-            </Label>
-            <Label fx:id="wuerfel2" onDragDetected="#wuerfelDrag" onDragDone="#wuerfelDone" onDragOver="#wuerfelDragOver" text="2.Würfel">
-               <padding>
-                  <Insets right="30.0" />
-               </padding>
-            </Label>
-            <Label fx:id="wuerfel3" onDragDetected="#wuerfelDrag" onDragDone="#wuerfelDone" onDragOver="#wuerfelDragOver" text="Würfel Nr. 3">
-               <padding>
-                  <Insets right="30.0" />
-               </padding>
-            </Label>
+            <ImageView fx:id="d2" fitHeight="32.0" fitWidth="76.0" onDragDetected="#wuerfelDrag2" onDragDone="#wuerfelDone" onDragOver="#wuerfelDragOver" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="/wifen/client/ui/views/wuerfel.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="d4" fitHeight="32.0" fitWidth="76.0" onDragDetected="#wuerfelDrag4" onDragDone="#wuerfelDone" onDragOver="#wuerfelDragOver" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="/wifen/client/ui/views/wuerfel.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="d6" fitHeight="32.0" fitWidth="76.0" onDragDetected="#wuerfelDrag6" onDragDone="#wuerfelDone" onDragOver="#wuerfelDragOver" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="/wifen/client/ui/views/wuerfel.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="d8" fitHeight="32.0" fitWidth="76.0" onDragDetected="#wuerfelDrag8" onDragDone="#wuerfelDone" onDragOver="#wuerfelDragOver" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="/wifen/client/ui/views/wuerfel.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="d10" fitHeight="32.0" fitWidth="76.0" onDragDetected="#wuerfelDrag10" onDragDone="#wuerfelDone" onDragOver="#wuerfelDragOver" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="/wifen/client/ui/views/wuerfel.png" />
+               </image>
+            </ImageView>
          </items></ToolBar>
       <Pane fx:id="dropped" onDragDropped="#wuerfelDrop" onDragOver="#overLabel" prefHeight="200.0" prefWidth="200.0" />
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
             <TextField fx:id="diceText" layoutX="14.0" layoutY="8.0" minHeight="50.0" minWidth="50.0" prefHeight="50.0" prefWidth="238.0" />
-            <Button layoutX="267.0" layoutY="21.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" text="Würfeln" />
+            <Button fx:id="würfeln" layoutX="267.0" layoutY="21.0" mnemonicParsing="false" onAction="#würfeln" prefHeight="25.0" prefWidth="82.0" text="Würfeln" />
+            <Button fx:id="reset" layoutX="14.0" layoutY="64.0" mnemonicParsing="false" onAction="#reset" text="Reset" />
          </children>
       </AnchorPane>
    </children>

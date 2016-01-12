@@ -60,6 +60,11 @@ public class ChatController extends TitledPane {
 
 	// Constructor(s)
 
+	/**
+	 * Put description here
+	 * 
+	 * @throws IOException
+	 */
 	public ChatController() throws IOException {
 		super();
 
@@ -76,40 +81,79 @@ public class ChatController extends TitledPane {
 		getFXMLLoader().load();
 	}
 	
+	/**
+	 * Put description here
+	 * 
+	 * @param chatService
+	 * @throws IOException
+	 */
 	public ChatController(ClientChatService chatService) throws IOException {
 		this();
 		setChatService(chatService);
 	}
 	
+	/**
+	 * Put description here
+	 * 
+	 * @param chatService
+	 * @param playerName
+	 * @throws IOException
+	 */
 	public ChatController(ClientChatService chatService, String playerName) throws IOException {
 		this(chatService);
 		setPlayerName(playerName);
 	}
 
 	// Initialization
+	/**
+	 * Put description here
+	 */
 	@FXML
 	private void initialize() {
+		
+		// Make the list wrap text within cells
+		
 		
 		// Send a chat packet when the user presses ENTER on the message input control
 		txt_Eingabe.setOnAction(getOnChatMessageAction());
 		
 		// Initially disable the chat as no connection has been established
 		setDisable(true);
+		setText("Chat (Nicht Verbunden)");
+		
+		// Listen on Service change
+		chatServiceProperty().addListener(this::onChatServiceChanged);
 	}
 
 	// Event Handlers
 	
+	/**
+	 * Put description here
+	 * 
+	 * @param observable
+	 * @param oldValue
+	 * @param newValue
+	 */
 	public void onChatServiceChanged(ObservableValue<? extends ClientChatService> observable, ClientChatService oldValue, ClientChatService newValue) {
 		if (newValue != null) {
 			// Make the chat display the chat history
 			Lv_Chat.setItems(newValue.getChatHistory());
+			setText("Chat (Verbunden)");
+			setDisable(false);
 		} else {
+			setDisable(true);
 			Lv_Chat.setItems(null);
+			setText("Chat (Nicht Verbunden)");
 		}
 	}
 
 	// TODO
 	
+	/**
+	 * Put description here
+	 * 
+	 * @param event
+	 */
 	public void onChatMessageAction(ActionEvent event) {
 		if (getChatService() != null) {
 			// Call the chat service to send the message
@@ -166,7 +210,5 @@ public class ChatController extends TitledPane {
 
 	public final void setChatService(final wifen.client.services.ClientChatService chatService) {
 		this.chatServiceProperty().set(chatService);
-	}
-	
-	
+	}	
 }

@@ -17,11 +17,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import wifen.client.services.impl.CsvNode;
-import wifen.client.services.impl.ImageNode;
-import wifen.client.services.impl.TxtNode;
 import wifen.commons.Medium;
+import wifen.commons.services.impl.CsvNode;
+import wifen.commons.services.impl.ImageNode;
+import wifen.commons.services.impl.TxtNode;
 
+/**
+ * Put description here
+ * 
+ * @author unknown
+ *
+ */
 public class MedienbibliothekController extends AnchorPane
 {
 	ObservableList<Medium> liste = FXCollections.observableArrayList();
@@ -36,6 +42,11 @@ public class MedienbibliothekController extends AnchorPane
 	private TextField tbxMedienBrowser;
 	
 	//Constructor
+	/**
+	 * Put description here
+	 * 
+	 * @throws IOException
+	 */
 	public MedienbibliothekController() throws IOException
 	{
 		super();
@@ -58,6 +69,11 @@ public class MedienbibliothekController extends AnchorPane
 	}
 	
 	//Event Handlers
+	/**
+	 * Put description here
+	 * 
+	 * @param event
+	 */
 	public void medienUpload(ActionEvent event)
 	{
 		File file = (File)tbxMedienBrowser.getUserData();
@@ -72,6 +88,11 @@ public class MedienbibliothekController extends AnchorPane
 		}
 	}
 	
+	/**
+	 * Put description here
+	 * 
+	 * @param event
+	 */
 	public void medienBrowser(ActionEvent event)
 	{
 		FileChooser fileChooser = new FileChooser();
@@ -85,6 +106,11 @@ public class MedienbibliothekController extends AnchorPane
 		}
 	}
 	
+	/**
+	 * Put description here
+	 * 
+	 * @param event
+	 */
 	public void medien÷ffnen(ActionEvent event)
 	{
 		Medium selectedMedium = listViewMedien.getSelectionModel().getSelectedItem();
@@ -129,6 +155,12 @@ public class MedienbibliothekController extends AnchorPane
 			selectedMedium.getFile().getFileContent();
 	}
 	
+	/**
+	 * Put description here
+	 * 
+	 * @param title
+	 * @param scene
+	 */
 	private void createSubWindow(String title, Scene scene)
 	{
 		Stage stage = new Stage();

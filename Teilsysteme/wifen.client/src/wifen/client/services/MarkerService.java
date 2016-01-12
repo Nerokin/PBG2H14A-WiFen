@@ -1,21 +1,26 @@
 package wifen.client.services;
 
-import wifen.client.resources.Marker;
-import wifen.client.resources.MarkerType;
-import wifen.client.ui.controllers.Spielfeld;
+import wifen.commons.MarkerType;
 
+/**
+ * Put description here
+ * 
+ * @author unknown
+ *
+ */
 public interface MarkerService {
-
-	public MarkerType getSelectedType();
-
-	public void placeMarker(MarkerType mt, double x, double y);
-
-	public void removeMarker(Marker m);
-
-	/*
-	 * Optional functionalities public void changeMarkerType(Marker m,
-	 * MarkerType mt);
+	
+	/**
+	 * Put description here
 	 * 
-	 * public void changeMarkerDescription(Marker m, String newd);
+	 * @return
+	 */
+	public MarkerType getSelectedType();
+	
+	/*
+	 * Optional functionalities
+	public void changeMarkerType(Marker m, MarkerType mt);
+	
+	public void changeMarkerDescription(Marker m, String newd);
 	 */
 }

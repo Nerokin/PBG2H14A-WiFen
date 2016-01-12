@@ -42,7 +42,7 @@
                   <Insets top="25.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="verlassenHmBtn" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Spiel Verlassen" textAlignment="CENTER">
+            <Button fx:id="verlassenHmBtn" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#close" prefHeight="60.0" prefWidth="200.0" text="Spiel Verlassen" textAlignment="CENTER">
                <font>
                   <Font size="25.0" />
                </font>
@@ -62,7 +62,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="114.0" layoutY="-314.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="603.0" prefWidth="1720.0" text="WiFeN" textAlignment="CENTER" AnchorPane.bottomAnchor="450.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="30.0">
+      <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="114.0" layoutY="-314.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="131.0" prefWidth="1720.0" text="WiFeN" textAlignment="CENTER" AnchorPane.bottomAnchor="919.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="30.0">
          <font>
             <Font size="96.0" />
          </font>
@@ -72,7 +72,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Label layoutY="908.0" prefHeight="50.0" prefWidth="35.0" text="IP: " AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0">
+      <Label layoutY="908.0" prefHeight="50.0" prefWidth="323.0" text="IP: " AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0">
          <font>
             <Font size="24.0" />
          </font>
