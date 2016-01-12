@@ -8,10 +8,10 @@ import wifen.commons.network.Connection;
 public interface EreignisLogService {
 	
 	public void showRole();
-	public void loadChatlog(List<String> chatLog);
+	public void loadEreignisLog(List<String> ereignisLog);
 	public void sendMessage(String message);
 	
-	public ObservableList<String> getChatHistory();
+	public ObservableList<String> getHistory();
 	public Connection getConnection();
 	public void setConnection(Connection newConnection);
 }

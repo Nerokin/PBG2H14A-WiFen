@@ -15,6 +15,8 @@ import wifen.client.services.EreignisLogService;
 import wifen.commons.network.Connection;
 import wifen.commons.network.ConnectionEvent;
 import wifen.commons.network.ConnectionListener;
+import wifen.commons.network.packets.ChatPacket;
+import wifen.commons.network.packets.impl.ChatPacketImpl;
 
 /**
  * @author Fabian Hitziger
@@ -26,7 +28,12 @@ public class EreignisLogProvider implements EreignisLogService, ConnectionListen
 	
 	private final ObjectProperty<Connection> connection = new SimpleObjectProperty<>();
 	private final ObservableList<String> logHistory = FXCollections.observableArrayList();
+	// Attributes
+
 	
+	public EreignisLogProvider(Connection connection) {
+		setConnection(connection);
+	} 
 	
 	@Override
 	public void handle(ConnectionEvent connectionEvent) {
@@ -36,24 +43,32 @@ public class EreignisLogProvider implements EreignisLogService, ConnectionListen
 
 	@Override
 	public void showRole() {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Not yet implemented!"); // TODO: Implement
 		
 	}
 
 	@Override
-	public void loadChatlog(List<String> chatLog) {
-		// TODO Auto-generated method stub
+	public void loadEreignisLog(List<String> ereignisLog) {
+		logger.info("Loading EreignisLog: " + ereignisLog);
+		getHistory().clear();
+		getHistory().addAll(ereignisLog);
 		
 	}
 
 	@Override
 	public void sendMessage(String message) {
-		// TODO Auto-generated method stub
+		if (getConnection() != null && getConnection().isConnected()) {
+			ChatPacket chatPacket = new ChatPacketImpl("" , message);
+			logger.info("Sending ChatPacket: " + chatPacket);
+			getConnection().sendPacket(chatPacket);
+		} else {
+			logger.warning("Chat-Nachricht konnte nicht gesendet werden, da keine aktive Netzwerkverbindung besteht.");
+		}
 		
 	}
 
 	@Override
-	public ObservableList<String> getChatHistory() {
+	public ObservableList<String> getHistory() {
 		// TODO Auto-generated method stub
 		return null;
 	}
