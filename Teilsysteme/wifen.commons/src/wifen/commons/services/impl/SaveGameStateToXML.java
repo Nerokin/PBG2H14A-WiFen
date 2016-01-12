@@ -37,7 +37,7 @@ public class SaveGameStateToXML {
 		// benötigt eine Liste aller Marker auf dem Spielfeld
 		// ChatHistory 
 		// LogHistory
-		
+		// maximale Spieleranzahl
 		
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		
