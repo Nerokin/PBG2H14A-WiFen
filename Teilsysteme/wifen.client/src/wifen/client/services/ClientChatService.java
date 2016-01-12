@@ -14,7 +14,6 @@ import wifen.commons.network.Connection;
  */
 public interface ClientChatService {
 	
-	
 	public void showRole();
 	public void loadChatlog(List<String> chatLog);
 	public void sendMessage(String playerName, String message);
