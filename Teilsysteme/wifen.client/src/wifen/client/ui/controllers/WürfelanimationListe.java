@@ -1,7 +1,7 @@
 package wifen.client.ui.controllers;
 
 import java.util.ArrayList;
-
+//
 public class WürfelanimationListe {
 	private ArrayList<String> alleWuerfelEinzeln = new ArrayList<String>();
 	public WürfelanimationListe(){
