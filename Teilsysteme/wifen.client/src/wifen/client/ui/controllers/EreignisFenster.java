@@ -1,19 +1,21 @@
 package wifen.client.ui.controllers;
 
 import java.io.IOException;
-
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 
+
 /**
- * Put description here
+ * Anzeige vom Ereignisfenster
  * 
- * @author unknown
+ * @author Kevin Curtis
  *
  */
 public class EreignisFenster extends VBox {
@@ -29,16 +31,11 @@ public class EreignisFenster extends VBox {
 
 	// Injected Nodes
 
-	// OH GOTT bitte einen Listview verwenden
-	@FXML private TextArea ereignislogTF;
+	private ObservableList<String> ereignislogList = FXCollections.observableArrayList();
+	@FXML private ListView<String> ereignislogTF;
 
 	// Constructor
 
-	/**
-	 * Put description here
-	 * 
-	 * @throws IOException
-	 */
 	public EreignisFenster() throws IOException {
 		super();
 
@@ -64,26 +61,22 @@ public class EreignisFenster extends VBox {
 	// Event Handler
 
 	/**
-	 * Put description here
+	 * Das eintragen von Texten in das Ereignisfenster
 	 * 
 	 * @param text
 	 */
 	public void log(String text) {
-		if (text.charAt(text.length() - 1) == '\n')
-			ereignislogTF.appendText(text);
-		else
-			ereignislogTF.appendText(text + "\n");
+		ereignislogList.add(text);
+		ereignislogTF.setItems(ereignislogList);
 	}
 
 	/**
-	 * Put description here
+	 * Die Methode gibt die eingetragenen Ereignisse zurück
 	 * 
 	 * @return
 	 */
-	public String getLog() {
-
-		// Bitte eine Liste zurückgeben Observable List
-		return ereignislogTF.getText();
+	public ObservableList<String> getLog() {
+		return ereignislogList;
 	}
 
 	// Getter & Setter
