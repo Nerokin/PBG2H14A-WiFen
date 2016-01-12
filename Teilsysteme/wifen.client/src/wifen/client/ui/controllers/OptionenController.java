@@ -80,10 +80,10 @@ public class OptionenController extends AnchorPane {
 	private void initialize() {
 		btnAbbrechen.setOnAction(this::optionenHmBtnOnAction);
 		btnSpeichern.setOnAction(this::speichernOnAction);
-		sliderVolumen.setValue(prefs.getDouble("SoundVolume", sliderVolumen.getMax()));
+		sliderVolumen.setValue(prefs.getDouble("Volume", sliderVolumen.getMax()));
 		cbMuteMusik.setSelected(prefs.getBoolean("MusicMuted", false));
 		cbMuteSound.setSelected(prefs.getBoolean("SoundMuted", false));
-		sliderMaxDateigroesse.setValue(prefs.getDouble("FileSize", sliderMaxDateigroesse.getMax()/2));		
+		sliderMaxDateigroesse.setValue(prefs.getDouble("MaxFileSize", sliderMaxDateigroesse.getMax()/2));		
 	}
 
 	// Event Handlers	
@@ -102,10 +102,10 @@ public class OptionenController extends AnchorPane {
 	 * Saves the options in the user preferences
 	 */
 	private void speichernOnAction(ActionEvent event){
-		prefs.putDouble("SoundVolume", sliderVolumen.getValue());
+		prefs.putDouble("Volume", sliderVolumen.getValue());
 		prefs.putBoolean("MusicMuted", cbMuteMusik.isSelected());
 		prefs.putBoolean("SoundMuted", cbMuteSound.isSelected());
-		prefs.putDouble("FileSize", sliderMaxDateigroesse.getValue());		
+		prefs.putDouble("MaxFileSize", sliderMaxDateigroesse.getValue());		
 	}
 	
 	
