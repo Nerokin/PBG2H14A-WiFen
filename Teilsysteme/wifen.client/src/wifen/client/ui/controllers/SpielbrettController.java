@@ -49,6 +49,7 @@ public class SpielbrettController extends BorderPane {
 	@FXML Button refreshID;
 	@FXML Button dcID;
 	@FXML public ChatController chatBox;
+	@FXML public EreignisFenster ereignisBox;
 	
 	private SpielfeldView playfield;
 	private MarkerWindow markerWindow;
@@ -106,6 +107,12 @@ public class SpielbrettController extends BorderPane {
 			chatBox.setChatService(ClientApplication.instance().getServiceRegistry().getServiceProviders(ClientChatService.class, false).next());
 		} catch (Exception e) {
 			logger.log(Level.WARNING, "Es ist kein ChatService registriert", e);
+		}
+		
+		try{
+			
+		} catch(Exception e){
+			logger.log(Level.WARNING, "Es ist kein EreignisService registriert", e);
 		}
 		
 		//Fabian Hitziger

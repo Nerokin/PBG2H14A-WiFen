@@ -92,5 +92,10 @@ public class EreignisFenster extends VBox {
 	public ReadOnlyObjectProperty<FXMLLoader> fxmlLoaderProperty() {
 		return fxmlLoader;
 	}
+	/*
+	public final void setChatService(final wifen.client.services.ClientChatService chatService) {
+		this.chatServiceProperty().set(chatService);
+	}	
+	*/
 
 }
