@@ -42,7 +42,7 @@
                   <Insets top="25.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="verlassenHmBtn" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Spiel Verlassen" textAlignment="CENTER">
+            <Button fx:id="verlassenHmBtn" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#close" prefHeight="60.0" prefWidth="200.0" text="Spiel Verlassen" textAlignment="CENTER">
                <font>
                   <Font size="25.0" />
                </font>
