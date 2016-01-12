@@ -23,7 +23,7 @@ import javafx.scene.layout.AnchorPane;
  * @author Kevin Curtis
  * @author Konstantin Schaper (Logik)
  */
-public class Hauptmenu extends AnchorPane {
+public class Hauptmenu extends GridPane {
 
 	// Constants
 

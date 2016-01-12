@@ -34,12 +34,7 @@ public class ConnectionImpl implements Connection {
 	private ObjectOutputStream oos;
 	private final List<ConnectionListener> listeners = new ArrayList<ConnectionListener>();
 	
-	/**
-	 * Put description here
-	 * 
-	 * @param s
-	 * @throws IOException
-	 */
+
 	public ConnectionImpl(Socket s) throws IOException
 	{
 		this.socket = s;
@@ -52,6 +47,9 @@ public class ConnectionImpl implements Connection {
 	/**
 	 * Put description here
 	 * 
+	 * Feuert Event ConnectionEstablishedEventImpl übergibt aufgebaute Verbindung.
+	 * Die Verbindung wurde aufgebaut.
+	 * 
 	 * @param address
 	 * @param port
 	 * @throws IOException
@@ -62,6 +60,8 @@ public class ConnectionImpl implements Connection {
 	
 	/**
 	 * Put description here
+	 * 
+	 * Angabe der IP und des Ports auf dem die Verbindung läuft.
 	 * 
 	 * @param address
 	 * @param port
@@ -133,6 +133,12 @@ public class ConnectionImpl implements Connection {
 	
 	/**
 	 * Put description here
+	 * 
+	 * Prüft ob eine Verbindung besteht falls ja wird diese getrennt. Feuert dann ein Event ConnectionClosedEventImpl die gerade getrennte connection wird übergeben.
+	 * return true connection wurde getrennt
+	 * 
+	 * Falls ein Fehler beim Trennen auftritt dann return false und die Verbindung bleibt bestehen
+	 * 
 	 * 
 	 * @param event
 	 */

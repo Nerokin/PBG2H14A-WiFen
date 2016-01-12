@@ -18,7 +18,7 @@ import javafx.scene.layout.AnchorPane;
  * @author unknown
  *
  */
-public class SpielBeitretenController extends AnchorPane {
+public class SpielBeitretenController extends BorderPane {
 
 	// constants
 	public static final String CSS_PATH = "/wifen/client/ui/css/SpielBeitreten.css";
