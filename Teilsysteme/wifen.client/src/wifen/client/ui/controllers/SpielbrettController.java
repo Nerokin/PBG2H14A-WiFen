@@ -9,11 +9,17 @@ import org.controlsfx.control.CheckComboBox;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -22,6 +28,7 @@ import wifen.client.application.ClientApplication;
 import wifen.client.services.ClientChatService;
 import wifen.commons.GameStateModel;
 import wifen.commons.network.Connection;
+import wifen.commons.network.impl.ConnectionImpl;
 
 public class SpielbrettController extends BorderPane {
 	
@@ -35,7 +42,7 @@ public class SpielbrettController extends BorderPane {
 	
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 	private final ObjectProperty<GameStateModel> currentModel = new SimpleObjectProperty<>();
-
+	
 	@FXML StackPane PlayField;
 	@FXML CheckComboBox choiceID;
 	@FXML Button optionID;
@@ -100,6 +107,26 @@ public class SpielbrettController extends BorderPane {
 		} catch (Exception e) {
 			logger.log(Level.WARNING, "Es ist kein ChatService registriert", e);
 		}
+		
+		//Fabian Hitziger
+		//Feuer ein ActionEvent sobald der Button gedrückt wird
+		//Trennt die Verbindung zum Server
+		//Schließt das Spielbrett und öffnet das Hauptmenü
+		dcID.setOnAction(new EventHandler<ActionEvent>(){
+			
+			 @Override public void handle(ActionEvent e) {
+				 if(!ClientApplication.instance().getServiceRegistry().getServiceProviderByClass(Connection.class).close()){
+					 Parent p = null;
+					 try{
+						 p = new Hauptmenu();
+					 	getScene().setRoot(p);
+					 } catch (IOException e) {
+							new Alert(AlertType.ERROR, "Spielerstellung konnte nicht geladen werden").showAndWait();
+					 }
+					 
+				 }
+			 }
+		});
 	}
 	
 	// Event Handlers

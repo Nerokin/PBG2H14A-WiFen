@@ -1,6 +1,7 @@
 package wifen.client.ui.controllers;
 
 import java.io.IOException;
+import java.util.prefs.Preferences;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -19,12 +20,16 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 
 /**
- * Put description here
+ * Interaction logic for the options view
  * 
  * @author unknown
+ * @author Marc Brinkmann
  *
  */
 public class OptionenController extends AnchorPane {
+	
+	// Attributes
+	Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
 
 	// constants
 	public static final String CSS_PATH = "/wifen/client/ui/css/Optionen.css";
@@ -71,14 +76,17 @@ public class OptionenController extends AnchorPane {
 	}
 
 	// Initialization
-
 	@FXML
 	private void initialize() {
 		btnAbbrechen.setOnAction(this::optionenHmBtnOnAction);
+		btnSpeichern.setOnAction(this::speichernOnAction);
+		sliderVolumen.setValue(prefs.getDouble("Volume", sliderVolumen.getMax()));
+		cbMuteMusik.setSelected(prefs.getBoolean("MusicMuted", false));
+		cbMuteSound.setSelected(prefs.getBoolean("SoundMuted", false));
+		sliderMaxDateigroesse.setValue(prefs.getDouble("MaxFileSize", sliderMaxDateigroesse.getMax()/2));		
 	}
 
-	// Event Handlers
-	
+	// Event Handlers	
 	private final void optionenHmBtnOnAction(ActionEvent event) {
 		Parent p = null;
 		try {
@@ -89,8 +97,19 @@ public class OptionenController extends AnchorPane {
 		}
 	}
 	
+	
+	/**
+	 * Saves the options in the user preferences
+	 */
+	private void speichernOnAction(ActionEvent event){
+		prefs.putDouble("Volume", sliderVolumen.getValue());
+		prefs.putBoolean("MusicMuted", cbMuteMusik.isSelected());
+		prefs.putBoolean("SoundMuted", cbMuteSound.isSelected());
+		prefs.putDouble("MaxFileSize", sliderMaxDateigroesse.getValue());		
+	}
+	
+	
 	// Getter & Setter
-
 	public FXMLLoader getFXMLLoader() {
 		return fxmlLoader.get();
 	}

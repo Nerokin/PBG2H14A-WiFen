@@ -1,15 +1,18 @@
 package wifen.client.ui.controllers;
 
 import java.io.IOException;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
+import wifen.commons.Player;
+import wifen.commons.SpielerRolle;
 
 
 /**
@@ -18,12 +21,12 @@ import javafx.scene.layout.VBox;
  * @author Kevin Curtis
  *
  */
-public class EreignisFenster extends VBox {
+public class AdminFensterController extends VBox {
 
 	// Constants
 
-	public static final String CSS_PATH = "/wifen/client/ui/css/Ereignisfenster.css";
-	public static final String FXML_PATH = "/wifen/client/ui/views/Ereignisfenster.fxml";
+	public static final String CSS_PATH = "/wifen/client/ui/css/AdminFenster.css";
+	public static final String FXML_PATH = "/wifen/client/ui/views/AdminFenster.fxml";
 
 	// Properties
 
@@ -31,12 +34,16 @@ public class EreignisFenster extends VBox {
 
 	// Injected Nodes
 
-	private ObservableList<String> ereignislogList = FXCollections.observableArrayList();
-	@FXML private ListView<String> ereignislogTF;
+	@FXML private Button speichern_btn;
+	@FXML private Button edit_btn;
+	@FXML private Button neu_btn;
+	@FXML private Button zuweisen_btn;
+	@FXML private ListView<SpielerRolle> rollenList;
+	@FXML private ListView<Player> spielerList;
 
 	// Constructor
 
-	public EreignisFenster() throws IOException {
+	public AdminFensterController() throws IOException {
 		super();
 
 		// Apply CSS
@@ -56,29 +63,34 @@ public class EreignisFenster extends VBox {
 	@FXML
 	private void initialize() {
 		// TODO: Data Binding and Setup of Event Handling
+		speichern_btn.setOnAction(this::speichern);
+		edit_btn.setOnAction(this::edit);
+		neu_btn.setOnAction(this::neu);
+		zuweisen_btn.setOnAction(this::zuweisen);
 	}
 
 	// Event Handler
 
-	/**
-	 * Das eintragen von Texten in das Ereignisfenster
-	 * 
-	 * @param text
-	 */
-	public void log(String text) {
-		ereignislogList.add(text);
-		ereignislogTF.setItems(ereignislogList);
+	public void speichern(ActionEvent event)
+	{
+		
 	}
 
-	/**
-	 * Die Methode gibt die eingetragenen Ereignisse zurück
-	 * 
-	 * @return
-	 */
-	public ObservableList<String> getLog() {
-		return ereignislogList;
+	public void edit(ActionEvent event)
+	{
+		
 	}
-
+	
+	public void neu(ActionEvent event)
+	{
+		
+	}
+	
+	public void zuweisen(ActionEvent event)
+	{
+		
+	}
+	
 	// Getter & Setter
 
 	public FXMLLoader getFXMLLoader() {
