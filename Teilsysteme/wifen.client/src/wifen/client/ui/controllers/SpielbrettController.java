@@ -1,6 +1,7 @@
 package wifen.client.ui.controllers;
 
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,6 +27,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
 import wifen.client.application.ClientApplication;
 import wifen.client.services.ClientChatService;
+import wifen.client.services.impl.ClientRefreshProvider;
 import wifen.commons.GameStateModel;
 import wifen.commons.network.Connection;
 import wifen.commons.network.impl.ConnectionImpl;
@@ -125,12 +127,24 @@ public class SpielbrettController extends BorderPane {
 				 if(!ClientApplication.instance().getServiceRegistry().getServiceProviderByClass(Connection.class).close()){
 					 Parent p = null;
 					 try{
-						 p = new Hauptmenu();
+						p = new Hauptmenu();
 					 	getScene().setRoot(p);
-					 } catch (IOException e) {
+					 } catch (IOException ex) {
 							new Alert(AlertType.ERROR, "Spielerstellung konnte nicht geladen werden").showAndWait();
 					 }
 					 
+				 }
+			 }
+		});
+		
+		refreshID.setOnAction(new EventHandler<ActionEvent>(){
+			
+			 @Override public void handle(ActionEvent e) {
+				 try{
+				 ClientApplication.instance().getServiceRegistry().getServiceProviders(ClientRefreshProvider.class, true).next().refresh();
+				 }
+				 catch(NoSuchElementException nex){
+					 new Alert(AlertType.ERROR, "Refresh nicht erfolgreich").showAndWait();
 				 }
 			 }
 		});
