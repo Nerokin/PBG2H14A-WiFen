@@ -53,6 +53,7 @@ public class SpielbrettController extends BorderPane {
 	
 	private SpielfeldView playfield;
 	private MarkerWindow markerWindow;
+	//private MedienbibliothekController mediaLibrary;
 	
 	//@FXML private FormationDisplay formatDisplay;
 	//TODO
@@ -95,6 +96,7 @@ public class SpielbrettController extends BorderPane {
 		StackPane.setAlignment(scale, Pos.TOP_LEFT);
 		StackPane.setMargin(scale, new Insets(15, 0, 0, 15));
 		PlayField.getChildren().add(scale);
+		
 		
 		layout();
 	}
@@ -201,5 +203,12 @@ public class SpielbrettController extends BorderPane {
 		this.playfield = playfield;
 	}
 	
-
+	/*public MedienbibliothekController getMediaLibrary(){
+		return mediaLibrary;
+	}
+	
+	public void setMedienbibliothekController(MedienbibliothekController mediaLibrary){
+		this.mediaLibrary = mediaLibrary;
+	}*/
+	
 }
