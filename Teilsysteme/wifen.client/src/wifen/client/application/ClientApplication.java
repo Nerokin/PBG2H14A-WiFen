@@ -18,6 +18,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import wifen.client.services.ClientChatService;
 import wifen.client.services.GameService;
+import wifen.client.services.OptionService;
 import wifen.client.services.impl.ClientChatProvider;
 import wifen.client.services.impl.GameProvider;
 import wifen.client.ui.controllers.Hauptmenu;
@@ -37,7 +38,9 @@ import wifen.server.network.events.ServerShutdownEvent;
 import wifen.server.network.events.ServerStartedEvent;
 import wifen.server.network.impl.ServerImpl;
 import wifen.server.services.ServerChatService;
+import wifen.server.services.ServerGameeventService;
 import wifen.server.services.impl.ServerChatProvider;
+import wifen.server.services.impl.ServerGameeventProvider;
 
 /**
  * Core of the Application. 
@@ -89,6 +92,7 @@ public class ClientApplication extends Application implements ServerListener, Co
 		SERVICES.add(ClientChatService.class); // Active Client Chat Service
 		SERVICES.add(ServerChatService.class); // Active Server Chat Service
 		SERVICES.add(GameService.class); // Active Game
+		SERVICES.add(OptionService.class); // Game settings
 	}
 
 	// Constructor(s)
@@ -261,6 +265,16 @@ public class ClientApplication extends Application implements ServerListener, Co
 				
 			}
 			
+			// Register new gameevent service provider if none is present
+			if(!getServiceRegistry().getServiceProviders(ServerGameeventService.class, false).hasNext()) {
+				try {
+					getServiceRegistry().registerServiceProvider(new ServerGameeventProvider(event.getSource()), ServerGameeventService.class);
+					logger.info("A new ServerGameeventProvider has been registered");
+				} catch (Exception e) {
+					logger.log(Level.SEVERE, "ServerGameeventProvider could not be registered", e);
+				}
+			}
+			
 		} else if (event instanceof ServerShutdownEvent) {
 			
 			// Fetch the current chat service
@@ -298,6 +312,16 @@ public class ClientApplication extends Application implements ServerListener, Co
 				}
 			}
 			
+			// Create a new Gameevent-Service for the new connection and register it if there is none yet present
+			if(!getServiceRegistry().getServiceProviders(ClientGameeventService.class, false).hasNext()) {
+				try {
+					getServiceRegistry().registerServiceProvider(new ClientGameeventProvider(connectionEvent.getSource(), ClientGameeventService.class));
+					logger.info("A new ClientGameeventProvider has been registered");
+				} catch (Exception e) {
+					logger.log(Level.SEVERE, "ClientGameeventProvider could not be registered", e);
+				}
+			}
+			
 		} else if (connectionEvent instanceof ConnectionClosedEvent) {
 			
 			// Fetch the current chat service
@@ -311,6 +335,17 @@ public class ClientApplication extends Application implements ServerListener, Co
 				// Remove the chat service from the service registry
 				getServiceRegistry().deregisterServiceProvider(chatService, ClientChatService.class);
 			
+			}
+			
+			// Fetch the current gameevent service
+			
+			ClientGameeventService geservice = getServiceRegistry().getServiceProviders(ClientGameeventservice.class, false).next();
+			if(geservice != null) {
+				// Remove invalidated connection from service
+				geservice.setConnection(null);
+				
+				// Remove service from registry
+				getServiceRegistry().deregisterServiceProvider(geservice, ClientGameeventService.class);
 			}
 			
 			// Deregister the Connection

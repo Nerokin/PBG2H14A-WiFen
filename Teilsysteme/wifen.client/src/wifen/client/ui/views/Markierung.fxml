@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<fx:root type="Pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root type="Pane" maxHeight="1920" maxWidth="1080" minHeight="800" minWidth="600" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ListView fx:id="markerColor" layoutX="490.0" layoutY="58.0" prefHeight="330.0" prefWidth="100.0" />
       <ListView fx:id="markerShape" layoutX="11.0" layoutY="58.0" maxWidth="1.7976931348623157E308" prefHeight="330.0" prefWidth="460.0" />
