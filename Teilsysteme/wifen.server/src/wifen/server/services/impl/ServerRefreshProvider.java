@@ -35,8 +35,9 @@ public class ServerRefreshProvider implements ServerRefreshService, Registerable
 			Packet packet = packetEvent.getPacket();
 			if(packet instanceof RefreshPacket){
 				// GameState des Servers holen und zurückschicken
-				RefreshPacketImpl refreshPacket = new RefreshPacketImpl(getRegistry().getServiceProviders(category, useOrdering).getCurrentModel());
-				getServer().broadcastPacket(packet);
+				// RefreshPacketImpl refreshPacket = new RefreshPacketImpl(getRegistry().getServiceProviders(category, useOrdering).getCurrentModel());
+				
+				// connectionEvent.getSource().sendPacket(refreshPacket);
 			}
 		}
 	}
