@@ -23,5 +23,3 @@ public interface ClientChatService {
 	public Connection getConnection();
 	public void setConnection(Connection newConnection);
 }
-
-

@@ -4,9 +4,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Put description here
+ * Anzeigen des SpielLaden Fensters
  * 
- * @author unknown
+ * @author Patrick Hasse
  *
  */
 public class MainSpielLaden extends Application{

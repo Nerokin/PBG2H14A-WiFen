@@ -18,6 +18,10 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+<<<<<<< HEAD
+import javafx.scene.control.Alert.AlertType;
+=======
+>>>>>>> branch 'master' of https://github.com/Nerokin/PBG2H14A-WiFen
 import javafx.scene.control.Button;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
@@ -55,6 +59,7 @@ public class SpielbrettController extends BorderPane {
 	
 	private SpielfeldView playfield;
 	private MarkerWindow markerWindow;
+	//private MedienbibliothekController mediaLibrary;
 	
 	//@FXML private FormationDisplay formatDisplay;
 	//TODO
@@ -98,6 +103,7 @@ public class SpielbrettController extends BorderPane {
 		StackPane.setMargin(scale, new Insets(15, 0, 0, 15));
 		PlayField.getChildren().add(scale);
 		
+		
 		layout();
 	}
 	
@@ -111,6 +117,17 @@ public class SpielbrettController extends BorderPane {
 			logger.log(Level.WARNING, "Es ist kein ChatService registriert", e);
 		}
 		
+		optionID.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent ae) {
+				Parent p = null;
+				try {
+					p = new OptionenController();
+					getScene().setRoot(p);
+				} catch (IOException e) {
+					new Alert(AlertType.ERROR, "Optionsmenü konnte nicht geladen werden").showAndWait();
+				}
+			}
+		});
 		try{
 			
 		} catch(Exception e){
@@ -215,5 +232,12 @@ public class SpielbrettController extends BorderPane {
 		this.playfield = playfield;
 	}
 	
-
+	/*public MedienbibliothekController getMediaLibrary(){
+		return mediaLibrary;
+	}
+	
+	public void setMedienbibliothekController(MedienbibliothekController mediaLibrary){
+		this.mediaLibrary = mediaLibrary;
+	}*/
+	
 }
