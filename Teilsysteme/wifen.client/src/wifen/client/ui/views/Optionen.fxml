@@ -47,7 +47,6 @@
       </Label>
       <Slider id="sliderMaxDateigroesse" layoutX="1041.0" layoutY="594.0" prefHeight="14.0" prefWidth="264.0" />
       <Button id="btnSpeichern" layoutX="1024.0" layoutY="769.0" mnemonicParsing="false" scaleX="2.0" scaleY="2.0" text="Speichern" />
-      <Button fx:id="btnAbbrechen" id="btnAbbrechen" layoutX="1194.0" layoutY="769.0" mnemonicParsing="false" scaleX="2.0" scaleY="2.0" text="Abbrechen" />
       <Label id="ipAdress" layoutX="44.0" layoutY="1021.0" text="IP:">
          <font>
             <Font size="44.0" />
