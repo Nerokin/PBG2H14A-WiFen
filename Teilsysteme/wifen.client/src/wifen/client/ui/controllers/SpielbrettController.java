@@ -9,10 +9,15 @@ import org.controlsfx.control.CheckComboBox;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -100,6 +105,18 @@ public class SpielbrettController extends BorderPane {
 		} catch (Exception e) {
 			logger.log(Level.WARNING, "Es ist kein ChatService registriert", e);
 		}
+		
+		optionID.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent ae) {
+				Parent p = null;
+				try {
+					p = new OptionenController();
+					getScene().setRoot(p);
+				} catch (IOException e) {
+					new Alert(AlertType.ERROR, "Optionsmenü konnte nicht geladen werden").showAndWait();
+				}
+			}
+		});
 	}
 	
 	// Event Handlers
