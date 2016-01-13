@@ -1,4 +1,4 @@
-package wifen.client.services;
+package wifen.commons.services;
 
 import wifen.commons.services.impl.CsvNode;
 import wifen.commons.services.impl.DocNode;
