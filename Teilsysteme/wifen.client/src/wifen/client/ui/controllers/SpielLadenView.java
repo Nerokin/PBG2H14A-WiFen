@@ -10,9 +10,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.GridPane;
 
 /**
- * Put description here
+ * Bereitstellung des SpielLaden Fensters
  * 
- * @author unknown
+ * @author Patrick Hasse
  *
  */
 public class SpielLadenView extends GridPane {
@@ -27,7 +27,7 @@ public class SpielLadenView extends GridPane {
 	// Constructor
 
 	/**
-	 * Put description here
+	 * Constructor der spielLaden.fxml liest und läd
 	 * 
 	 * @throws IOException
 	 */

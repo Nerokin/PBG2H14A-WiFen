@@ -26,7 +26,9 @@ import wifen.commons.SpielfeldModel;
 public class SpielfeldView extends ScrollPane implements MarkerService {
 	private int tilesPerRow;
 	private int tilesPerCol;
+	private boolean hasPressed = false;
 	private boolean hasDragged = false;
+	private double values[] = new double[4];
 	private SpielfeldModel model;
 	private MarkerWindow markerWindow;
 	private Polyline grid;
@@ -145,13 +147,30 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 			@Override
 			public void handle(MouseEvent event) {
 				hasDragged = false;
-			}	
+				if(event.getButton() == MouseButton.SECONDARY && event.isControlDown()){
+					hasPressed = true;
+					values[0]=event.getX();
+					values[1]=event.getY();
+				}
+			}		
 		});
 		this.setOnDragDetected(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event) {
 				hasDragged = true;
+			}
+			
+		});
+		this.setOnMouseReleased(new EventHandler<MouseEvent>(){
+			@Override
+			public void handle(MouseEvent event) {
+				if(hasPressed && hasDragged && event.isControlDown()){
+					values[2]=event.getX();
+					values[3]=event.getY();
+					/*ClientApplication.instance().getServiceRegistry().getServiceProviders(*///TODO: Ereignislog/*, false).log((distance(values[0],values[1],values[2],values[3]))+"");*/
+				}
+				hasPressed = false;
 			}
 			
 		});
