@@ -41,7 +41,7 @@ public class Hauptmenu extends GridPane {
 
 	// Injected Nodes
 
-	@FXML private AnchorPane AnchorPaneHM;
+	//@FXML private AnchorPane AnchorPaneHM;
 	@FXML private Label versionHmLabel;
 	@FXML private Label ipHmLabel;
 	@FXML private Button beitretenHmBtn;
@@ -83,7 +83,7 @@ public class Hauptmenu extends GridPane {
 	@FXML
 	private void initialize() {
 		// TODO: Data Binding and Setup of Event Handling
-		AnchorPaneHM.setMinSize(800, 600);
+		//AnchorPaneHM.setMinSize(800, 600);
 		
 		// Look up IP-address and display it
 		try {

@@ -60,8 +60,8 @@ package wifen.client.ui.controllers;
  	@FXML public ChatController chatBox;
  	@FXML public Wuerfelfenster diceBox;
  	@FXML public MarkerWindow markerBox;
- 	//@FXML public MedienbibliothekController mediaLibrary;
- 	//@FXML public AdminFenster adminBox;
+ 	@FXML public MedienbibliothekController mediaLibrary;
+ 	@FXML public AdminFensterController adminBox;
  	@FXML public EreignisFenster ereignisBox;
  	
  	private SpielfeldView playfield;
@@ -130,8 +130,8 @@ package wifen.client.ui.controllers;
  				 choices.add(diceBox);
  				 choices.add(ereignisBox);
  				 choices.add(markerBox);
- 				 //choices.add(mediaLibBox);
- 				 //choices.add(adminBox);
+ 				 choices.add(mediaLibrary);
+ 				 choices.add(adminBox);
  				 
  
  				 
