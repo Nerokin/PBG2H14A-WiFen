@@ -91,21 +91,10 @@ public class OptionenController extends AnchorPane {
 	 * Saves the options in the user preferences
 	 */
 	private void speichernOnAction(ActionEvent event){
-		//neues einzelnes OptionenFenster aufrufen
-			try {
-                Parent root1 = new OptionenController();
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root1));
-                //neuen Werte speichern
                 prefs.putDouble("Volume", sliderVolumen.getValue());
         		prefs.putBoolean("MusicMuted", cbMuteMusik.isSelected());
         		prefs.putBoolean("SoundMuted", cbMuteSound.isSelected());
         		prefs.putDouble("MaxFileSize", sliderMaxDateigroesse.getValue());	
-        		//Stage anzeigen
-                stage.show();
-        } catch (IOException e) {
-				new Alert(AlertType.ERROR, "Optionsmenü konnte nicht geladen werden").showAndWait();
-			}
 	}
 	
 	
