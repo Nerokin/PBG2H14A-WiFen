@@ -13,6 +13,7 @@ import wifen.client.services.FileLoaderService;
 import wifen.commons.services.impl.CsvNode;
 import wifen.commons.services.impl.DocNode;
 import wifen.commons.services.impl.ImageNode;
+import wifen.commons.services.impl.NoteNode;
 import wifen.commons.services.impl.PdfNode;
 import wifen.commons.services.impl.TxtNode;
 import wifen.commons.services.impl.XlsNode;
@@ -33,6 +34,10 @@ public class FileLoaderProvider implements FileLoaderService {
 	
 	public ImageNode loadImage(String path) {
 		return controlSize(path) ? new ImageNode(path) : null;
+	}
+	
+	public NoteNode loadNote(String path, String note) {
+		return controlSize(path) ? new NoteNode(path,note) : null;
 	}
 
 	public TxtNode loadText(String path) {
