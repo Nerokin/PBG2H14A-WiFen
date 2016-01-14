@@ -1,16 +1,33 @@
 package wifen.client.ui.controllers;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.util.NoSuchElementException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 //import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import wifen.client.application.ApplicationConstants;
+import wifen.client.application.ClientApplication;
+import wifen.commons.network.Connection;
+import wifen.commons.network.impl.ConnectionImpl;
+import wifen.commons.network.packets.EnterGamePacket;
+import wifen.commons.network.packets.impl.EnterGamePacketImpl;
 
 /**
  * Put description here
@@ -20,6 +37,9 @@ import javafx.scene.layout.AnchorPane;
  */
 public class SpielBeitretenController extends BorderPane {
 
+	private final Logger logger = Logger.getLogger(SpielBeitretenController.class.getName());
+
+	
 	// constants
 	public static final String CSS_PATH = "/wifen/client/ui/css/SpielBeitreten.css";
 	public static final String FXML_PATH = "/wifen/client/ui/views/SpielBeitreten.fxml";
@@ -34,6 +54,8 @@ public class SpielBeitretenController extends BorderPane {
 	@FXML TextField tfIp;
 	@FXML Label ipAdress;
 	@FXML Label versionNumber;
+	@FXML Button btnEnter;
+	@FXML Button backToMenuBtn;
 
 	// @FXML private FormationDisplay formatDisplay;
 	// TODO
@@ -67,6 +89,46 @@ public class SpielBeitretenController extends BorderPane {
 	private void initialize() {
 		// formatDisplay.setOnMouseClicked(this::click);
 		// TODO: Data Binding and Setup of Event Handling
+		
+	
+		backToMenuBtn.setOnAction(new EventHandler<ActionEvent>(){
+			 public void handle(ActionEvent e) {
+			Parent p = null;
+			try {
+				p = new Hauptmenu();
+				getScene().setRoot(p);
+			} catch (IOException e2) {
+				new Alert(AlertType.ERROR, "Hauptmenü konnte nicht geladen werden").showAndWait();
+			}
+			
+		}
+		});
+		
+		btnEnter.setOnAction(new EventHandler<ActionEvent>(){
+			 public void handle(ActionEvent e) {
+				 try{
+					 Connection tmpConn = null;
+					 try {
+						 tmpConn = ClientApplication.instance().getServiceRegistry().getServiceProviders(Connection.class, true).next();
+					 } catch (NoSuchElementException e2) {
+						 InetAddress tmpAdd = InetAddress.getByName(tfIp.getText());
+						 tmpConn = new ConnectionImpl(tmpAdd, ApplicationConstants.APPLICATION_PORT);
+						 ClientApplication.instance().getServiceRegistry().registerServiceProvider(tmpConn, Connection.class);
+					 }
+						 
+					String requestedName = tfname.getText();
+					EnterGamePacket packet = new EnterGamePacketImpl(requestedName);
+					tmpConn.sendPacket(packet);
+
+				 }
+				 catch(Exception ex){
+					 // Warnung ausgeben
+					 logger.log(Level.WARNING, "Spiel konnte nicht beigetreten werden", ex);
+					 new Alert(AlertType.WARNING, "Spiel konnte nicht beigetreten werden").showAndWait();
+				 }
+				 }
+				 
+		});
 	}
 
 	// Event Handlers
@@ -75,6 +137,10 @@ public class SpielBeitretenController extends BorderPane {
 	 * 
 	 * } //TODO
 	 */
+	
+	
+	
+	
 	// Getter & Setter
 
 	public FXMLLoader getFXMLLoader() {

@@ -79,7 +79,7 @@ public class MarkerView extends Parent {
 		this.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				if(event.getButton() == MouseButton.SECONDARY) {
+				if(event.getButton() == MouseButton.SECONDARY  && !event.isControlDown()) {
 					MarkerView mv = (MarkerView) event.getSource();
 					parent.removeFromView(mv);
 					parent.getModel().removeMarker(mv.marker); 

@@ -7,8 +7,10 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -50,6 +52,7 @@ public class SpielErstellenController extends Pane {
 	@FXML ComboBox<SpielerRolle> comboStandardRolle;
 	@FXML ComboBox<GridType> comboRaster;
 	@FXML Button btnSpielErstellen;
+	@FXML Button backToMenuBtn;
 
 	// Constructor
 
@@ -78,6 +81,7 @@ public class SpielErstellenController extends Pane {
 
 	@FXML
 	private void initialize() {
+		backToMenuBtn.setOnAction(this::backToMenuBtnOnAction);
 		btnSpielErstellen.setOnAction(this::btnSpielErstellenOnAction);
 		comboStandardRolle.setItems(FXCollections.observableArrayList(SpielerRolle.values()));
 		comboStandardRolle.getSelectionModel().select(SpielerRolle.PLAYER);
@@ -99,6 +103,20 @@ public class SpielErstellenController extends Pane {
 	 * 
 	 * @param event
 	 */
+	
+	
+	private final void backToMenuBtnOnAction(ActionEvent event) {
+		Parent p = null;
+		try {
+			p = new Hauptmenu();
+			getScene().setRoot(p);
+		} catch (IOException e2) {
+			new Alert(AlertType.ERROR, "Hauptmenü konnte nicht geladen werden").showAndWait();
+		}
+		
+	}
+	
+	
 	private final void btnSpielErstellenOnAction(ActionEvent event) {
 		try {
 			ClientApplication.instance().hostGame(Integer.valueOf(tfMaxSpieler.getText()), cbBeobachterZulassen.isSelected(),

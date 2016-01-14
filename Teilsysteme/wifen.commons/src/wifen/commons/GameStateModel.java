@@ -1,6 +1,7 @@
 package wifen.commons;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class GameStateModel implements Serializable {
 	/**
@@ -13,15 +14,17 @@ public class GameStateModel implements Serializable {
 	private int maxDiceSideCount;
 	private SpielerRolle standardRolle;
 	private SpielfeldModel viewModel;
+	private ArrayList<String> chatLog;
 
 	public GameStateModel(int maxPlayerCount, boolean spectatingAllowed, boolean mediaVisible, int maxSideCount,
-			SpielerRolle standard, GridType grid) {
+			SpielerRolle standard, GridType grid, ArrayList<String> chat) {
 		this.maxPlayerCount = maxPlayerCount;
 		this.spectatingAllowed = spectatingAllowed;
 		this.mediaVisible = mediaVisible;
 		this.maxDiceSideCount = maxSideCount;
 		this.standardRolle = standard;
 		this.viewModel = new SpielfeldModel(grid, 1920, 1080);
+		this.chatLog = chat;
 	}
 
 	void setMaxPlayerCount(int newPlayerCount) {
@@ -43,6 +46,10 @@ public class GameStateModel implements Serializable {
 	void setStandardRolle(SpielerRolle newStandard) {
 		this.standardRolle = newStandard;
 	}
+	
+	void setChatLog(ArrayList<String> chat){
+		this.chatLog = chat;
+	}
 
 	public int getMaxPlayerCount() {
 		return this.maxPlayerCount;
@@ -63,6 +70,10 @@ public class GameStateModel implements Serializable {
 	public SpielerRolle standardPlayerRole() {
 		return this.standardRolle;
 	}
+	
+	public ArrayList<String> getChatLog(){
+		return this.chatLog;
+	}
 
 	public SpielfeldModel getViewModel() {
 		return viewModel;
@@ -71,4 +82,6 @@ public class GameStateModel implements Serializable {
 	public void setViewModel(SpielfeldModel viewModel) {
 		this.viewModel = viewModel;
 	}
+	
+	
 }

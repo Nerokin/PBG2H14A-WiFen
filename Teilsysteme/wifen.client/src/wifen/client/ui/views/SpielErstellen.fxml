@@ -19,7 +19,7 @@
             <Font size="44.0" />
          </font>
       </Label>
-      <TextField fx:id="tfPort" id="tfPort" layoutX="516.0" layoutY="329.0" prefHeight="85.0" prefWidth="247.0">
+      <TextField id="tfPort" fx:id="tfPort" layoutX="516.0" layoutY="329.0" prefHeight="85.0" prefWidth="247.0">
          <font>
             <Font size="40.0" />
          </font>
@@ -29,7 +29,7 @@
             <Font size="44.0" />
          </font>
       </Label>
-      <TextField fx:id="tfMaxSpieler" id="tfMaxSpieler" layoutX="516.0" layoutY="432.0" prefHeight="85.0" prefWidth="247.0">
+      <TextField id="tfMaxSpieler" fx:id="tfMaxSpieler" layoutX="516.0" layoutY="432.0" prefHeight="85.0" prefWidth="247.0">
          <font>
             <Font size="40.0" />
          </font>
@@ -39,7 +39,7 @@
             <Font size="44.0" />
          </font>
       </Label>
-      <CheckBox fx:id="cbBeobachterZulassen" id="cbBeobachterZulassen" layoutX="527.0" layoutY="555.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="21.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" />
+      <CheckBox id="cbBeobachterZulassen" fx:id="cbBeobachterZulassen" layoutX="527.0" layoutY="555.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="21.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" />
       <Label layoutX="44.0" layoutY="606.0" text="Medien Standardmäßig">
          <font>
             <Font size="44.0" />
@@ -50,7 +50,7 @@
             <Font size="44.0" />
          </font>
       </Label>
-      <CheckBox fx:id="cbMedienSichtbarkeit" id="cbMedienSichtbarkeit" layoutX="527.0" layoutY="638.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="21.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" />
+      <CheckBox id="cbMedienSichtbarkeit" fx:id="cbMedienSichtbarkeit" layoutX="527.0" layoutY="638.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="21.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" />
       <Label layoutX="831.0" layoutY="339.0" text="Maximale Seitenzahl">
          <font>
             <Font size="44.0" />
@@ -61,13 +61,13 @@
             <Font size="44.0" />
          </font>
       </Label>
-      <ComboBox fx:id="comboSeitenanzahl" id="comboSeitenanzahl" layoutX="1343.0" layoutY="360.0" prefHeight="25.0" prefWidth="117.0" promptText="Würfel" scaleX="2.0" scaleY="2.0" scaleZ="2.0" />
+      <ComboBox id="comboSeitenanzahl" fx:id="comboSeitenanzahl" layoutX="1343.0" layoutY="360.0" prefHeight="25.0" prefWidth="117.0" promptText="Würfel" scaleX="2.0" scaleY="2.0" scaleZ="2.0" />
       <Label layoutX="831.0" layoutY="436.0" text="Eigener Name:">
          <font>
             <Font size="44.0" />
          </font>
       </Label>
-      <TextField fx:id="tfName" id="tfName" layoutX="1277.0" layoutY="426.0" prefHeight="85.0" prefWidth="247.0">
+      <TextField id="tfName" fx:id="tfName" layoutX="1277.0" layoutY="426.0" prefHeight="85.0" prefWidth="247.0">
          <font>
             <Font size="40.0" />
          </font>
@@ -87,9 +87,9 @@
             <Font size="44.0" />
          </font>
       </Label>
-      <ComboBox fx:id="comboStandardRolle" id="comboStandardRolle" layoutX="1339.0" layoutY="551.0" prefHeight="25.0" prefWidth="124.0" promptText="Spielerrolle" scaleX="2.0" scaleY="2.0" scaleZ="2.0" />
-      <ComboBox fx:id="comboRaster" id="comboRaster" layoutX="1340.0" layoutY="626.0" prefHeight="25.0" prefWidth="125.0" promptText="Raster" scaleX="2.0" scaleY="2.0" scaleZ="2.0" />
-      <Button fx:id="btnSpielErstellen" id="btnSpielErstellen" layoutX="876.0" layoutY="815.0" mnemonicParsing="false" scaleX="2.0" scaleY="2.0" scaleZ="2.0" text="Spiel erstellen" />
+      <ComboBox id="comboStandardRolle" fx:id="comboStandardRolle" layoutX="1339.0" layoutY="551.0" prefHeight="25.0" prefWidth="124.0" promptText="Spielerrolle" scaleX="2.0" scaleY="2.0" scaleZ="2.0" />
+      <ComboBox id="comboRaster" fx:id="comboRaster" layoutX="1340.0" layoutY="626.0" prefHeight="25.0" prefWidth="125.0" promptText="Raster" scaleX="2.0" scaleY="2.0" scaleZ="2.0" />
+      <Button id="btnSpielErstellen" fx:id="btnSpielErstellen" layoutX="876.0" layoutY="815.0" mnemonicParsing="false" scaleX="2.0" scaleY="2.0" text="Spiel erstellen" />
       <Label layoutX="14.0" layoutY="937.0" text="Version: 0.01">
          <font>
             <Font size="44.0" />
@@ -100,5 +100,6 @@
             <Font size="44.0" />
          </font>
       </Label>
+      <Button fx:id="backToMenuBtn" layoutX="70.0" layoutY="815.0" mnemonicParsing="false" scaleX="2.0" scaleY="2.0" text="Zurück" />
    </children>
 </fx:root>

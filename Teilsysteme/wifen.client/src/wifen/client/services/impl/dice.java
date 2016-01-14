@@ -3,33 +3,39 @@ package wifen.client.services.impl;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Random;
 
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 import wifen.client.ui.controllers.EreignisFenster;
+import wifen.client.ui.controllers.W�rfelanimationListe;
 
 /**
  * Bereitstellung der Würfelfunktionen: Normaler Würfelwurf (mit Modifikator), Schwellentest (mit Modifikator)
- * 
+ *
  * @author David Kühlmann, Johnny Gunko
  *
+ *
  */
+
 public class dice {
+
 	// -----------------------
 	// David Kühlmann -- Start
 	// -----------------------
 	// Überprüfung des Strings der Texteigabe des Würfelfeldes
 	/**
 	 *  Überprüfung des Strings der Texteingabe des Würfelfensters
-	 * 
+	 *
 	 * @param in Würfelausdruck der Texteingabe des Würfelfensters
 	 * @return
 	 */
+
 	public static String checkInput(String in){
         //Formel: XwY+M
         if(in.matches("^[1-9][0-9]*w[1-9][0-9]*\\+[1-9][0-9]*$"))
-        { 
+        {
             int index_x = in.indexOf('w');
             int index_y = in.indexOf('+',index_x);
             String in_x = in.substring(0,index_x);
@@ -38,11 +44,12 @@ public class dice {
             int x = Integer.parseInt(in_x);
             int y = Integer.parseInt(in_y);
             int m = Integer.parseInt(in_m);
-            return outputThrow(dice_Throw(x,y,m));    
+            	//System.out.println(x);
+            return outputThrow(dice_Throw(x,y,m));
         }
         //Formel: XwY-M
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*\\-[1-9][0-9]*$"))
-        { 
+        {
             int index_x = in.indexOf('w');
             int index_y = in.indexOf('-',index_x);
             String in_x = in.substring(0,index_x);
@@ -51,7 +58,8 @@ public class dice {
             int x = Integer.parseInt(in_x);
             int y = Integer.parseInt(in_y);
             int m = Integer.parseInt(in_m);
-             return outputThrow(dice_Throw(x,y,-m));  
+            //System.out.println(x);
+             return outputThrow(dice_Throw(x,y,-m));
         }
         //Formel: XwY
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*$"))
@@ -59,7 +67,8 @@ public class dice {
             String[] in_split = in.split("w");
             int x = Integer.parseInt(in_split[0]);
             int y = Integer.parseInt(in_split[1]);
-            return outputThrow(dice_Throw(x,y,0));  
+            //System.out.println(x);
+            return outputThrow(dice_Throw(x,y,0));
         }
         //Formel: XwYeZ+M
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*e[1-9][0-9]*\\+[1-9][0-9]*$"))
@@ -75,11 +84,11 @@ public class dice {
             int y = Integer.parseInt(in_y);
             int z = Integer.parseInt(in_z);
             int m = Integer.parseInt(in_m);
-            return outputTest(dice_Test(x,y,z,m));    
+            return outputTest(dice_Test(x,y,z,m));
         }
         //Formel: XwYeZ-M
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*e[1-9][0-9]*\\-[1-9][0-9]*$"))
-        { 
+        {
             int index_x = in.indexOf('w');
             int index_y = in.indexOf('e', index_x);
             int index_m = in.indexOf('-', index_y);
@@ -91,7 +100,7 @@ public class dice {
             int y = Integer.parseInt(in_y);
             int z = Integer.parseInt(in_z);
             int m = Integer.parseInt(in_m);
-            return outputTest(dice_Test(x,y,z,-m));    
+            return outputTest(dice_Test(x,y,z,-m));
         }
         //Formel: XwYeZ
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*e[1-9][0-9]*$"))
@@ -104,7 +113,7 @@ public class dice {
             int x = Integer.parseInt(in_x);
             int y = Integer.parseInt(in_y);
             int z = Integer.parseInt(in_z);
-            return outputTest(dice_Test(x,y,z,0)); 
+            return outputTest(dice_Test(x,y,z,0));
         }
         //Formel: XwYeZ+(XwY+M)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*e[1-9][0-9]*\\+[1-9][0-9]*w[1-9][0-9]*\\+[1-9][0-9]*$"))
@@ -159,7 +168,7 @@ public class dice {
             int x = Integer.parseInt(in_x);
             int y = Integer.parseInt(in_y);
             int z = Integer.parseInt(in_z);
-            return outputTest(dice_Test(x,y,z,m)); 
+            return outputTest(dice_Test(x,y,z,m));
         }
         //Formel: XwYeZ-(XwY+M)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*e[1-9][0-9]*\\-[1-9][0-9]*w[1-9][0-9]*\\+[1-9][0-9]*$"))
@@ -186,7 +195,7 @@ public class dice {
             int x = Integer.parseInt(in_x);
             int y = Integer.parseInt(in_y);
             int z = Integer.parseInt(in_z);
-            return outputTest(dice_Test(x,y,z,-m)); 
+            return outputTest(dice_Test(x,y,z,-m));
         }
         //Formel: XwYeZ-(XwY-M)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*e[1-9][0-9]*\\-[1-9][0-9]*w[1-9][0-9]*\\-[1-9][0-9]*$"))
@@ -213,7 +222,7 @@ public class dice {
             int x = Integer.parseInt(in_x);
             int y = Integer.parseInt(in_y);
             int z = Integer.parseInt(in_z);
-            return outputTest(dice_Test(x,y,z,-m)); 
+            return outputTest(dice_Test(x,y,z,-m));
         }
         //Formel: XwYeZ+(XwY)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*e[1-9][0-9]*\\+[1-9][0-9]*w[1-9][0-9]*$"))
@@ -237,7 +246,7 @@ public class dice {
             int x = Integer.parseInt(in_x);
             int y = Integer.parseInt(in_y);
             int z = Integer.parseInt(in_z);
-            return outputTest(dice_Test(x,y,z,m)); 
+            return outputTest(dice_Test(x,y,z,m));
         }
         //Formel: XwYeZ-(XwY)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*e[1-9][0-9]*\\-[1-9][0-9]*w[1-9][0-9]*$"))
@@ -261,7 +270,8 @@ public class dice {
             int x = Integer.parseInt(in_x);
             int y = Integer.parseInt(in_y);
             int z = Integer.parseInt(in_z);
-            return outputTest(dice_Test(x,y,z,-m)); 
+
+            return outputTest(dice_Test(x,y,z,-m));
         }
         //Formel: XwY+(XwY+M)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*\\+[1-9][0-9]*w[1-9][0-9]*\\+[1-9][0-9]*$"))
@@ -283,7 +293,8 @@ public class dice {
             String[] in_split = erster.split("w");
             int x = Integer.parseInt(in_split[0]);
             int y = Integer.parseInt(in_split[1]);
-            return outputThrow(dice_Throw(x,y,m));  
+            //  System.out.println(x);
+            return outputThrow(dice_Throw(x,y,m));
         }
         //Formel: XwY+(XwY-M)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*\\+[1-9][0-9]*w[1-9][0-9]*\\-[1-9][0-9]*$"))
@@ -305,7 +316,8 @@ public class dice {
             String[] in_split = erster.split("w");
             int x = Integer.parseInt(in_split[0]);
             int y = Integer.parseInt(in_split[1]);
-            return outputThrow(dice_Throw(x,y,m));  
+            //  System.out.println(x);
+            return outputThrow(dice_Throw(x,y,m));
         }
         //Formel: XwY-(XwY+M)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*\\-[1-9][0-9]*w[1-9][0-9]*\\+[1-9][0-9]*$"))
@@ -327,7 +339,8 @@ public class dice {
             String[] in_split = erster.split("w");
             int x = Integer.parseInt(in_split[0]);
             int y = Integer.parseInt(in_split[1]);
-            return outputThrow(dice_Throw(x,y,-m));  
+            // System.out.println(x);
+            return outputThrow(dice_Throw(x,y,-m));
         }
         //Formel: XwY-(XwY-M)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*\\-[1-9][0-9]*w[1-9][0-9]*\\-[1-9][0-9]*$"))
@@ -349,7 +362,8 @@ public class dice {
             String[] in_split = erster.split("w");
             int x = Integer.parseInt(in_split[0]);
             int y = Integer.parseInt(in_split[1]);
-            return outputThrow(dice_Throw(x,y,-m));  
+            // System.out.println(x);
+            return outputThrow(dice_Throw(x,y,-m));
         }
         //Formel: XwY+(XwY)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*\\+[1-9][0-9]*w[1-9][0-9]*$"))
@@ -363,7 +377,8 @@ public class dice {
             int m = dice_Throw(m_x,m_y,0)[0];
             int x = Integer.parseInt(erster[0]);
             int y = Integer.parseInt(erster[1]);
-            return outputThrow(dice_Throw(x,y,m));  
+            //System.out.println(x);
+            return outputThrow(dice_Throw(x,y,m));
         }
         //Formel: XwY-(XwY)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*\\-[1-9][0-9]*w[1-9][0-9]*$"))
@@ -378,17 +393,18 @@ public class dice {
             //1. Ausdruck
             int x = Integer.parseInt(erster[0]);
             int y = Integer.parseInt(erster[1]);
-            return outputThrow(dice_Throw(x,y,-m));  
+            // System.out.println(x);
+            return outputThrow(dice_Throw(x,y,-m));
         }
         else{
             return null;
-        }     
+        }
 }
 
 	// Formel: XwYeZ+/-M X:Anzahl der Würfel Y:ANzhal Augen Z:Schwelle
 	/**
 	 * Methode um einen Schwellentest mit der Formlel XwYeZ+/-M durchzuführen
-	 * 
+	 *
 	 * @param x Anzahl der zu Werfenden Würfel
 	 * @param y Anzahl der Würfelaugen
 	 * @param z Schwelle die erreicht werden oder überschritten werden muss
@@ -412,43 +428,62 @@ public class dice {
 	// -----------------------
 	// David Kühlmann -- Ende
 	// -----------------------
-	
+
 	// -----------------------
 	// Johnny Gunko -- Start
 	// -----------------------
-	
+
 	// Formel: XwY+/-M
 	// x: Anzahl der W�rfel, y: Anzahl der Seiten, m: Modifikator
 	/**
 	 * Methode um einen Schwellentest mit der Formlel XwYeZ+/-M durchzuf�hren
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 * @param m
 	 * @return gibt die Werte des Wurfes als int array aus
 	 */
+
 	public static int[] dice_Throw(int x, int y, int m) {
+
 		int dice[] = new int[x + 1];
 		Random ran = new Random();
 		for (int i = 0; i <= x - 1; i++) {
 			dice[i] = ran.nextInt(y) + 1;
 			dice[x] += dice[i];
+
 		}
 		dice[x] += m;
+
+
+
+
+
 		return dice;
 	}
 
 	/**
 	 * Wandelt die Werte eines eines normalen Wurfes  in einen String um
-	 * 
+	 *
 	 * @param input Wurfwerte
 	 * @return Gibt den Wurfausdruck als String zur�ck
 	 */
+
+	static boolean isResult=true;
 	public static String outputThrow(int[] input){
+
     	String output = new String();
-    	output = "Ergebniss: "+input[input.length-1]+" (";
+    	output = "Ergebnis: "+input[input.length-1]+" (";
     	for(int i = 0; i < input.length-1; i++){
     		output += " "+(i+1)+". Wuerfel: "+input[i];
+    		if(isResult){
+    			isResult=false;
+    			addSingleResult(input[i]);
+    		}else{
+    			isResult=true;
+    		}
+
+
     		if(i != input.length-2){
     			output+= ";";
     		}
@@ -456,12 +491,25 @@ public class dice {
     			output += " )";
     		}
     	}
+
     	return output;
     }
-    
+	private static ArrayList<Integer> singleResults = new ArrayList<Integer>();
+	public static void addSingleResult(int result){
+		singleResults.add(result);
+	}
+	public static ArrayList<Integer> returnAllSingleResults(){
+
+		ArrayList<Integer> temp = new ArrayList<Integer>();
+		for(Integer result : singleResults)
+			temp.add(result);
+		singleResults.clear();
+		return temp;
+	}
+
 	/**
 	 * Wandelt die Werte eines Testwurfes in einen String um
-	 * 
+	 *
 	 * @param input Wurfwerte
 	 * @return Gibt den Wurfausdruck als String zur�ck
 	 */
@@ -482,7 +530,7 @@ public class dice {
 
 	/**
 	 * Spielt einen Sound ab, der das W�feln, akustisch wiedergeben soll
-	 * 
+	 *
 	 * @throws IOException
 	 */
     public static void playWuerfeln() throws IOException{
@@ -491,7 +539,7 @@ public class dice {
 		AudioStream audio = new AudioStream(in);
 		AudioPlayer.player.start(audio);
     }
-    
+
  // -----------------------
  // Johnny Gunko -- Ende
  // -----------------------
