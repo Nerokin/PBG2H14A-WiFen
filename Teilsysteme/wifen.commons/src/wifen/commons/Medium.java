@@ -1,15 +1,11 @@
 package wifen.commons;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Scanner;
 
-import javafx.util.converter.ByteStringConverter;
-import wifen.client.services.impl.FileLoaderProvider;
 import wifen.commons.services.FileNode;
+import wifen.commons.services.impl.FileLoaderProvider;
 
 /**
  * Put description here

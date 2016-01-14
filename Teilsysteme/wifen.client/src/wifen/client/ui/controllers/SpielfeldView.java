@@ -1,9 +1,13 @@
 
 package wifen.client.ui.controllers;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -26,8 +30,15 @@ import wifen.commons.SpielfeldModel;
 public class SpielfeldView extends ScrollPane implements MarkerService {
 	private int tilesPerRow;
 	private int tilesPerCol;
+	private double lastX;
+	private double lastY;
+	private Timer timer;
+	private long lastTime;
+	private Polyline drawing;
+	private boolean drawn = false;
 	private boolean hasPressed = false;
 	private boolean hasDragged = false;
+	private Double[] points;
 	private double values[] = new double[4];
 	private SpielfeldModel model;
 	private MarkerWindow markerWindow;
@@ -147,6 +158,15 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 			@Override
 			public void handle(MouseEvent event) {
 				hasDragged = false;
+				lastTime=0;
+				if(event.getButton() == MouseButton.PRIMARY && event.isAltDown()){
+					lastX = event.getX();
+					lastY = event.getY();
+					points = new Double[2];
+					points[0] = lastX;
+					points[1] = lastY;
+					drawing = new Polyline();
+				}
 				if(event.getButton() == MouseButton.SECONDARY && event.isControlDown()){
 					hasPressed = true;
 					values[0]=event.getX();
@@ -154,11 +174,30 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 				}
 			}		
 		});
+
 		this.setOnDragDetected(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event) {
 				hasDragged = true;
+				if(event.isAltDown()){
+					drawn = true;
+					timer = new Timer();
+				    timer.scheduleAtFixedRate(new TimerTask() {
+				        @Override
+				        public void run() {
+				            if(distance(lastX,lastY,event.getX(),event.getY())>2){
+				            	Double[] help = points;
+				            	points = new Double[help.length+2];
+				            	points = help;
+				            	lastX = event.getX();
+				            	lastY = event.getY();
+				            	points[points.length-2]= lastX;
+				            	points[points.length-1]= lastY;
+				            }
+				        }
+				    }, 0, 500);
+				}
 			}
 			
 		});
@@ -169,6 +208,11 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 					values[2]=event.getX();
 					values[3]=event.getY();
 					/*ClientApplication.instance().getServiceRegistry().getServiceProviders(*///TODO: Ereignislog/*, false).log((distance(values[0],values[1],values[2],values[3]))+"");*/
+				}
+				if(drawn){
+					drawn = false;
+					timer.cancel();
+					drawing.getPoints().addAll(points);
 				}
 				hasPressed = false;
 			}
@@ -181,11 +225,20 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 					if(event.getX() > ((Pane) event.getSource()).getWidth() || event.getY() > ((Pane) event.getSource()).getHeight()) {
 						System.out.println("Invalid coordinates for placing Marker: Out of field!");
 					} else {
-						MarkerModel m = new MarkerModel(event.getX(), event.getY(), getSelectedType(), "");
-						model.placeMarker(m);
-						((Pane) event.getSource()).getChildren().add(new MarkerView(m, self));
-						// snapshot renders all children again so the added element is displayed properly
-						self.snapshot(null,null);
+						if(event.isControlDown()){
+							Image i = new Image("src/resources/note.png", true);
+							MarkerModel m = new MarkerModel(event.getX(), event.getY(), new MarkerType("note", i), "");
+							model.placeMarker(m);
+							((Pane) event.getSource()).getChildren().add(new MarkerView(m, self));
+							// snapshot renders all children again so the added element is displayed properly
+							self.snapshot(null,null);
+						}else{
+							MarkerModel m = new MarkerModel(event.getX(), event.getY(), getSelectedType(), "");
+							model.placeMarker(m);
+							((Pane) event.getSource()).getChildren().add(new MarkerView(m, self));
+							// snapshot renders all children again so the added element is displayed properly
+							self.snapshot(null,null);
+						}
 					}
 				}
 			}
@@ -226,6 +279,12 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		addMarkersFromModel();
 		addFilesFromModel();
 		// Add additional types of views here
+	}
+	public double distance(double x1,double y1, double x2, double y2){
+		double dis = 0;
+		dis = (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2);
+		dis = Math.sqrt(dis);
+		return dis;
 	}
 	
 	// Getters & Setters

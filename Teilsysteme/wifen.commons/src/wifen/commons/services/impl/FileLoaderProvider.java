@@ -1,4 +1,4 @@
-package wifen.client.services.impl;
+package wifen.commons.services.impl;
 
 import java.io.RandomAccessFile;
 /*
@@ -9,13 +9,7 @@ import java.io.RandomAccessFile;
  * -> Datei größe [Falls angegeben] ist.
  */
 
-import wifen.client.services.FileLoaderService;
-import wifen.commons.services.impl.CsvNode;
-import wifen.commons.services.impl.DocNode;
-import wifen.commons.services.impl.ImageNode;
-import wifen.commons.services.impl.PdfNode;
-import wifen.commons.services.impl.TxtNode;
-import wifen.commons.services.impl.XlsNode;
+import wifen.commons.services.FileLoaderService;
 
 /**
  * Put description here
@@ -33,6 +27,10 @@ public class FileLoaderProvider implements FileLoaderService {
 	
 	public ImageNode loadImage(String path) {
 		return controlSize(path) ? new ImageNode(path) : null;
+	}
+	
+	public NoteNode loadNote(String path, String note) {
+		return controlSize(path) ? new NoteNode(path,note) : null;
 	}
 
 	public TxtNode loadText(String path) {

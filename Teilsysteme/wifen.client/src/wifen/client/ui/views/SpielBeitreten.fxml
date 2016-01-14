@@ -17,7 +17,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <TextField fx:id="tfname" id="tfName">
+      <TextField id="tfName" fx:id="tfname">
          <font>
             <Font size="24.0" />
          </font>
@@ -81,9 +81,14 @@
                         <Font size="32.0" />
                      </font>
                   </Label>
+                  <Button fx:id="backToMenuBtn" mnemonicParsing="false" onAction="#backToMenuOnAction" prefHeight="50.0" prefWidth="90.0" text="Zurück">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Button>
                </children>
             </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox prefHeight="679.0" prefWidth="238.0">
                <children>
                   <TextField>
                      <font>

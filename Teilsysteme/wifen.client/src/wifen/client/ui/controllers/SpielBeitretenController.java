@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -20,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 //import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import wifen.client.application.ApplicationConstants;
 import wifen.client.application.ClientApplication;
 import wifen.commons.network.Connection;
@@ -53,6 +55,7 @@ public class SpielBeitretenController extends BorderPane {
 	@FXML Label ipAdress;
 	@FXML Label versionNumber;
 	@FXML Button btnEnter;
+	@FXML Button backToMenuBtn;
 
 	// @FXML private FormationDisplay formatDisplay;
 	// TODO
@@ -88,6 +91,19 @@ public class SpielBeitretenController extends BorderPane {
 		// TODO: Data Binding and Setup of Event Handling
 		
 	
+		backToMenuBtn.setOnAction(new EventHandler<ActionEvent>(){
+			 public void handle(ActionEvent e) {
+			Parent p = null;
+			try {
+				p = new Hauptmenu();
+				getScene().setRoot(p);
+			} catch (IOException e2) {
+				new Alert(AlertType.ERROR, "Hauptmenü konnte nicht geladen werden").showAndWait();
+			}
+			
+		}
+		});
+		
 		btnEnter.setOnAction(new EventHandler<ActionEvent>(){
 			 public void handle(ActionEvent e) {
 				 try{

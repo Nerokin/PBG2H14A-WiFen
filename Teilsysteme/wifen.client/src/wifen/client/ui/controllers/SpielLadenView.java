@@ -5,8 +5,14 @@ import java.io.IOException;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 
 /**
@@ -21,6 +27,7 @@ public class SpielLadenView extends GridPane {
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 
 	// Injected Nodes
+	@FXML Button backToMenuBtn;
 
 	// TODO
 
@@ -53,6 +60,19 @@ public class SpielLadenView extends GridPane {
 	@FXML
 	private void initialize() {
 		// TODO: Data Binding and Setup of Event Handling
+		
+		backToMenuBtn.setOnAction(new EventHandler<ActionEvent>(){
+			 public void handle(ActionEvent e) {
+			Parent p = null;
+			try {
+				p = new Hauptmenu();
+				getScene().setRoot(p);
+			} catch (IOException e2) {
+				new Alert(AlertType.ERROR, "Hauptmenü konnte nicht geladen werden").showAndWait();
+			}
+			
+		}
+		});
 	}
 
 	// Event Handlers
