@@ -46,10 +46,10 @@ public class ClientRefreshProvider implements ClientRefreshService, ConnectionLi
 
 	@Override
 	public void refresh() {
-		ClientApplication client = new ClientApplication();
+		ClientApplication client = ClientApplication.instance();
 		RefreshPacketImpl refreshPacket = new RefreshPacketImpl(client.getServiceRegistry().getServiceProviderByClass(GameService.class).getCurrentModel());
 		this.getConnection().sendPacket(refreshPacket);
-		}
+	}
 	
 	public final ObjectProperty<Connection> connectionProperty(){
 		return this.connection;
@@ -63,8 +63,9 @@ public class ClientRefreshProvider implements ClientRefreshService, ConnectionLi
 			if(packet instanceof RefreshPacket){
 				RefreshPacket refreshPacket = (RefreshPacket) packet;
 				GameStateModel state = refreshPacket.getGameStateModel();
-				ClientApplication client = new ClientApplication();
+				ClientApplication client = ClientApplication.instance();
 				client.getServiceRegistry().getServiceProviderByClass(GameService.class).overrideModel(state);
+				client.getServiceRegistry().getServiceProviderByClass(ClientChatProvider.class).loadChatlog(state.getChatLog());
 			}
 		}
 	}
