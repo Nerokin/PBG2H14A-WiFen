@@ -9,7 +9,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.TitledPane;
+
 
 
 /**
@@ -18,7 +19,7 @@ import javafx.scene.layout.VBox;
  * @author Kevin Curtis
  *
  */
-public class EreignisFenster extends VBox {
+public class EreignisFenster extends TitledPane {
 
 	// Constants
 

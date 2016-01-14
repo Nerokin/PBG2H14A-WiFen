@@ -17,6 +17,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -26,7 +27,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -53,7 +53,7 @@ import javafx.animation.Timeline;
  * Abstände passen noch nicht ganz!
  * und ab 10w wird falsch bzw. garnicht gesplittet!
  */
-public class Wuerfelfenster extends VBox {
+public class Wuerfelfenster extends TitledPane {
 
 		//constants
 		//public static final String CSS_PATH = "/css/MainView.css";
