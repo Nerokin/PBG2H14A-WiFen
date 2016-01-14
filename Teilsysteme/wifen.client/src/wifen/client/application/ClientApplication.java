@@ -2,6 +2,7 @@ package wifen.client.application;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -17,9 +18,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import wifen.client.services.ClientChatService;
+import wifen.client.services.ClientGameeventService;
 import wifen.client.services.GameService;
 import wifen.client.services.OptionService;
 import wifen.client.services.impl.ClientChatProvider;
+import wifen.client.services.impl.ClientGameeventProvider;
 import wifen.client.services.impl.GameProvider;
 import wifen.client.ui.controllers.Hauptmenu;
 import wifen.commons.GameStateModel;
@@ -222,7 +225,7 @@ public class ClientApplication extends Application implements ServerListener, Co
 				startConnection(InetAddress.getLocalHost());
 				
 				// Initialize the model
-				GameStateModel model = new GameStateModel(maximumPlayerCount, spectatorsAllowed, mediaInitiallyVisible, maxDiceFaceCount, standardPlayerRole, gridType);
+				GameStateModel model = new GameStateModel(maximumPlayerCount, spectatorsAllowed, mediaInitiallyVisible, maxDiceFaceCount, standardPlayerRole, gridType, new ArrayList<>(), new ArrayList<>());
 				
 				// Initialize the game service which ties everything together
 				GameService gameService = new GameProvider(model, playerName);
@@ -315,7 +318,7 @@ public class ClientApplication extends Application implements ServerListener, Co
 			// Create a new Gameevent-Service for the new connection and register it if there is none yet present
 			if(!getServiceRegistry().getServiceProviders(ClientGameeventService.class, false).hasNext()) {
 				try {
-					getServiceRegistry().registerServiceProvider(new ClientGameeventProvider(connectionEvent.getSource(), ClientGameeventService.class));
+					getServiceRegistry().registerServiceProvider(new ClientGameeventProvider(connectionEvent.getSource()));
 					logger.info("A new ClientGameeventProvider has been registered");
 				} catch (Exception e) {
 					logger.log(Level.SEVERE, "ClientGameeventProvider could not be registered", e);
@@ -339,7 +342,7 @@ public class ClientApplication extends Application implements ServerListener, Co
 			
 			// Fetch the current gameevent service
 			
-			ClientGameeventService geservice = getServiceRegistry().getServiceProviders(ClientGameeventservice.class, false).next();
+			ClientGameeventService geservice = getServiceRegistry().getServiceProviders(ClientGameeventService.class, false).next();
 			if(geservice != null) {
 				// Remove invalidated connection from service
 				geservice.setConnection(null);
