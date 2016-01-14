@@ -9,14 +9,13 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import wifen.client.services.ClientGameeventService;
 import wifen.commons.network.Connection;
 import wifen.commons.network.ConnectionEvent;
 import wifen.commons.network.ConnectionListener;
 import wifen.commons.network.Packet;
 import wifen.commons.network.events.PacketReceivedEvent;
-import wifen.commons.network.packets.ChatPacket;
 import wifen.commons.network.packets.GameeventPacket;
-import wifen.commons.network.packets.impl.ChatPacketImpl;
 import wifen.commons.network.packets.impl.GameeventPacketImpl;
 
 public class ClientGameeventProvider implements ClientGameeventService, ConnectionListener {
@@ -56,8 +55,8 @@ public class ClientGameeventProvider implements ClientGameeventService, Connecti
 		@Override
 		public void loadGameeventlog(List<String> gelog) {
 			logger.info("Loading Gameevent-Log: " + gelog);
-			getChatHistory().clear();
-			getChatHistory().addAll(gelog);
+			getGameeventHistory().clear();
+			getGameeventHistory().addAll(gelog);
 		}
 		
 		@Override
