@@ -17,24 +17,21 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-<<<<<<< HEAD
 import javafx.scene.control.Alert.AlertType;
-=======
->>>>>>> branch 'master' of https://github.com/Nerokin/PBG2H14A-WiFen
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
+import javafx.stage.Stage;
 import wifen.client.application.ClientApplication;
 import wifen.client.services.ClientChatService;
 import wifen.client.services.impl.ClientRefreshProvider;
 import wifen.commons.GameStateModel;
 import wifen.commons.network.Connection;
-import wifen.commons.network.impl.ConnectionImpl;
 
 public class SpielbrettController extends BorderPane {
 	
@@ -116,14 +113,15 @@ public class SpielbrettController extends BorderPane {
 		} catch (Exception e) {
 			logger.log(Level.WARNING, "Es ist kein ChatService registriert", e);
 		}
-		
+		//Optionen aus Spielbrett aufrufen
 		optionID.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae) {
-				Parent p = null;
 				try {
-					p = new OptionenController();
-					getScene().setRoot(p);
-				} catch (IOException e) {
+	                Parent root1 = new OptionenController();
+	                Stage stage = new Stage();
+	                stage.setScene(new Scene(root1));  
+	                stage.show();
+	        } catch (IOException e) {
 					new Alert(AlertType.ERROR, "Optionsmenü konnte nicht geladen werden").showAndWait();
 				}
 			}
@@ -140,7 +138,7 @@ public class SpielbrettController extends BorderPane {
 		//Schließt das Spielbrett und öffnet das Hauptmenü
 		dcID.setOnAction(new EventHandler<ActionEvent>(){
 			
-			 @Override public void handle(ActionEvent e) {
+			 @Override public void handle(ActionEvent ae) {
 				 if(!ClientApplication.instance().getServiceRegistry().getServiceProviderByClass(Connection.class).close()){
 					 Parent p = null;
 					 try{

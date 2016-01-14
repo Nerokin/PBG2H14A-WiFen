@@ -12,12 +12,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 /**
  * Put description here
@@ -125,10 +127,11 @@ public class Hauptmenu extends GridPane {
 	}
 	
 	private final void optionenHmBtnOnAction(ActionEvent event) {
-		Parent p = null;
 		try {
-			p = new OptionenController();
-			getScene().setRoot(p);
+			 Parent root1 = new OptionenController();
+             Stage stage = new Stage();
+             stage.setScene(new Scene(root1));
+             stage.show();
 		} catch (IOException e) {
 			new Alert(AlertType.ERROR, "Optionsmenü konnte nicht geladen werden").showAndWait();
 		}
