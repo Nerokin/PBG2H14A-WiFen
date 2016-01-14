@@ -43,6 +43,7 @@ public class ChatController extends TitledPane {
 	private final ObjectProperty<ClientChatService> chatService = new SimpleObjectProperty<>();
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 	private final StringProperty playerName = new SimpleStringProperty();
+	private final StringProperty playerRole = new SimpleStringProperty();
 	
 	// Attributes
 	
@@ -99,9 +100,10 @@ public class ChatController extends TitledPane {
 	 * @param playerName
 	 * @throws IOException
 	 */
-	public ChatController(ClientChatService chatService, String playerName) throws IOException {
+	public ChatController(ClientChatService chatService, String playerName, String playerRole) throws IOException {
 		this(chatService);
 		setPlayerName(playerName);
+		setPlayerRole(playerRole);
 	}
 
 	// Initialization
@@ -158,7 +160,31 @@ public class ChatController extends TitledPane {
 		if (getChatService() != null) {
 			// Call the chat service to send the message
 			getChatService().sendMessage(getPlayerName(), txt_Eingabe.getText());
-				
+			/*
+			 * Chat an gezielten Spieler
+			 * //<-- hier wird noch eine Liste benötigt in der alle Spieler stehen, damit der andere Spieler identifizierbar ist!!!
+			 */
+			String eingabe = txt_Eingabe.getText();
+			String eingabeSplit [] = eingabe.split(" ");
+			String Name = (eingabeSplit[1]);
+			
+			if(Name.equals(playerName))
+			{
+			if(txt_Eingabe.getText() == "/msg"+Name)
+			{
+				getChatService().sendMessage(getPlayerName(), txt_Eingabe.getText());
+			}
+			else{
+				logger.warning("Der eingegebene Spieler Name ist falsch!");
+			}
+			}
+			/*
+			 * Chatbefehl für SpielerRolle
+			 */
+			if(txt_Eingabe.getText() == "/rolle")
+			{
+				Lv_Chat.setItems(getChatService().showRole(playerRole));
+			}
 			// Reset the text input
 			txt_Eingabe.setText(null);
 		} else {
@@ -183,9 +209,12 @@ public class ChatController extends TitledPane {
 	public EventHandler<ActionEvent> getOnChatMessageAction() {
 		return onChatMessageAction;
 	}
-
 	public final StringProperty playerNameProperty() {
 		return this.playerName;
+	}
+	
+	public final StringProperty playerRoleProperty(){
+		return this.playerRole;	
 	}
 	
 
@@ -193,11 +222,17 @@ public class ChatController extends TitledPane {
 		return this.playerNameProperty().get();
 	}
 	
+	public final java.lang.String getShowRole(){
+		return this.playerRoleProperty().get();
+	}
 
 	public final void setPlayerName(final java.lang.String playerName) {
 		this.playerNameProperty().set(playerName);
 	}
 
+	public final void setPlayerRole(final String playerRole2){
+		this.playerRoleProperty().set(playerRole2);
+	}
 	public final ObjectProperty<ClientChatService> chatServiceProperty() {
 		return this.chatService;
 	}
