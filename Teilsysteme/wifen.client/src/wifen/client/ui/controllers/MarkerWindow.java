@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TitledPane;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,9 +23,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import wifen.client.services.impl.FileLoaderProvider;
 
 /**
  * 
@@ -32,11 +31,24 @@ import wifen.client.services.impl.FileLoaderProvider;
  * 
  * @author Hitziger Fabian (pbg2h14ahi)
  */
-public class MarkerWindow extends Pane{
+public class MarkerWindow extends TitledPane{
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 	public ObservableList<Button> button_colors = FXCollections.observableArrayList();
 	public ObservableList<ImageView> image_shapes = FXCollections.observableArrayList();
 	public String[] colors = new String[]{"orange","lightblue","yellow","green","red","greenyellow"};
+	
+	private static MarkerWindow instance;
+	
+	public static MarkerWindow getInstance(){
+		if(instance == null)
+			try {
+				instance = new MarkerWindow();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		return instance;
+	}
 	
 	@FXML ListView<Button> markerColor;
 	@FXML ListView<ImageView> markerShape;
@@ -66,6 +78,8 @@ public class MarkerWindow extends Pane{
 	@FXML
 	private void initialize(){
 		//Beispiel für das erstellen einer Farbe
+		instance=this;
+		setText("Marker");
 		Button temp;
 		System.out.println(colors.length);
 		for(int i = 0; i < colors.length;i++){

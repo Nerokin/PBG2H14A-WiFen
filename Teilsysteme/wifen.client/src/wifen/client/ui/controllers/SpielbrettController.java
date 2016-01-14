@@ -10,23 +10,25 @@ import org.controlsfx.control.CheckComboBox;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
-<<<<<<< HEAD
 import javafx.scene.control.Alert.AlertType;
-=======
->>>>>>> branch 'master' of https://github.com/Nerokin/PBG2H14A-WiFen
 import javafx.scene.control.Button;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
 import wifen.client.application.ClientApplication;
@@ -50,16 +52,20 @@ public class SpielbrettController extends BorderPane {
 	private final ObjectProperty<GameStateModel> currentModel = new SimpleObjectProperty<>();
 	
 	@FXML StackPane PlayField;
-	@FXML CheckComboBox choiceID;
+	@FXML CheckComboBox<Node> choiceID;
 	@FXML Button optionID;
 	@FXML Button refreshID;
 	@FXML Button dcID;
+	@FXML public VBox ereignisVBoxID;
 	@FXML public ChatController chatBox;
+	@FXML public Wuerfelfenster diceBox;
+	@FXML public MarkerWindow markerBox;
+	//@FXML public MedienbibliothekController mediaLibrary;
+	//@FXML public AdminFenster adminBox;
 	@FXML public EreignisFenster ereignisBox;
 	
 	private SpielfeldView playfield;
 	private MarkerWindow markerWindow;
-	//private MedienbibliothekController mediaLibrary;
 	
 	//@FXML private FormationDisplay formatDisplay;
 	//TODO
@@ -117,6 +123,45 @@ public class SpielbrettController extends BorderPane {
 			logger.log(Level.WARNING, "Es ist kein ChatService registriert", e);
 		}
 		
+		// create the data to  show in the CheckComboBox 
+			final ObservableList<Node> choices = FXCollections.observableArrayList();
+		 
+				 choices.add(chatBox);
+				 choices.add(diceBox);
+				 choices.add(ereignisBox);
+				 choices.add(markerBox);
+				 //choices.add(mediaLibBox);
+				 //choices.add(adminBox);
+				 
+
+				 
+			 // Create the CheckComboBox with the data 
+			 choiceID.getItems().addAll(choices);
+				 
+		
+			// and listen to the relevant events (e.g. when the selected indices or selected items change).
+			 choiceID.getCheckModel().getCheckedItems().addListener(new ListChangeListener<Node>() 
+			 {
+			     public void onChanged(ListChangeListener.Change<? extends Node> c) 
+			     {
+			         System.out.println(c);
+			         //choiceID.getCheckModel().getCheckedItems().forEach((item) -> item.setVisible(!item.isVisible()));
+			         choiceID.getItems().forEach((node) -> {
+			        	if (choiceID.getCheckModel().getCheckedItems().contains(node)) 
+			        	{
+			        		if(!ereignisVBoxID.getChildren().contains(node))
+			        			ereignisVBoxID.getChildren().add( node);
+			        		((Node) node).setVisible(true);
+			        	}
+			        	else
+			        	{
+			        		ereignisVBoxID.getChildren().remove(node);
+			        		 node.setVisible(false);
+			        	}
+			         });
+			     }
+			 });
+			 
 		optionID.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae) {
 				Parent p = null;
@@ -231,13 +276,5 @@ public class SpielbrettController extends BorderPane {
 	public void setPlayfield(SpielfeldView playfield) {
 		this.playfield = playfield;
 	}
-	
-	/*public MedienbibliothekController getMediaLibrary(){
-		return mediaLibrary;
-	}
-	
-	public void setMedienbibliothekController(MedienbibliothekController mediaLibrary){
-		this.mediaLibrary = mediaLibrary;
-	}*/
 	
 }
