@@ -5,18 +5,22 @@ import java.io.IOException;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import wifen.commons.Player;
 import wifen.commons.SpielerRolle;
-
+import wifen.commons.impl.PlayerImpl;
 
 /**
- * Anzeige vom Ereignisfenster
+ * Anzeige vom AdminFenster
  * 
  * @author Kevin Curtis
  *
@@ -25,7 +29,7 @@ public class AdminFensterController extends VBox {
 
 	// Constants
 
-	public static final String CSS_PATH = "/wifen/client/ui/css/AdminFenster.css";
+	public static final String CSS_PATH = "/wifen/client/ui/css/AdminFensterController.css";
 	public static final String FXML_PATH = "/wifen/client/ui/views/AdminFenster.fxml";
 
 	// Properties
@@ -34,12 +38,25 @@ public class AdminFensterController extends VBox {
 
 	// Injected Nodes
 
-	@FXML private Button speichern_btn;
-	@FXML private Button edit_btn;
-	@FXML private Button neu_btn;
-	@FXML private Button zuweisen_btn;
-	@FXML private ListView<SpielerRolle> rollenList;
-	@FXML private ListView<Player> spielerList;
+	@FXML
+	private Button speichern_btn;
+	@FXML
+	private Button edit_btn;
+	@FXML
+	private Button neu_btn;
+	@FXML
+	private Button zuweisen_btn;
+	@FXML
+	private ListView<SpielerRolle> rollenList;
+	@FXML
+	private ListView<PlayerImpl> spielerList;
+
+	private PlayerImpl peter;
+
+	private ObservableList<SpielerRolle> spielerRollen = FXCollections.observableArrayList();
+	private ObservableList<PlayerImpl> spielerListen = FXCollections.observableArrayList();
+	// private ObservableList<SpielerListe>spieler =
+	// FXCollections.observableArrayList();
 
 	// Constructor
 
@@ -67,30 +84,65 @@ public class AdminFensterController extends VBox {
 		edit_btn.setOnAction(this::edit);
 		neu_btn.setOnAction(this::neu);
 		zuweisen_btn.setOnAction(this::zuweisen);
+
+		spielerRollen.addAll(SpielerRolle.values());
+		rollenList.setItems(spielerRollen);
+
+		peter = new PlayerImpl("Peter");
+		spielerListen.add(peter);
+		spielerList.setItems(spielerListen);
+
+		System.out.println(peter.getRolle());
 	}
 
 	// Event Handler
 
-	public void speichern(ActionEvent event)
-	{
-		
+	public void speichern(ActionEvent event) {
+
 	}
 
-	public void edit(ActionEvent event)
-	{
-		
+	public void edit(ActionEvent event) {
+		if (rollenList.getSelectionModel().getSelectedItem() == null)
+			System.out.println("Bitte wähle eine Rolle aus");
+		else {
+			try {
+				Stage editStage = new Stage();
+				editStage.setScene(new Scene(new AdminRollenEdit()));
+				editStage.centerOnScreen();
+				editStage.setTitle("Edit");
+				editStage.show();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
-	
-	public void neu(ActionEvent event)
-	{
-		
+
+	public void neu(ActionEvent event) {
+		try {
+			Stage newStage = new Stage();
+			newStage.setScene(new Scene(new AdminRollenNeu()));
+			newStage.centerOnScreen();
+			newStage.setTitle("Neu");
+			newStage.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-	
-	public void zuweisen(ActionEvent event)
-	{
-		
+
+	public void zuweisen(ActionEvent event) {
+		if (spielerList.getSelectionModel().getSelectedItem() == null)
+			System.out.println("Bitte eine rolle auswählen");
+		else if (rollenList.getSelectionModel().getSelectedItem() == null)
+			System.out.println("Bitte ein Spieler auswählen");
+		else {
+			SpielerRolle rolle = rollenList.getSelectionModel().getSelectedItem();
+			spielerList.getSelectionModel().getSelectedItem().setRolle(rolle);
+		}
+
+		System.out.println(peter.getRolle());
 	}
-	
+
 	// Getter & Setter
 
 	public FXMLLoader getFXMLLoader() {

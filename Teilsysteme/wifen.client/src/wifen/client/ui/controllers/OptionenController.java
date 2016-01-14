@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -18,6 +19,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.Alert.AlertType;
 //import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 /**
  * Interaction logic for the options view
@@ -45,14 +47,13 @@ public class OptionenController extends AnchorPane {
 	@FXML CheckBox cbMuteSound;
 	@FXML Slider sliderMaxDateigroesse;
 	@FXML Button btnSpeichern;
-	@FXML Button btnAbbrechen;
 	@FXML Label ipAdress;
 	@FXML Label versionNumber;
 
 	// @FXML private FormationDisplay formatDisplay;
 	// TODO
 
-	// Constructor
+	// Constructor.
 
 	/**
 	 * Put description here
@@ -78,7 +79,6 @@ public class OptionenController extends AnchorPane {
 	// Initialization
 	@FXML
 	private void initialize() {
-		btnAbbrechen.setOnAction(this::optionenHmBtnOnAction);
 		btnSpeichern.setOnAction(this::speichernOnAction);
 		sliderVolumen.setValue(prefs.getDouble("Volume", sliderVolumen.getMax()));
 		cbMuteMusik.setSelected(prefs.getBoolean("MusicMuted", false));
@@ -87,25 +87,14 @@ public class OptionenController extends AnchorPane {
 	}
 
 	// Event Handlers	
-	private final void optionenHmBtnOnAction(ActionEvent event) {
-		Parent p = null;
-		try {
-			p = new Hauptmenu();
-			getScene().setRoot(p);
-		} catch (IOException e) {
-			new Alert(AlertType.ERROR, "Hauptmenü konnte nicht geladen werden").showAndWait();
-		}
-	}
-	
-	
 	/**
 	 * Saves the options in the user preferences
 	 */
 	private void speichernOnAction(ActionEvent event){
-		prefs.putDouble("Volume", sliderVolumen.getValue());
-		prefs.putBoolean("MusicMuted", cbMuteMusik.isSelected());
-		prefs.putBoolean("SoundMuted", cbMuteSound.isSelected());
-		prefs.putDouble("MaxFileSize", sliderMaxDateigroesse.getValue());		
+                prefs.putDouble("Volume", sliderVolumen.getValue());
+        		prefs.putBoolean("MusicMuted", cbMuteMusik.isSelected());
+        		prefs.putBoolean("SoundMuted", cbMuteSound.isSelected());
+        		prefs.putDouble("MaxFileSize", sliderMaxDateigroesse.getValue());	
 	}
 	
 	

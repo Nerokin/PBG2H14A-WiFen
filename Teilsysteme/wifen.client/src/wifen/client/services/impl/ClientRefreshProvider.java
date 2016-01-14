@@ -66,6 +66,7 @@ public class ClientRefreshProvider implements ClientRefreshService, ConnectionLi
 				ClientApplication client = ClientApplication.instance();
 				client.getServiceRegistry().getServiceProviderByClass(GameService.class).overrideModel(state);
 				client.getServiceRegistry().getServiceProviderByClass(ClientChatProvider.class).loadChatlog(state.getChatLog());
+				client.getServiceRegistry().getServiceProviderByClass(ClientGameeventProvider.class).loadGameeventlog(state.getEreignisLog());
 			}
 		}
 	}

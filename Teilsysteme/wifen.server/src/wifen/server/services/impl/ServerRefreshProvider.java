@@ -7,12 +7,10 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import wifen.client.services.GameService;
 import wifen.commons.network.ConnectionEvent;
 import wifen.commons.network.Packet;
 import wifen.commons.network.events.PacketReceivedEvent;
 import wifen.commons.network.packets.RefreshPacket;
-import wifen.commons.network.packets.impl.RefreshPacketImpl;
 import wifen.server.network.Server;
 import wifen.server.services.ServerRefreshService;
 
@@ -35,8 +33,9 @@ public class ServerRefreshProvider implements ServerRefreshService, Registerable
 			Packet packet = packetEvent.getPacket();
 			if(packet instanceof RefreshPacket){
 				// GameState des Servers holen und zurückschicken
-				RefreshPacketImpl refreshPacket = new RefreshPacketImpl(getRegistry().getServiceProviders(category, useOrdering).getCurrentModel());
-				getServer().broadcastPacket(packet);
+				// RefreshPacketImpl refreshPacket = new RefreshPacketImpl(getRegistry().getServiceProviders(category, useOrdering).getCurrentModel());
+				
+				// connectionEvent.getSource().sendPacket(refreshPacket);
 			}
 		}
 	}

@@ -15,9 +15,10 @@ public class GameStateModel implements Serializable {
 	private SpielerRolle standardRolle;
 	private SpielfeldModel viewModel;
 	private ArrayList<String> chatLog;
+	private ArrayList<String> ereignisLog;
 
 	public GameStateModel(int maxPlayerCount, boolean spectatingAllowed, boolean mediaVisible, int maxSideCount,
-			SpielerRolle standard, GridType grid, ArrayList<String> chat) {
+			SpielerRolle standard, GridType grid, ArrayList<String> chat, ArrayList<String> ereignis) {
 		this.maxPlayerCount = maxPlayerCount;
 		this.spectatingAllowed = spectatingAllowed;
 		this.mediaVisible = mediaVisible;
@@ -25,6 +26,7 @@ public class GameStateModel implements Serializable {
 		this.standardRolle = standard;
 		this.viewModel = new SpielfeldModel(grid, 1920, 1080);
 		this.chatLog = chat;
+		this.ereignisLog = ereignis;
 	}
 
 	void setMaxPlayerCount(int newPlayerCount) {
@@ -50,6 +52,10 @@ public class GameStateModel implements Serializable {
 	void setChatLog(ArrayList<String> chat){
 		this.chatLog = chat;
 	}
+	
+	void setEreignisLog(ArrayList<String> ereignis){
+		this.chatLog = ereignis;
+	}
 
 	public int getMaxPlayerCount() {
 		return this.maxPlayerCount;
@@ -73,6 +79,10 @@ public class GameStateModel implements Serializable {
 	
 	public ArrayList<String> getChatLog(){
 		return this.chatLog;
+	}
+	
+	public ArrayList<String> getEreignisLog(){
+		return this.ereignisLog;
 	}
 
 	public SpielfeldModel getViewModel() {
