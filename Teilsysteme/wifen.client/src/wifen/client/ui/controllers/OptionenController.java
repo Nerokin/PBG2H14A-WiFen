@@ -53,7 +53,7 @@ public class OptionenController extends AnchorPane {
 	// @FXML private FormationDisplay formatDisplay;
 	// TODO
 
-	// Constructor.
+	// Constructor
 
 	/**
 	 * Put description here

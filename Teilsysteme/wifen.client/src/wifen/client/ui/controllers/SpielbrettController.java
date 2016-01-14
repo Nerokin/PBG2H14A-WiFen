@@ -111,7 +111,7 @@ public class SpielbrettController extends BorderPane {
 		} catch (Exception e) {
 			logger.log(Level.WARNING, "Es ist kein ChatService registriert", e);
 		}
-		//Optionen von Spielbrett aufrufen
+		//Optionen vom Spielbrett aufrufen
 		optionID.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae) {
 				try {
