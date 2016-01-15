@@ -53,7 +53,7 @@ public class SpielBeitretenController extends BorderPane {
 	@FXML TextField tfIp;
 	@FXML Label ipAdress;
 	@FXML Label versionNumber;
-	@FXML Button btnEnter;
+	@FXML Button connectButton;
 	@FXML Button backToMenuBtn;
 
 	// @FXML private FormationDisplay formatDisplay;
@@ -103,7 +103,7 @@ public class SpielBeitretenController extends BorderPane {
 		}
 		});
 		
-		btnEnter.setOnAction(new EventHandler<ActionEvent>(){
+		connectButton.setOnAction(new EventHandler<ActionEvent>(){
 			 public void handle(ActionEvent e) {
 				 try{
 					 Connection tmpConn = null;
@@ -111,7 +111,7 @@ public class SpielBeitretenController extends BorderPane {
 						 tmpConn = ClientApplication.instance().getServiceRegistry().getServiceProviders(Connection.class, true).next();
 					 } catch (NoSuchElementException e2) {
 						 InetAddress tmpAdd = InetAddress.getByName(tfIp.getText());
-						 tmpConn = new ConnectionImpl(tmpAdd, ApplicationConstants.APPLICATION_PORT);
+						 tmpConn = new ConnectionImpl(tmpAdd, ApplicationConstants.APPLICATION_PORT, ClientApplication.instance());
 						 ClientApplication.instance().getServiceRegistry().registerServiceProvider(tmpConn, Connection.class);
 					 }
 						 

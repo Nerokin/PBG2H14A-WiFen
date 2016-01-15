@@ -4,6 +4,7 @@
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
 
 <fx:root maxHeight="1920" maxWidth="1080" minHeight="800" minWidth="600" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -86,6 +87,7 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Button>
+                  <Button fx:id="connectButton" text="Verbinden" />
                </children>
             </VBox>
             <VBox prefHeight="679.0" prefWidth="238.0">

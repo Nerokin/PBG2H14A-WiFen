@@ -30,6 +30,7 @@ public class ServerGameProvider implements ServerGameService, ConnectionListener
 	
 	public ServerGameProvider(Server s, GameStateModel initialModel, ServerGameeventService eventService) {
 		this.setServer(s);
+		s.addListener(this);
 		this.gameState = initialModel;
 		this.gameEventService = eventService;
 		
@@ -60,7 +61,7 @@ public class ServerGameProvider implements ServerGameService, ConnectionListener
 				
 				// Nachschauen ob noch Platz im Aktiven Game ist
 				if (playerConns.size() < getGameState().getMaxPlayerCount()){
-					addPlayer(packet.getName(), getGameState().getStandardPlayerRole(), packet.getSource());
+					addPlayer(packet.getName(), getGameState().getStandardPlayerRole(), connectionEvent.getSource());
 				}
 				else
 				{

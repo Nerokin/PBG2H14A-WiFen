@@ -148,7 +148,6 @@ import wifen.client.services.impl.ClientRefreshProvider;
 			 {
 			     public void onChanged(ListChangeListener.Change<? extends Node> c) 
 			     {
-			         System.out.println(c);
 			         //choiceID.getCheckModel().getCheckedItems().forEach((item) -> item.setVisible(!item.isVisible()));
 			         choiceID.getItems().forEach((node) -> {
 			        	if (choiceID.getCheckModel().getCheckedItems().contains(node)) 

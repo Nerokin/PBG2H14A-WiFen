@@ -26,6 +26,15 @@ public class EnterGamePacketImpl extends PacketImpl implements EnterGamePacket{
 	}
 	
 	@Override
+	public String toString() {
+		return getClass().getSimpleName() + "{"
+				+ "name: " + getName()
+				+ ", initialModel: " + getInitialModel()
+				+ ", player: " + getPlayer()
+				+ "}";
+	}
+	
+	@Override
 	public String getName() {		
 		return name;
 	}
