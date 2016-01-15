@@ -78,6 +78,8 @@ public class MarkerWindow extends TitledPane{
 	@FXML
 	private void initialize(){
 		//Beispiel für das erstellen einer Farbe
+		setText("Marker");
+		
 		instance=this;
 		setText("Marker");
 		Button temp;

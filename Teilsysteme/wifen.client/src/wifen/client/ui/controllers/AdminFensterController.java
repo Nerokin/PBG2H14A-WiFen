@@ -80,6 +80,9 @@ public class AdminFensterController extends TitledPane {
 	@FXML
 	private void initialize() {
 		// TODO: Data Binding and Setup of Event Handling
+		
+		setText("Admin");
+		
 		speichern_btn.setOnAction(this::speichern);
 		edit_btn.setOnAction(this::edit);
 		neu_btn.setOnAction(this::neu);
