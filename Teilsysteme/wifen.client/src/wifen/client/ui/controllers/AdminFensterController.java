@@ -28,28 +28,20 @@ import wifen.commons.impl.PlayerImpl;
 public class AdminFensterController extends TitledPane {
 
 	// Constants
-
 	public static final String CSS_PATH = "/wifen/client/ui/css/AdminFensterController.css";
 	public static final String FXML_PATH = "/wifen/client/ui/views/AdminFenster.fxml";
 
 	// Properties
-
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 
 	// Injected Nodes
-
-	@FXML
-	private Button speichern_btn;
-	@FXML
-	private Button edit_btn;
-	@FXML
-	private Button neu_btn;
-	@FXML
-	private Button zuweisen_btn;
-	@FXML
-	private ListView<SpielerRolle> rollenList;
-	@FXML
-	private ListView<PlayerImpl> spielerList;
+	@FXML private Button speichern_btn;
+	@FXML private Button edit_btn;
+	@FXML private Button neu_btn;
+	@FXML private Button zuweisen_btn;
+	@FXML private ListView<SpielerRolle> rollenList;
+	@FXML private ListView<PlayerImpl> spielerList;
+	@FXML private TitledPane titledPane;
 
 	private PlayerImpl peter;
 
@@ -59,7 +51,6 @@ public class AdminFensterController extends TitledPane {
 	// FXCollections.observableArrayList();
 
 	// Constructor
-
 	public AdminFensterController() throws IOException {
 		super();
 
