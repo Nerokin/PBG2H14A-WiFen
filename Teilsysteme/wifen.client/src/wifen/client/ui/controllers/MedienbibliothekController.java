@@ -14,7 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.TitledPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import wifen.commons.Medium;
@@ -28,7 +28,7 @@ import wifen.commons.services.impl.TxtNode;
  * @author unknown
  *
  */
-public class MedienbibliothekController extends AnchorPane
+public class MedienbibliothekController extends TitledPane
 {
 	ObservableList<Medium> liste = FXCollections.observableArrayList();
 	
@@ -65,7 +65,13 @@ public class MedienbibliothekController extends AnchorPane
 	@FXML
 	private void initialize()
 	{		
+		setText("Medien");
 		listViewMedien.setItems(liste);	
+	}
+	
+	@Override
+	public String toString() {
+		return "Medien";
 	}
 	
 	//Event Handlers

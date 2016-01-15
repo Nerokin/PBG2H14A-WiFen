@@ -5,7 +5,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<fx:root maxHeight="1920" maxWidth="1080" minHeight="800" minWidth="600" type="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root type="TitledPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<content>
+<AnchorPane>
    <children>
       <Button id="btnMedienUpload" fx:id="btnMedienUpload" layoutX="20.0" layoutY="311.0" mnemonicParsing="false" onAction="#medienUpload" prefHeight="25.0" prefWidth="262.0" text="Upload" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="18.0" />
       <Button id="btnMedienBrowser" fx:id="btnMedienBrowser" layoutX="236.0" layoutY="286.0" mnemonicParsing="false" onAction="#medienBrowser" prefHeight="25.0" prefWidth="45.0" text="..." AnchorPane.bottomAnchor="39.0" AnchorPane.rightAnchor="19.0" />
@@ -19,4 +21,6 @@
          </font>
       </Label>
    </children>
+   </AnchorPane>
+   </content>
 </fx:root>

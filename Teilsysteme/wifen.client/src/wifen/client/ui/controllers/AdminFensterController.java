@@ -13,7 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.TitledPane;
 import javafx.stage.Stage;
 import wifen.commons.Player;
 import wifen.commons.SpielerRolle;
@@ -25,31 +25,23 @@ import wifen.commons.impl.PlayerImpl;
  * @author Kevin Curtis
  *
  */
-public class AdminFensterController extends VBox {
+public class AdminFensterController extends TitledPane {
 
 	// Constants
-
 	public static final String CSS_PATH = "/wifen/client/ui/css/AdminFensterController.css";
 	public static final String FXML_PATH = "/wifen/client/ui/views/AdminFenster.fxml";
 
 	// Properties
-
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 
 	// Injected Nodes
-
-	@FXML
-	private Button speichern_btn;
-	@FXML
-	private Button edit_btn;
-	@FXML
-	private Button neu_btn;
-	@FXML
-	private Button zuweisen_btn;
-	@FXML
-	private ListView<SpielerRolle> rollenList;
-	@FXML
-	private ListView<PlayerImpl> spielerList;
+	@FXML private Button speichern_btn;
+	@FXML private Button edit_btn;
+	@FXML private Button neu_btn;
+	@FXML private Button zuweisen_btn;
+	@FXML private ListView<SpielerRolle> rollenList;
+	@FXML private ListView<PlayerImpl> spielerList;
+	@FXML private TitledPane titledPane;
 
 	private PlayerImpl peter;
 
@@ -59,7 +51,6 @@ public class AdminFensterController extends VBox {
 	// FXCollections.observableArrayList();
 
 	// Constructor
-
 	public AdminFensterController() throws IOException {
 		super();
 
@@ -80,6 +71,9 @@ public class AdminFensterController extends VBox {
 	@FXML
 	private void initialize() {
 		// TODO: Data Binding and Setup of Event Handling
+		
+		setText("Admin");
+		
 		speichern_btn.setOnAction(this::speichern);
 		edit_btn.setOnAction(this::edit);
 		neu_btn.setOnAction(this::neu);
@@ -141,6 +135,11 @@ public class AdminFensterController extends VBox {
 		}
 
 		System.out.println(peter.getRolle());
+	}
+	
+	@Override
+	public String toString() {
+		return "Admin";
 	}
 
 	// Getter & Setter

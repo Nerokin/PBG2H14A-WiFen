@@ -57,6 +57,12 @@ public class EreignisFenster extends TitledPane {
 	@FXML
 	private void initialize() {
 		// TODO: Data Binding and Setup of Event Handling
+		setText("Ereignisse");
+	}
+	
+	@Override
+	public String toString() {
+		return "Ereignisse";
 	}
 
 	// Event Handler
