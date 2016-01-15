@@ -62,7 +62,7 @@ public class ClientGameeventProvider implements ClientGameeventService, Connecti
 		@Override
 		public void sendGameevent(String playername, String message) {
 			if (getConnection() != null && getConnection().isConnected()) {
-				GameeventPacket gepacket = new GameeventPacketImpl(playername, message);
+				GameeventPacket gepacket = new GameeventPacketImpl(message);
 				logger.info("Sending ChatPacket: " + gepacket);
 				getConnection().sendPacket(gepacket);
 			} else {
@@ -94,10 +94,10 @@ public class ClientGameeventProvider implements ClientGameeventService, Connecti
 				Packet packet = packetEvent.getPacket();
 				if (packet instanceof GameeventPacket) {
 					GameeventPacket gepacket = (GameeventPacket) packet;
-					logger.info("Incoming ChatPacket: " + gepacket);
+					logger.info("Incoming GameEventPacket: " + gepacket);
 					
 					// Perform change on JavaFX Application Thread as this service is most likely being used by UI Components
-					Platform.runLater(() -> getGameeventHistory().add(gepacket.getSourceName() + ": " + gepacket.getMessage()));
+					Platform.runLater(() -> getGameeventHistory().add(gepacket.getMessage()));
 				}
 			}
 		}

@@ -35,7 +35,8 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import wifen.client.application.ClientApplication;
  import wifen.client.services.ClientChatService;
- import wifen.client.services.impl.ClientRefreshProvider;
+import wifen.client.services.ClientGameeventService;
+import wifen.client.services.impl.ClientRefreshProvider;
  import wifen.commons.GameStateModel;
  import wifen.commons.network.Connection;
  import wifen.commons.network.impl.ConnectionImpl;
@@ -120,6 +121,7 @@ import wifen.client.application.ClientApplication;
  	@FXML
  	private void initialize() {
  		try {
+ 			ereignisBox.ereignislogTF.setItems(ClientApplication.instance().getServiceRegistry().getServiceProviders(ClientGameeventService.class, false).next().getGameeventHistory());
  			chatBox.setChatService(ClientApplication.instance().getServiceRegistry().getServiceProviders(ClientChatService.class, false).next());
  		} catch (Exception e) {
  			logger.log(Level.WARNING, "Es ist kein ChatService registriert", e);

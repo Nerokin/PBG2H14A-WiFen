@@ -1,8 +1,12 @@
 package wifen.server.services.impl;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import wifen.commons.GameStateModel;
+import wifen.commons.Player;
+import wifen.commons.SpielerRolle;
+import wifen.commons.impl.PlayerImpl;
 import wifen.commons.network.Connection;
 import wifen.commons.network.ConnectionEvent;
 import wifen.commons.network.ConnectionListener;
@@ -15,19 +19,37 @@ import wifen.server.services.ServerGameeventService;
 
 public class ServerGameProvider implements ServerGameService, ConnectionListener {
 
+	// Attributes
+	
 	private Server server;
 	private GameStateModel gameState;
-	private Map<String, Connection> playerConns;
+	private Map<Player, Connection> playerConns = new HashMap<>();
 	private ServerGameeventService gameEventService;
 	
+	// Constructor(s)
+	
 	public ServerGameProvider(Server s, GameStateModel initialModel, ServerGameeventService eventService) {
-		// TODO Auto-generated constructor stub
 		this.setServer(s);
 		this.gameState = initialModel;
 		this.gameEventService = eventService;
 		
 	}
 	
+	// <--- ServerGameService --->
+	
+	@Override
+	public void addPlayer(String playerName, SpielerRolle role, Connection associatedConnection) {
+		Player player = new PlayerImpl(playerName, role);
+		
+		// Wenn ja: Wird der ConnectionList hinzugefügt
+		playerConns.put(player, associatedConnection);
+		// Schicken ein EnterGamePacket an den beitretenden Spieler
+		associatedConnection.sendPacket(new EnterGamePacketImpl(player, getGameState()));
+		// EnterGameMessage auslösen bei allen Spielern
+		gameEventService.fireEvent(playerName + " ist dem Spiel beigetreten.");
+	}
+	
+	// <--- ConnectionListener --->
 	
 	@Override
 	public void handle(ConnectionEvent connectionEvent) {
@@ -38,12 +60,7 @@ public class ServerGameProvider implements ServerGameService, ConnectionListener
 				
 				// Nachschauen ob noch Platz im Aktiven Game ist
 				if (playerConns.size() < getGameState().getMaxPlayerCount()){
-					// Wenn ja: Wird der ConnectionList hinzugefügt
-					playerConns.put(packet.getName(), packet.getSource());
-					// Schicken ein EnterGamePacket an den beitretenden Spieler
-					packet.getSource().sendPacket(new EnterGamePacketImpl(packet.getName(), getGameState()));
-					// EnterGameMessage auslösen bei allen Spielern
-					gameEventService.fireEvent(packet.getName() + " ist dem Spiel beigetreten.");
+					addPlayer(packet.getName(), getGameState().getStandardPlayerRole(), packet.getSource());
 				}
 				else
 				{
@@ -76,12 +93,12 @@ public class ServerGameProvider implements ServerGameService, ConnectionListener
 	}
 
 
-	public Map<String, Connection> getPlayerConns() {
+	public Map<Player, Connection> getPlayerConns() {
 		return playerConns;
 	}
 
 
-	public void setPlayerConns(Map<String, Connection> playerConns) {
+	public void setPlayerConns(Map<Player, Connection> playerConns) {
 		this.playerConns = playerConns;
 	}
 	

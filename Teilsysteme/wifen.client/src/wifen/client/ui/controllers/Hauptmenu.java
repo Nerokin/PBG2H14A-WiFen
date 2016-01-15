@@ -3,6 +3,8 @@ package wifen.client.ui.controllers;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
@@ -29,6 +31,8 @@ import javafx.stage.Stage;
  * @author Justin Nussbaum (Exit Button)
  */
 public class Hauptmenu extends GridPane {
+	
+	Logger logger = Logger.getLogger(Hauptmenu.class.getSimpleName());
 
 	// Constants
 
@@ -122,6 +126,7 @@ public class Hauptmenu extends GridPane {
 			p = new SpielBeitretenController();
 			getScene().setRoot(p);
 		} catch (IOException e) {
+			logger.log(Level.SEVERE, "Spielbeitrittsformular konnte nicht geladen werden", e);
 			new Alert(AlertType.ERROR, "Spielbeitrittsformular konnte nicht geladen werden").showAndWait();
 		}
 	}
