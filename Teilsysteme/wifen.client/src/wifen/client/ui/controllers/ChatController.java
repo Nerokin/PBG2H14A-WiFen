@@ -177,7 +177,7 @@ public class ChatController extends TitledPane {
 			
 			if(Name.equals(playerName))
 			{
-			if(txt_Eingabe.getText().equals("/msg"+Name))
+			if(txt_Eingabe.getText().equals("/msg "+Name))
 			{
 				getChatService().sendMessage(getPlayerName(), txt_Eingabe.getText());
 			}
@@ -188,7 +188,7 @@ public class ChatController extends TitledPane {
 			/*
 			 * Chatbefehl für SpielerRolle
 			 */
-			if(txt_Eingabe.getText().equals("/rolle") )
+			if(txt_Eingabe.getText().equals("/rolle"))
 			{
 				Lv_Chat.setItems(getChatService().showRole(playerRole));
 			}
