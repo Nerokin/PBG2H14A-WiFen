@@ -1,6 +1,7 @@
 
 package wifen.client.ui.controllers;
 
+import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -230,10 +231,12 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 						System.out.println("Invalid coordinates for placing Marker: Out of field!");
 					} else {
 						if(event.isControlDown()){
-							Image i = new Image("src/wifen/client/resources/note.png", true);
+							File file = new File(getClass().getResource("../../resources/note.png").getFile());
+							Image i = new Image(file.toURI().toString());
 							MarkerModel m = new MarkerModel(event.getX(), event.getY(), new MarkerType("note", i), "");
 							model.placeMarker(m);
 							((Pane) event.getSource()).getChildren().add(new MarkerView(m, self));
+							System.out.println("Ctrl down!");
 							// snapshot renders all children again so the added element is displayed properly
 							self.snapshot(null,null);
 						}else{
@@ -325,6 +328,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 	@Override
 	public MarkerType getSelectedType() {
 		ImageView iv = markerWindow.getSelectedMarkerType();
+		System.out.println(iv);
 		return new MarkerType(iv.getImage(), iv.getId());
 	}
 	

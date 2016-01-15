@@ -96,7 +96,7 @@ import wifen.client.services.impl.ClientRefreshProvider;
  	public SpielbrettController(GameStateModel initialModel) throws IOException {
  		this();
  		// Initialize Playfield
- 		setMarkerWindow(new MarkerWindow());
+ 		setMarkerWindow(MarkerWindow.getInstance());
  		setPlayfield(new SpielfeldView(20, 20, initialModel.getViewModel(), getMarkerWindow()));
  		PlayField.getChildren().add(getPlayfield());
  		Polyline scale = new Polyline();
