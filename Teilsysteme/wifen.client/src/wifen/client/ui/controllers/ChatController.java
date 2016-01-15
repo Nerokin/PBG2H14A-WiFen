@@ -126,6 +126,13 @@ public class ChatController extends TitledPane {
 		// Listen on Service change
 		chatServiceProperty().addListener(this::onChatServiceChanged);
 	}
+	
+	// Methods
+	
+	@Override
+	public String toString() {
+		return "Chat";
+	}
 
 	// Event Handlers
 	

@@ -19,6 +19,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import wifen.client.services.ClientChatService;
 import wifen.client.services.ClientGameeventService;
+import wifen.client.services.ClientRefreshService;
 import wifen.client.services.GameService;
 import wifen.client.services.OptionService;
 import wifen.client.services.impl.ClientChatProvider;
@@ -42,6 +43,7 @@ import wifen.server.network.events.ServerStartedEvent;
 import wifen.server.network.impl.ServerImpl;
 import wifen.server.services.ServerChatService;
 import wifen.server.services.ServerGameeventService;
+import wifen.server.services.ServerRefreshService;
 import wifen.server.services.impl.ServerChatProvider;
 import wifen.server.services.impl.ServerGameeventProvider;
 
@@ -96,6 +98,11 @@ public class ClientApplication extends Application implements ServerListener, Co
 		SERVICES.add(ServerChatService.class); // Active Server Chat Service
 		SERVICES.add(GameService.class); // Active Game
 		SERVICES.add(OptionService.class); // Game settings
+		SERVICES.add(ClientGameeventService.class); // Ereignislog
+		SERVICES.add(ServerGameeventService.class); // Ereignislog
+		SERVICES.add(ServerRefreshService.class); // Refresh Service
+		SERVICES.add(ClientRefreshService.class); // Refresh Service
+		
 	}
 
 	// Constructor(s)

@@ -150,13 +150,11 @@ package wifen.client.ui.controllers;
 			        	if (choiceID.getCheckModel().getCheckedItems().contains(node)) 
 			        	{
 			        		if(!ereignisVBoxID.getChildren().contains(node))
-			        			ereignisVBoxID.getChildren().add( node);
-			        		((Node) node).setVisible(true);
+			        			ereignisVBoxID.getChildren().add(node);
 			        	}
 			        	else
 			        	{
 			        		ereignisVBoxID.getChildren().remove(node);
-			        		 node.setVisible(false);
 			        	}
 			         });
 			     }
