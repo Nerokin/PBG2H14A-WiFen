@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import wifen.client.services.GameService;
 import wifen.client.ui.controllers.SpielbrettController;
 import wifen.commons.GameStateModel;
+import wifen.commons.Player;
 
 /**
  * Implementation of the {@linkplain GameService} interface.
@@ -21,13 +22,13 @@ public class GameProvider implements GameService {
 	
 	// Attributes
 	
-	private String playerName;
+	private Player activePlayer;
 	private SpielbrettController gameView;
 	
 	// Constructor(s)
 	
-	public GameProvider(GameStateModel initialModel, String playerName) throws IOException {
-		setPlayerName(playerName);
+	public GameProvider(GameStateModel initialModel, Player player) throws IOException {
+		this.activePlayer = player;
 		setGameView(new SpielbrettController(initialModel));
 	}
 
@@ -50,15 +51,16 @@ public class GameProvider implements GameService {
 
 	@Override
 	public String getPlayerName() {
-		return playerName;
-	}
-
-	public void setPlayerName(String playerName) {
-		this.playerName = playerName;
+		return getActivePlayer().getName();
 	}
 
 	public void setGameView(SpielbrettController gameView) {
 		this.gameView = gameView;
+	}
+
+	@Override
+	public Player getActivePlayer() {
+		return activePlayer;
 	}
 
 }

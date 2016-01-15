@@ -81,7 +81,7 @@
                         <Font size="32.0" />
                      </font>
                   </Label>
-                  <Button fx:id="backToMenuBtn" mnemonicParsing="false" onAction="#backToMenuOnAction" prefHeight="50.0" prefWidth="90.0" text="Zurück">
+                  <Button fx:id="backToMenuBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="90.0" text="Zurück">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>

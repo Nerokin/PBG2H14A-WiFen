@@ -43,8 +43,6 @@ public class AdminFensterController extends TitledPane {
 	@FXML private ListView<PlayerImpl> spielerList;
 	@FXML private TitledPane titledPane;
 
-	private PlayerImpl peter;
-
 	private ObservableList<SpielerRolle> spielerRollen = FXCollections.observableArrayList();
 	private ObservableList<PlayerImpl> spielerListen = FXCollections.observableArrayList();
 	// private ObservableList<SpielerListe>spieler =
@@ -81,12 +79,6 @@ public class AdminFensterController extends TitledPane {
 
 		spielerRollen.addAll(SpielerRolle.values());
 		rollenList.setItems(spielerRollen);
-
-		peter = new PlayerImpl("Peter");
-		spielerListen.add(peter);
-		spielerList.setItems(spielerListen);
-
-		System.out.println(peter.getRolle());
 	}
 
 	// Event Handler
@@ -133,8 +125,6 @@ public class AdminFensterController extends TitledPane {
 			SpielerRolle rolle = rollenList.getSelectionModel().getSelectedItem();
 			spielerList.getSelectionModel().getSelectedItem().setRolle(rolle);
 		}
-
-		System.out.println(peter.getRolle());
 	}
 	
 	@Override

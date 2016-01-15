@@ -1,5 +1,6 @@
 package wifen.commons;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import wifen.commons.services.FileNode;
@@ -10,7 +11,10 @@ import wifen.commons.services.FileNode;
  * @author unknown
  *
  */
-public class SpielfeldModel {
+public class SpielfeldModel implements Serializable {
+	
+	// Class Constants
+	private static final long serialVersionUID = -8355739346048731596L;
 	
 	private GridType typ;
 	private ArrayList<FileNode<?>> files;
