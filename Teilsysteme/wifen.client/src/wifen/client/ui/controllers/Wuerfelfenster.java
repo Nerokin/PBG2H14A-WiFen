@@ -128,6 +128,7 @@ public class Wuerfelfenster extends TitledPane {
 
 
 			//TODO: Data Binding and Setup of Event Handling
+			setText("Würfel");
 		}
 		
 		@Override
