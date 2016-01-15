@@ -21,7 +21,8 @@ package wifen.client.ui.controllers;
  import javafx.geometry.Pos;
  import javafx.scene.Node;
  import javafx.scene.Parent;
- import javafx.scene.control.Alert;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
  import javafx.scene.control.Alert.AlertType;
  import javafx.scene.control.Button;
  import javafx.scene.control.Alert.AlertType;
@@ -31,7 +32,8 @@ package wifen.client.ui.controllers;
  import javafx.scene.layout.VBox;
  import javafx.scene.paint.Color;
  import javafx.scene.shape.Polyline;
- import wifen.client.application.ClientApplication;
+import javafx.stage.Stage;
+import wifen.client.application.ClientApplication;
  import wifen.client.services.ClientChatService;
  import wifen.client.services.impl.ClientRefreshProvider;
  import wifen.commons.GameStateModel;
@@ -161,17 +163,20 @@ package wifen.client.ui.controllers;
 			 });
 			 
  			 
- 		optionID.setOnAction(new EventHandler<ActionEvent>() {
- 			public void handle(ActionEvent ae) {
- 				Parent p = null;
- 				try {
- 					p = new OptionenController();
- 					getScene().setRoot(p);
- 				} catch (IOException e) {
- 					new Alert(AlertType.ERROR, "Optionsmenü konnte nicht geladen werden").showAndWait();
+ 			//Optionen aus Spielbrett aufrufen
+ 			optionID.setOnAction(new EventHandler<ActionEvent>() {
+ 				public void handle(ActionEvent ae) {
+ 					try {
+ 		                Parent root1 = new OptionenController();
+ 		                Stage stage = new Stage();
+ 		                stage.setScene(new Scene(root1));  
+ 		                stage.show();
+ 		        } catch (IOException e) {
+ 						new Alert(AlertType.ERROR, "Optionsmenü konnte nicht geladen werden").showAndWait();
+ 					}
  				}
- 			}
- 		});
+ 			});
+ 			
  		try{
  			
  		} catch(Exception e){
