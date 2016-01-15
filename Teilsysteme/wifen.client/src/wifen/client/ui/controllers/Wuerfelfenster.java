@@ -129,6 +129,11 @@ public class Wuerfelfenster extends TitledPane {
 
 			//TODO: Data Binding and Setup of Event Handling
 		}
+		
+		@Override
+		public String toString() {
+			return "Wuerfel";
+		}
 
 		//Event Handlers
 

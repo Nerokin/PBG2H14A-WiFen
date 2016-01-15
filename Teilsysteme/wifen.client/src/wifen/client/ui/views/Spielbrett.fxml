@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<?import wifen.client.ui.controllers.ChatController?>
+<?import wifen.client.ui.controllers.*?>
 <?import org.controlsfx.control.CheckComboBox?>
 <?import javafx.scene.layout.StackPane?>
 
@@ -25,6 +25,10 @@
       <VBox fx:id="ereignisVBoxID">
          <children>
             <ChatController fx:id="chatBox" />
+            <Wuerfelfenster fx:id="diceBox" />
+            <EreignisFenster fx:id="ereignisBox" />
+            <MarkerWindow fx:id="markerBox" />
+            <AdminFensterController fx:id="adminBox" />
          </children>
       </VBox>
    </right>

@@ -13,7 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.TitledPane;
 import javafx.stage.Stage;
 import wifen.commons.Player;
 import wifen.commons.SpielerRolle;
@@ -25,7 +25,7 @@ import wifen.commons.impl.PlayerImpl;
  * @author Kevin Curtis
  *
  */
-public class AdminFensterController extends VBox {
+public class AdminFensterController extends TitledPane {
 
 	// Constants
 
@@ -141,6 +141,11 @@ public class AdminFensterController extends VBox {
 		}
 
 		System.out.println(peter.getRolle());
+	}
+	
+	@Override
+	public String toString() {
+		return "Admin";
 	}
 
 	// Getter & Setter

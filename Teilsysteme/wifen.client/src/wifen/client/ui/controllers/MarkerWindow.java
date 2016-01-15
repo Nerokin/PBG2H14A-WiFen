@@ -133,6 +133,11 @@ public class MarkerWindow extends TitledPane{
 		});
 
 	}
+	
+	@Override
+	public String toString() {
+		return "Marker";
+	}
 
 	public FXMLLoader getFXMLLoader() {
 		return fxmlLoader.get();

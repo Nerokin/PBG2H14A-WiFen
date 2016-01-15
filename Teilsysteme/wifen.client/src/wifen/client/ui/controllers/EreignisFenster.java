@@ -58,6 +58,11 @@ public class EreignisFenster extends TitledPane {
 	private void initialize() {
 		// TODO: Data Binding and Setup of Event Handling
 	}
+	
+	@Override
+	public String toString() {
+		return "Ereignisse";
+	}
 
 	// Event Handler
 
