@@ -33,7 +33,9 @@ import wifen.commons.network.ConnectionEvent;
 import wifen.commons.network.ConnectionListener;
 import wifen.commons.network.events.ConnectionClosedEvent;
 import wifen.commons.network.events.ConnectionEstablishedEvent;
+import wifen.commons.network.events.PacketReceivedEvent;
 import wifen.commons.network.impl.ConnectionImpl;
+import wifen.commons.network.packets.EnterGamePacket;
 import wifen.server.network.Server;
 import wifen.server.network.ServerEvent;
 import wifen.server.network.ServerListener;
@@ -353,6 +355,26 @@ public class ClientApplication extends Application implements ServerListener, Co
 			
 			// Deregister the Connection
 			getServiceRegistry().deregisterServiceProvider(connectionEvent.getSource(), Connection.class);
+			
+		} else if (connectionEvent instanceof PacketReceivedEvent) {
+			PacketReceivedEvent packetEvent = (PacketReceivedEvent) connectionEvent;
+			if (packetEvent.getPacket() instanceof EnterGamePacket) {
+				EnterGamePacket packet = (EnterGamePacket) packetEvent.getPacket();
+				
+				// Falls der Name zurückkommt, kommt das Modell mit ( falls kein Modell kommt -> Fehler)
+				if(packet.getName() != null && packet.getInitialModel() != null){
+				// Registriere den GameProvider, mit dem GAmeState aus dem Packet
+					try {
+						getServiceRegistry().registerServiceProvider(new GameProvider(packet.getInitialModel(), packet.getName()), GameProvider.class);
+						logger.info("A new GameProvider has been registered");
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						logger.log(Level.SEVERE, "GameProvider could not be registered", e);
+					}
+				}			
+			}
+			
+			
 		}
 
 	}

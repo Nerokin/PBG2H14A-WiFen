@@ -12,4 +12,5 @@ public interface ServerGameeventService extends ConnectionListener {
 	
 	public Server getServer();
 	public void setServer(Server newServer);
+	public void fireEvent(String eventMessage);
 }
