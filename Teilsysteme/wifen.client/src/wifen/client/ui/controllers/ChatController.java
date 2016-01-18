@@ -1,6 +1,5 @@
 package wifen.client.ui.controllers;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.logging.Logger;
 
@@ -197,7 +196,6 @@ public class ChatController extends TitledPane {
 	} 
 
 	// Getter & Setter
-
 	public FXMLLoader getFXMLLoader() {
 		return fxmlLoader.get();
 	}
@@ -219,8 +217,7 @@ public class ChatController extends TitledPane {
 	
 	public final StringProperty playerRoleProperty(){
 		return this.playerRole;	
-	}
-	
+	}	
 
 	public final java.lang.String getPlayerName() {
 		return this.playerNameProperty().get();
@@ -237,15 +234,14 @@ public class ChatController extends TitledPane {
 	public final void setPlayerRole(final String playerRole2){
 		this.playerRoleProperty().set(playerRole2);
 	}
+	
 	public final ObjectProperty<ClientChatService> chatServiceProperty() {
 		return this.chatService;
-	}
-	
+	}	
 
 	public final wifen.client.services.ClientChatService getChatService() {
 		return this.chatServiceProperty().get();
-	}
-	
+	}	
 
 	public final void setChatService(final wifen.client.services.ClientChatService chatService) {
 		this.chatServiceProperty().set(chatService);
