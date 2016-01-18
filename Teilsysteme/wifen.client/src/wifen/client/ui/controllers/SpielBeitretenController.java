@@ -48,8 +48,8 @@ public class SpielBeitretenController extends BorderPane {
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 
 	// Injected Nodes
-	@FXML TextField tfPort;
 	@FXML TextField tfname;
+	@FXML TextField tf_port;
 	@FXML TextField tfIp;
 	@FXML Label ipAdress;
 	@FXML Label versionNumber;

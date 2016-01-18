@@ -99,6 +99,7 @@ public class ClientApplication extends Application implements ServerListener, Co
 		SERVICES.add(Connection.class); // Active Connection to Server (Network Client)
 		SERVICES.add(ClientChatService.class); // Active Client Chat Service
 		SERVICES.add(ServerChatService.class); // Active Server Chat Service
+		SERVICES.add(ServerGameService.class); // Active Game (Serverside)
 		SERVICES.add(GameService.class); // Active Game
 		SERVICES.add(OptionService.class); // Game settings
 		SERVICES.add(ClientGameeventService.class); // Ereignislog
@@ -236,7 +237,6 @@ public class ClientApplication extends Application implements ServerListener, Co
 				// Connect to local Server
 				startConnection(InetAddress.getLocalHost());
 				
-				
 				// Initialize the model
 				GameStateModel model = new GameStateModel(maximumPlayerCount, spectatorsAllowed, mediaInitiallyVisible, maxDiceFaceCount, standardPlayerRole, gridType, new ArrayList<>(), new ArrayList<>());
 				
@@ -352,6 +352,10 @@ public class ClientApplication extends Application implements ServerListener, Co
 				getServiceRegistry().deregisterServiceProvider(geservice, ClientGameeventService.class);
 			}
 			
+			// Fetch current game service
+			GameService gameService = getServiceRegistry().getServiceProviders(GameService.class, true).next();
+			getServiceRegistry().deregisterServiceProvider(gameService, GameService.class);
+			
 			// Deregister the Connection
 			getServiceRegistry().deregisterServiceProvider(connectionEvent.getSource(), Connection.class);
 			
@@ -405,7 +409,7 @@ public class ClientApplication extends Application implements ServerListener, Co
 					}
 					
 					// Define the Game's Chat Player Name
-					gameService.getGameView().chatBox.setPlayerName(gameService.getPlayerName());
+					gameService.getGameView().chatBox.setPlayerName(gameService.getActivePlayerName());
 					
 					// Display the game's playfield
 					getServiceRegistry().getServiceProviders(Stage.class, false).next().getScene().setRoot(gameService.getGameView());

@@ -30,10 +30,12 @@ public class EreignisFenster extends TitledPane {
 
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 
-	// Injected Nodes
 
 	private ObservableList<String> ereignislogList = FXCollections.observableArrayList();
-	@FXML public ListView<String> ereignislogTF;
+	
+	// Injected Nodes
+	@FXML public TitledPane tp_ereignis;
+	@FXML public ListView<String> lv_ereignislog;
 
 	// Constructor
 
@@ -74,7 +76,7 @@ public class EreignisFenster extends TitledPane {
 	 */
 	public void log(String text) {
 		ereignislogList.add(text);
-		ereignislogTF.setItems(ereignislogList);
+		lv_ereignislog.setItems(ereignislogList);
 	}
 
 	/**

@@ -212,7 +212,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 				if(hasPressed && hasDragged && event.isControlDown()){
 					values[2]=event.getX();
 					values[3]=event.getY();
-					ClientApplication.instance().getServiceRegistry().getServiceProviders(ClientGameeventService.class, false).next().sendGameevent(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getPlayerName(), (distance(values[0],values[1],values[2],values[3]))+" Units");
+					ClientApplication.instance().getServiceRegistry().getServiceProviders(ClientGameeventService.class, false).next().sendGameevent(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayerName(), (distance(values[0],values[1],values[2],values[3]))+" Units");
 				}
 				if(drawn){
 					drawn = false;

@@ -16,7 +16,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="name_tbx" prefHeight="25.0" prefWidth="160.0" />
+            <TextField fx:id="tf_name" prefHeight="25.0" prefWidth="160.0" />
          </children>
       </HBox>
       <HBox alignment="CENTER" prefHeight="57.0" prefWidth="300.0" spacing="40.0">
@@ -36,14 +36,14 @@
             <Insets bottom="10.0" />
          </VBox.margin>
       </HBox>
-      <CheckTreeView fx:id="checkTreeView" prefHeight="195.0" prefWidth="280.0" />
+      <CheckTreeView fx:id="ctv_spielElemente" prefHeight="195.0" prefWidth="280.0" />
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
          <children>
             <Label text="Alle Elemente Sichtbar">
                <font>
                   <Font size="14.0" />
                </font></Label>
-            <CheckBox fx:id="alleElementeSichtbar_cbx" mnemonicParsing="false" />
+            <CheckBox fx:id="cbx_alleElementeSichtbar" mnemonicParsing="false" />
          </children>
       </HBox>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
@@ -52,10 +52,10 @@
                <font>
                   <Font size="14.0" />
                </font></Label>
-            <CheckBox fx:id="verdeckt_cbx" mnemonicParsing="false" />
+            <CheckBox fx:id="cbx_verdecktWuerfeln" mnemonicParsing="false" />
          </children>
       </HBox>
-      <Button fx:id="erstellen_btn" mnemonicParsing="false" text="Erstellen" />
+      <Button fx:id="btn_erstellen" mnemonicParsing="false" text="Erstellen" />
    </children>
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

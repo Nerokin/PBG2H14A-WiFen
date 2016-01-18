@@ -105,8 +105,10 @@ public class ConnectionImpl implements Connection {
 				ois = new ObjectInputStream(getSocket().getInputStream());
 				Object obj = null;
 				while ((obj = ois.readObject()) != null) { 
-					if(obj instanceof Packet)
+					if(obj instanceof Packet) {
+						((Packet) obj).setSource(this);
 						fireEvent(new PacketReceivedEventImpl((Packet) obj, this));
+					}
 				}
 			} catch (ClassNotFoundException e) {
 				logger.log(Level.WARNING, "Input type could not be found", e);

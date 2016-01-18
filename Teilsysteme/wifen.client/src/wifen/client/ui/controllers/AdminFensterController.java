@@ -83,6 +83,7 @@ public class AdminFensterController extends TitledPane {
 
 	// Event Handler
 
+
 	public void speichern(ActionEvent event) {
 
 	}
@@ -107,7 +108,7 @@ public class AdminFensterController extends TitledPane {
 	public void neu(ActionEvent event) {
 		try {
 			Stage newStage = new Stage();
-			newStage.setScene(new Scene(new AdminRollenNeu()));
+			newStage.setScene(new Scene(new AdminRollenNeu(lv_rollen.getSelectionModel().getSelectedItem())));
 			newStage.centerOnScreen();
 			newStage.setTitle("Neu");
 			newStage.show();
