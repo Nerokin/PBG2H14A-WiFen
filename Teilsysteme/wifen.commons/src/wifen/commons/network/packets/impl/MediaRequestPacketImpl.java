@@ -19,7 +19,6 @@ public class MediaRequestPacketImpl extends PacketImpl implements MediaRequestPa
 		this.requestType = requesttype;
 	}
 
-	
 	@Override
 	public String toString()
 	{
