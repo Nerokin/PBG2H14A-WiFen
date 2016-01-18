@@ -1,5 +1,6 @@
 package wifen.server.services.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -15,8 +16,10 @@ import wifen.commons.network.events.ConnectionClosedEvent;
 import wifen.commons.network.events.PacketReceivedEvent;
 import wifen.commons.network.packets.EnterGamePacket;
 import wifen.commons.network.packets.MarkerPacket;
+import wifen.commons.network.packets.PlayerListPacket;
 import wifen.commons.network.packets.impl.EnterGamePacketImpl;
 import wifen.commons.network.packets.impl.MarkerPacketImpl;
+import wifen.commons.network.packets.impl.PlayerListPacketImpl;
 import wifen.server.network.Server;
 import wifen.server.services.ServerGameService;
 import wifen.server.services.ServerGameeventService;
@@ -85,7 +88,12 @@ public class ServerGameProvider implements ServerGameService, ConnectionListener
 				getGameState().getViewModel().getMarkers().add(packet.getMarkerModel());
 				getPlayerConns().values()
 				.forEach((connection) -> connection.sendPacket(new MarkerPacketImpl(packet.getMarkerModel())));
+			} 
+			else if(packetEvent.getPacket() instanceof PlayerListPacket){
+				ArrayList<Player> players = new ArrayList<>(getPlayerConns().keySet());
+				connectionEvent.getSource().sendPacket(new PlayerListPacketImpl(players));
 			}
+			
 		} else if (connectionEvent instanceof ConnectionClosedEvent) {
 			Player p = getConnectionPlayer(connectionEvent.getSource());
 			getPlayerConns().remove(p);
