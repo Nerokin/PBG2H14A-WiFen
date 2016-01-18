@@ -9,6 +9,7 @@ import wifen.commons.network.Packet;
 import wifen.commons.network.events.PacketReceivedEvent;
 import wifen.commons.network.packets.MediaDataPacket;
 import wifen.commons.network.packets.MediaRequestPacket;
+import wifen.commons.network.packets.impl.MediaRequestPacketImpl;
 import wifen.server.network.Server;
 import wifen.server.services.ServerMediaService;
 
@@ -43,6 +44,9 @@ public class ServerMediaProvider implements ServerMediaService
 					// TODO:
 					// Check if Sender is Host then accept automatically
 					// else ask Host for permission
+					
+					// Or just accept to make it easy :P
+					connectionEvent.getSource().sendPacket(new MediaRequestPacketImpl(null, requestPacket.getFileName(), 1));
 				}
 				
 			}
