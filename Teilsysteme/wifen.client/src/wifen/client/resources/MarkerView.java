@@ -7,6 +7,8 @@ import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import wifen.client.application.ClientApplication;
+import wifen.client.services.GameService;
 import wifen.client.ui.controllers.SpielfeldView;
 import wifen.commons.MarkerModel;
 
@@ -80,10 +82,11 @@ public class MarkerView extends Parent {
 		this.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				if(event.getButton() == MouseButton.SECONDARY  && !event.isControlDown()) {
+				if(event.getButton() == MouseButton.SECONDARY  && !event.isControlDown() && ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(((MarkerView)event.getSource()).marker.getOwner())) {
 					MarkerView mv = (MarkerView) event.getSource();
-					parent.removeFromView(mv);
-					parent.getModel().removeMarker(mv.marker); 
+					ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMarkerRemoved(mv.marker.hashCode());
+					//parent.removeFromView(mv);
+					//parent.getModel().removeMarker(mv.marker); 
 				}
 			}
 		});
