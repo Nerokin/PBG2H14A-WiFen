@@ -17,6 +17,8 @@ public interface ClientGameeventService {
 	public void loadGameeventlog(List<String> gameeventlog);
 	public void sendGameevent(String playername, String message);
 	
+	public void makeLocalGameevent(String playername, String message);
+	
 	public ObservableList<String> getGameeventHistory();
 	public Connection getConnection();
 	public void setConnection(Connection newConnection);
