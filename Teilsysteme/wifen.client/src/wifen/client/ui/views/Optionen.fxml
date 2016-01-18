@@ -1,61 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.layout.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.text.*?>
 
-<fx:root maxHeight="1920" maxWidth="1080" minHeight="800" minWidth="600" type="Pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label layoutX="828.0" layoutY="68.0" text="WiFeN">
+
+<fx:root minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Label alignment="CENTER" prefWidth="300.0" text="WiFeN" textAlignment="CENTER" BorderPane.alignment="CENTER">
          <font>
-            <Font size="90.0" />
+            <Font size="96.0" />
          </font>
       </Label>
-      <Label layoutX="827.0" layoutY="192.0" text="Sound Optionen" underline="true">
-         <font>
-            <Font size="40.0" />
-         </font>
-      </Label>
-      <Label layoutX="695.0" layoutY="306.0" text="Volumen:">
-         <font>
-            <Font size="35.0" />
-         </font>
-      </Label>
-      <Slider fx:id="sliderVolumen" id="sliderVolumen" layoutX="1041.0" layoutY="318.0" prefHeight="14.0" prefWidth="264.0" />
-      <CheckBox fx:id="cbMuteMusik" id="cbMuteMusik" layoutX="906.0" layoutY="396.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="7.0" scaleX="2.0" scaleY="2.0" scaleZ="2.0" />
-      <Label layoutX="693.0" layoutY="379.0" text="Mute Musik">
-         <font>
-            <Font size="35.0" />
-         </font>
-      </Label>
-      <Label layoutX="954.0" layoutY="379.0" text="Mute Sound">
-         <font>
-            <Font size="35.0" />
-         </font>
-      </Label>
-      <CheckBox id="cbMuteSound" layoutX="1172.0" layoutY="396.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="7.0" scaleX="2.0" scaleY="2.0" />
-      <Label layoutX="817.0" layoutY="481.0" text="Medien Optionen" underline="true">
-         <font>
-            <Font size="40.0" />
-         </font>
-      </Label>
-      <Label layoutX="690.0" layoutY="575.0" text="Maximale Dateigröße:">
-         <font>
-            <Font size="35.0" />
-         </font>
-      </Label>
-      <Slider id="sliderMaxDateigroesse" layoutX="1041.0" layoutY="594.0" prefHeight="14.0" prefWidth="264.0" />
-      <Button id="btnSpeichern" layoutX="1024.0" layoutY="769.0" mnemonicParsing="false" scaleX="2.0" scaleY="2.0" text="Speichern" />
-      <Label id="ipAdress" layoutX="44.0" layoutY="1021.0" text="IP:">
-         <font>
-            <Font size="44.0" />
-         </font>
-      </Label>
-      <Label fx:id="versionNumber" id="versionNumber" layoutX="44.0" layoutY="967.0" text="Version: 0.01">
-         <font>
-            <Font size="44.0" />
-         </font>
-      </Label>
-   </children>
+   </top>
+   <bottom>
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="BOTTOM_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="795.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="26.0">
+               <children>
+                  <Label id="versionNumber" fx:id="versionNumber" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="35.0" text="IP: ">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="200.0" text="255.255.255.255">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="BOTTOM_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="795.0" AnchorPane.bottomAnchor="2.0" AnchorPane.rightAnchor="5.0">
+               <children>
+                  <Label id="ipAdress" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="100.0" text="Version:" textAlignment="CENTER">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="50.0" text="0.01" textAlignment="CENTER">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </bottom>
+   <center>
+      <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Sound Optionen" underline="true">
+               <font>
+                  <Font size="40.0" />
+               </font>
+            </Label>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Volumen:">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                  </Label>
+                  <Slider id="sliderVolumen" fx:id="sliderVolumen" prefHeight="14.0" prefWidth="264.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <CheckBox id="cbMuteMusik" fx:id="cbMuteMusik" mnemonicParsing="false" prefHeight="17.0" prefWidth="7.0" />
+                  <Label text="Mute Musik">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                  </Label>
+                  <Label text="Mute Sound">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                  </Label>
+                  <CheckBox id="cbMuteSound" mnemonicParsing="false" prefHeight="17.0" prefWidth="7.0" />
+               </children>
+            </HBox>
+            <Label text="Medien Optionen" underline="true">
+               <font>
+                  <Font size="40.0" />
+               </font>
+            </Label>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Maximale Dateigröße:">
+                     <font>
+                        <Font size="35.0" />
+                     </font>
+                  </Label>
+                  <Slider id="sliderMaxDateigroesse" prefHeight="14.0" prefWidth="264.0" />
+               </children>
+            </HBox>
+            <Button id="btnSpeichern" mnemonicParsing="false" text="Speichern" />
+         </children>
+      </VBox>
+   </center>
 </fx:root>

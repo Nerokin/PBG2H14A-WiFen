@@ -11,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-//import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import wifen.client.application.ClientApplication;
 import wifen.client.services.OptionService;
