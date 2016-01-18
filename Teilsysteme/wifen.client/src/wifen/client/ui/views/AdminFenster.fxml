@@ -21,7 +21,7 @@
                   <Insets left="10.0" />
                </padding>
             </Label>
-            <Button fx:id="speichern_btn" mnemonicParsing="false" text="Sitzung Speichern">
+            <Button fx:id="btn_sitzungSpeichern" mnemonicParsing="false" text="Sitzung Speichern">
                <HBox.margin>
                   <Insets left="105.0" />
                </HBox.margin>
