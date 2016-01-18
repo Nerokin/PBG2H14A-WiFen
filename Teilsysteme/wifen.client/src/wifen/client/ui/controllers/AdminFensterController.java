@@ -35,13 +35,13 @@ public class AdminFensterController extends TitledPane {
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 
 	// Injected Nodes
-	@FXML private Button speichern_btn;
-	@FXML private Button edit_btn;
-	@FXML private Button neu_btn;
-	@FXML private Button zuweisen_btn;
-	@FXML private ListView<SpielerRolle> rollenList;
-	@FXML private ListView<PlayerImpl> spielerList;
-	@FXML private TitledPane titledPane;
+	@FXML private Button btn_sitzungSpeichern;
+	@FXML private Button btn_editieren;
+	@FXML private Button btn_neu;
+	@FXML private Button btn_zuweisen;
+	@FXML private ListView<SpielerRolle> lv_rollen;
+	@FXML private ListView<PlayerImpl> lv_spieler;
+	@FXML private TitledPane tp_admin;
 
 	private ObservableList<SpielerRolle> spielerRollen = FXCollections.observableArrayList();
 	private ObservableList<PlayerImpl> spielerListen = FXCollections.observableArrayList();
@@ -72,13 +72,13 @@ public class AdminFensterController extends TitledPane {
 		
 		setText("Admin");
 		
-		speichern_btn.setOnAction(this::speichern);
-		edit_btn.setOnAction(this::edit);
-		neu_btn.setOnAction(this::neu);
-		zuweisen_btn.setOnAction(this::zuweisen);
+		btn_sitzungSpeichern.setOnAction(this::speichern);
+		btn_editieren.setOnAction(this::edit);
+		btn_neu.setOnAction(this::neu);
+		btn_zuweisen.setOnAction(this::zuweisen);
 
 		spielerRollen.addAll(SpielerRolle.values());
-		rollenList.setItems(spielerRollen);
+		lv_rollen.setItems(spielerRollen);
 	}
 
 	// Event Handler
@@ -89,7 +89,7 @@ public class AdminFensterController extends TitledPane {
 	}
 
 	public void edit(ActionEvent event) {
-		if (rollenList.getSelectionModel().getSelectedItem() == null)
+		if (lv_rollen.getSelectionModel().getSelectedItem() == null)
 			System.out.println("Bitte wähle eine Rolle aus");
 		else {
 			try {
@@ -108,7 +108,7 @@ public class AdminFensterController extends TitledPane {
 	public void neu(ActionEvent event) {
 		try {
 			Stage newStage = new Stage();
-			newStage.setScene(new Scene(new AdminRollenNeu()));
+			newStage.setScene(new Scene(new AdminRollenNeu(lv_rollen.getSelectionModel().getSelectedItem())));
 			newStage.centerOnScreen();
 			newStage.setTitle("Neu");
 			newStage.show();
@@ -118,13 +118,13 @@ public class AdminFensterController extends TitledPane {
 	}
 
 	public void zuweisen(ActionEvent event) {
-		if (spielerList.getSelectionModel().getSelectedItem() == null)
+		if (lv_spieler.getSelectionModel().getSelectedItem() == null)
 			System.out.println("Bitte eine rolle auswählen");
-		else if (rollenList.getSelectionModel().getSelectedItem() == null)
+		else if (lv_rollen.getSelectionModel().getSelectedItem() == null)
 			System.out.println("Bitte ein Spieler auswählen");
 		else {
-			SpielerRolle rolle = rollenList.getSelectionModel().getSelectedItem();
-			spielerList.getSelectionModel().getSelectedItem().setRolle(rolle);
+			SpielerRolle rolle = lv_rollen.getSelectionModel().getSelectedItem();
+			lv_spieler.getSelectionModel().getSelectedItem().setRolle(rolle);
 		}
 	}
 	

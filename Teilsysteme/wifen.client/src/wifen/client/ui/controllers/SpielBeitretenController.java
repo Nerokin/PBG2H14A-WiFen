@@ -19,10 +19,10 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+//import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import wifen.client.application.ApplicationConstants;
 import wifen.client.application.ClientApplication;
-import wifen.client.services.impl.GameProvider;
 import wifen.commons.network.Connection;
 import wifen.commons.network.impl.ConnectionImpl;
 import wifen.commons.network.packets.EnterGamePacket;
@@ -48,12 +48,12 @@ public class SpielBeitretenController extends BorderPane {
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 
 	// Injected Nodes
-	@FXML TextField tfPort;
 	@FXML TextField tfname;
+	@FXML TextField tf_port;
 	@FXML TextField tfIp;
 	@FXML Label ipAdress;
 	@FXML Label versionNumber;
-	@FXML Button connectButton;
+	@FXML Button btnEnter;
 	@FXML Button backToMenuBtn;
 
 	// @FXML private FormationDisplay formatDisplay;
@@ -103,13 +103,19 @@ public class SpielBeitretenController extends BorderPane {
 		}
 		});
 		
-		connectButton.setOnAction(new EventHandler<ActionEvent>(){
+		btnEnter.setOnAction(new EventHandler<ActionEvent>(){
 			 public void handle(ActionEvent e) {
 				 try{
-					Connection tmpConn = ClientApplication.instance().startConnection(InetAddress.getByName(tfIp.getText()));
+					 Connection tmpConn = null;
+					 try {
+						 tmpConn = ClientApplication.instance().getServiceRegistry().getServiceProviders(Connection.class, true).next();
+					 } catch (NoSuchElementException e2) {
+						 InetAddress tmpAdd = InetAddress.getByName(tfIp.getText());
+						 tmpConn = new ConnectionImpl(tmpAdd, ApplicationConstants.APPLICATION_PORT);
+						 ClientApplication.instance().getServiceRegistry().registerServiceProvider(tmpConn, Connection.class);
+					 }
 						 
-					String requestedName = "Peter";
-					logger.log(Level.INFO, requestedName);
+					String requestedName = tfname.getText();
 					EnterGamePacket packet = new EnterGamePacketImpl(requestedName);
 					tmpConn.sendPacket(packet);
 

@@ -121,7 +121,7 @@ import wifen.client.services.impl.ClientRefreshProvider;
  	@FXML
  	private void initialize() {
  		try {
- 			ereignisBox.ereignislogTF.setItems(ClientApplication.instance().getServiceRegistry().getServiceProviders(ClientGameeventService.class, false).next().getGameeventHistory());
+ 			ereignisBox.lv_ereignislog.setItems(ClientApplication.instance().getServiceRegistry().getServiceProviders(ClientGameeventService.class, false).next().getGameeventHistory());
  			chatBox.setChatService(ClientApplication.instance().getServiceRegistry().getServiceProviders(ClientChatService.class, false).next());
  		} catch (Exception e) {
  			logger.log(Level.WARNING, "Es ist kein ChatService registriert", e);

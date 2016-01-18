@@ -49,7 +49,6 @@ public class GameProvider implements GameService, ConnectionListener {
 	public GameProvider(GameStateModel initialModel, Player player) throws IOException {
 		this.activePlayer = player;
 		setGameView(new SpielbrettController(initialModel));
-		getRegistry().getServiceProviders(Connection.class, true).next().addListener(this);
 	}
 	
 	// <--- ConnectionListener --->
@@ -60,7 +59,7 @@ public class GameProvider implements GameService, ConnectionListener {
 			PacketReceivedEvent packetEvent = (PacketReceivedEvent) connectionEvent;
 			if (packetEvent.getPacket() instanceof MarkerPacket) {
 				MarkerPacket packet = (MarkerPacket) packetEvent.getPacket();
-				getGameView().getPlayfield().addToView(new MarkerView(packet.getMarkerModel(), getGameView().getPlayfield()));
+				getGameView().getPlayfield().AddMarker(packet.getMarkerModel());
 			}
 		} else if (connectionEvent instanceof ConnectionClosedEvent) {
 			
@@ -72,9 +71,11 @@ public class GameProvider implements GameService, ConnectionListener {
 	@Override
 	public void onRegistration(ServiceRegistry registry, Class<?> category) {
 		if (getRegistry() != null && !getRegistry().equals(registry))
-			registry.deregisterServiceProvider(this);
-		else
+			registry.deregisterServiceProvider(this); 
+		else {
 			setRegistry(registry);
+			getRegistry().getServiceProviders(Connection.class, true).next().addListener(this);
+		}
 	}
 
 	@Override

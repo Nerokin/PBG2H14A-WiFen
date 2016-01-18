@@ -1,6 +1,7 @@
 package wifen.commons;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * Put description here
@@ -12,6 +13,8 @@ public class MarkerModel implements Serializable {
 	
 	private static final long serialVersionUID = 9190467360671950047L;
 	
+	private final UUID id = UUID.randomUUID();
+	private Player owner;
 	private MarkerType type;
 	private double posx;
 	private double posy;
@@ -26,7 +29,8 @@ public class MarkerModel implements Serializable {
 	 * @param mt
 	 * @param d
 	 */
-	public MarkerModel(double x, double y, MarkerType mt, String d) {
+	public MarkerModel(Player owner, double x, double y, MarkerType mt, String d) {
+		this.owner = owner;
 		this.type = mt;
 		this.posx = x;
 		this.posy = y;
@@ -35,9 +39,20 @@ public class MarkerModel implements Serializable {
 	
 	// Methods
 	
+	@Override
+	public boolean equals(Object obj) {
+		return obj != null
+				&& obj instanceof MarkerModel
+				&& getId().equals(((MarkerModel) obj).getId());
+	}
 	
+	@Override
+	public int hashCode() {
+		return getId().hashCode();
+	}
 
 	// Getters & Setters	
+	
 	public MarkerType getType() {
 		return type;
 	}
@@ -68,6 +83,18 @@ public class MarkerModel implements Serializable {
 
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+
+	public UUID getId() {
+		return id;
+	}
+
+	public Player getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Player owner) {
+		this.owner = owner;
 	}
 	
 	
