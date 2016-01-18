@@ -1,4 +1,4 @@
-package wifen.commons.services.impl;
+package wifen.client.services.impl;
 
 
 import java.io.File;
@@ -18,13 +18,10 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import wifen.commons.impl.PlayerImpl;
 import wifen.client.application.ClientApplication;
-import wifen.client.resources.Marker;
 import wifen.client.services.ClientChatService;
-import wifen.client.ui.controllers.ChatController;
 import wifen.client.ui.controllers.EreignisFenster;
-import wifen.client.ui.controllers.Spielfeld;
+import wifen.commons.impl.PlayerImpl;
 
 public class SaveGameStateToXML {
 

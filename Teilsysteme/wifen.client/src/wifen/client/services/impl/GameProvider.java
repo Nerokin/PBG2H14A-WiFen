@@ -1,6 +1,7 @@
 package wifen.client.services.impl;
 
 import java.io.IOException;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -93,6 +94,12 @@ public class GameProvider implements GameService, ConnectionListener {
 	}
 	
 	// <--- GameService --->
+	
+	@Override
+	public void sendMarkerRemoved(UUID id) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	@Override
 	public void sendMarkerPlaced(MarkerModel marker) {
