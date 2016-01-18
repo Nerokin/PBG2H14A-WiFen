@@ -108,7 +108,7 @@ public class AdminFensterController extends TitledPane {
 	public void neu(ActionEvent event) {
 		try {
 			Stage newStage = new Stage();
-			newStage.setScene(new Scene(new AdminRollenNeu()));
+			newStage.setScene(new Scene(new AdminRollenNeu(rollenList.getSelectionModel().getSelectedItem())));
 			newStage.centerOnScreen();
 			newStage.setTitle("Neu");
 			newStage.show();
