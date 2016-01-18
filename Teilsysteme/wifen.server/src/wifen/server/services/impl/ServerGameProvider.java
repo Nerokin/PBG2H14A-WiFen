@@ -70,7 +70,7 @@ public class ServerGameProvider implements ServerGameService, ConnectionListener
 				
 				// Nachschauen ob noch Platz im Aktiven Game ist
 				if (!packet.getName().trim().equals("") 
-						&& playerConns.size() < getGameState().getMaxPlayerCount()){
+						&& getPlayerConns().size() < getGameState().getMaxPlayerCount()){
 					addPlayer(packet.getName(), getGameState().getStandardPlayerRole(), connectionEvent.getSource());
 				}
 				else

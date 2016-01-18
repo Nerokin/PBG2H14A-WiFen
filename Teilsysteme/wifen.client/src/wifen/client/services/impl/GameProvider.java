@@ -49,7 +49,6 @@ public class GameProvider implements GameService, ConnectionListener {
 	public GameProvider(GameStateModel initialModel, Player player) throws IOException {
 		this.activePlayer = player;
 		setGameView(new SpielbrettController(initialModel));
-		getRegistry().getServiceProviders(Connection.class, true).next().addListener(this);
 	}
 	
 	// <--- ConnectionListener --->
@@ -72,9 +71,11 @@ public class GameProvider implements GameService, ConnectionListener {
 	@Override
 	public void onRegistration(ServiceRegistry registry, Class<?> category) {
 		if (getRegistry() != null && !getRegistry().equals(registry))
-			registry.deregisterServiceProvider(this);
-		else
+			registry.deregisterServiceProvider(this); 
+		else {
 			setRegistry(registry);
+			getRegistry().getServiceProviders(Connection.class, true).next().addListener(this);
+		}
 	}
 
 	@Override
