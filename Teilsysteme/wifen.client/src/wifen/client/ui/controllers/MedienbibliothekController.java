@@ -37,9 +37,9 @@ public class MedienbibliothekController extends TitledPane
 	
 	//Injected Nodes	
 	@FXML
-	private ListView<Medium> listViewMedien;
+	private ListView<Medium> lv_medien;
 	@FXML
-	private TextField tbxMedienBrowser;
+	private TextField tf_browse;
 	
 	//Constructor
 	/**
@@ -66,7 +66,7 @@ public class MedienbibliothekController extends TitledPane
 	private void initialize()
 	{		
 		setText("Medien");
-		listViewMedien.setItems(liste);	
+		lv_medien.setItems(liste);	
 	}
 	
 	@Override
@@ -82,15 +82,15 @@ public class MedienbibliothekController extends TitledPane
 	 */
 	public void medienUpload(ActionEvent event)
 	{
-		File file = (File)tbxMedienBrowser.getUserData();
+		File file = (File)tf_browse.getUserData();
 		if(file != null)
 		{
 			// TODO: upload file to server
 			liste.add(new Medium(file));
 			
 			// Clear text field
-			tbxMedienBrowser.setText(null);
-			tbxMedienBrowser.setUserData(null);
+			tf_browse.setText(null);
+			tf_browse.setUserData(null);
 		}
 	}
 	
@@ -107,8 +107,8 @@ public class MedienbibliothekController extends TitledPane
 		
 		if(file != null)
 		{
-			tbxMedienBrowser.setUserData(file);
-			tbxMedienBrowser.setText(file.getAbsolutePath());
+			tf_browse.setUserData(file);
+			tf_browse.setText(file.getAbsolutePath());
 		}
 	}
 	
@@ -119,7 +119,7 @@ public class MedienbibliothekController extends TitledPane
 	 */
 	public void medien÷ffnen(ActionEvent event)
 	{
-		Medium selectedMedium = listViewMedien.getSelectionModel().getSelectedItem();
+		Medium selectedMedium = lv_medien.getSelectionModel().getSelectedItem();
 		if(selectedMedium == null)
 			return;
 		
@@ -179,7 +179,7 @@ public class MedienbibliothekController extends TitledPane
 	//Getter & Setter
 	public ListView<Medium> getListViewMedien()
 	{
-		return listViewMedien;
+		return lv_medien;
 	}
 	
 	public FXMLLoader getFXMLLoader()

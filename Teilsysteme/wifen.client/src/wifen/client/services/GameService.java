@@ -1,5 +1,7 @@
 package wifen.client.services;
 
+import java.util.UUID;
+
 import javax.imageio.spi.RegisterableService;
 
 import wifen.client.ui.controllers.SpielbrettController;
@@ -21,6 +23,6 @@ public interface GameService extends RegisterableService {
 	public void overrideModel(GameStateModel newModel);
 	public SpielbrettController getGameView();
 	public void sendMarkerPlaced(MarkerModel marker);
-	public void sendMarkerDeleteRequest(int id);
+	public void sendMarkerRemoved(UUID id);
 
 }
