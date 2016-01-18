@@ -35,6 +35,7 @@ public class MarkerView extends Parent {
 		marker = m;
 		this.setTranslateX(marker.getPosx());
 		this.setTranslateY(marker.getPosy());
+		this.adjustPosition();
 		this.getChildren().add(new ImageView(marker.getType().getImg()));
 		
 		marker.getType().getImg().progressProperty().addListener(new ChangeListener<Number>() {

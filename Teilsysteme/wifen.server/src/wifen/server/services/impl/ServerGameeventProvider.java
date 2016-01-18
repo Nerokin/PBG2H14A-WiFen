@@ -48,7 +48,7 @@ public class ServerGameeventProvider implements ServerGameeventService {
 			PacketReceivedEvent packetEvent = (PacketReceivedEvent) connectionEvent;
 			if (packetEvent.getPacket() instanceof GameeventPacket) {
 				GameeventPacket packet = (GameeventPacket) packetEvent.getPacket();
-				getServer().broadcastPacket(new GameeventPacketImpl(packet.getMessage()));
+				getServer().broadcastPacket(new GameeventPacketImpl("",packet.getMessage()));
 			}
 		}
 	}
@@ -74,7 +74,7 @@ public class ServerGameeventProvider implements ServerGameeventService {
 		} catch (NoSuchElementException e) {
 			// TODO ERROR
 		}
-		getServer().broadcastPacket(new GameeventPacketImpl(eventMessage));
+		getServer().broadcastPacket(new GameeventPacketImpl("", eventMessage));
 	}
 	
 	// <--- RegisterableService --->

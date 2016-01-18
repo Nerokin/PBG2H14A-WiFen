@@ -59,7 +59,7 @@ public class GameProvider implements GameService, ConnectionListener {
 			PacketReceivedEvent packetEvent = (PacketReceivedEvent) connectionEvent;
 			if (packetEvent.getPacket() instanceof MarkerPacket) {
 				MarkerPacket packet = (MarkerPacket) packetEvent.getPacket();
-				getGameView().getPlayfield().addToView(new MarkerView(packet.getMarkerModel(), getGameView().getPlayfield()));
+				getGameView().getPlayfield().AddMarker(packet.getMarkerModel());
 			}
 		} else if (connectionEvent instanceof ConnectionClosedEvent) {
 			
