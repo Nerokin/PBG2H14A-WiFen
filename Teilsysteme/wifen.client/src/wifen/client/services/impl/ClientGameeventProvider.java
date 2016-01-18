@@ -62,12 +62,19 @@ public class ClientGameeventProvider implements ClientGameeventService, Connecti
 		@Override
 		public void sendGameevent(String playername, String message) {
 			if (getConnection() != null && getConnection().isConnected()) {
-				GameeventPacket gepacket = new GameeventPacketImpl(message);
+				GameeventPacket gepacket = new GameeventPacketImpl(playername, message);
 				logger.info("Sending ChatPacket: " + gepacket);
 				getConnection().sendPacket(gepacket);
 			} else {
 				logger.warning("Ereignislog-Nachricht konnte nicht gesendet werden, da keine aktive Netzwerkverbindung besteht.");
 			}
+		}
+		
+		@Override
+		public void makeLocalGameevent(String playername, String message) {
+			GameeventPacket temppack = new GameeventPacketImpl(playername, message);
+			logger.info("Adding local Gameevent to Log: " + temppack);
+			getGameeventHistory().add(temppack.toString());
 		}
 		
 		@Override
