@@ -19,7 +19,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 /**
@@ -29,7 +29,7 @@ import javafx.stage.Stage;
  * @author Konstantin Schaper (Logik)
  * @author Justin Nussbaum (Exit Button)
  */
-public class Hauptmenu extends GridPane {
+public class Hauptmenu extends BorderPane {
 	
 	Logger logger = Logger.getLogger(Hauptmenu.class.getSimpleName());
 
