@@ -89,7 +89,7 @@ public class ClientMediaProvider implements ClientMediaService, ConnectionListen
 					{						
 						MediaDataPacket dataPacket = new MediaDataPacketImpl(tempPlayerName, tempFileName + tempFileType + ":" + tempFileData);
 						logger.info("Sending DataPacket: " + dataPacket);
-						getConnection().sendPacket(requestPacket);
+						getConnection().sendPacket(dataPacket);
 					}
 					else
 					{
