@@ -1,25 +1,21 @@
 package wifen.client.ui.controllers;
 
 import java.io.IOException;
-import java.util.prefs.Preferences;
-
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.control.Alert.AlertType;
 //import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
+import wifen.client.application.ClientApplication;
+import wifen.client.services.OptionService;
+import wifen.client.services.impl.OptionProvider;
 
 /**
  * Interaction logic for the options view
@@ -31,14 +27,14 @@ import javafx.stage.Stage;
 public class OptionenController extends AnchorPane {
 	
 	// Attributes
-	Preferences prefs = Preferences.userRoot().node(this.getClass().getName());
+	ClientApplication client;
+	OptionProvider op;
 
 	// constants
 	public static final String CSS_PATH = "/wifen/client/ui/css/Optionen.css";
 	public static final String FXML_PATH = "/wifen/client/ui/views/Optionen.fxml";
 
 	// Properties
-
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 
 	// Injected Nodes
@@ -79,22 +75,25 @@ public class OptionenController extends AnchorPane {
 	// Initialization
 	@FXML
 	private void initialize() {
+		client = ClientApplication.instance();
+		op = (OptionProvider) client.getServiceRegistry().getServiceProviderByClass(OptionService.class);
+		
 		btnSpeichern.setOnAction(this::speichernOnAction);
-		sliderVolumen.setValue(prefs.getDouble("Volume", sliderVolumen.getMax()));
-		cbMuteMusik.setSelected(prefs.getBoolean("MusicMuted", false));
-		cbMuteSound.setSelected(prefs.getBoolean("SoundMuted", false));
-		sliderMaxDateigroesse.setValue(prefs.getDouble("MaxFileSize", sliderMaxDateigroesse.getMax()/2));		
+		sliderVolumen.setValue(op.getVolume());
+		cbMuteMusik.setSelected(op.getMusicMuted());
+		cbMuteSound.setSelected(op.getSoundMuted());
+		sliderMaxDateigroesse.setValue(op.getMaxFileSize());		
 	}
 
 	// Event Handlers	
 	/**
 	 * Saves the options in the user preferences
 	 */
-	private void speichernOnAction(ActionEvent event){
-                prefs.putDouble("Volume", sliderVolumen.getValue());
-        		prefs.putBoolean("MusicMuted", cbMuteMusik.isSelected());
-        		prefs.putBoolean("SoundMuted", cbMuteSound.isSelected());
-        		prefs.putDouble("MaxFileSize", sliderMaxDateigroesse.getValue());	
+	private void speichernOnAction(ActionEvent event){		
+		op.setMaxFileSize(sliderVolumen.getValue());
+		op.setMusicMuted(cbMuteMusik.isSelected());
+		op.setSoundMuted(cbMuteSound.isSelected());
+		op.setVolume(sliderMaxDateigroesse.getValue());	
 	}
 	
 	
