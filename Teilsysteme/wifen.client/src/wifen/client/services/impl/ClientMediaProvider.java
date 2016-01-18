@@ -2,7 +2,6 @@ package wifen.client.services.impl;
 
 import java.util.logging.Logger;
 
-import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -16,6 +15,7 @@ import wifen.commons.network.Packet;
 import wifen.commons.network.events.PacketReceivedEvent;
 import wifen.commons.network.packets.MediaDataPacket;
 import wifen.commons.network.packets.MediaRequestPacket;
+import wifen.commons.network.packets.impl.MediaDataPacketImpl;
 import wifen.commons.network.packets.impl.MediaRequestPacketImpl;
 
 public class ClientMediaProvider implements ClientMediaService, ConnectionListener
@@ -57,11 +57,11 @@ public class ClientMediaProvider implements ClientMediaService, ConnectionListen
 	{
 		logger.info("Connection changed from " + oldValue + " to " + newValue);
 		
-		if (oldValue != null)
+		if(oldValue != null)
 		{
 			oldValue.removeListener(this);
 		}
-		if (newValue != null) 
+		if(newValue != null) 
 		{
 			newValue.addListener(this);
 		}
@@ -96,15 +96,18 @@ public class ClientMediaProvider implements ClientMediaService, ConnectionListen
 						logger.warning("Data-Nachricht konnte nicht gesendet werden, da keine aktive Netzwerkverbindung besteht.");
 					}
 				}
+				else
+				{
+					logger.info("Medien senden wurde abgelehnt");
+				}
 			}
 			else if(packet instanceof MediaDataPacket)
 			{
-				MediaDataPacket dataPacket = (MediaDataPacket) packet;
+				MediaDataPacket dataPacket = (MediaDataPacket)packet;
 				
 				logger.info("Incoming MediaDataPacket: " + packet);
 				
-				// Add to library
-				Platform.runLater(() -> getMediaLibrary().add(dataPacket.getMessage()));
+				// TODO: Add file library (However that'll work)
 			}
 		}
 	}
