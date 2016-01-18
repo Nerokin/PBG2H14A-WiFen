@@ -16,6 +16,7 @@ import wifen.commons.network.events.ConnectionClosedEvent;
 import wifen.commons.network.events.PacketReceivedEvent;
 import wifen.commons.network.packets.EnterGamePacket;
 import wifen.commons.network.packets.MarkerPacket;
+import wifen.commons.network.packets.MarkerRemovedPacket;
 import wifen.commons.network.packets.PlayerListPacket;
 import wifen.commons.network.packets.impl.EnterGamePacketImpl;
 import wifen.commons.network.packets.impl.MarkerPacketImpl;
@@ -89,6 +90,12 @@ public class ServerGameProvider implements ServerGameService, ConnectionListener
 				getPlayerConns().values()
 				.forEach((connection) -> connection.sendPacket(new MarkerPacketImpl(packet.getMarkerModel())));
 			} 
+			else if(packetEvent.getPacket() instanceof MarkerRemovedPacket){
+				MarkerRemovedPacket packet = (MarkerRemovedPacket) packetEvent.getPacket();
+				
+				getGameState().getViewModel().removeMarker();
+			}
+			
 			else if(packetEvent.getPacket() instanceof PlayerListPacket){
 				ArrayList<Player> players = new ArrayList<>(getPlayerConns().keySet());
 				connectionEvent.getSource().sendPacket(new PlayerListPacketImpl(players));
