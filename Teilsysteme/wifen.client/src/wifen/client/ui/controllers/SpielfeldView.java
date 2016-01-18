@@ -261,7 +261,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 							Image i = new Image(file.toURI().toString());
 							MarkerModel m = null;
 							try {
-								m = new MarkerModel(event.getX(), event.getY(), new MarkerType("note", i), "");
+								m = new MarkerModel(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer(), event.getX(), event.getY(), new MarkerType("note", i), "");
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -271,7 +271,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 							// snapshot renders all children again so the added element is displayed properly
 							self.snapshot(null,null);
 						}else{
-							MarkerModel m = new MarkerModel(event.getX(), event.getY(), getSelectedType(), "");
+							MarkerModel m = new MarkerModel(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer(), event.getX(), event.getY(), getSelectedType(), "");
 							//model.placeMarker(m);
 							//((Pane) event.getSource()).getChildren().add(new MarkerView(m, self));
 							ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMarkerPlaced(m);
@@ -352,12 +352,10 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 	/**Add Node to Pane*/
 	public void addToView(Node value){
 		((Pane) this.getContent()).getChildren().add(value);
-		//this.snapshot(null,null);
 	}
 	/**Delete Node from Pane*/
 	public void removeFromView(Node value){
 		((Pane) this.getContent()).getChildren().remove(value);
-		//this.snapshot(null,null);
 	}
 	
 	/**
