@@ -26,7 +26,7 @@ public class GameeventPacketImpl extends PacketImpl implements GameeventPacket {
 	
 	@Override
 	public String toString() {
-		return "{" + getSource() + ": "+ getMessage() + "}";
+		return "" + getSourceName() + ": "+ getMessage() + "";
 	}
 	
 	// Getter & Setter

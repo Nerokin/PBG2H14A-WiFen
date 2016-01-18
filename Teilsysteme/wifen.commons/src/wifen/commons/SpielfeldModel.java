@@ -64,18 +64,6 @@ public class SpielfeldModel implements Serializable {
 	/**
 	 * Put description here
 	 * 
-	 * @param mt
-	 * @param x
-	 * @param y
-	 * @param d
-	 */
-	public void placeMarker(MarkerType mt, double x, double y, String d) {
-		this.getMarkers().add(new MarkerModel(x, y, mt, d));
-	}
-	
-	/**
-	 * Put description here
-	 * 
 	 * @param m
 	 */
 	public void removeMarker(MarkerModel m) {
