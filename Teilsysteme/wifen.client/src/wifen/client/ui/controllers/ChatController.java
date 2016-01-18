@@ -51,13 +51,10 @@ public class ChatController extends TitledPane {
 
 	// Customer
 
-	// Injected Nodes
-	
-	@FXML
-	private TextField txt_Eingabe;
-	
-	@FXML
-	private ListView<String> Lv_Chat;
+	// Injected Nodes	
+	@FXML private TitledPane tp_chat;
+	@FXML private TextField tf_eingabe;	
+	@FXML private ListView<String> lv_chat;
 
 	// Constructor(s)
 
