@@ -5,12 +5,10 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import wifen.commons.network.ConnectionEvent;
-import wifen.commons.network.Packet;
 import wifen.commons.network.events.PacketReceivedEvent;
-import wifen.commons.network.packets.ChatPacket;
 import wifen.commons.network.packets.GameeventPacket;
+import wifen.commons.network.packets.impl.GameeventPacketImpl;
 import wifen.server.network.Server;
-import wifen.server.services.ServerChatService;
 import wifen.server.services.ServerGameeventService;
 
 /**
@@ -42,9 +40,9 @@ public class ServerGameeventProvider implements ServerGameeventService {
 		public void handle(ConnectionEvent connectionEvent) {
 			if (connectionEvent instanceof PacketReceivedEvent) {
 				PacketReceivedEvent packetEvent = (PacketReceivedEvent) connectionEvent;
-				Packet packet = packetEvent.getPacket();
-				if (packet instanceof GameeventPacket) {
-					getServer().broadcastPacket(packet);
+				if (packetEvent.getPacket() instanceof GameeventPacket) {
+					GameeventPacket packet = (GameeventPacket) packetEvent.getPacket();
+					getServer().broadcastPacket(new GameeventPacketImpl(packet.getMessage()));
 				}
 			}
 		}
@@ -84,6 +82,11 @@ public class ServerGameeventProvider implements ServerGameeventService {
 
 		public ChangeListener<Server> getOnServerChangedListener() {
 			return onServerChangedListener;
+		}
+
+		@Override
+		public void fireEvent(String eventMessage) {
+			getServer().broadcastPacket(new GameeventPacketImpl(eventMessage));
 		}
 
 }

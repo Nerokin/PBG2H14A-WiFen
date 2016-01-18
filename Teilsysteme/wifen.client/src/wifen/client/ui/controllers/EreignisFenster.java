@@ -33,7 +33,7 @@ public class EreignisFenster extends TitledPane {
 	// Injected Nodes
 
 	private ObservableList<String> ereignislogList = FXCollections.observableArrayList();
-	@FXML private ListView<String> ereignislogTF;
+	@FXML public ListView<String> ereignislogTF;
 
 	// Constructor
 
@@ -57,6 +57,7 @@ public class EreignisFenster extends TitledPane {
 	@FXML
 	private void initialize() {
 		// TODO: Data Binding and Setup of Event Handling
+		setText("Ereignisse");
 	}
 	
 	@Override

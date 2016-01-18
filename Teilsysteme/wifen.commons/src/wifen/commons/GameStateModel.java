@@ -73,7 +73,7 @@ public class GameStateModel implements Serializable {
 		return this.maxDiceSideCount;
 	}
 
-	public SpielerRolle standardPlayerRole() {
+	public SpielerRolle getStandardPlayerRole() {
 		return this.standardRolle;
 	}
 	

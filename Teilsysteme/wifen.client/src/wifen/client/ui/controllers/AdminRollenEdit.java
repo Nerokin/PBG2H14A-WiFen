@@ -25,16 +25,13 @@ import javafx.scene.layout.VBox;
 public class AdminRollenEdit extends VBox {
 
 	// Constants
-
 	public static final String CSS_PATH = "/wifen/client/ui/css/AdminRollenEdit.css";
 	public static final String FXML_PATH = "/wifen/client/ui/views/AdminRollenEdit.fxml";
 
 	// Properties
-
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 
 	// Injected Nodes
-
 	@FXML private Button speichern_btn;
 	@FXML private CheckTreeView<String> checkTreeView;
 	@FXML private CheckBox verdeckt_cbx;
@@ -42,7 +39,6 @@ public class AdminRollenEdit extends VBox {
 
 
 	// Constructor
-
 	public AdminRollenEdit() throws IOException {
 		super();
 
@@ -67,7 +63,6 @@ public class AdminRollenEdit extends VBox {
 	}
 
 	// Event Handler
-
 	private void speichern(ActionEvent event)
 	{
 		

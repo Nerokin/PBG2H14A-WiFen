@@ -18,7 +18,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <TextField id="tfName" fx:id="tfname">
+      <TextField fx:id="tf_name">
          <font>
             <Font size="24.0" />
          </font>
@@ -28,7 +28,7 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <TextField id="tfIp" fx:id="tfIp">
+      <TextField fx:id="tf_Ip">
          <font>
             <Font size="24.0" />
          </font>
@@ -38,13 +38,13 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <TextField id="tfPort" fx:id="tfPort">
+      <TextField fx:id="tf_port">
          <font>
             <Font size="24.0" />
          </font>
       </TextField>
-      <Button id="btnEnter" fx:id="btnEnter" mnemonicParsing="false" text="Beitreten" />
-      <Label id="ipAdress" text="IP:">
+      <Button fx:id="btn_beitreten" mnemonicParsing="false" text="beitreten" />
+      <Label fx:id="lb_ip" text="IP:">
          <font>
             <Font size="24.0" />
          </font>
@@ -153,4 +153,3 @@
       </HBox>
    </bottom>
 </fx:root>
-

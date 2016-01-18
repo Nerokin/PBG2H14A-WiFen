@@ -28,30 +28,20 @@ import wifen.commons.impl.PlayerImpl;
 public class AdminFensterController extends TitledPane {
 
 	// Constants
-
 	public static final String CSS_PATH = "/wifen/client/ui/css/AdminFensterController.css";
 	public static final String FXML_PATH = "/wifen/client/ui/views/AdminFenster.fxml";
 
 	// Properties
-
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 
 	// Injected Nodes
-
-	@FXML
-	private Button speichern_btn;
-	@FXML
-	private Button edit_btn;
-	@FXML
-	private Button neu_btn;
-	@FXML
-	private Button zuweisen_btn;
-	@FXML
-	private ListView<SpielerRolle> rollenList;
-	@FXML
-	private ListView<PlayerImpl> spielerList;
-
-	private PlayerImpl peter;
+	@FXML private Button btn_sitzungSpeichern;
+	@FXML private Button btn_editieren;
+	@FXML private Button btn_neu;
+	@FXML private Button btn_zuweisen;
+	@FXML private ListView<SpielerRolle> lv_rollen;
+	@FXML private ListView<PlayerImpl> lv_spieler;
+	@FXML private TitledPane tp_admin;
 
 	private ObservableList<SpielerRolle> spielerRollen = FXCollections.observableArrayList();
 	private ObservableList<PlayerImpl> spielerListen = FXCollections.observableArrayList();
@@ -59,7 +49,6 @@ public class AdminFensterController extends TitledPane {
 	// FXCollections.observableArrayList();
 
 	// Constructor
-
 	public AdminFensterController() throws IOException {
 		super();
 
@@ -80,19 +69,16 @@ public class AdminFensterController extends TitledPane {
 	@FXML
 	private void initialize() {
 		// TODO: Data Binding and Setup of Event Handling
-		speichern_btn.setOnAction(this::speichern);
-		edit_btn.setOnAction(this::edit);
-		neu_btn.setOnAction(this::neu);
-		zuweisen_btn.setOnAction(this::zuweisen);
+		
+		setText("Admin");
+		
+		btn_sitzungSpeichern.setOnAction(this::speichern);
+		btn_editieren.setOnAction(this::edit);
+		btn_neu.setOnAction(this::neu);
+		btn_zuweisen.setOnAction(this::zuweisen);
 
 		spielerRollen.addAll(SpielerRolle.values());
-		rollenList.setItems(spielerRollen);
-
-		peter = new PlayerImpl("Peter");
-		spielerListen.add(peter);
-		spielerList.setItems(spielerListen);
-
-		System.out.println(peter.getRolle());
+		lv_rollen.setItems(spielerRollen);
 	}
 
 	// Event Handler
@@ -102,7 +88,7 @@ public class AdminFensterController extends TitledPane {
 	}
 
 	public void edit(ActionEvent event) {
-		if (rollenList.getSelectionModel().getSelectedItem() == null)
+		if (lv_rollen.getSelectionModel().getSelectedItem() == null)
 			System.out.println("Bitte wähle eine Rolle aus");
 		else {
 			try {
@@ -131,16 +117,14 @@ public class AdminFensterController extends TitledPane {
 	}
 
 	public void zuweisen(ActionEvent event) {
-		if (spielerList.getSelectionModel().getSelectedItem() == null)
+		if (lv_spieler.getSelectionModel().getSelectedItem() == null)
 			System.out.println("Bitte eine rolle auswählen");
-		else if (rollenList.getSelectionModel().getSelectedItem() == null)
+		else if (lv_rollen.getSelectionModel().getSelectedItem() == null)
 			System.out.println("Bitte ein Spieler auswählen");
 		else {
-			SpielerRolle rolle = rollenList.getSelectionModel().getSelectedItem();
-			spielerList.getSelectionModel().getSelectedItem().setRolle(rolle);
+			SpielerRolle rolle = lv_rollen.getSelectionModel().getSelectedItem();
+			lv_spieler.getSelectionModel().getSelectedItem().setRolle(rolle);
 		}
-
-		System.out.println(peter.getRolle());
 	}
 	
 	@Override

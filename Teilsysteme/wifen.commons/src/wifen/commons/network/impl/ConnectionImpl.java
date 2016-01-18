@@ -143,6 +143,7 @@ public class ConnectionImpl implements Connection {
 	 * @param event
 	 */
 	protected final void fireEvent(ConnectionEvent event){
+		logger.log(Level.INFO, "The event " + event + " has been fired on " + getListeners().size() + " listeners.");
 		for (ConnectionListener connectionListener : new ArrayList<>(getListeners())) {
 			connectionListener.handle(event);
 			if (event.isConsumed()) break;

@@ -20,7 +20,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 //import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import wifen.client.application.ApplicationConstants;
 import wifen.client.application.ClientApplication;
@@ -49,12 +48,13 @@ public class SpielBeitretenController extends BorderPane {
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 
 	// Injected Nodes
-	@FXML TextField tf_port;
-	@FXML TextField tf_name;
-	@FXML TextField tf_ip;
-	@FXML Label lb_ip;
-	@FXML Button btn_beitreten;
-	@FXML Button btn_zurück;
+	@FXML TextField tfPort;
+	@FXML TextField tfname;
+	@FXML TextField tfIp;
+	@FXML Label ipAdress;
+	@FXML Label versionNumber;
+	@FXML Button btnEnter;
+	@FXML Button backToMenuBtn;
 
 	// @FXML private FormationDisplay formatDisplay;
 	// TODO
@@ -90,7 +90,7 @@ public class SpielBeitretenController extends BorderPane {
 		// TODO: Data Binding and Setup of Event Handling
 		
 	
-		btn_zurück.setOnAction(new EventHandler<ActionEvent>(){
+		backToMenuBtn.setOnAction(new EventHandler<ActionEvent>(){
 			 public void handle(ActionEvent e) {
 			Parent p = null;
 			try {
@@ -103,19 +103,19 @@ public class SpielBeitretenController extends BorderPane {
 		}
 		});
 		
-		btn_beitreten.setOnAction(new EventHandler<ActionEvent>(){
+		btnEnter.setOnAction(new EventHandler<ActionEvent>(){
 			 public void handle(ActionEvent e) {
 				 try{
 					 Connection tmpConn = null;
 					 try {
 						 tmpConn = ClientApplication.instance().getServiceRegistry().getServiceProviders(Connection.class, true).next();
 					 } catch (NoSuchElementException e2) {
-						 InetAddress tmpAdd = InetAddress.getByName(tf_ip.getText());
+						 InetAddress tmpAdd = InetAddress.getByName(tfIp.getText());
 						 tmpConn = new ConnectionImpl(tmpAdd, ApplicationConstants.APPLICATION_PORT);
 						 ClientApplication.instance().getServiceRegistry().registerServiceProvider(tmpConn, Connection.class);
 					 }
 						 
-					String requestedName = tf_name.getText();
+					String requestedName = tfname.getText();
 					EnterGamePacket packet = new EnterGamePacketImpl(requestedName);
 					tmpConn.sendPacket(packet);
 

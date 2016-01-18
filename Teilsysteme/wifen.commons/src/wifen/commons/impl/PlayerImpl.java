@@ -6,12 +6,23 @@ import wifen.commons.SpielerRolle;
 
 public class PlayerImpl implements Player {
 
+	// Class Constants
+	
+	private static final long serialVersionUID = -4227720921093737707L;
+	
+	// Attribute
+	
 	private String name;
 	private SpielerRolle rolle;
 	
-	public PlayerImpl(String name){
+	// Constructor(s)
+	
+	public PlayerImpl(String name, SpielerRolle role){
 		this.name = name;
+		this.rolle = role;
 	}
+	
+	// Getter & Setter
 	
 	@Override
 	public String getName() {

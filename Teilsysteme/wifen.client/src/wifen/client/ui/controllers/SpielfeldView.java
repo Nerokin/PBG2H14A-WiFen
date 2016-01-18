@@ -1,6 +1,7 @@
 
 package wifen.client.ui.controllers;
 
+import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -13,12 +14,16 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polyline;
+import wifen.client.application.ClientApplication;
 import wifen.client.resources.MarkerView;
+import wifen.client.services.ClientGameeventService;
+import wifen.client.services.GameService;
 import wifen.client.services.MarkerService;
 import wifen.commons.GridType;
 import wifen.commons.MarkerModel;
 import wifen.commons.MarkerType;
 import wifen.commons.SpielfeldModel;
+import wifen.commons.impl.PlayerImpl;
 
 /**
  * View for displaying a given Playfield Model
@@ -207,7 +212,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 				if(hasPressed && hasDragged && event.isControlDown()){
 					values[2]=event.getX();
 					values[3]=event.getY();
-					/*ClientApplication.instance().getServiceRegistry().getServiceProviders(*///TODO: Ereignislog/*, false).log((distance(values[0],values[1],values[2],values[3]))+"");*/
+					ClientApplication.instance().getServiceRegistry().getServiceProviders(ClientGameeventService.class, false).next().sendGameevent(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getPlayerName(), (distance(values[0],values[1],values[2],values[3]))+" Units");
 				}
 				if(drawn){
 					drawn = false;
@@ -226,10 +231,12 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 						System.out.println("Invalid coordinates for placing Marker: Out of field!");
 					} else {
 						if(event.isControlDown()){
-							Image i = new Image("src/resources/note.png", true);
+							File file = new File(getClass().getResource("../../resources/note.png").getFile());
+							Image i = new Image(file.toURI().toString());
 							MarkerModel m = new MarkerModel(event.getX(), event.getY(), new MarkerType("note", i), "");
 							model.placeMarker(m);
 							((Pane) event.getSource()).getChildren().add(new MarkerView(m, self));
+							System.out.println("Ctrl down!");
 							// snapshot renders all children again so the added element is displayed properly
 							self.snapshot(null,null);
 						}else{
@@ -321,6 +328,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 	@Override
 	public MarkerType getSelectedType() {
 		ImageView iv = markerWindow.getSelectedMarkerType();
+		System.out.println(iv);
 		return new MarkerType(iv.getImage(), iv.getId());
 	}
 	

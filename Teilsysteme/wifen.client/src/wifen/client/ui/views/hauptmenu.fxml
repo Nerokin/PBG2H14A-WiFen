@@ -6,76 +6,99 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root fx:id="GridPaneHM" type="GridPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <VBox alignment="CENTER" snapToPixel="false" >
+
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Label alignment="CENTER" prefWidth="300.0" text="WiFeN" textAlignment="CENTER" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="96.0" />
+         </font>
+      </Label>
+   </top>
+   <center>
+      <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="415.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="beitretenHmBtn" text="Spiel beitreten">
-               <font>
-                  <Font size="22.0" />
-               </font>
+            <Button fx:id="beitretenHmBtn" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Spiel beitreten">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
-            </Button>
-            <Button fx:id="erstellenHmBtn" text="Spiel erstellen">
                <font>
-                  <Font size="22.0" />
+                  <Font size="25.0" />
                </font>
+            </Button>
+            <Button fx:id="erstellenHmBtn" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Spiel erstellen">
                <VBox.margin>
                   <Insets top="25.0" />
                </VBox.margin>
-            </Button>
-            <Button fx:id="ladenHmBtn" text="Spiel laden">
                <font>
-                  <Font size="22.0" />
+                  <Font size="25.0" />
                </font>
+            </Button>
+            <Button fx:id="ladenHmBtn" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Spiel laden">
                <VBox.margin>
                   <Insets top="25.0" />
                </VBox.margin>
-            </Button>
-            <Button fx:id="optionenHmBtn" text="Optionen">
                <font>
-                  <Font size="22.0" />
+                  <Font size="25.0" />
                </font>
+            </Button>
+            <Button fx:id="optionenHmBtn" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Optionen">
                <VBox.margin>
                   <Insets top="25.0" />
                </VBox.margin>
-            </Button>
-            <Button fx:id="verlassenHmBtn" contentDisplay="CENTER" mnemonicParsing="false" text="Spiel Verlassen" textAlignment="CENTER">
                <font>
-                  <Font size="22.0" />
+                  <Font size="25.0" />
                </font>
+            </Button>
+            <Button fx:id="verlassenHmBtn" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Spiel Verlassen" textAlignment="CENTER">
                <VBox.margin>
                   <Insets top="25.0" />
                </VBox.margin>
+               <font>
+                  <Font size="25.0" />
+               </font>
             </Button>
          </children>
       </VBox>
-      <Label fx:id="ipHmLabel">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <Label fx:id="versionHmLabel">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <Label alignment="TOP_CENTER" contentDisplay="CENTER"  text="WiFeN" textAlignment="CENTER">
-         <font>
-            <Font size="80.0" />
-         </font>
-      </Label>
-      <Label text="Version: ">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <Label text="IP: ">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-   </children>
-</fx:root>
+   </center>
+   <bottom>
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="BOTTOM_LEFT" layoutY="26.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="795.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="26.0">
+               <children>
+                  <Label minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="35.0" text="IP: ">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="ipHmLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="200.0" text="255.255.255.255">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="BOTTOM_RIGHT" layoutY="45.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="795.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.0">
+               <children>
+                  <Label alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="100.0" text="Version: " textAlignment="CENTER">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="versionHmLabel" alignment="CENTER_RIGHT" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" text="0.01" textAlignment="CENTER">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets right="5.0" />
+               </padding>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </bottom>
+</BorderPane>

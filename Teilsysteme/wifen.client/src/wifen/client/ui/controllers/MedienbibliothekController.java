@@ -65,6 +65,7 @@ public class MedienbibliothekController extends TitledPane
 	@FXML
 	private void initialize()
 	{		
+		setText("Medien");
 		listViewMedien.setItems(liste);	
 	}
 	
