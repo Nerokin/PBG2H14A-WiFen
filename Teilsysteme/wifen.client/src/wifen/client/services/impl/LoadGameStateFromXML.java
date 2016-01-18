@@ -1,4 +1,4 @@
-package wifen.commons.services.impl;
+package wifen.client.services.impl;
 
 import java.io.File;
 
@@ -13,10 +13,9 @@ import org.w3c.dom.NodeList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import wifen.client.application.ClientApplication;
-import wifen.client.resources.MarkerType;
+import wifen.client.resources.MarkerView;
 import wifen.client.services.ClientChatService;
-import wifen.client.ui.controllers.MarkerView;
-import wifen.client.ui.controllers.Spielfeld;
+import wifen.commons.MarkerType;
 
 public class LoadGameStateFromXML {
 	
