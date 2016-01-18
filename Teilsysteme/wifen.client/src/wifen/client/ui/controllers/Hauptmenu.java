@@ -46,13 +46,13 @@ public class Hauptmenu extends GridPane {
 	// Injected Nodes
 
 	//@FXML private AnchorPane AnchorPaneHM;
-	@FXML private Label versionHmLabel;
-	@FXML private Label ipHmLabel;
-	@FXML private Button beitretenHmBtn;
-	@FXML private Button erstellenHmBtn;
-	@FXML private Button ladenHmBtn;
-	@FXML private Button optionenHmBtn;
-	@FXML private Button verlassenHmBtn;
+	@FXML private Label lb_version;
+	@FXML private Label lb_ip;
+	@FXML private Button btn_spielBeitreten;
+	@FXML private Button btn_spielErstellen;
+	@FXML private Button btn_spielLaden;
+	@FXML private Button btn_optionen;
+	@FXML private Button btn_spielVerlassen;
 	
 	// Constructor
 
@@ -91,15 +91,15 @@ public class Hauptmenu extends GridPane {
 		
 		// Look up IP-address and display it
 		try {
-			ipHmLabel.setText(InetAddress.getLocalHost().getHostAddress() + " (Lokal)");
+			lb_ip.setText(InetAddress.getLocalHost().getHostAddress() + " (Lokal)");
 		} catch (UnknownHostException e) {
-			ipHmLabel.setText("Konnte nicht gefunden werden");
+			lb_ip.setText("Konnte nicht gefunden werden");
 		}
 		
 		// Events
-		erstellenHmBtn.setOnAction(this::erstellenHmBtnOnAction);
-		optionenHmBtn.setOnAction(this::optionenHmBtnOnAction);
-		beitretenHmBtn.setOnAction(this::beitretenHmBtnOnAction);
+		btn_spielErstellen.setOnAction(this::erstellenHmBtnOnAction);
+		btn_optionen.setOnAction(this::optionenHmBtnOnAction);
+		btn_spielBeitreten.setOnAction(this::beitretenHmBtnOnAction);
 	}
 	
 	// Event Handlers

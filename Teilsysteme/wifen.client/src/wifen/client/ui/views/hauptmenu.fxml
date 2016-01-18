@@ -17,7 +17,7 @@
    <center>
       <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="415.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="beitretenHmBtn" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Spiel beitreten">
+            <Button fx:id="btn_spielBeitreten" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Spiel beitreten">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
@@ -25,7 +25,7 @@
                   <Font size="25.0" />
                </font>
             </Button>
-            <Button fx:id="erstellenHmBtn" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Spiel erstellen">
+            <Button fx:id="btn_spielErstellen" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Spiel erstellen">
                <VBox.margin>
                   <Insets top="25.0" />
                </VBox.margin>
@@ -33,7 +33,7 @@
                   <Font size="25.0" />
                </font>
             </Button>
-            <Button fx:id="ladenHmBtn" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Spiel laden">
+            <Button fx:id="btn_spielLaden" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Spiel laden">
                <VBox.margin>
                   <Insets top="25.0" />
                </VBox.margin>
@@ -41,7 +41,7 @@
                   <Font size="25.0" />
                </font>
             </Button>
-            <Button fx:id="optionenHmBtn" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Optionen">
+            <Button fx:id="btn_optionen" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Optionen">
                <VBox.margin>
                   <Insets top="25.0" />
                </VBox.margin>
@@ -49,7 +49,7 @@
                   <Font size="25.0" />
                </font>
             </Button>
-            <Button fx:id="verlassenHmBtn" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Spiel Verlassen" textAlignment="CENTER">
+            <Button fx:id="btn_spielVerlassen" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Spiel Verlassen" textAlignment="CENTER">
                <VBox.margin>
                   <Insets top="25.0" />
                </VBox.margin>
@@ -70,7 +70,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label fx:id="ipHmLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="200.0" text="255.255.255.255">
+                  <Label fx:id="lb_ip" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="200.0" text="255.255.255.255">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -87,7 +87,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label fx:id="versionHmLabel" alignment="CENTER_RIGHT" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" text="0.01" textAlignment="CENTER">
+                  <Label fx:id="lb_version" alignment="CENTER_RIGHT" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" text="0.01" textAlignment="CENTER">
                      <font>
                         <Font size="24.0" />
                      </font>
