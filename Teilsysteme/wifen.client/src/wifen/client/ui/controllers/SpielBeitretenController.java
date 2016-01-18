@@ -106,16 +106,10 @@ public class SpielBeitretenController extends BorderPane {
 		connectButton.setOnAction(new EventHandler<ActionEvent>(){
 			 public void handle(ActionEvent e) {
 				 try{
-					 Connection tmpConn = null;
-					 try {
-						 tmpConn = ClientApplication.instance().getServiceRegistry().getServiceProviders(Connection.class, true).next();
-					 } catch (NoSuchElementException e2) {
-						 InetAddress tmpAdd = InetAddress.getByName(tfIp.getText());
-						 tmpConn = new ConnectionImpl(tmpAdd, ApplicationConstants.APPLICATION_PORT, ClientApplication.instance());
-						 ClientApplication.instance().getServiceRegistry().registerServiceProvider(tmpConn, Connection.class);
-					 }
+					Connection tmpConn = ClientApplication.instance().startConnection(InetAddress.getByName(tfIp.getText()));
 						 
-					String requestedName = tfname.getText();
+					String requestedName = "Peter";
+					logger.log(Level.INFO, requestedName);
 					EnterGamePacket packet = new EnterGamePacketImpl(requestedName);
 					tmpConn.sendPacket(packet);
 

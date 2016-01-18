@@ -1,6 +1,6 @@
 package wifen.commons;
 
-
+import java.io.Serializable;
 
 /**
  * Put description here
@@ -8,7 +8,9 @@ package wifen.commons;
  * @author unkown
  *
  */
-public class MarkerModel {
+public class MarkerModel implements Serializable {
+	
+	private static final long serialVersionUID = 9190467360671950047L;
 	
 	private MarkerType type;
 	private double posx;

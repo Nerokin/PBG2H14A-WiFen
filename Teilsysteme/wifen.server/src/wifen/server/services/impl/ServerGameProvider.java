@@ -2,6 +2,7 @@ package wifen.server.services.impl;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import wifen.commons.GameStateModel;
 import wifen.commons.Player;
@@ -10,9 +11,12 @@ import wifen.commons.impl.PlayerImpl;
 import wifen.commons.network.Connection;
 import wifen.commons.network.ConnectionEvent;
 import wifen.commons.network.ConnectionListener;
+import wifen.commons.network.events.ConnectionClosedEvent;
 import wifen.commons.network.events.PacketReceivedEvent;
 import wifen.commons.network.packets.EnterGamePacket;
+import wifen.commons.network.packets.MarkerPacket;
 import wifen.commons.network.packets.impl.EnterGamePacketImpl;
+import wifen.commons.network.packets.impl.MarkerPacketImpl;
 import wifen.server.network.Server;
 import wifen.server.services.ServerGameService;
 import wifen.server.services.ServerGameeventService;
@@ -50,6 +54,11 @@ public class ServerGameProvider implements ServerGameService, ConnectionListener
 		gameEventService.fireEvent(playerName + " ist dem Spiel beigetreten.");
 	}
 	
+	@Override
+	public void addGameEvent(String eventMessage) {
+		getGameState().getEreignisLog().add(eventMessage);
+	}
+	
 	// <--- ConnectionListener --->
 	
 	@Override
@@ -60,19 +69,38 @@ public class ServerGameProvider implements ServerGameService, ConnectionListener
 				EnterGamePacket packet = (EnterGamePacket) packetEvent.getPacket();
 				
 				// Nachschauen ob noch Platz im Aktiven Game ist
-				if (playerConns.size() < getGameState().getMaxPlayerCount()){
+				if (!packet.getName().trim().equals("") 
+						&& playerConns.size() < getGameState().getMaxPlayerCount()){
 					addPlayer(packet.getName(), getGameState().getStandardPlayerRole(), connectionEvent.getSource());
 				}
 				else
 				{
 					// Wenn nein: Spieler bekommt eine Fehlermeldung das das Spiel voll ist
-					packet.getSource().sendPacket(new EnterGamePacketImpl(null, null));
+					connectionEvent.getSource().sendPacket(new EnterGamePacketImpl(null, null));
 				}
 				
+			} else if (packetEvent.getPacket() instanceof MarkerPacket) {
+				MarkerPacket packet = (MarkerPacket) packetEvent.getPacket();
+				
+				getGameState().getViewModel().getMarkers().add(packet.getMarkerModel());
+				getPlayerConns().values()
+				.forEach((connection) -> connection.sendPacket(new MarkerPacketImpl(packet.getMarkerModel())));
 			}
+		} else if (connectionEvent instanceof ConnectionClosedEvent) {
+			Player p = getConnectionPlayer(connectionEvent.getSource());
+			getPlayerConns().remove(p);
+			gameEventService.fireEvent(p.getName() + " hat das Spiel verlassen.");
 		}
 	}
-
+	
+	public Player getConnectionPlayer(Connection conn) {
+		for (Entry<Player, Connection> entry : getPlayerConns().entrySet()) {
+			if (entry.getValue().equals(conn)) return entry.getKey();
+		}
+		return null;
+	}
+	
+	// Getter & Setter
 
 	public Server getServer() {
 		return server;
