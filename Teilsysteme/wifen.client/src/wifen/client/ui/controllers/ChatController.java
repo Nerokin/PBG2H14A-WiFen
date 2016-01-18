@@ -114,7 +114,7 @@ public class ChatController extends TitledPane {
 		
 		
 		// Send a chat packet when the user presses ENTER on the message input control
-		txt_Eingabe.setOnAction(getOnChatMessageAction());
+		tf_eingabe.setOnAction(getOnChatMessageAction());
 		
 		// Initially disable the chat as no connection has been established
 		setDisable(true);
@@ -143,12 +143,12 @@ public class ChatController extends TitledPane {
 	public void onChatServiceChanged(ObservableValue<? extends ClientChatService> observable, ClientChatService oldValue, ClientChatService newValue) {
 		if (newValue != null) {
 			// Make the chat display the chat history
-			Lv_Chat.setItems(newValue.getChatHistory());
+			lv_chat.setItems(newValue.getChatHistory());
 			setText("Chat (Verbunden)");
 			setDisable(false);
 		} else {
 			setDisable(true);
-			Lv_Chat.setItems(null);
+			lv_chat.setItems(null);
 			setText("Chat (Nicht Verbunden)");
 		}
 	}
@@ -163,20 +163,20 @@ public class ChatController extends TitledPane {
 	public void onChatMessageAction(ActionEvent event) {
 		if (getChatService() != null) {
 			// Call the chat service to send the message
-			getChatService().sendMessage(getPlayerName(), txt_Eingabe.getText());
+			getChatService().sendMessage(getPlayerName(), tf_eingabe.getText());
 			/*
 			 * Chat an gezielten Spieler
 			 * //<-- hier wird noch eine Liste benötigt in der alle Spieler stehen, damit der andere Spieler identifizierbar ist!!!
 			 */
-			String eingabe = txt_Eingabe.getText();
+			String eingabe = tf_eingabe.getText();
 			String eingabeSplit [] = eingabe.split(" ");
 			String Name = (eingabeSplit[1]);
 			
 			if(Name.equals(playerName))
 			{
-			if(txt_Eingabe.getText().equals("/msg "+Name))
+			if(tf_eingabe.getText().equals("/msg "+Name))
 			{
-				getChatService().sendMessage(getPlayerName(), txt_Eingabe.getText());
+				getChatService().sendMessage(getPlayerName(), tf_eingabe.getText());
 			}
 			else{
 				logger.warning("Der eingegebene Spieler Name ist falsch!");
@@ -185,12 +185,12 @@ public class ChatController extends TitledPane {
 			/*
 			 * Chatbefehl für SpielerRolle
 			 */
-			if(txt_Eingabe.getText().equals("/rolle"))
+			if(tf_eingabe.getText().equals("/rolle"))
 			{
-				Lv_Chat.setItems(getChatService().showRole(playerRole));
+				lv_chat.setItems(getChatService().showRole(playerRole));
 			}
 			// Reset the text input
-			txt_Eingabe.setText(null);
+			tf_eingabe.setText(null);
 		} else {
 			logger.warning("Es ist kein ChatService registriert. Die Nachricht konnte nicht gesendet werden.");
 		}
