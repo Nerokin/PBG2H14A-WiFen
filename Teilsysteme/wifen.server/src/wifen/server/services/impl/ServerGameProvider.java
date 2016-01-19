@@ -94,7 +94,7 @@ public class ServerGameProvider implements ServerGameService, ConnectionListener
 			else if(packetEvent.getPacket() instanceof MarkerRemovedPacket){
 				MarkerRemovedPacket packet = (MarkerRemovedPacket) packetEvent.getPacket();
 
-				getGameState().getViewModel().removeMarker(packet.getMarkerId());
+				//getGameState().getViewModel().removeMarker(packet.getMarkerId());
 				getPlayerConns().values()
 				.forEach((connection) -> connection.sendPacket(new MarkerRemovedPacketImpl(packet.getMarkerId())));
 			}
