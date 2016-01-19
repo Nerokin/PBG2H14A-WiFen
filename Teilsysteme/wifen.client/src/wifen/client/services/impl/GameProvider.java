@@ -26,6 +26,7 @@ import wifen.commons.network.packets.EnterGamePacket;
 import wifen.commons.network.packets.MarkerPacket;
 import wifen.commons.network.packets.impl.EnterGamePacketImpl;
 import wifen.commons.network.packets.impl.MarkerPacketImpl;
+import wifen.commons.network.packets.impl.MarkerRemovedPacketImpl;
 
 /**
  * Implementation of the {@linkplain GameService} interface.
@@ -97,8 +98,14 @@ public class GameProvider implements GameService, ConnectionListener {
 	
 	@Override
 	public void sendMarkerRemoved(UUID id) {
-		// TODO Auto-generated method stub
-		
+		try {
+			ClientApplication.instance()
+			.getServiceRegistry()
+			.getServiceProviders(Connection.class, true).next()
+			.sendPacket(new MarkerRemovedPacketImpl(id));
+		} catch (Exception e) {
+			logger.log(Level.WARNING, "Marker konnte nicht entfernt werden", e);
+		}
 	}
 	
 	@Override

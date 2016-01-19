@@ -47,7 +47,7 @@ public class ClientRefreshProvider implements ClientRefreshService, ConnectionLi
 	@Override
 	public void refresh() {
 		ClientApplication client = ClientApplication.instance();
-		RefreshPacketImpl refreshPacket = new RefreshPacketImpl(client.getServiceRegistry().getServiceProviderByClass(GameService.class).getCurrentModel());
+		RefreshPacketImpl refreshPacket = new RefreshPacketImpl(client.getServiceRegistry().getServiceProviderByClass(GameProvider.class).getCurrentModel());
 		this.getConnection().sendPacket(refreshPacket);
 	}
 	
@@ -64,7 +64,7 @@ public class ClientRefreshProvider implements ClientRefreshService, ConnectionLi
 				RefreshPacket refreshPacket = (RefreshPacket) packet;
 				GameStateModel state = refreshPacket.getGameStateModel();
 				ClientApplication client = ClientApplication.instance();
-				client.getServiceRegistry().getServiceProviderByClass(GameService.class).overrideModel(state);
+				client.getServiceRegistry().getServiceProviderByClass(GameProvider.class).overrideModel(state);
 				client.getServiceRegistry().getServiceProviderByClass(ClientChatProvider.class).loadChatlog(state.getChatLog());
 				client.getServiceRegistry().getServiceProviderByClass(ClientGameeventProvider.class).loadGameeventlog(state.getEreignisLog());
 				//Medienservice einbinden
