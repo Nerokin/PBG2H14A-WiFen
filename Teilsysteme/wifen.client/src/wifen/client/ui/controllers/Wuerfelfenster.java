@@ -91,7 +91,7 @@ public class Wuerfelfenster extends TitledPane {
 		Image imagesD10[];
 		Image animationD10;
 		Image animations[];
-		private ArrayList<PrimeThread> threads = new ArrayList<PrimeThread>();
+		
 		
 	
 
