@@ -170,7 +170,6 @@ public class ClientApplication extends Application implements ServerListener, Co
 			t.setDaemon(true);
 			t.start();
 			getServiceRegistry().registerServiceProvider(conn, Connection.class);
-			conn.addListener(this);
 			return conn;
 		}
 	}
