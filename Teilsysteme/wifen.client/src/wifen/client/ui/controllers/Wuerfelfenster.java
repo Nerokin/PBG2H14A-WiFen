@@ -456,7 +456,7 @@ public class Wuerfelfenster extends TitledPane {
 				resultAsZahl+=result;
 			
 			
-			try{
+		/*	try{
 				
 				GameService gameService = ClientApplication.instance().getServiceProviders(GameService.class, true).next();
 				ClientGameeventService clientGameeventService = ClientApplication.instance().getServiceProviders(ClientGameeventService.class, true).next();
@@ -465,7 +465,7 @@ public class Wuerfelfenster extends TitledPane {
 			
 			}catch(NoSuchElementException e){
 				System.err.println("Service nicht registriert!");
-			}
+			}*/
 			
 			
 			for(String wfl : tempArrayList){
