@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
@@ -40,6 +41,12 @@ public class MedienbibliothekController extends TitledPane
 	private ListView<Medium> lv_medien;
 	@FXML
 	private TextField tf_browse;
+	@FXML
+	private Button btn_browse;
+	@FXML
+	private Button btn_öffnen;
+	@FXML
+	private Button btn_upload;
 	
 	//Constructor
 	/**
