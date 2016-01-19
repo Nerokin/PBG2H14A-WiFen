@@ -6,7 +6,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,8 +37,8 @@ public class ServerImpl implements Server, ConnectionListener {
 	
 	// Attributes
 	private final ServerSocket serverSocket;
-	private final List<ServerListener> listeners = new ArrayList<ServerListener>();
-	private final List<ConnectionListener> connectionListeners = new ArrayList<ConnectionListener>();
+	private final Set<ServerListener> listeners = new HashSet<ServerListener>();
+	private final Set<ConnectionListener> connectionListeners = new HashSet<ConnectionListener>();
 	private final List<Connection> connectionList = new ArrayList<Connection>();
 	
 	// Constructor(s)
@@ -174,11 +176,11 @@ public class ServerImpl implements Server, ConnectionListener {
 		return serverSocket;
 	}
 
-	public List<ServerListener> getListeners() {
+	public Set<ServerListener> getListeners() {
 		return listeners;
 	}
 
-	public List<ConnectionListener> getConnectionListeners() {
+	public Set<ConnectionListener> getConnectionListeners() {
 		return connectionListeners;
 	}
 	

@@ -7,7 +7,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,7 +33,7 @@ public class ConnectionImpl implements Connection {
 	private final Socket socket;
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
-	private final List<ConnectionListener> listeners = new ArrayList<ConnectionListener>();
+	private final Set<ConnectionListener> listeners = new HashSet<ConnectionListener>();
 	
 
 	public ConnectionImpl(Socket s) throws IOException
@@ -154,7 +155,7 @@ public class ConnectionImpl implements Connection {
 	
 	// Getter & Setter
 	
-	public List<ConnectionListener> getListeners() {
+	public Set<ConnectionListener> getListeners() {
 		return listeners;
 	}
 	public Socket getSocket() {
