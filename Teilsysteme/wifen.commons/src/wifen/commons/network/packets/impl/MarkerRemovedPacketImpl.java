@@ -22,4 +22,10 @@ public class MarkerRemovedPacketImpl extends PacketImpl implements MarkerRemoved
 	public void setMarkderId(UUID markderId) {
 		this.markderId = markderId;
 	}
+
+	@Override
+	public UUID getMarkerId() {
+		// TODO Auto-generated method stub
+		return markderId;
+	}
 }
