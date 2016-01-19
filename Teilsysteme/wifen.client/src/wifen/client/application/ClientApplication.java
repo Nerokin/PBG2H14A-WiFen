@@ -328,8 +328,16 @@ public class ClientApplication extends Application implements ServerListener, Co
 			
 		if (connectionEvent instanceof ConnectionClosedEvent) {
 			
+			logger.info("Attempting to shutdown ClientChatService ...");
+			
 			// Fetch the current chat service
-			ClientChatService chatService = getServiceRegistry().getServiceProviders(ClientChatService.class, false).next();
+			ClientChatService chatService;
+			try {
+				chatService = getServiceRegistry().getServiceProviders(ClientChatService.class, false).next();
+			} catch (NoSuchElementException e) {
+				chatService = null;
+			}
+		
 			
 			if (chatService != null) {
 			
@@ -338,23 +346,45 @@ public class ClientApplication extends Application implements ServerListener, Co
 				
 				// Remove the chat service from the service registry
 				getServiceRegistry().deregisterServiceProvider(chatService, ClientChatService.class);
+				
+				logger.info("The ClientChatService has been successfully shut down");
 			
-			}
+			} else logger.info("There is no ClientChatService");
 			
 			// Fetch the current gameevent service
 			
-			ClientGameeventService geservice = getServiceRegistry().getServiceProviders(ClientGameeventService.class, false).next();
+			logger.info("Attempting to shutdown ClientGameEventService ...");
+			
+			ClientGameeventService geservice;
+			try {
+				geservice = getServiceRegistry().getServiceProviders(ClientGameeventService.class, false).next();
+			} catch (NoSuchElementException e) {
+				geservice = null;
+			}
 			if(geservice != null) {
 				// Remove invalidated connection from service
 				geservice.setConnection(null);
 				
 				// Remove service from registry
 				getServiceRegistry().deregisterServiceProvider(geservice, ClientGameeventService.class);
-			}
+				
+				logger.info("The ClientGameEventService has been successfully shut down");
+			} else logger.info("There is no ClientGameEventService");
 			
 			// Fetch current game service
-			GameService gameService = getServiceRegistry().getServiceProviders(GameService.class, true).next();
-			getServiceRegistry().deregisterServiceProvider(gameService, GameService.class);
+			
+			logger.info("Attempting to shutdown ClientGameService ...");
+			
+			GameService gameService;
+			try {
+				gameService = getServiceRegistry().getServiceProviders(GameService.class, true).next();
+			} catch (NoSuchElementException e) {
+				gameService = null;
+			}
+			if (gameService != null) {
+				getServiceRegistry().deregisterServiceProvider(gameService, GameService.class);
+				logger.info("The ClientGameService has been successfully shut down");
+			} else logger.info("There is no GameService");
 			
 			// Deregister the Connection
 			getServiceRegistry().deregisterServiceProvider(connectionEvent.getSource(), Connection.class);
@@ -370,7 +400,7 @@ public class ClientApplication extends Application implements ServerListener, Co
 				// Falls der Name zurückkommt, kommt das Modell mit ( falls kein Modell kommt -> Fehler)
 				if(packet.getPlayer() != null && packet.getInitialModel() != null) {
 					
-					logger.info("Attempting to Create Client-Side Game ...");
+					logger.info("Attempting to register Client-Side ChatService ...");
 					
 					// Whenever a player connects to a game, create a new chat service for that connection and register it if there is none present yet
 					if (!getServiceRegistry().getServiceProviders(ClientChatService.class, false).hasNext()) {
@@ -382,6 +412,8 @@ public class ClientApplication extends Application implements ServerListener, Co
 						}
 					}
 					
+					logger.info("Attempting to register Client-Side GameEventService ...");
+					
 					// Create a new Gameevent-Service for the new connection and register it if there is none yet present
 					if(!getServiceRegistry().getServiceProviders(ClientGameeventService.class, false).hasNext()) {
 						try {
@@ -391,6 +423,8 @@ public class ClientApplication extends Application implements ServerListener, Co
 							logger.log(Level.SEVERE, "ClientGameeventProvider could not be registered", e);
 						}
 					}
+					
+					logger.info("Attempting to register Client-Side GameService ...");
 					
 					// Create the client-side game service
 					GameService gameService = null;
