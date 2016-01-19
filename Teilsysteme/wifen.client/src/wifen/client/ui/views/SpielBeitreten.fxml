@@ -1,64 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
 
-<fx:root maxHeight="1920" maxWidth="1080" minHeight="600.0" minWidth="800.0" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label text="WiFeN">
+
+<fx:root maxHeight="1920.0" maxWidth="1080.0" minHeight="600.0" minWidth="800.0" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Label text="WiFeN" BorderPane.alignment="CENTER">
          <font>
             <Font size="70.0" />
-         </font>
-      </Label>
-      <Label text="Name:">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <TextField fx:id="tf_name">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </TextField>
-      <Label text="IP:">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <TextField fx:id="tf_Ip">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </TextField>
-      <Label text="Port:">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <TextField fx:id="tf_port">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </TextField>
-      <Button fx:id="btn_beitreten" mnemonicParsing="false" text="beitreten" />
-      <Label fx:id="lb_ip" text="IP:">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <Label id="versionNumber" fx:id="versionNumber" text="Version: 0.01">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-   </children>
-   <top>
-      <Label fx:id="btn_title" text="WiFeN" BorderPane.alignment="CENTER">
-         <font>
-            <Font size="40.0" />
          </font>
       </Label>
    </top>
@@ -66,37 +19,14 @@
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
             <Region minHeight="50.0" />
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label fx:id="lb_name" text="Name:">
                      <font>
                         <Font size="24.0" />
                      </font>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
                   </Label>
-                  <TextField fx:id="tf_name" promptText="Namen eingeben">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </TextField>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
-               <children>
-                  <Label fx:id="lb_ip" text="IP:">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Label>
-                  <TextField fx:id="tf_ip" promptText="IP eingeben">
+                  <TextField fx:id="tf_name" promptText="Namen eingeben:">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -106,22 +36,36 @@
                   </TextField>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="lb_ip" text="IP:">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="tf_ip" promptText="IP eingeben">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="80.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Label fx:id="lb_port" text="Port:">
                      <font>
                         <Font size="24.0" />
                      </font>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
                   </Label>
                   <TextField fx:id="tf_port" promptText="Port eingeben">
                      <font>
                         <Font size="24.0" />
                      </font>
                      <HBox.margin>
-                        <Insets left="20.0" />
+                        <Insets left="50.0" />
                      </HBox.margin>
                   </TextField>
                </children>
@@ -153,3 +97,4 @@
       </HBox>
    </bottom>
 </fx:root>
+
