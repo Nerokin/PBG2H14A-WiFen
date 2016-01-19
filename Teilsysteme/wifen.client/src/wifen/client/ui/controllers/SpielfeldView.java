@@ -329,8 +329,8 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 	
 	// Getters & Setters
 	
-	public SpielfeldModel getModel() {
-		return this.model;
+	public SpielfeldView getView() {
+		return this;
 	}
 	
 	public void setModel(SpielfeldModel sm) {

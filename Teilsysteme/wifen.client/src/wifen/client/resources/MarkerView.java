@@ -88,8 +88,7 @@ public class MarkerView extends Parent {
 			public void handle(MouseEvent event) {
 				if(event.getButton() == MouseButton.SECONDARY  && !event.isControlDown() && ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(((MarkerView)event.getSource()).marker.getOwner())) {
 					MarkerView mv = (MarkerView) event.getSource();
-					parent.RemoveMarker(mv.marker.getId());
-					//ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMarkerRemoved(mv.marker.getId());
+					ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMarkerRemoved(mv.marker.getId());
 				}
 			}
 		});
