@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -235,7 +236,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 					values[3]=event.getY();
 					DecimalFormat df = new DecimalFormat("#.##");
 					System.out.println("Mouse Released");
-					ClientApplication.instance().getServiceRegistry().getServiceProviders(ClientGameeventService.class, false).next().makeLocalGameevent(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayerName(), (df.format(distance(values[0],values[1],values[2],values[3])))+" Units");
+					ClientApplication.instance().getServiceRegistry().getServiceProviders(ClientGameeventService.class, false).next().makeLocalGameevent("Lokal:", (df.format(distance(values[0],values[1],values[2],values[3])))+" Units");
 				}
 				if(drawn){
 					((ScrollPane) event.getSource()).setPannable(true);
@@ -346,7 +347,23 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 	}
 	
 	public void AddMarker(MarkerModel m){
-		Platform.runLater(() -> this.getChildren().add(new MarkerView(m, self)));
+		
+		Platform.runLater(() -> addToView(new MarkerView(m, self)));
+		Platform.runLater(() -> model.placeMarker(m));
+	}
+	
+	public void RemoveMarker(UUID ID){
+		MarkerView mv = null;
+		for(Node n : ((Pane)this.getContent()).getChildren()){
+			if(n instanceof MarkerView){
+				if(((MarkerView)n).getMarkerModel().getId().equals(ID)){
+					mv=(MarkerView) n;
+				}
+			}
+		}
+		final MarkerView mvReturn = mv; 
+		Platform.runLater(() -> removeFromView(mvReturn));
+		Platform.runLater(() -> model.removeMarker(ID));
 	}
 	
 	/**Add Node to Pane*/

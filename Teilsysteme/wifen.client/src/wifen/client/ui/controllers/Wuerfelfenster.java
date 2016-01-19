@@ -1,11 +1,15 @@
 package wifen.client.ui.controllers;
 
+import wifen.client.application.ClientApplication;
+import wifen.client.services.ClientGameeventService;
+import wifen.client.services.GameService;
 import wifen.client.services.impl.*;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 import javafx.animation.KeyFrame;
 import javafx.beans.property.ObjectProperty;
@@ -88,6 +92,7 @@ public class Wuerfelfenster extends TitledPane {
 		Image animationD10;
 		Image animations[];
 		
+		
 	
 
 
@@ -138,6 +143,7 @@ public class Wuerfelfenster extends TitledPane {
 		@FXML
 		private void initialize() {
 			
+				diceText.setPromptText("Ziehe die Würfel in das mittlere Feld!");
 				imagesD2 = new Image[2];
 				imagesD4 = new Image[4];
 				imagesD6 = new Image[6];
@@ -185,6 +191,8 @@ public class Wuerfelfenster extends TitledPane {
 
 					System.err.println("Bilder konnten nicht geladen werden!\n"+e.getMessage());
 				}
+				
+			
 				
 				
 		//testMe.setOnMousePressed(wuerfelOnMousePressedEventHandler);
@@ -305,7 +313,7 @@ public class Wuerfelfenster extends TitledPane {
 	 */
 
 		public void onMousePressed(MouseEvent ev){
-			System.out.println("onMousePressed");
+			//System.out.println("onMousePressed");
 		/*	mousex = ev.getSceneX();
 		    mousey = ev.getSceneY();*/
 			ev.consume();
@@ -318,7 +326,7 @@ public class Wuerfelfenster extends TitledPane {
 		@FXML
 		public void wuerfelDone(){
 
-			System.out.println("DragDone");
+			//System.out.println("DragDone");
 		}
 		@FXML
 		public void wuerfelDragOver(){
@@ -391,29 +399,22 @@ public class Wuerfelfenster extends TitledPane {
 			ev.consume();
 
 		}
-
-		//EreignisFensterAusgabe?(Ersezen durch System.out)
-
 		private static WürfelanimationListe w = new WürfelanimationListe();
 		@FXML
 		public void würfeln() throws IOException{
+			AnimationLines.clear();
 			w.resetWuerfelList();
 			animationGrid.getChildren().clear();
 			String[] tmp = diceText.getText().split(";");
+			
 			String[] output = new String[tmp.length];
 
 			if(tmp.length >= 1){
 				for(int i = 0; i < tmp.length; i++){
 					if(dice.checkInput(tmp[i]) != null){
 						output[i] = dice.checkInput(tmp[i]);
-						//System.out.println(dice.checkInput(tmp[i]));
-						//System.out.println(tmp[i]);
-
 						String[] splitter = tmp[i].split("w");
-						for(String s  :  splitter){
-							System.out.println(s);
-						}
-						
+					
 						int anzahl = Integer.parseInt(splitter[0]);
 						
 						int seiten = Integer.parseInt(splitter[1]);
@@ -424,9 +425,6 @@ public class Wuerfelfenster extends TitledPane {
 						String thisWurfel = ""+seiten;
 						for(int j = 0;j<=anzahl-1;j++)
 							w.addWelcherWuerfel(thisWurfel);
-
-						 // Testausgabe
-
 					}
 					else{
 						//System.out.println("Kein gueltiger Wuerfelausdruck.");
@@ -434,9 +432,6 @@ public class Wuerfelfenster extends TitledPane {
 						return;
 					}
 
-				}
-				for(String s : output){
-					//System.out.println(dice.checkInput(s));
 				}
 			}
 			else{
@@ -448,7 +443,6 @@ public class Wuerfelfenster extends TitledPane {
 					reset();
 					return;
 				}
-
 			}
 			int counterColumn= 0;
 			int rowCounter = 0;
@@ -457,6 +451,23 @@ public class Wuerfelfenster extends TitledPane {
 			Timeline tempTimeLine = null;
 			ArrayList<String> tempArrayList= w.getAlleWurfel();
 			ArrayList<Integer> arrayList = dice.returnAllSingleResults();
+			int resultAsZahl =0;
+			for(int result : arrayList)
+				resultAsZahl+=result;
+			
+			
+		/*	try{
+				
+				GameService gameService = ClientApplication.instance().getServiceProviders(GameService.class, true).next();
+				ClientGameeventService clientGameeventService = ClientApplication.instance().getServiceProviders(ClientGameeventService.class, true).next();
+				clientGameeventService.sendGameevent(gameService.getActivePlayerName(),"hat " + resultAsZahl+ " gewürfelt.");
+
+			
+			}catch(NoSuchElementException e){
+				System.err.println("Service nicht registriert!");
+			}*/
+			
+			
 			for(String wfl : tempArrayList){
 				ImageView tempImageView = new ImageView();
 				
@@ -483,6 +494,7 @@ public class Wuerfelfenster extends TitledPane {
 						tempTimeLine = d10animation(tempImageView, result);
 						AnimationLines.add(tempTimeLine);
 					}
+				
 				animationGrid.add(tempImageView, counterColumn, rowCounter);
 				counterColumn++;
 				wuerfelCounter++;
@@ -491,16 +503,19 @@ public class Wuerfelfenster extends TitledPane {
 					counterColumn= 0;
 				}
 			}
+			
 			for(Timeline t1 : AnimationLines){
-
+				//System.out.println("AnimationPlay");
 				t1.setCycleCount(1);
 				t1.play();
+			
 			}
-
-
 			dice.playWuerfeln();
-
-			reset();
+			
+		}
+		@FXML
+		public void onEnter() throws IOException{
+			würfeln();
 		}
 
 
@@ -538,6 +553,9 @@ public class Wuerfelfenster extends TitledPane {
 			w8 = 0;
 			w10 = 0;
 			diceText.setText("");
+			diceText.requestFocus();
+		
+				
 
 		}
 

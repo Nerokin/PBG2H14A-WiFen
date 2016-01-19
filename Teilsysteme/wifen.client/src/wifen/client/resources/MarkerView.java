@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import wifen.client.application.ClientApplication;
 import wifen.client.services.GameService;
 import wifen.client.ui.controllers.SpielfeldView;
@@ -87,25 +88,11 @@ public class MarkerView extends Parent {
 			public void handle(MouseEvent event) {
 				if(event.getButton() == MouseButton.SECONDARY  && !event.isControlDown() && ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(((MarkerView)event.getSource()).marker.getOwner())) {
 					MarkerView mv = (MarkerView) event.getSource();
-					removeMarker(mv.marker.getId());
+					parent.RemoveMarker(mv.marker.getId());
 					//ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMarkerRemoved(mv.marker.getId());
-					//parent.removeFromView(mv);
-					//parent.getModel().removeMarker(mv.marker); 
 				}
 			}
 		});
-	}
-	
-	public void removeMarker(UUID id){
-		MarkerView mv = null;
-		for(Node n : parent.getChildrenUnmodifiable()){
-			if(n instanceof MarkerView){
-				if(((MarkerView)n).marker.getId().equals(id)){
-					mv=(MarkerView) n;
-				}
-			}
-		}
-		parent.removeFromView(mv);
 	}
 	
 	/**

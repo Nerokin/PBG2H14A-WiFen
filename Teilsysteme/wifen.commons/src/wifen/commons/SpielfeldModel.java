@@ -2,7 +2,9 @@ package wifen.commons;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.UUID;
 
+import javafx.scene.layout.Pane;
 import wifen.commons.services.FileNode;
 
 /**
@@ -66,8 +68,14 @@ public class SpielfeldModel implements Serializable {
 	 * 
 	 * @param m
 	 */
-	public void removeMarker(MarkerModel m) {
-		this.getMarkers().remove(m);
+	public void removeMarker(UUID id) {
+		MarkerModel mm = null;
+		for(MarkerModel n : getMarkers()){
+			if(n.getId().equals(id)){
+				mm = n;
+			}
+		}
+		this.getMarkers().remove(mm);
 	}
 	
 	/**
