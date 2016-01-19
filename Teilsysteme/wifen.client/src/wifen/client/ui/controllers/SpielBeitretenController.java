@@ -21,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 //import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import wifen.client.application.ApplicationConstants;
 import wifen.client.application.ClientApplication;
 import wifen.commons.network.Connection;
@@ -103,10 +104,20 @@ public class SpielBeitretenController extends BorderPane {
 		
 		btn_beitreten.setOnAction(new EventHandler<ActionEvent>(){
 			 public void handle(ActionEvent e) {
+				 
 				 try{
+					String requestedName = tf_name.getText();
+					 
+					// Loading Screen
+					logger.info("Showing loading screen ...");
+					ClientApplication.instance().showLoadingScreen();
+						
+					// Connect to Server
+					logger.info("Attempting to retrieve Connection ...");
 					Connection tmpConn = ClientApplication.instance().startConnection(InetAddress.getByName(tf_ip.getText()));
 						 
-					String requestedName = tf_name.getText();
+					// Attempt to enter game
+					logger.info("Attempting to enter game ...");
 					EnterGamePacket packet = new EnterGamePacketImpl(requestedName);
 					tmpConn.sendPacket(packet);
 
@@ -114,6 +125,8 @@ public class SpielBeitretenController extends BorderPane {
 				 catch(Exception ex){
 					 // Warnung ausgeben
 					 logger.log(Level.WARNING, "Spiel konnte nicht beigetreten werden", ex);
+					 
+					 // TODO: Revert EVERYTHING
 					 new Alert(AlertType.WARNING, "Spiel konnte nicht beigetreten werden").showAndWait();
 				 }
 			}

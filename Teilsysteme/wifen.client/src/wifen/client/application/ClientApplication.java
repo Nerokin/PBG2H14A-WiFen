@@ -16,6 +16,8 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import wifen.client.services.ClientChatService;
 import wifen.client.services.ClientGameeventService;
@@ -148,6 +150,13 @@ public class ClientApplication extends Application implements ServerListener, Co
 	}
 
 	// Methods
+	
+	public void showLoadingScreen() {
+		logger.info("Showing loading screen ...");
+		BorderPane loadingScreen = new BorderPane();
+		loadingScreen.setCenter(new Label("Loading ... :D"));
+		ClientApplication.instance().getServiceRegistry().getServiceProviders(Stage.class, false).next().getScene().setRoot(loadingScreen);
+	}
 
 	/**
 	 * Connects to a remote or local host (server) and registers it with this
@@ -229,6 +238,10 @@ public class ClientApplication extends Application implements ServerListener, Co
 			// Check if a game is already running
 			if (!(getServiceRegistry().getServiceProviders(GameService.class, false).hasNext()
 				 || getServiceRegistry().getServiceProviders(Server.class, false).hasNext())) {
+				
+				// Loading Screen
+				logger.info("Showing loading screen ...");
+				ClientApplication.instance().showLoadingScreen();
 				
 				// Start the Server
 				startServer();
