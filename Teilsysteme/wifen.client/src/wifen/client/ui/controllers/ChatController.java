@@ -161,26 +161,25 @@ public class ChatController extends TitledPane {
 	 */
 	public void onChatMessageAction(ActionEvent event) {
 		if (getChatService() != null) {
-			// Call the chat service to send the message
-			getChatService().sendMessage(getPlayerName(), tf_eingabe.getText());
 			/*
 			 * Chat an gezielten Spieler
 			 * //<-- hier wird noch eine Liste benötigt in der alle Spieler stehen, damit der andere Spieler identifizierbar ist!!!
 			 */
 			String eingabe = tf_eingabe.getText();
 			String eingabeSplit [] = eingabe.split(" ");
-			String Name = (eingabeSplit[1]);
+			//String Name = (eingabeSplit[1]);
 			
-			if(Name.equals(playerName))
-			{
-			if(tf_eingabe.getText().equals("/msg "+Name))
-			{
-				getChatService().sendMessage(getPlayerName(), tf_eingabe.getText());
-			}
-			else{
-				logger.warning("Der eingegebene Spieler Name ist falsch!");
-			}
-			}
+//			if(Name.equals(playerName))
+//			{
+//				if(tf_eingabe.getText().equals("/msg "+Name))
+//				{
+//					getChatService().sendMessage(getPlayerName(), tf_eingabe.getText());
+//				}
+//				else{
+//					logger.warning("Der eingegebene Spieler Name ist falsch!");
+//				}
+//			}
+			
 			/*
 			 * Chatbefehl für SpielerRolle
 			 */
@@ -188,6 +187,10 @@ public class ChatController extends TitledPane {
 			{
 				lv_chat.setItems(getChatService().showRole(playerRole));
 			}
+			
+			// Call the chat service to send the message
+			getChatService().sendMessage(getPlayerName(), tf_eingabe.getText());
+			
 			// Reset the text input
 			tf_eingabe.setText(null);
 		} else {

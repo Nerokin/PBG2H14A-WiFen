@@ -116,7 +116,7 @@ public class SpielBeitretenController extends BorderPane {
 					 logger.log(Level.WARNING, "Spiel konnte nicht beigetreten werden", ex);
 					 new Alert(AlertType.WARNING, "Spiel konnte nicht beigetreten werden").showAndWait();
 				 }
-				 }
+			}
 				 
 		});
 	}

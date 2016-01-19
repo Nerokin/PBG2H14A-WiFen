@@ -5,9 +5,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import wifen.commons.network.ConnectionEvent;
-import wifen.commons.network.Packet;
 import wifen.commons.network.events.PacketReceivedEvent;
 import wifen.commons.network.packets.ChatPacket;
+import wifen.commons.network.packets.impl.ChatPacketImpl;
 import wifen.server.network.Server;
 import wifen.server.services.ServerChatService;
 
@@ -39,9 +39,9 @@ public class ServerChatProvider implements ServerChatService {
 	public void handle(ConnectionEvent connectionEvent) {
 		if (connectionEvent instanceof PacketReceivedEvent) {
 			PacketReceivedEvent packetEvent = (PacketReceivedEvent) connectionEvent;
-			Packet packet = packetEvent.getPacket();
-			if (packet instanceof ChatPacket) {
-				getServer().broadcastPacket(packet);
+			if (packetEvent.getPacket() instanceof ChatPacket) {
+				ChatPacket packet = (ChatPacket) packetEvent.getPacket();
+				getServer().broadcastPacket(new ChatPacketImpl(packet.getSourceName(), packet.getMessage()));
 			}
 		}
 	}
