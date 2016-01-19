@@ -87,7 +87,7 @@ public class SpielBeitretenController extends BorderPane {
 		// formatDisplay.setOnMouseClicked(this::click);
 		// TODO: Data Binding and Setup of Event Handling
 		
-	
+		tf_port.setText(ApplicationConstants.APPLICATION_PORT+"");
 		btn_zurück.setOnAction(new EventHandler<ActionEvent>(){
 			 public void handle(ActionEvent e) {
 			Parent p = null;

@@ -60,7 +60,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="tf_port" promptText="Port eingeben">
+                  <TextField fx:id="tf_port" disable="true" editable="false">
                      <font>
                         <Font size="24.0" />
                      </font>
