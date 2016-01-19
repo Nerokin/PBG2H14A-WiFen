@@ -1,45 +1,43 @@
 package wifen.client.ui.controllers;
  
  import java.io.IOException;
- import java.util.NoSuchElementException;
- import java.util.logging.Level;
- import java.util.logging.Logger;
- 
- import org.controlsfx.control.CheckComboBox;
- 
- import javafx.beans.property.ObjectProperty;
- import javafx.beans.property.ReadOnlyObjectProperty;
- import javafx.beans.property.SimpleObjectProperty;
- import javafx.collections.FXCollections;
- import javafx.collections.ListChangeListener;
- import javafx.collections.ObservableList;
- import javafx.event.ActionEvent;
- import javafx.event.EventHandler;
- import javafx.fxml.FXML;
- import javafx.fxml.FXMLLoader;
- import javafx.geometry.Insets;
- import javafx.geometry.Pos;
- import javafx.scene.Node;
- import javafx.scene.Parent;
+import java.util.NoSuchElementException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.controlsfx.control.CheckComboBox;
+
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener.Change;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
- import javafx.scene.control.Alert.AlertType;
- import javafx.scene.control.Button;
- import javafx.scene.control.Alert.AlertType;
- import javafx.scene.image.ImageView;
- import javafx.scene.layout.BorderPane;
- import javafx.scene.layout.StackPane;
- import javafx.scene.layout.VBox;
- import javafx.scene.paint.Color;
- import javafx.scene.shape.Polyline;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Polyline;
 import javafx.stage.Stage;
 import wifen.client.application.ClientApplication;
- import wifen.client.services.ClientChatService;
+import wifen.client.services.ClientChatService;
 import wifen.client.services.ClientGameeventService;
 import wifen.client.services.impl.ClientRefreshProvider;
- import wifen.commons.GameStateModel;
- import wifen.commons.network.Connection;
- import wifen.commons.network.impl.ConnectionImpl;
+import wifen.commons.GameStateModel;
+import wifen.commons.network.Connection;
  
  public class SpielbrettController extends BorderPane {
  	
@@ -127,42 +125,31 @@ import wifen.client.services.impl.ClientRefreshProvider;
  			logger.log(Level.WARNING, "Es ist kein ChatService registriert", e);
  		}
  		
+		 // and listen to the relevant events (e.g. when the selected indices or selected items change).
+		 choiceID.getCheckModel().getCheckedItems().addListener((Change<? extends Node> c) -> {
+			if (c.next()) {
+			    c.getRemoved().forEach((node) -> ereignisVBoxID.getChildren().remove(node));
+			    c.getAddedSubList().forEach((node) -> ereignisVBoxID.getChildren().add(node));
+			}
+		 });
+ 		
  		// create the data to  show in the CheckComboBox 
  			final ObservableList<Node> choices = FXCollections.observableArrayList();
+ 			
+ 			ereignisVBoxID.getChildren().clear();
  		 
- 				 choices.add(chatBox);
- 				 choices.add(diceBox);
- 				 choices.add(ereignisBox);
- 				 choices.add(markerBox);
- 				 choices.add(mediaLibrary);
- 				 choices.add(adminBox);
+			if (chatBox != null) choices.add(chatBox);
+			if (diceBox != null) choices.add(diceBox);
+			if (ereignisBox != null) choices.add(ereignisBox);
+			if (markerBox != null) choices.add(markerBox);
+			if (mediaLibrary != null) choices.add(mediaLibrary);
+			if (adminBox != null) choices.add(adminBox);
  				 
- 
- 				 
- 			 // Create the CheckComboBox with the data 
- 			 choiceID.getItems().addAll(choices);
- 				 
- 		
- 			// and listen to the relevant events (e.g. when the selected indices or selected items change).
- 			 choiceID.getCheckModel().getCheckedItems().addListener(new ListChangeListener<Node>() 
-			 {
-			     public void onChanged(ListChangeListener.Change<? extends Node> c) 
-			     {
-			         //choiceID.getCheckModel().getCheckedItems().forEach((item) -> item.setVisible(!item.isVisible()));
-			         choiceID.getItems().forEach((node) -> {
-			        	if (choiceID.getCheckModel().getCheckedItems().contains(node)) 
-			        	{
-			        		if(!ereignisVBoxID.getChildren().contains(node))
-			        			ereignisVBoxID.getChildren().add(node);
-			        	}
-			        	else
-			        	{
-			        		ereignisVBoxID.getChildren().remove(node);
-			        	}
-			         });
-			     }
-			 });
-			 
+ 			// Create the CheckComboBox with the data 
+ 			choiceID.getItems().addAll(choices);
+ 			if (ereignisBox != null) choiceID.getCheckModel().check(ereignisBox);
+ 			if (chatBox != null) choiceID.getCheckModel().check(chatBox);
+ 			if (diceBox != null) choiceID.getCheckModel().check(diceBox);
  			 
  			//Optionen aus Spielbrett aufrufen
  			optionID.setOnAction(new EventHandler<ActionEvent>() {

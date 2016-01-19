@@ -61,7 +61,7 @@ public class MedienbibliothekController extends TitledPane
 		//Setup FXMLLoader
 		setFXMLLoader(new FXMLLoader());
 		getFXMLLoader().setRoot(this);
-		getFXMLLoader().setLocation(getClass().getResource("/fxml/Medienbibliothek.fxml"));
+		getFXMLLoader().setLocation(getClass().getResource("../views/Medienbibliothek.fxml"));
 		getFXMLLoader().setController(this);
 		
 		//Load the View
