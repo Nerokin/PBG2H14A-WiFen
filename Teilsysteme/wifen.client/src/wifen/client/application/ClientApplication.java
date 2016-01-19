@@ -3,7 +3,9 @@ package wifen.client.application;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.logging.Level;
@@ -35,6 +37,7 @@ import wifen.commons.network.Connection;
 import wifen.commons.network.ConnectionEvent;
 import wifen.commons.network.ConnectionListener;
 import wifen.commons.network.events.ConnectionClosedEvent;
+import wifen.commons.network.events.ConnectionEstablishedEvent;
 import wifen.commons.network.events.PacketReceivedEvent;
 import wifen.commons.network.impl.ConnectionImpl;
 import wifen.commons.network.packets.EnterGamePacket;
@@ -90,6 +93,11 @@ public class ClientApplication extends Application implements ServerListener, Co
 	 * service provider.
 	 */
 	private final ServiceRegistry serviceRegistry;
+	
+	/**
+	 * Used to save the initial game state model while the server is starting.
+	 */
+	private final Map<String, Object> tmpModel = new HashMap<>();
 
 	static {
 		SERVICES = new HashSet<>();
@@ -197,7 +205,7 @@ public class ClientApplication extends Application implements ServerListener, Co
 			return getServiceRegistry().getServiceProviders(Server.class, false).next();
 		} catch (NoSuchElementException e) {
 			// Instantiate the server
-			Server server = new ServerImpl(ApplicationConstants.APPLICATION_PORT, this);
+			ServerImpl server = new ServerImpl(ApplicationConstants.APPLICATION_PORT, this);
 			
 			// Actually start the server
 			Thread t = new Thread(() -> {
@@ -218,6 +226,18 @@ public class ClientApplication extends Application implements ServerListener, Co
 			// Return the instantiated server instance
 			return server;
 		}
+	}
+	
+	public void cancelGameCreation(Exception e) {
+		logger.log(Level.WARNING, "Game could not be created", e);
+		Platform.runLater(() -> {
+			new Alert(AlertType.ERROR, "Das Spiel konnte nicht erstellt werden (" + e.getMessage() + ")").showAndWait();
+			try {
+				getServiceRegistry().getServiceProviders(Stage.class, false).next().getScene().setRoot(new Hauptmenu());
+			} catch (Exception e1) {
+				new Alert(AlertType.ERROR, "Das Hauptmenü konnte nicht initialisiert werden, die Anwendung wird geschlossen").showAndWait();
+			}
+		});
 	}
 	
 	/**
@@ -243,44 +263,34 @@ public class ClientApplication extends Application implements ServerListener, Co
 				logger.info("Showing loading screen ...");
 				ClientApplication.instance().showLoadingScreen();
 				
+				// Creating tmpModel
+				tmpModel.put("maximumPlayerCount", maximumPlayerCount);
+				tmpModel.put("spectatorsAllowed", spectatorsAllowed);
+				tmpModel.put("mediaInitiallyVisible", mediaInitiallyVisible);
+				tmpModel.put("maxDiceFaceCount", maxDiceFaceCount);
+				tmpModel.put("playerName", playerName);
+				tmpModel.put("standardPlayerRole", standardPlayerRole);
+				tmpModel.put("gridType", gridType);
+				
 				// Start the Server
-				startServer();
-				
-				// Connect to local Server
-				startConnection(InetAddress.getLocalHost());
-				
-				// Initialize the model
-				GameStateModel model = new GameStateModel(maximumPlayerCount, spectatorsAllowed, mediaInitiallyVisible, maxDiceFaceCount, standardPlayerRole, gridType, new ArrayList<>(), new ArrayList<>());
-				
-				// Initialize the server game event service
-				try {
-					getServiceRegistry().registerServiceProvider(new ServerGameeventProvider(getServiceRegistry().getServiceProviders(Server.class, true).next()), ServerGameeventService.class);
-				} catch (Exception e) {
-					logger.log(Level.SEVERE, "ServerGameEventService could not be created");
-				}
-				
-				// Initialize the server game service
-				try {
-					ServerGameService serverGameService = new ServerGameProvider(getServiceRegistry().getServiceProviders(Server.class, true).next(), model,
-							getServiceRegistry().getServiceProviders(ServerGameeventService.class, true).next());
-				
-					// Send yourself an invite. How charming!
-					serverGameService.addPlayer(playerName, SpielerRolle.ADMIN, getServiceRegistry().getServiceProviders(Server.class, true).next().getConnections().get(0));
-				} catch (Exception e) {
-					logger.log(Level.SEVERE, "ServerGameService could not be created", e);
-				}
+				Thread t;
+				t = new Thread(() -> {
+					try {
+						startServer();
+					} catch (Exception e) {
+						cancelGameCreation(e);
+					}
+				});
+				t.setDaemon(true);
+				t.setName("ServerStartThread");
+				t.start();
 				
 			} else throw new IllegalStateException("There already is a game/server running");
 			
 		} catch (Exception e) {
-			//e.printStackTrace();
-			new Alert(AlertType.ERROR, "Das Spiel konnte nicht erstellt werden (" + e.getMessage() + ")").showAndWait();
-			try {
-				getServiceRegistry().getServiceProviders(Stage.class, false).next().getScene().setRoot(new Hauptmenu());
-			} catch (IOException e1) {
-				new Alert(AlertType.ERROR, "Das Hauptmenü konnte nicht initialisiert werden, die Anwendung wird geschlossen").showAndWait();
-				Platform.exit();
-			}
+			
+			cancelGameCreation(e);
+			
 		}
 	}
 	
@@ -290,25 +300,73 @@ public class ClientApplication extends Application implements ServerListener, Co
 	public void handle(ServerEvent event) {
 		if (event instanceof ServerStartedEvent) {
 			
-			// Register a new chat service provider if the is none present
-			if (!getServiceRegistry().getServiceProviders(ServerChatService.class, false).hasNext()) {
-				try {
-					getServiceRegistry().registerServiceProvider(new ServerChatProvider(event.getSource()), ServerChatService.class);
-					logger.info("A new ServerChatProvider has been registered");
-				} catch (Exception e) {
-					logger.log(Level.SEVERE, "ServerChatProvider could not be registered", e);
+			try {
+				
+				// Register the server
+				getServiceRegistry().registerServiceProvider(event.getSource(), Server.class);
+			
+				// Initialize the model
+				GameStateModel model = new GameStateModel((int) tmpModel.get("maximumPlayerCount"),
+						(boolean) tmpModel.get("spectatorsAllowed"), (boolean) tmpModel.get("mediaInitiallyVisible"),
+						(int) tmpModel.get("maxDiceFaceCount"), (SpielerRolle) tmpModel.get("standardPlayerRole"),
+						(GridType) tmpModel.get("gridType"), new ArrayList<>(), new ArrayList<>());
+				
+				// Register a new chat service provider if the is none present
+				if (!getServiceRegistry().getServiceProviders(ServerChatService.class, false).hasNext()) {
+					try {
+						getServiceRegistry().registerServiceProvider(new ServerChatProvider(event.getSource()), ServerChatService.class);
+						logger.info("A new ServerChatProvider has been registered");
+					} catch (Exception e) {
+						logger.log(Level.SEVERE, "ServerChatProvider could not be registered", e);
+					}
+					
 				}
 				
-			}
-			
-			// Register new gameevent service provider if none is present
-			if(!getServiceRegistry().getServiceProviders(ServerGameeventService.class, false).hasNext()) {
-				try {
-					getServiceRegistry().registerServiceProvider(new ServerGameeventProvider(event.getSource()), ServerGameeventService.class);
-					logger.info("A new ServerGameeventProvider has been registered");
-				} catch (Exception e) {
-					logger.log(Level.SEVERE, "ServerGameeventProvider could not be registered", e);
+				// Register new gameevent service provider if none is present
+				if(!getServiceRegistry().getServiceProviders(ServerGameeventService.class, false).hasNext()) {
+					try {
+						getServiceRegistry().registerServiceProvider(new ServerGameeventProvider(event.getSource()), ServerGameeventService.class);
+						logger.info("A new ServerGameeventProvider has been registered");
+					} catch (Exception e) {
+						logger.log(Level.SEVERE, "ServerGameeventProvider could not be registered", e);
+					}
 				}
+				
+				// Initialize the server game service
+				ServerGameService serverGameService = null;;
+				try {
+					serverGameService = new ServerGameProvider(getServiceRegistry().getServiceProviders(Server.class, true).next(), model,
+							getServiceRegistry().getServiceProviders(ServerGameeventService.class, true).next());
+					getServiceRegistry().registerServiceProvider(serverGameService, ServerGameService.class);
+				} catch (Exception e) {
+					logger.log(Level.SEVERE, "ServerGameService could not be created", e);
+				}
+				
+				// Connect to local Server
+				startConnection(InetAddress.getLocalHost());
+				
+				// Send yourself an invite. How charming!
+				final ServerGameService finalGameService = serverGameService;
+				final ConnectionListener listener = new ConnectionListener() {
+
+					@Override
+					public void handle(ConnectionEvent connectionEvent) {
+						if (connectionEvent instanceof ConnectionEstablishedEvent) {
+							finalGameService.addPlayer((String) tmpModel.get("playerName"), SpielerRolle.ADMIN, connectionEvent.getSource());
+							event.getSource().removeListener(this);
+						}
+					} 
+					
+				};
+				event.getSource().addListener(listener);
+				
+			} catch (Exception e) {
+				// TODO Shutdown Server
+				// TODO ChatService(s) deregistrieren
+				// TODO GameEventService(s) deregistrieren
+				// TODO GameService deregistrieren
+				
+				cancelGameCreation(e);
 			}
 			
 		} else if (event instanceof ServerShutdownEvent) {

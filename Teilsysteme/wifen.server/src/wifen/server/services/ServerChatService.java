@@ -1,6 +1,7 @@
 package wifen.server.services;
 
-import wifen.commons.network.ConnectionListener;
+import javax.imageio.spi.RegisterableService;
+
 import wifen.server.network.Server;
 
 /**
@@ -11,7 +12,7 @@ import wifen.server.network.Server;
  * @author KonstantinSchaper
  *
  */
-public interface ServerChatService extends ConnectionListener {
+public interface ServerChatService extends RegisterableService {
 	
 	public Server getServer();
 	public void setServer(Server newServer);

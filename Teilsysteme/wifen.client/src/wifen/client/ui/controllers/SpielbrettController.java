@@ -128,8 +128,8 @@ import wifen.commons.network.Connection;
 		 // and listen to the relevant events (e.g. when the selected indices or selected items change).
 		 choiceID.getCheckModel().getCheckedItems().addListener((Change<? extends Node> c) -> {
 			if (c.next()) {
-			    c.getRemoved().forEach((node) -> ereignisVBoxID.getChildren().remove(node));
-			    c.getAddedSubList().forEach((node) -> ereignisVBoxID.getChildren().add(node));
+			    c.getRemoved().forEach((node) -> {if (ereignisVBoxID.getChildren().contains(node)) ereignisVBoxID.getChildren().remove(node);});
+			    c.getAddedSubList().forEach((node) -> {if (!ereignisVBoxID.getChildren().contains(node)) ereignisVBoxID.getChildren().add(node);});
 			}
 		 });
  		

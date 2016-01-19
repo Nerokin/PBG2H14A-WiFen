@@ -64,6 +64,11 @@ public class ServerGameProvider implements ServerGameService, ConnectionListener
 		getGameState().getEreignisLog().add(eventMessage);
 	}
 	
+	@Override
+	public void addChatMessage(String chatMessage) {
+		getGameState().getChatLog().add(chatMessage);
+	}
+	
 	// <--- ConnectionListener --->
 	
 	@Override

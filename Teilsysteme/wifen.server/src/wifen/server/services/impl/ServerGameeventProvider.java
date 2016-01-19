@@ -1,6 +1,8 @@
 package wifen.server.services.impl;
 
 import java.util.NoSuchElementException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.imageio.spi.ServiceRegistry;
 
@@ -9,6 +11,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import wifen.commons.network.ConnectionEvent;
+import wifen.commons.network.ConnectionListener;
 import wifen.commons.network.events.PacketReceivedEvent;
 import wifen.commons.network.packets.GameeventPacket;
 import wifen.commons.network.packets.impl.GameeventPacketImpl;
@@ -20,9 +23,14 @@ import wifen.server.services.ServerGameeventService;
  * Implementation of the {@linkplain ServerGameeventService} interface.
  * 
  * @author Steffen Müller
+ * @author Konstantin Schaper
  */
 
-public class ServerGameeventProvider implements ServerGameeventService {
+public class ServerGameeventProvider implements ServerGameeventService, ConnectionListener {
+	
+	// Class Constants
+	
+	private final Logger logger = Logger.getLogger(ServerGameeventProvider.class.getName());
 
 	// Properties	
 	
@@ -48,7 +56,7 @@ public class ServerGameeventProvider implements ServerGameeventService {
 			PacketReceivedEvent packetEvent = (PacketReceivedEvent) connectionEvent;
 			if (packetEvent.getPacket() instanceof GameeventPacket) {
 				GameeventPacket packet = (GameeventPacket) packetEvent.getPacket();
-				getServer().broadcastPacket(new GameeventPacketImpl("",packet.getMessage()));
+				fireEvent(packet.getMessage());
 			}
 		}
 	}
@@ -71,10 +79,10 @@ public class ServerGameeventProvider implements ServerGameeventService {
 			.getServiceProviders(ServerGameService.class, true)
 			.next()
 			.addGameEvent(eventMessage);
+			getServer().broadcastPacket(new GameeventPacketImpl("", eventMessage));
 		} catch (NoSuchElementException e) {
-			// TODO ERROR
+			logger.log(Level.SEVERE, "Cannot fire GameEvent", e);
 		}
-		getServer().broadcastPacket(new GameeventPacketImpl("", eventMessage));
 	}
 	
 	// <--- RegisterableService --->
