@@ -48,13 +48,11 @@ public class SpielBeitretenController extends BorderPane {
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 
 	// Injected Nodes
-	@FXML TextField tfname;
+	@FXML TextField tf_name;
 	@FXML TextField tf_port;
-	@FXML TextField tfIp;
-	@FXML Label ipAdress;
-	@FXML Label versionNumber;
-	@FXML Button btnEnter;
-	@FXML Button backToMenuBtn;
+	@FXML TextField tf_ip;
+	@FXML Button btn_beitreten;
+	@FXML Button btn_zurück;
 
 	// @FXML private FormationDisplay formatDisplay;
 	// TODO
@@ -89,8 +87,8 @@ public class SpielBeitretenController extends BorderPane {
 		// formatDisplay.setOnMouseClicked(this::click);
 		// TODO: Data Binding and Setup of Event Handling
 		
-	
-		backToMenuBtn.setOnAction(new EventHandler<ActionEvent>(){
+		tf_port.setText(ApplicationConstants.APPLICATION_PORT+"");
+		btn_zurück.setOnAction(new EventHandler<ActionEvent>(){
 			 public void handle(ActionEvent e) {
 			Parent p = null;
 			try {
@@ -103,19 +101,12 @@ public class SpielBeitretenController extends BorderPane {
 		}
 		});
 		
-		btnEnter.setOnAction(new EventHandler<ActionEvent>(){
+		btn_beitreten.setOnAction(new EventHandler<ActionEvent>(){
 			 public void handle(ActionEvent e) {
 				 try{
-					 Connection tmpConn = null;
-					 try {
-						 tmpConn = ClientApplication.instance().getServiceRegistry().getServiceProviders(Connection.class, true).next();
-					 } catch (NoSuchElementException e2) {
-						 InetAddress tmpAdd = InetAddress.getByName(tfIp.getText());
-						 tmpConn = new ConnectionImpl(tmpAdd, ApplicationConstants.APPLICATION_PORT);
-						 ClientApplication.instance().getServiceRegistry().registerServiceProvider(tmpConn, Connection.class);
-					 }
+					Connection tmpConn = ClientApplication.instance().startConnection(InetAddress.getByName(tf_ip.getText()));
 						 
-					String requestedName = tfname.getText();
+					String requestedName = tf_name.getText();
 					EnterGamePacket packet = new EnterGamePacketImpl(requestedName);
 					tmpConn.sendPacket(packet);
 
