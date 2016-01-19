@@ -10,7 +10,6 @@ import javax.imageio.spi.ServiceRegistry;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import wifen.client.application.ClientApplication;
-import wifen.client.resources.MarkerView;
 import wifen.client.services.GameService;
 import wifen.client.ui.controllers.Hauptmenu;
 import wifen.client.ui.controllers.SpielbrettController;
@@ -22,9 +21,8 @@ import wifen.commons.network.ConnectionEvent;
 import wifen.commons.network.ConnectionListener;
 import wifen.commons.network.events.ConnectionClosedEvent;
 import wifen.commons.network.events.PacketReceivedEvent;
-import wifen.commons.network.packets.EnterGamePacket;
 import wifen.commons.network.packets.MarkerPacket;
-import wifen.commons.network.packets.impl.EnterGamePacketImpl;
+import wifen.commons.network.packets.MarkerRemovedPacket;
 import wifen.commons.network.packets.impl.MarkerPacketImpl;
 import wifen.commons.network.packets.impl.MarkerRemovedPacketImpl;
 
@@ -62,6 +60,10 @@ public class GameProvider implements GameService, ConnectionListener {
 			if (packetEvent.getPacket() instanceof MarkerPacket) {
 				MarkerPacket packet = (MarkerPacket) packetEvent.getPacket();
 				getGameView().getPlayfield().AddMarker(packet.getMarkerModel());
+			}
+			else if(packetEvent.getPacket() instanceof MarkerRemovedPacket){
+				MarkerRemovedPacket packet = (MarkerRemovedPacket) packetEvent.getPacket();
+				getGameView().getPlayfield().RemoveMarker(packet.getMarkerId());
 			}
 		} else if (connectionEvent instanceof ConnectionClosedEvent) {
 			
