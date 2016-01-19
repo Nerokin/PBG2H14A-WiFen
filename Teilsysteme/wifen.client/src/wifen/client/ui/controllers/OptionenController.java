@@ -7,10 +7,13 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import wifen.client.application.ClientApplication;
 import wifen.client.services.OptionService;
@@ -37,13 +40,14 @@ public class OptionenController extends AnchorPane {
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 
 	// Injected Nodes
-	@FXML Slider sliderVolumen;
-	@FXML CheckBox cbMuteMusik;
-	@FXML CheckBox cbMuteSound;
-	@FXML Slider sliderMaxDateigroesse;
-	@FXML Button btnSpeichern;
-	@FXML Label ipAdress;
-	@FXML Label versionNumber;
+	@FXML Slider sd_volumen;
+	@FXML CheckBox cbx_muteMusic;
+	@FXML CheckBox cbx_muteSound;
+	@FXML Slider sd_filesize;
+	@FXML Button btn_speichern;
+	@FXML Button btn_abbrechen;
+	@FXML Label lb_ip;
+	@FXML Label lb_version;
 
 	// @FXML private FormationDisplay formatDisplay;
 	// TODO
@@ -77,24 +81,39 @@ public class OptionenController extends AnchorPane {
 		client = ClientApplication.instance();
 		op = (OptionProvider) client.getServiceRegistry().getServiceProviderByClass(OptionService.class);
 		
-		btnSpeichern.setOnAction(this::speichernOnAction);
-		sliderVolumen.setValue(op.getVolume());
-		cbMuteMusik.setSelected(op.getMusicMuted());
-		cbMuteSound.setSelected(op.getSoundMuted());
-		sliderMaxDateigroesse.setValue(op.getMaxFileSize());		
+		btn_speichern.setOnAction(this::speichernOnAction);
+		btn_abbrechen.setOnAction(this::abbrechenOnAction);		
+		
+		sd_volumen.setValue(op.getVolume());
+		cbx_muteMusic.setSelected(op.getMusicMuted());
+		cbx_muteSound.setSelected(op.getSoundMuted());
+		sd_filesize.setValue(op.getMaxFileSize());		
 	}
 
 	// Event Handlers	
 	/**
-	 * Saves the options in the user preferences
+	 * Saves the options in the user preferences via {@linkplain OptionProvider}
 	 */
 	private void speichernOnAction(ActionEvent event){		
-		op.setMaxFileSize(sliderVolumen.getValue());
-		op.setMusicMuted(cbMuteMusik.isSelected());
-		op.setSoundMuted(cbMuteSound.isSelected());
-		op.setVolume(sliderMaxDateigroesse.getValue());	
+		op.setMaxFileSize(sd_volumen.getValue());
+		op.setMusicMuted(cbx_muteMusic.isSelected());
+		op.setSoundMuted(cbx_muteSound.isSelected());
+		op.setVolume(sd_filesize.getValue());	
 	}
 	
+	
+	/**
+	 * Return to the main menu
+	 */
+	private void abbrechenOnAction(ActionEvent event){
+		Parent p = null;
+		try {
+			p = new Hauptmenu();
+			getScene().setRoot(p);
+		} catch (IOException e2) {
+			new Alert(AlertType.ERROR, "Hauptmenü konnte nicht geladen werden").showAndWait();
+		}
+	}	
 	
 	// Getter & Setter
 	public FXMLLoader getFXMLLoader() {
