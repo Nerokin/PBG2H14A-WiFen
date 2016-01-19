@@ -6,7 +6,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.text.*?>
 
-
 <fx:root minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <Label alignment="CENTER" prefWidth="300.0" text="WiFeN" textAlignment="CENTER" BorderPane.alignment="CENTER">
@@ -20,12 +19,12 @@
          <children>
             <HBox alignment="BOTTOM_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="795.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="26.0">
                <children>
-                  <Label id="versionNumber" fx:id="versionNumber" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="35.0" text="IP: ">
+                  <Label id="versionNumber" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="35.0" text="IP: ">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="200.0" text="255.255.255.255">
+                  <Label fx:id="lb_ip" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="200.0" text="255.255.255.255">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -42,7 +41,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="50.0" text="0.01" textAlignment="CENTER">
+                  <Label fx:id="lb_version" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="50.0" text="0.01" textAlignment="CENTER">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -53,55 +52,75 @@
       </AnchorPane>
    </bottom>
    <center>
-      <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Sound Optionen" underline="true">
                <font>
-                  <Font size="40.0" />
+                  <Font size="36.0" />
                </font>
             </Label>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefWidth="200.0" spacing="50.0">
                <children>
-                  <Label text="Volumen:">
+                  <Label prefHeight="50.0" text="Volumen:">
                      <font>
-                        <Font size="35.0" />
+                        <Font size="24.0" />
                      </font>
                   </Label>
-                  <Slider id="sliderVolumen" fx:id="sliderVolumen" prefHeight="14.0" prefWidth="264.0" />
+                  <Slider id="sliderVolumen" fx:id="sd_volumen" prefHeight="14.0" prefWidth="264.0" />
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="50.0">
+               <children>
+                  <Label text="Musik stumm">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <CheckBox id="cbMuteMusik" fx:id="cbx_muteMusic" mnemonicParsing="false" prefHeight="17.0" prefWidth="7.0" />
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="50.0">
                <children>
-                  <CheckBox id="cbMuteMusik" fx:id="cbMuteMusik" mnemonicParsing="false" prefHeight="17.0" prefWidth="7.0" />
-                  <Label text="Mute Musik">
+                  <Label text="Sound stumm">
                      <font>
-                        <Font size="35.0" />
+                        <Font size="24.0" />
                      </font>
                   </Label>
-                  <Label text="Mute Sound">
-                     <font>
-                        <Font size="35.0" />
-                     </font>
-                  </Label>
-                  <CheckBox id="cbMuteSound" mnemonicParsing="false" prefHeight="17.0" prefWidth="7.0" />
+                  <CheckBox id="cbMuteSound" fx:id="cbx_muteSound" mnemonicParsing="false" prefHeight="17.0" prefWidth="7.0" />
                </children>
             </HBox>
             <Label text="Medien Optionen" underline="true">
                <font>
-                  <Font size="40.0" />
+                  <Font size="36.0" />
                </font>
             </Label>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="50.0">
                <children>
                   <Label text="Maximale Dateigröße:">
                      <font>
-                        <Font size="35.0" />
+                        <Font size="24.0" />
                      </font>
                   </Label>
-                  <Slider id="sliderMaxDateigroesse" prefHeight="14.0" prefWidth="264.0" />
+                  <Slider id="sliderMaxDateigroesse" fx:id="sd_filesize" prefHeight="14.0" prefWidth="264.0" />
                </children>
             </HBox>
-            <Button id="btnSpeichern" mnemonicParsing="false" text="Speichern" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+               <children>
+                  <Button id="btnSpeichern" fx:id="btn_speichern" mnemonicParsing="false" text="Speichern">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+                  <Button id="btnSpeichern" fx:id="btn_abbrechen" mnemonicParsing="false" text="Abbrechen">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
          </children>
       </VBox>
    </center>
