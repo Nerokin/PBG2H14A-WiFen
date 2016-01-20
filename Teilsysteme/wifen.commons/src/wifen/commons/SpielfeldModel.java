@@ -19,8 +19,8 @@ public class SpielfeldModel implements Serializable {
 	private static final long serialVersionUID = -8355739346048731596L;
 
 	private GridType typ;
-	private transient ArrayList<FileNode<?>> files;
-	private transient ArrayList<MarkerModel> markers;
+	private ArrayList<FileNode<?>> files;
+	private ArrayList<MarkerModel> markers;
 	private double sizeX;
 	private double sizeY;
 
