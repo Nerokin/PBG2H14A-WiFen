@@ -607,31 +607,33 @@ public class ClientApplication extends Application implements ServerListener, Co
 
 	@Override
 	public void handle(WindowEvent event) {
-		SaveGameService saveService = new SaveGameProvider();
-		// Ask if the user wants to save
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Save the game?");
-		alert.setHeaderText("Do you want to save the game before closing?");
-		alert.setContentText("Pressing cancel will not save and then close the game.");
-		Optional<ButtonType> result = alert.showAndWait();
-		if(result.get()==ButtonType.OK)
+		if(getServiceProvider(GameService.class)!=null)
 		{
-			// Save game here!
-			FileChooser fileChooser = new FileChooser();
-			fileChooser.setTitle("Save game");
-			GameService gameservice = ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class,false).next();
-			File file = fileChooser.showSaveDialog(gameservice.getGameView().getScene().getWindow());
-			if(file != null)
+			SaveGameService saveService = new SaveGameProvider();
+			// Ask if the user wants to save
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Save the game?");
+			alert.setHeaderText("Do you want to save the game before closing?");
+			alert.setContentText("Pressing cancel will not save and then close the game.");
+			Optional<ButtonType> result = alert.showAndWait();
+			if(result.get()==ButtonType.OK)
 			{
-				try {
-					saveService.SaveAllData(file);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					logger.log(Level.SEVERE, "Game could not be saved!", e);
+				// Save game here!
+				FileChooser fileChooser = new FileChooser();
+				fileChooser.setTitle("Save game");
+				GameService gameservice = ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class,false).next();
+				File file = fileChooser.showSaveDialog(gameservice.getGameView().getScene().getWindow());
+				if(file != null)
+				{
+					try {
+						saveService.SaveAllData(file);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						logger.log(Level.SEVERE, "Game could not be saved!", e);
+					}
 				}
 			}
 		}
-
 	}
 
 }

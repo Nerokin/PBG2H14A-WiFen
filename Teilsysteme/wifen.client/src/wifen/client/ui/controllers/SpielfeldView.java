@@ -82,7 +82,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		this.tilesPerCol = tilesPerCol;
 		this.tilesPerRow = tilesPerRow;
 		this.markerWindow = markerWindow;
-		((Pane)this.getContent()).setBackground(new Background(new BackgroundImage(new Image(getClass().getResourceAsStream("../../resources/ludo_board.png")), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+		((Pane)this.getContent()).setBackground(new Background(new BackgroundImage(new Image(getClass().getResourceAsStream("/wifen/client/resources/ludo_board.png")), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
 		draw(this.model.getTyp());
 		addMarkersFromModel();
 		addFilesFromModel();
@@ -168,7 +168,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 				}
 			}
 			this.addToView(grid);
-		}		
+		}
 
 		/* Register Listeners */
 		this.setOnMousePressed(new EventHandler<MouseEvent>(){
@@ -290,12 +290,12 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 			}
 		});
 	}
-	
-	// Methods	
+
+	// Methods
 	private void getImageResolution(String url) {
 		// TODO
 	}
-	
+
 	private void addMarkersFromModel() {
 		for(MarkerModel m : this.model.getMarkers()) {
 			this.addToView(new MarkerView(m, this));
