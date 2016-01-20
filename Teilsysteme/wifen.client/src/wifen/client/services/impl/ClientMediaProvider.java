@@ -6,7 +6,9 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import wifen.client.application.ClientApplication;
 import wifen.client.services.ClientMediaService;
+import wifen.client.services.GameService;
 import wifen.commons.Medium;
 import wifen.commons.network.Connection;
 import wifen.commons.network.ConnectionEvent;
@@ -105,11 +107,14 @@ public class ClientMediaProvider implements ClientMediaService, ConnectionListen
 				
 				logger.info("Incoming MediaDataPacket: " + packet);
 				
-				// TODO: Add file to library (However that'll work)
+				// Add file to library
+				GameService gs = ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next();
+				gs.getGameView().mediaLibrary.addMedium(dataPacket.getMedium());
 			}
 		}
 	}
 	
+	@Override
 	public final void trySendFile(String playerName, Medium medium)
 	{
 		if (getConnection() != null && getConnection().isConnected())

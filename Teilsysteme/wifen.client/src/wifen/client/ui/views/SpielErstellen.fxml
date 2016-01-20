@@ -113,7 +113,7 @@
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <TextField id="tbxName" fx:id="tf_eigenerName" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="120.0" text="Player">
+                              <TextField id="tbxName" fx:id="tf_eigenerName" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="120.0" >
                                  <font>
                                     <Font size="16.0" />
                                  </font>

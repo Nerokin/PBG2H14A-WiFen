@@ -14,9 +14,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import wifen.client.application.ClientApplication;
-import wifen.client.services.OptionService;
 import wifen.client.services.impl.OptionProvider;
 
 /**
@@ -26,7 +25,7 @@ import wifen.client.services.impl.OptionProvider;
  * @author Marc Brinkmann
  *
  */
-public class OptionenController extends AnchorPane {
+public class OptionenController extends BorderPane {
 	
 	// Attributes
 	ClientApplication client;
@@ -45,7 +44,6 @@ public class OptionenController extends AnchorPane {
 	@FXML CheckBox cbx_muteSound;
 	@FXML Slider sd_filesize;
 	@FXML Button btn_speichern;
-	@FXML Button btn_abbrechen;
 	@FXML Label lb_ip;
 	@FXML Label lb_version;
 
@@ -61,6 +59,8 @@ public class OptionenController extends AnchorPane {
 	 */
 	public OptionenController() throws IOException {
 		super();
+		client = ClientApplication.instance();
+		op = client.getServiceRegistry().getServiceProviderByClass(OptionProvider.class);
 
 		// Apply CSS
 		getStylesheets().add(getClass().getResource(CSS_PATH).toExternalForm());
@@ -77,17 +77,23 @@ public class OptionenController extends AnchorPane {
 
 	// Initialization
 	@FXML
-	private void initialize() {
-		client = ClientApplication.instance();
-		op = (OptionProvider) client.getServiceRegistry().getServiceProviderByClass(OptionService.class);
-		
+<<<<<<< HEAD
+	private void initialize() {				
 		btn_speichern.setOnAction(this::speichernOnAction);
-		btn_abbrechen.setOnAction(this::abbrechenOnAction);		
+		btn_abbrechen.setOnAction(this::abbrechenOnAction);				
 		
+=======
+	private void initialize() {		
+		client = ClientApplication.instance();
+		op = client.getServiceRegistry().getServiceProviderByClass(OptionProvider.class);
+		
+		btn_speichern.setOnAction(this::speichernOnAction);	
+		/*
+>>>>>>> 8eae779e92020e10805f616e45d22728b1458bce
 		sd_volumen.setValue(op.getVolume());
 		cbx_muteMusic.setSelected(op.getMusicMuted());
 		cbx_muteSound.setSelected(op.getSoundMuted());
-		sd_filesize.setValue(op.getMaxFileSize());		
+		sd_filesize.setValue(op.getMaxFileSize());			
 	}
 
 	// Event Handlers	
@@ -101,19 +107,6 @@ public class OptionenController extends AnchorPane {
 		op.setVolume(sd_filesize.getValue());	
 	}
 	
-	
-	/**
-	 * Return to the main menu
-	 */
-	private void abbrechenOnAction(ActionEvent event){
-		Parent p = null;
-		try {
-			p = new Hauptmenu();
-			getScene().setRoot(p);
-		} catch (IOException e2) {
-			new Alert(AlertType.ERROR, "Hauptmenü konnte nicht geladen werden").showAndWait();
-		}
-	}	
 	
 	// Getter & Setter
 	public FXMLLoader getFXMLLoader() {
