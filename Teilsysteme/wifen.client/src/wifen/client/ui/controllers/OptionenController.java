@@ -63,7 +63,7 @@ public class OptionenController extends BorderPane {
 		super();
 
 		// Apply CSS
-		getStylesheets().add(getClass().getResource(CSS_PATH).toExternalForm());
+		//getStylesheets().add(getClass().getResource(CSS_PATH).toExternalForm());
 
 		// Setup FXMLLoader
 		setFXMLLoader(new FXMLLoader());
@@ -77,17 +77,18 @@ public class OptionenController extends BorderPane {
 
 	// Initialization
 	@FXML
-	private void initialize() {
+	private void initialize() {		
 		client = ClientApplication.instance();
-		op = (OptionProvider) client.getServiceRegistry().getServiceProviderByClass(OptionService.class);
+		op = client.getServiceRegistry().getServiceProviderByClass(OptionProvider.class);
 		
 		btn_speichern.setOnAction(this::speichernOnAction);
 		btn_abbrechen.setOnAction(this::abbrechenOnAction);		
-		
+		/*
 		sd_volumen.setValue(op.getVolume());
 		cbx_muteMusic.setSelected(op.getMusicMuted());
 		cbx_muteSound.setSelected(op.getSoundMuted());
-		sd_filesize.setValue(op.getMaxFileSize());		
+		sd_filesize.setValue(op.getMaxFileSize());	
+		*/			
 	}
 
 	// Event Handlers	
