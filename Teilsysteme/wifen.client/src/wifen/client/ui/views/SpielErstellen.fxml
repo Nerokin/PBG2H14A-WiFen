@@ -33,7 +33,7 @@
                                     <Insets right="30.0" />
                                  </padding>
                               </Label>
-                              <TextField id="tbxPort" fx:id="tf_port" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="80.0" HBox.hgrow="NEVER">
+                              <TextField id="tbxPort" fx:id="tf_port" disable="true" editable="false" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="80.0" HBox.hgrow="NEVER">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -50,9 +50,9 @@
                                     <Insets right="30.0" />
                                  </padding>
                               </Label>
-                              <TextField id="tbxMaxSpieler" fx:id="tf_maxSpieler" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="80.0" HBox.hgrow="NEVER">
+                              <TextField id="tbxMaxSpieler" fx:id="tf_maxSpieler" disable="true" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="80.0" HBox.hgrow="NEVER">
                                  <font>
-                                    <Font size="36.0" />
+                                    <Font size="32.0" />
                                  </font>
                               </TextField>
                            </children>
@@ -67,7 +67,7 @@
                                     <Insets left="10.0" />
                                  </HBox.margin>
                               </Label>
-                              <CheckBox id="cbBeobachterZulassen" fx:id="chb_beobachterZulassen" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="75.0" prefWidth="80.0" textAlignment="CENTER">
+                              <CheckBox id="cbBeobachterZulassen" fx:id="chb_beobachterZulassen" disable="true" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="75.0" prefWidth="80.0" textAlignment="CENTER">
                                  <font>
                                     <Font size="24.0" />
                                  </font></CheckBox>
@@ -83,7 +83,7 @@
                                     <Insets left="10.0" />
                                  </HBox.margin>
                               </Label>
-                              <CheckBox id="cbMedienSichtbarkeit" fx:id="chb_medienSichtbar" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="75.0" prefWidth="80.0" textAlignment="CENTER">
+                              <CheckBox id="cbMedienSichtbarkeit" fx:id="chb_medienSichtbar" disable="true" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="75.0" prefWidth="80.0" textAlignment="CENTER">
                                  <font>
                                     <Font size="24.0" />
                                  </font></CheckBox>
@@ -100,7 +100,7 @@
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <ComboBox id="comboSeitenanzahl" fx:id="cbx_würfelSeitenzahl" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="120.0" promptText="Würfel">
+                              <ComboBox id="comboSeitenanzahl" fx:id="cbx_würfelSeitenzahl" disable="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="120.0" promptText="Würfel">
                                  <HBox.margin>
                                     <Insets left="15.0" top="20.0" />
                                  </HBox.margin></ComboBox>
@@ -130,7 +130,7 @@
                                     <Font size="24.0" />
                                  </font>
                               </Label>
-                              <ComboBox id="comboStandardRolle" fx:id="cbx_standardRolle" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="120.0" promptText="Spielerrolle">
+                              <ComboBox id="comboStandardRolle" fx:id="cbx_standardRolle" disable="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="120.0" promptText="Spielerrolle">
                                  <HBox.margin>
                                     <Insets left="15.0" top="20.0" />
                                  </HBox.margin></ComboBox>

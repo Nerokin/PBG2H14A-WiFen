@@ -8,8 +8,34 @@ package wifen.commons;
  */
 public enum SpielerRolle
 {
-	ADMIN,
-	MODERATOR,
-	PLAYER,
-	SPECTATOR;
+	ADMIN {
+		@Override
+		public String toString() {
+			// TODO Auto-generated method stub
+			return "Administrator";
+		}
+	},
+	MODERATOR{
+		@Override
+		public String toString() {
+			// TODO Auto-generated method stub
+			return "Moderator";
+		}
+	},
+	PLAYER{
+		@Override
+		public String toString() {
+			// TODO Auto-generated method stub
+			return "Spieler";
+		}
+	},
+	SPECTATOR{
+		@Override
+		public String toString() {
+			// TODO Auto-generated method stub
+			return "Zuschauer";
+		}
+	};
 }
+
+
