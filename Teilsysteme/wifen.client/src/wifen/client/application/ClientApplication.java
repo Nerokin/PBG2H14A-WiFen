@@ -17,6 +17,7 @@ import javax.imageio.spi.ServiceRegistry;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -25,6 +26,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import wifen.client.services.ClientChatService;
 import wifen.client.services.ClientGameeventService;
 import wifen.client.services.ClientMediaService;
@@ -75,7 +77,7 @@ import wifen.server.services.impl.ServerMediaProvider;
  * @author Konstantin Schaper
  *
  */
-public class ClientApplication extends Application implements ServerListener, ConnectionListener {
+public class ClientApplication extends Application implements ServerListener, ConnectionListener, EventHandler<WindowEvent> {
 
 	// Class Constants
 
@@ -156,6 +158,8 @@ public class ClientApplication extends Application implements ServerListener, Co
 		primaryStage.setMaximized(true);
 		primaryStage.show();
 		getServiceRegistry().registerServiceProvider(primaryStage, Stage.class);
+
+		primaryStage.setOnCloseRequest(this);
 	}
 
 	@Override
@@ -177,6 +181,8 @@ public class ClientApplication extends Application implements ServerListener, Co
 		// TODO What happens, when the application terminates
 		// TODO Close open connections
 		// TODO Shutdown active servers
+
+
 	}
 
 	// Methods
@@ -416,30 +422,7 @@ public class ClientApplication extends Application implements ServerListener, Co
 			}
 
 		} else if (event instanceof ServerShutdownEvent) {
-			SaveGameService saveService = new SaveGameProvider();
-			// Ask if the user wants to save
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Save the game?");
-			alert.setHeaderText("Do you want to save the game before closing?");
-			alert.setContentText("Pressing cancel will not save and then close the game.");
-			Optional<ButtonType> result = alert.showAndWait();
-			if(result.get()==ButtonType.OK)
-			{
-				// Save game here!
-				FileChooser fileChooser = new FileChooser();
-				fileChooser.setTitle("Save game");
-				GameService gameservice = ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class,false).next();
-				File file = fileChooser.showSaveDialog(gameservice.getGameView().getScene().getWindow());
-				if(file != null)
-				{
-					try {
-						saveService.SaveAllData(file);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						logger.log(Level.SEVERE, "Game could not be saved!", e);
-					}
-				}
-			}
+
 			// Fetch the current chat service
 			ServerChatService chatService = getServiceRegistry().getServiceProviders(ServerChatService.class, false).next();
 
@@ -620,6 +603,35 @@ public class ClientApplication extends Application implements ServerListener, Co
 
 	public ServiceRegistry getServiceRegistry() {
 		return serviceRegistry;
+	}
+
+	@Override
+	public void handle(WindowEvent event) {
+		SaveGameService saveService = new SaveGameProvider();
+		// Ask if the user wants to save
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Save the game?");
+		alert.setHeaderText("Do you want to save the game before closing?");
+		alert.setContentText("Pressing cancel will not save and then close the game.");
+		Optional<ButtonType> result = alert.showAndWait();
+		if(result.get()==ButtonType.OK)
+		{
+			// Save game here!
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle("Save game");
+			GameService gameservice = ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class,false).next();
+			File file = fileChooser.showSaveDialog(gameservice.getGameView().getScene().getWindow());
+			if(file != null)
+			{
+				try {
+					saveService.SaveAllData(file);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					logger.log(Level.SEVERE, "Game could not be saved!", e);
+				}
+			}
+		}
+
 	}
 
 }
