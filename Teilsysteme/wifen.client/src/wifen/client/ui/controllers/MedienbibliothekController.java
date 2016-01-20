@@ -2,8 +2,13 @@ package wifen.client.ui.controllers;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import com.sun.deploy.uitoolkit.impl.fx.HostServicesFactory;
+import com.sun.javafx.application.HostServicesDelegate;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -21,6 +26,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import wifen.client.application.ClientApplication;
 import wifen.client.services.ClientMediaService;
 import wifen.commons.Medium;
 
@@ -103,6 +109,23 @@ public class MedienbibliothekController extends TitledPane
 	public void addMedium(Medium medium)
 	{
 		liste.add(medium);
+		
+		// Save to temp folder
+		FileOutputStream fos;
+		try
+		{
+			fos = new FileOutputStream(System.getProperty("java.io.tmpdir") + medium.getName() + medium.getType());
+			fos.write(medium.getRawData());
+			fos.close();
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	//Event Handlers
@@ -160,78 +183,10 @@ public class MedienbibliothekController extends TitledPane
 		if(selectedMedium == null)
 			return;
 		
-		// Show content in seperate window.
-		String type = selectedMedium.getType();
-		if(type.equalsIgnoreCase("png") || type.equalsIgnoreCase("jpg") || type.equalsIgnoreCase("bmp") || type.equalsIgnoreCase("gif"))
-		{
-			// Convert raw data to image
-			InputStream stream = new ByteArrayInputStream(selectedMedium.getRawData());
-			Image image = new Image(stream);
-			
-			try
-			{
-				// Create view window and show data
-				createSubWindow("Medienbibliothek", new Scene(new ImageViewController(image)));
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		else if(type.equalsIgnoreCase("txt"))
-		{
-			try
-			{
-				// Convert raw data to text array
-				String[] text = new String(selectedMedium.getRawData(), "ISO-8859-1").split("\n");
-
-				// Create view window and show data
-				createSubWindow("Medienbibliothek", new Scene(new TextViewController(text)));
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		else if(type.equalsIgnoreCase("csv"))
-		{			
-			try
-			{
-				// Convert raw data to csv array
-				String[] text = new String(selectedMedium.getRawData(), "ISO-8859-1").split("\n");
-				String[][] table = new String[text.length][];
-				for(int i = 0; i < text.length; i++)
-				{
-					table[i] = text[i].split(";");
-				}
-				
-				// Create view window and show data
-				createSubWindow("Medienbibliothek", new Scene(new TableViewController(table)));
-			}
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
-		}
-		else // All other filetypes open on their own
-		{
-			// TODO: implement this
-		}
-	}
-	
-	/**
-	 * Put description here
-	 * 
-	 * @param title
-	 * @param scene
-	 */
-	private void createSubWindow(String title, Scene scene)
-	{
-		Stage stage = new Stage();
-		stage.setScene(scene);
-		stage.centerOnScreen();
-		stage.setTitle(title);
-		stage.show();
+		System.out.println(6);
+		
+		// Show content
+		ClientApplication.instance().getHostServices().showDocument(System.getProperty("java.io.tmpdir") + selectedMedium.getName() + selectedMedium.getType());
 	}
 	
 	//Getter & Setter
