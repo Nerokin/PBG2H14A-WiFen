@@ -73,9 +73,8 @@ public class ServerImpl implements Server, ConnectionListener {
 	public void acceptConnections() throws IOException {
 		Socket clientSocket;
 		while ((clientSocket = getServerSocket().accept()) != null) {
-			Connection conn = new ConnectionImpl(clientSocket);
+			Connection conn = new ConnectionImpl(clientSocket, this);
 			new Thread(conn::readPackets).start();
-			conn.addListener(this);
 			getConnectionList().add(conn);
 			logger.info("A connection has been accepted");
 		}
@@ -116,7 +115,7 @@ public class ServerImpl implements Server, ConnectionListener {
 	 */
 	protected final void fireEvent(ServerEvent event){
 		logger.info("A server event is being fired on " + getListeners().size() + " listeners.");
-		for (ServerListener serverListener : getListeners()) {
+		for (ServerListener serverListener : new HashSet<>(getListeners())) {
 			serverListener.handle(event);
 			if (event.isConsumed()) break;
 		}
@@ -129,7 +128,7 @@ public class ServerImpl implements Server, ConnectionListener {
 	 */
 	protected final void fireEvent(ConnectionEvent event){
 		logger.info("A connection event is being fired on " + getConnectionListeners().size() + " listeners.");
-		for (ConnectionListener connectionListener : getConnectionListeners()) {
+		for (ConnectionListener connectionListener : new HashSet<>(getConnectionListeners())) {
 			connectionListener.handle(event);
 			if (event.isConsumed()) break;
 		}

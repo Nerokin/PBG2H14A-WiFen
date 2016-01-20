@@ -11,7 +11,7 @@
 <content>
 	<VBox>
    <children>
-      <HBox prefHeight="40.0" prefWidth="416.0">
+      <HBox prefHeight="40.0" prefWidth="200.0">
          <children>
             <Label text="Rollen">
                <font>

@@ -36,10 +36,11 @@ public class ConnectionImpl implements Connection {
 	private final Set<ConnectionListener> listeners = new HashSet<ConnectionListener>();
 	
 
-	public ConnectionImpl(Socket s) throws IOException
+	public ConnectionImpl(Socket s, ConnectionListener... listeners) throws IOException
 	{
 		this.socket = s;
 		this.oos = new ObjectOutputStream(getSocket().getOutputStream());
+		if (listeners != null) Arrays.asList(listeners).forEach((listener) -> addListener(listener));
 		fireEvent(new ConnectionEstablishedEventImpl(this));
 		logger.info("Connection has been established.");
 		
@@ -72,7 +73,7 @@ public class ConnectionImpl implements Connection {
 	public ConnectionImpl(InetAddress address, int port, ConnectionListener... listeners) throws IOException {
 		this.socket = new Socket(address, port);
 		this.oos = new ObjectOutputStream(getSocket().getOutputStream());
-		Arrays.asList(listeners).forEach((listener) -> addListener(listener));
+		if (listeners != null) Arrays.asList(listeners).forEach((listener) -> addListener(listener));
 		fireEvent(new ConnectionEstablishedEventImpl(this));
 		logger.info("Connection has been established.");
 	}
@@ -80,6 +81,7 @@ public class ConnectionImpl implements Connection {
 	@Override
 	public boolean sendPacket(Packet packet) {
 		try {
+			packet.setSource(null);
 			oos.writeObject(packet);
 			oos.flush();
 			logger.info("A Packet has been successfully sent (" + packet + ")");
@@ -147,7 +149,7 @@ public class ConnectionImpl implements Connection {
 	 */
 	protected final void fireEvent(ConnectionEvent event){
 		logger.log(Level.INFO, "The event " + event + " has been fired on " + getListeners().size() + " listeners.");
-		for (ConnectionListener connectionListener : new ArrayList<>(getListeners())) {
+		for (ConnectionListener connectionListener : new HashSet<>(getListeners())) {
 			connectionListener.handle(event);
 			if (event.isConsumed()) break;
 		}

@@ -10,6 +10,7 @@ import javax.imageio.spi.ServiceRegistry;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 import wifen.client.application.ClientApplication;
+import wifen.client.services.ClientChatService;
 import wifen.client.services.GameService;
 import wifen.client.ui.controllers.Hauptmenu;
 import wifen.client.ui.controllers.SpielbrettController;
@@ -43,11 +44,13 @@ public class GameProvider implements GameService, ConnectionListener {
 	private Player activePlayer;
 	private SpielbrettController gameView;
 	private ServiceRegistry registry;
+	private GameStateModel initialModel;
 	
 	// Constructor(s)
 	
 	public GameProvider(GameStateModel initialModel, Player player) throws IOException {
 		this.activePlayer = player;
+		setInitialModel(initialModel);
 		setGameView(new SpielbrettController(initialModel));
 	}
 	
@@ -65,9 +68,7 @@ public class GameProvider implements GameService, ConnectionListener {
 				MarkerRemovedPacket packet = (MarkerRemovedPacket) packetEvent.getPacket();
 				getGameView().getPlayfield().RemoveMarker(packet.getMarkerId());
 			}
-		} else if (connectionEvent instanceof ConnectionClosedEvent) {
-			
-		}
+		} 
 	}
 	
 	// <--- RegisterableService --->
@@ -79,6 +80,12 @@ public class GameProvider implements GameService, ConnectionListener {
 		else {
 			setRegistry(registry);
 			getRegistry().getServiceProviders(Connection.class, true).next().addListener(this);
+			
+			// Load ChatLog
+			getRegistry().getServiceProviders(ClientChatService.class, true).next().loadChatlog(getInitialModel().getChatLog());
+			
+			// Load GameEventLog
+			//getRegistry().getServiceProviders(ClientGameeventService.class, true).next().loadGameeventlog(getInitialModel().getEreignisLog());
 		}
 	}
 
@@ -160,6 +167,14 @@ public class GameProvider implements GameService, ConnectionListener {
 
 	public void setRegistry(ServiceRegistry registry) {
 		this.registry = registry;
+	}
+
+	public GameStateModel getInitialModel() {
+		return initialModel;
+	}
+
+	public void setInitialModel(GameStateModel initialModel) {
+		this.initialModel = initialModel;
 	}
 
 }
