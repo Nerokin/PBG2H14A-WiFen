@@ -52,7 +52,7 @@
                               </Label>
                               <TextField id="tbxMaxSpieler" fx:id="tf_maxSpieler" disable="true" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="80.0" HBox.hgrow="NEVER">
                                  <font>
-                                    <Font size="36.0" />
+                                    <Font size="32.0" />
                                  </font>
                               </TextField>
                            </children>
