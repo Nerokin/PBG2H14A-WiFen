@@ -40,7 +40,7 @@ public class SaveGameProvider implements SaveGameService {
 		List<String> chatlog = gameservice.getCurrentModel().getChatLog();
 		List<String> ereignislog = gameservice.getCurrentModel().getEreignisLog();
 		List<MarkerModel> marker = gameservice.getGameView().getPlayfield().getModel().getMarkers();
-		Medium[] media = gameservice.getGameView().getMediaLibrary().getMedienListe();
+		Medium[] media = (Medium[]) gameservice.getGameView().getMediaLibrary().getList().toArray();
 		SpielfeldModel spModel = gameservice.getGameView().getPlayfield().getModel();
 		// settings sammeln
 
