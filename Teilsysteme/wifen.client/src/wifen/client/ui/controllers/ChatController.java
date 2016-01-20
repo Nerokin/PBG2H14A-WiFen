@@ -185,11 +185,14 @@ public class ChatController extends TitledPane {
 			 */
 			if(tf_eingabe.getText().equals("/rolle"))
 			{
-				lv_chat.setItems(getChatService().showRole(playerRole));
-			}
+				getChatService().showRole(playerRole);
+				
+			} else {
 			
-			// Call the chat service to send the message
-			getChatService().sendMessage(getPlayerName(), tf_eingabe.getText());
+				// Call the chat service to send the message
+				getChatService().sendMessage(getPlayerName(), tf_eingabe.getText());
+			
+			}
 			
 			// Reset the text input
 			tf_eingabe.setText(null);

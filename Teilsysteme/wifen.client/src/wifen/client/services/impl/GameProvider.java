@@ -68,9 +68,7 @@ public class GameProvider implements GameService, ConnectionListener {
 				MarkerRemovedPacket packet = (MarkerRemovedPacket) packetEvent.getPacket();
 				getGameView().getPlayfield().RemoveMarker(packet.getMarkerId());
 			}
-		} else if (connectionEvent instanceof ConnectionClosedEvent) {
-			
-		}
+		} 
 	}
 	
 	// <--- RegisterableService --->
