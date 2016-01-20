@@ -175,6 +175,20 @@ public class ClientApplication extends Application implements ServerListener, Co
 
 	// Methods
 	
+	/**
+	 * 
+	 * @param <T> matches the parameter <i>serviceType</i>
+	 * @param serviceType The class of which the caller expects an object to return.
+	 * @return The first service of the given type, or null if there is none registered
+	 */
+	public <T> T getServiceProvider(Class<T> serviceType) {
+		try {
+			return getServiceRegistry().getServiceProviders(serviceType, true).next();
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
 	public void showLoadingScreen() {
 		logger.info("Showing loading screen ...");
 		BorderPane loadingScreen = new BorderPane();
