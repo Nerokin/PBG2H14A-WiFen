@@ -33,7 +33,7 @@
                   <Font size="25.0" />
                </font>
             </Button>
-            <Button fx:id="btn_spielLaden" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Spiel laden">
+            <Button fx:id="btn_spielLaden" disable="true" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Spiel laden">
                <VBox.margin>
                   <Insets top="25.0" />
                </VBox.margin>
