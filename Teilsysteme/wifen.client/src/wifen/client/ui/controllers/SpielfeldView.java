@@ -18,7 +18,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polyline;
 import wifen.client.application.ClientApplication;
 import wifen.client.resources.MarkerView;
@@ -75,7 +82,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		this.tilesPerCol = tilesPerCol;
 		this.tilesPerRow = tilesPerRow;
 		this.markerWindow = markerWindow;
-		this.self = this;
+		((Pane)this.getContent()).setBackground(new Background(new BackgroundImage(new Image(getClass().getResourceAsStream("../../resources/ludo_board.png")), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
 		draw(this.model.getTyp());
 		addMarkersFromModel();
 		addFilesFromModel();
@@ -162,6 +169,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 			}
 			this.addToView(grid);
 		}
+		
 		
 
 		/* Register Listeners */
@@ -285,7 +293,10 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		});
 	}
 	
-	// Methods
+	// Methods	
+	private void getImageResolution(String url) {
+		// TODO
+	}
 	
 	private void addMarkersFromModel() {
 		for(MarkerModel m : this.model.getMarkers()) {
