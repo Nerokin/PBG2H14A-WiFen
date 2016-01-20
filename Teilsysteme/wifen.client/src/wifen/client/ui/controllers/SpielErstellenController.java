@@ -70,7 +70,7 @@ public class SpielErstellenController extends BorderPane {
 		super();
 
 		// Apply CSS
-		// getStylesheets().add(getClass().getResource(CSS_PATH).toExternalForm());
+		 getStylesheets().add(getClass().getResource(CSS_PATH).toExternalForm());
 
 		// Setup FXMLLoader
 		setFXMLLoader(new FXMLLoader());

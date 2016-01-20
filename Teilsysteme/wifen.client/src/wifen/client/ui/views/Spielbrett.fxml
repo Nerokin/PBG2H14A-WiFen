@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import wifen.client.ui.controllers.MedienbibliothekController?>
 
-<fx:root maxHeight="1920" maxWidth="1080" minHeight="800" minWidth="600" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root maxHeight="1080" maxWidth="1920" minHeight="800" minWidth="600" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <top>
-      <HBox fx:id="HboxID" >
+      <HBox fx:id="HboxID">
          <children>
          	<CheckComboBox fx:id="choiceID" />
             <Button fx:id="optionID" mnemonicParsing="false" text="Optionen" />
@@ -20,7 +20,7 @@
       </HBox>
     </top>
     <center>
-    	<StackPane fx:id="PlayField" />
+    	<StackPane fx:id="PlayField" id="playfield"/>
     </center>
     <right>
       <VBox fx:id="ereignisVBoxID">

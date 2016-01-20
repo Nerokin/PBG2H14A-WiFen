@@ -5,11 +5,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Logger;
 
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
-import wifen.client.ui.controllers.EreignisFenster;
-import wifen.client.ui.controllers.W�rfelanimationListe;
+
+
 
 /**
  * Bereitstellung der Würfelfunktionen: Normaler Würfelwurf (mit Modifikator), Schwellentest (mit Modifikator)
@@ -31,6 +32,8 @@ public class dice {
 	 * @param in Würfelausdruck der Texteingabe des Würfelfensters
 	 * @return
 	 */
+	
+	private static final Logger logger = Logger.getLogger(dice.class.getName());
 
 	public static String checkInput(String in){
         //Formel: XwY+M
@@ -45,7 +48,7 @@ public class dice {
             int y = Integer.parseInt(in_y);
             int m = Integer.parseInt(in_m);
             	//System.out.println(x);
-            return outputThrow(dice_Throw(x,y,m));
+            return outputThrow(dice_Throw(x,y,m), y);
         }
         //Formel: XwY-M
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*\\-[1-9][0-9]*$"))
@@ -59,7 +62,7 @@ public class dice {
             int y = Integer.parseInt(in_y);
             int m = Integer.parseInt(in_m);
             //System.out.println(x);
-             return outputThrow(dice_Throw(x,y,-m));
+             return outputThrow(dice_Throw(x,y,-m), y);
         }
         //Formel: XwY
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*$"))
@@ -68,7 +71,7 @@ public class dice {
             int x = Integer.parseInt(in_split[0]);
             int y = Integer.parseInt(in_split[1]);
             //System.out.println(x);
-            return outputThrow(dice_Throw(x,y,0));
+            return outputThrow(dice_Throw(x,y,0), y);
         }
         //Formel: XwYeZ+M
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*e[1-9][0-9]*\\+[1-9][0-9]*$"))
@@ -294,7 +297,7 @@ public class dice {
             int x = Integer.parseInt(in_split[0]);
             int y = Integer.parseInt(in_split[1]);
             //  System.out.println(x);
-            return outputThrow(dice_Throw(x,y,m));
+            return outputThrow(dice_Throw(x,y,m), y);
         }
         //Formel: XwY+(XwY-M)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*\\+[1-9][0-9]*w[1-9][0-9]*\\-[1-9][0-9]*$"))
@@ -317,7 +320,7 @@ public class dice {
             int x = Integer.parseInt(in_split[0]);
             int y = Integer.parseInt(in_split[1]);
             //  System.out.println(x);
-            return outputThrow(dice_Throw(x,y,m));
+            return outputThrow(dice_Throw(x,y,m), y);
         }
         //Formel: XwY-(XwY+M)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*\\-[1-9][0-9]*w[1-9][0-9]*\\+[1-9][0-9]*$"))
@@ -340,7 +343,7 @@ public class dice {
             int x = Integer.parseInt(in_split[0]);
             int y = Integer.parseInt(in_split[1]);
             // System.out.println(x);
-            return outputThrow(dice_Throw(x,y,-m));
+            return outputThrow(dice_Throw(x,y,-m), y);
         }
         //Formel: XwY-(XwY-M)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*\\-[1-9][0-9]*w[1-9][0-9]*\\-[1-9][0-9]*$"))
@@ -363,7 +366,7 @@ public class dice {
             int x = Integer.parseInt(in_split[0]);
             int y = Integer.parseInt(in_split[1]);
             // System.out.println(x);
-            return outputThrow(dice_Throw(x,y,-m));
+            return outputThrow(dice_Throw(x,y,-m), y);
         }
         //Formel: XwY+(XwY)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*\\+[1-9][0-9]*w[1-9][0-9]*$"))
@@ -378,7 +381,7 @@ public class dice {
             int x = Integer.parseInt(erster[0]);
             int y = Integer.parseInt(erster[1]);
             //System.out.println(x);
-            return outputThrow(dice_Throw(x,y,m));
+            return outputThrow(dice_Throw(x,y,m), y);
         }
         //Formel: XwY-(XwY)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*\\-[1-9][0-9]*w[1-9][0-9]*$"))
@@ -394,7 +397,7 @@ public class dice {
             int x = Integer.parseInt(erster[0]);
             int y = Integer.parseInt(erster[1]);
             // System.out.println(x);
-            return outputThrow(dice_Throw(x,y,-m));
+            return outputThrow(dice_Throw(x,y,-m), y);
         }
         else{
             return null;
@@ -454,11 +457,7 @@ public class dice {
 
 		}
 		dice[x] += m;
-
-
-
-
-
+		addSingleModifier(m);
 		return dice;
 	}
 
@@ -470,31 +469,36 @@ public class dice {
 	 */
 
 	static boolean isResult=true;
-	public static String outputThrow(int[] input){
+	public static String outputThrow(int[] input, int seiten){
 
     	String output = new String();
-    	output = "Ergebnis: "+input[input.length-1]+" (";
+    	output = " (";
     	for(int i = 0; i < input.length-1; i++){
-    		output += " "+(i+1)+". Wuerfel: "+input[i];
+    		output += " "+(i+1)+". w"+ seiten +": "+input[i];
     		if(isResult){
-    			isResult=false;
+    			//isResult=false;
     			addSingleResult(input[i]);
+    			//logger.info("Input an W�rfel " + i + " " + input[i]);
     		}else{
     			isResult=true;
     		}
 
 
     		if(i != input.length-2){
-    			output+= ";";
+    			output+= " |";
     		}
     		else{
     			output += " )";
     		}
     	}
-
+    	//logger.info(output + " | " + input[0]);
     	return output;
     }
+	
+	
 	private static ArrayList<Integer> singleResults = new ArrayList<Integer>();
+	private static ArrayList<Integer> modifier = new ArrayList<Integer>();
+	
 	public static void addSingleResult(int result){
 		singleResults.add(result);
 	}
@@ -504,9 +508,24 @@ public class dice {
 		for(Integer result : singleResults)
 			temp.add(result);
 		singleResults.clear();
+		//logger.info("SingleResult  : " + temp.get(0));
 		return temp;
 	}
+	
+	public static void addSingleModifier(int result){
+		modifier.add(result);
+	}
+	public static ArrayList<Integer> returnModifier(){
 
+		ArrayList<Integer> temp = new ArrayList<Integer>();
+		for(Integer result : modifier)
+			temp.add(result);
+		modifier.clear();
+		//logger.info("SingleResult  : " + temp.get(0));
+		return temp;
+	}
+	
+	
 	/**
 	 * Wandelt die Werte eines Testwurfes in einen String um
 	 *
