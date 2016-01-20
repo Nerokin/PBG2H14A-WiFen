@@ -10,6 +10,7 @@ import org.controlsfx.control.CheckComboBox;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
@@ -33,14 +34,18 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
 import javafx.stage.Stage;
 import wifen.client.application.ClientApplication;
+//import wifen.client.application.Game;
 import wifen.client.services.ClientChatService;
 import wifen.client.services.ClientGameeventService;
 import wifen.client.services.ClientMediaService;
+import wifen.client.services.GameService;
+import wifen.client.services.GameService.GameServiceListener;
 import wifen.client.services.impl.ClientRefreshProvider;
 import wifen.commons.GameStateModel;
+import wifen.commons.SpielerRolle;
 import wifen.commons.network.Connection;
  
- public class SpielbrettController extends BorderPane {
+ public class SpielbrettController extends BorderPane implements GameServiceListener{
  	
  	private static final Logger logger = Logger.getLogger(SpielbrettController.class.getName());
  
@@ -151,7 +156,7 @@ import wifen.commons.network.Connection;
 			if (ereignisBox != null) choices.add(ereignisBox);
 			if (markerBox != null) choices.add(markerBox);
 			if (mediaLibrary != null) choices.add(mediaLibrary);
-			if (adminBox != null) choices.add(adminBox);
+			
  				 
  			// Create the CheckComboBox with the data 
  			choiceID.getItems().addAll(choices);
@@ -276,5 +281,11 @@ import wifen.commons.network.Connection;
  	public void setPlayfield(SpielfeldView playfield) {
  		this.playfield = playfield;
  	}
+
+	@Override
+	public void onRolleChanged(GameService gameService, SpielerRolle rolle) {
+		// TODO Auto-generated method stub
+		if (adminBox != null && gameService.getActivePlayer().getRolle() == SpielerRolle.ADMIN) choiceID.getItems().add(adminBox);
+	}
  	
  }

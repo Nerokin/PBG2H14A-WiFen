@@ -1,6 +1,8 @@
 package wifen.client.services.impl;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +22,6 @@ import wifen.commons.Player;
 import wifen.commons.network.Connection;
 import wifen.commons.network.ConnectionEvent;
 import wifen.commons.network.ConnectionListener;
-import wifen.commons.network.events.ConnectionClosedEvent;
 import wifen.commons.network.events.PacketReceivedEvent;
 import wifen.commons.network.packets.MarkerPacket;
 import wifen.commons.network.packets.MarkerRemovedPacket;
@@ -45,6 +46,7 @@ public class GameProvider implements GameService, ConnectionListener {
 	private SpielbrettController gameView;
 	private ServiceRegistry registry;
 	private GameStateModel initialModel;
+	private final Set<GameServiceListener> listeners = new HashSet<>();
 	
 	// Constructor(s)
 	
@@ -52,6 +54,8 @@ public class GameProvider implements GameService, ConnectionListener {
 		this.activePlayer = player;
 		setInitialModel(initialModel);
 		setGameView(new SpielbrettController(initialModel));
+		addListener(getGameView());
+		getListeners().forEach((listener) -> listener.onRolleChanged(this, getActivePlayer().getRolle()));
 	}
 	
 	// <--- ConnectionListener --->
@@ -175,6 +179,20 @@ public class GameProvider implements GameService, ConnectionListener {
 
 	public void setInitialModel(GameStateModel initialModel) {
 		this.initialModel = initialModel;
+	}
+
+	@Override
+	public void addListener(GameServiceListener listener) {
+		getListeners().add(listener);
+	}
+
+	@Override
+	public void removeListener(GameServiceListener listener) {
+		getListeners().remove(listener);
+	}
+
+	public Set<GameServiceListener> getListeners() {
+		return listeners;
 	}
 
 }
