@@ -1,7 +1,9 @@
 package wifen.client.ui.controllers;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -16,12 +18,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import wifen.commons.Medium;
-import wifen.commons.services.impl.CsvNode;
-import wifen.commons.services.impl.ImageNode;
-import wifen.commons.services.impl.TxtNode;
 
 /**
  * Put description here
@@ -44,7 +44,7 @@ public class MedienbibliothekController extends TitledPane
 	@FXML
 	private Button btn_browse;
 	@FXML
-	private Button btn_öffnen;
+	private Button btn_open;
 	@FXML
 	private Button btn_upload;
 	
@@ -74,6 +74,10 @@ public class MedienbibliothekController extends TitledPane
 	{		
 		setText("Medien");
 		lv_medien.setItems(liste);	
+		
+		btn_browse.setOnAction(this::browse);
+		btn_upload.setOnAction(this::upload);
+		btn_open.setOnAction(this::openMedia);
 	}
 	
 	@Override
@@ -87,13 +91,20 @@ public class MedienbibliothekController extends TitledPane
 	 * 
 	 * @param event
 	 */
-	public void medienUpload(ActionEvent event)
+	public void upload(ActionEvent event)
 	{
 		File file = (File)tf_browse.getUserData();
 		if(file != null)
 		{
 			// TODO: upload file to server
-			liste.add(new Medium(file));
+			try
+			{
+				liste.add(new Medium(file));
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
 			
 			// Clear text field
 			tf_browse.setText(null);
@@ -106,7 +117,7 @@ public class MedienbibliothekController extends TitledPane
 	 * 
 	 * @param event
 	 */
-	public void medienBrowser(ActionEvent event)
+	public void browse(ActionEvent event)
 	{
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Media File");
@@ -124,40 +135,59 @@ public class MedienbibliothekController extends TitledPane
 	 * 
 	 * @param event
 	 */
-	public void medienÖffnen(ActionEvent event)
+	public void openMedia(ActionEvent event)
 	{
 		Medium selectedMedium = lv_medien.getSelectionModel().getSelectedItem();
 		if(selectedMedium == null)
 			return;
 		
-		// Show content in seperate window. TODO: create window to show content
-		if(selectedMedium.getFile() instanceof ImageNode)
+		// Show content in seperate window.
+		String type = selectedMedium.getType();
+		if(type.equalsIgnoreCase("png") || type.equalsIgnoreCase("jpg") || type.equalsIgnoreCase("bmp") || type.equalsIgnoreCase("gif"))
 		{
+			// Convert raw data to image
+			InputStream stream = new ByteArrayInputStream(selectedMedium.getRawData());
+			Image image = new Image(stream);
+			
 			try
 			{
-				createSubWindow("Medienbibliothek", new Scene(new ImageViewController(((ImageNode)selectedMedium.getFile()).getFileContent())));
+				// Create view window and show data
+				createSubWindow("Medienbibliothek", new Scene(new ImageViewController(image)));
 			}
 			catch (IOException e)
 			{
 				e.printStackTrace();
 			}
 		}
-		else if(selectedMedium.getFile() instanceof TxtNode)
+		else if(type.equalsIgnoreCase("txt"))
 		{
 			try
 			{
-				createSubWindow("Medienbibliothek", new Scene(new TextViewController(((TxtNode)selectedMedium.getFile()).getFileContent())));
+				// Convert raw data to text array
+				String[] text = new String(selectedMedium.getRawData(), "ISO-8859-1").split("\n");
+
+				// Create view window and show data
+				createSubWindow("Medienbibliothek", new Scene(new TextViewController(text)));
 			}
 			catch (IOException e)
 			{
 				e.printStackTrace();
 			}
 		}
-		else if(selectedMedium.getFile() instanceof CsvNode)
-		{
+		else if(type.equalsIgnoreCase("csv"))
+		{			
 			try
 			{
-				createSubWindow("Medienbibliothek", new Scene(new TableViewController(((CsvNode)selectedMedium.getFile()).getFileContent())));
+				// Convert raw data to csv array
+				String[] text = new String(selectedMedium.getRawData(), "ISO-8859-1").split("\n");
+				String[][] table = new String[text.length][];
+				for(int i = 0; i < text.length; i++)
+				{
+					table[i] = text[i].split(";");
+				}
+				
+				// Create view window and show data
+				createSubWindow("Medienbibliothek", new Scene(new TableViewController(table)));
 			}
 			catch (IOException e)
 			{
@@ -165,7 +195,9 @@ public class MedienbibliothekController extends TitledPane
 			}
 		}
 		else // All other filetypes open on their own
-			selectedMedium.getFile().getFileContent();
+		{
+			// TODO: implement this
+		}
 	}
 	
 	/**
