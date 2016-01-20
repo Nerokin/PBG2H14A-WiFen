@@ -190,6 +190,11 @@ public class MedienbibliothekController extends TitledPane
 	}
 	
 	//Getter & Setter
+	public ObservableList<Medium> getList()
+	{
+		return FXCollections.unmodifiableObservableList(liste);
+	}
+	
 	public ListView<Medium> getListViewMedien()
 	{
 		return lv_medien;
