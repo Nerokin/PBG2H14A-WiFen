@@ -14,7 +14,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import wifen.client.application.ClientApplication;
 import wifen.client.services.OptionService;
 import wifen.client.services.impl.OptionProvider;
@@ -26,7 +26,7 @@ import wifen.client.services.impl.OptionProvider;
  * @author Marc Brinkmann
  *
  */
-public class OptionenController extends AnchorPane {
+public class OptionenController extends BorderPane {
 	
 	// Attributes
 	ClientApplication client;
