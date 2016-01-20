@@ -423,8 +423,10 @@ public class Wuerfelfenster extends TitledPane {
 						String[] splitter = tmp[i].split("w");
 					
 						int anzahl = Integer.parseInt(splitter[0]);
+						String[] tmpSeiten = splitter[1].split("\\+");
+						int seiten = Integer.parseInt(tmpSeiten[0]);
 						
-						int seiten = Integer.parseInt(splitter[1]);
+						
 						if(seiten==1)
 							seiten =10;
 						String thisWurfel = ""+seiten;
@@ -442,6 +444,8 @@ public class Wuerfelfenster extends TitledPane {
 				int resultAsZahl =0;
 				for(int tmpResult : arrayList)
 					resultAsZahl+=tmpResult;
+				
+				resultAsZahl += dice.returnModifier().get(0);
 				String p = ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, true)
 						.next().getActivePlayerName();
 			    ClientApplication.instance().getServiceRegistry().getServiceProviders(ClientGameeventService.class, true)
