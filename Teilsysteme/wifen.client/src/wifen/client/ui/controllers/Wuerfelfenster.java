@@ -220,7 +220,7 @@ public class Wuerfelfenster extends TitledPane {
 		public void wuerfelDrag2(MouseEvent ev) throws FileNotFoundException{	// Erst beim Klicken und gleichzeitig ziehen!
 
 				Dragboard db = this.startDragAndDrop(TransferMode.ANY); // this hinzugefügt.. alternativ : wuerfel1.startDragAndDrop..
-				db.setDragView(new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d02/d2_1.png")));
+				db.setDragView(imagesD2[0]);
 			        ClipboardContent content = new ClipboardContent();
 
 
@@ -239,7 +239,7 @@ public class Wuerfelfenster extends TitledPane {
 		public void wuerfelDrag4(MouseEvent ev) throws FileNotFoundException{	// Erst beim Klicken und gleichzeitig ziehen!
 
 			Dragboard db = this.startDragAndDrop(TransferMode.ANY); // this hinzugefügt.. alternativ : wuerfel1.startDragAndDrop..
-			db.setDragView(new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d04/d4_4.png")));
+			db.setDragView(imagesD4[3]);
 		        ClipboardContent content = new ClipboardContent();
 		     db.setDragViewOffsetX(300);
 		     db.setDragViewOffsetY(75);
@@ -277,7 +277,7 @@ public class Wuerfelfenster extends TitledPane {
 	public void wuerfelDrag8(MouseEvent ev) throws FileNotFoundException{	// Erst beim Klicken und gleichzeitig ziehen!
 
 			Dragboard db = this.startDragAndDrop(TransferMode.ANY); // this hinzugefügt.. alternativ : wuerfel1.startDragAndDrop..
-			db.setDragView(new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_8.png")));
+			db.setDragView(imagesD8[7]);
 			ClipboardContent content = new ClipboardContent();
 			 db.setDragViewOffsetX(300);
 			 db.setDragViewOffsetY(125);
@@ -296,7 +296,7 @@ public class Wuerfelfenster extends TitledPane {
 	public void wuerfelDrag10(MouseEvent ev) throws FileNotFoundException{	// Erst beim Klicken und gleichzeitig ziehen!
 
 		Dragboard db = this.startDragAndDrop(TransferMode.ANY); // this hinzugefügt.. alternativ : wuerfel1.startDragAndDrop..
-		db.setDragView(new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_0.png")));
+		db.setDragView(imagesD10[10]);
 		ClipboardContent content = new ClipboardContent();
 		 db.setDragViewOffsetX(300);
 		 db.setDragViewOffsetY(125);
@@ -344,8 +344,8 @@ public class Wuerfelfenster extends TitledPane {
 		 *
 		 * @param ev DragEvent beim Droppen
 		 */
+		
 		@FXML
-
 		public void wuerfelDrop(DragEvent ev){
 
 			Dragboard db = ev.getDragboard();
@@ -406,7 +406,6 @@ public class Wuerfelfenster extends TitledPane {
 			w.resetWuerfelList();
 			animationGrid.getChildren().clear();
 			String[] tmp = diceText.getText().split(";");
-			
 			String[] output = new String[tmp.length];
 
 			if(tmp.length >= 1){
@@ -420,8 +419,6 @@ public class Wuerfelfenster extends TitledPane {
 						int seiten = Integer.parseInt(splitter[1]);
 						if(seiten==1)
 							seiten =10;
-						
-					
 						String thisWurfel = ""+seiten;
 						for(int j = 0;j<=anzahl-1;j++)
 							w.addWelcherWuerfel(thisWurfel);
@@ -431,7 +428,6 @@ public class Wuerfelfenster extends TitledPane {
 						reset();
 						return;
 					}
-
 				}
 			}
 			else{
@@ -453,12 +449,12 @@ public class Wuerfelfenster extends TitledPane {
 			ArrayList<Integer> arrayList = dice.returnAllSingleResults();
 			int resultAsZahl =0;
 			for(int result : arrayList)
-				resultAsZahl+=result;
+				resultAsZahl+=result; // Beinhaltet insgesamtes Ergebnis aller Würfel!
 			
 			
 		/*	try{
 				
-				GameService gameService = ClientApplication.instance().getServiceProviders(GameService.class, true).next();
+				GameService gameService = ClientApplication.instance().getServiceProviders().next();
 				ClientGameeventService clientGameeventService = ClientApplication.instance().getServiceProviders(ClientGameeventService.class, true).next();
 				clientGameeventService.sendGameevent(gameService.getActivePlayerName(),"hat " + resultAsZahl+ " gewürfelt.");
 
