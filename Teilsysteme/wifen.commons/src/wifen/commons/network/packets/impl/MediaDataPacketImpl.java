@@ -1,5 +1,6 @@
 package wifen.commons.network.packets.impl;
 
+import wifen.commons.Medium;
 import wifen.commons.network.impl.PacketImpl;
 import wifen.commons.network.packets.MediaDataPacket;
 
@@ -8,12 +9,12 @@ public class MediaDataPacketImpl extends PacketImpl implements MediaDataPacket
 	private static final long serialVersionUID = -8597096663167790919L;
 
 	private String sourceName;
-	private String dataBlock;
+	private Medium medium;
 	
-	public MediaDataPacketImpl(String sourceName, String dataBlock)
+	public MediaDataPacketImpl(String sourceName, Medium medium)
 	{
 		this.sourceName = sourceName;
-		this.dataBlock = dataBlock;
+		this.medium = medium;
 	}
 	
 	@Override
@@ -23,32 +24,14 @@ public class MediaDataPacketImpl extends PacketImpl implements MediaDataPacket
 	}
 
 	@Override
-	public String getDataBlock()
+	public Medium getMedium()
 	{
-		return dataBlock;
-	}
-
-	@Override
-	public String getFileType()
-	{
-		return dataBlock.split("^.*[.]{1}*[:]{1}*$")[1];
-	}
-
-	@Override
-	public String getFileName()
-	{
-		return dataBlock.split("^.*[.]{1}*[:]{1}*$")[0];
-	}
-
-	@Override
-	public String getFileData()
-	{
-		return dataBlock.split("^.*[.]{1}*[:]{1}*$")[2];
+		return medium;
 	}
 
 	@Override
 	public String toString()
 	{
-		return "{" +  getSourceName() + ": " + getDataBlock() + "}";
+		return "{" +  getSourceName() + ": " + medium + "}";
 	}
 }

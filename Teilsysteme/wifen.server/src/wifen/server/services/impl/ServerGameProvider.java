@@ -56,7 +56,7 @@ public class ServerGameProvider implements ServerGameService, ConnectionListener
 		// Schicken ein EnterGamePacket an den beitretenden Spieler
 		associatedConnection.sendPacket(new EnterGamePacketImpl(player, getGameState()));
 		// EnterGameMessage auslösen bei allen Spielern
-		gameEventService.fireEvent(playerName + " ist dem Spiel beigetreten.");
+		gameEventService.fireEvent(playerName + " ist dem Spiel als " +role+ " beigetreten.");
 	}
 	
 	@Override
