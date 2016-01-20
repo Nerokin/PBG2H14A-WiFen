@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -26,19 +27,19 @@ import wifen.commons.Medium;
 
 /**
  * Put description here
- * 
+ *
  * @author unknown
  *
  */
 public class MedienbibliothekController extends TitledPane
 {
 	ObservableList<Medium> liste = FXCollections.observableArrayList();
-	
+
 	//Properties
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 	private final ObjectProperty<ClientMediaService> mediaService = new SimpleObjectProperty<>();
-	
-	//Injected Nodes	
+
+	//Injected Nodes
 	@FXML
 	private ListView<Medium> lv_medien;
 	@FXML
@@ -49,31 +50,31 @@ public class MedienbibliothekController extends TitledPane
 	private Button btn_open;
 	@FXML
 	private Button btn_upload;
-	
+
 	//Constructor
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public MedienbibliothekController() throws IOException
 	{
 		super();
-		
+
 		//Setup FXMLLoader
 		setFXMLLoader(new FXMLLoader());
 		getFXMLLoader().setRoot(this);
 		getFXMLLoader().setLocation(getClass().getResource("../views/Medienbibliothek.fxml"));
 		getFXMLLoader().setController(this);
-		
+
 		//Load the View
 		getFXMLLoader().load();
 	}
 
-	
+
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param mediaService
 	 * @throws IOException
 	 */
@@ -82,33 +83,33 @@ public class MedienbibliothekController extends TitledPane
 		this();
 		setMediaService(mediaService);
 	}
-	
+
 	//Initialization
 	@FXML
 	private void initialize()
-	{		
+	{
 		setText("Medien");
-		lv_medien.setItems(liste);	
-		
+		lv_medien.setItems(liste);
+
 		btn_browse.setOnAction(this::browse);
 		btn_upload.setOnAction(this::upload);
 		btn_open.setOnAction(this::openMedia);
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Medien";
 	}
-	
+
 	public void addMedium(Medium medium)
 	{
 		liste.add(medium);
 	}
-	
+
 	//Event Handlers
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param event
 	 */
 	public void upload(ActionEvent event)
@@ -124,16 +125,16 @@ public class MedienbibliothekController extends TitledPane
 			{
 				e.printStackTrace();
 			}
-			
+
 			// Clear text field
 			tf_browse.setText(null);
 			tf_browse.setUserData(null);
 		}
 	}
-	
+
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param event
 	 */
 	public void browse(ActionEvent event)
@@ -141,17 +142,17 @@ public class MedienbibliothekController extends TitledPane
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Media File");
 		File file = fileChooser.showOpenDialog(this.getScene().getWindow());
-		
+
 		if(file != null)
 		{
 			tf_browse.setUserData(file);
 			tf_browse.setText(file.getAbsolutePath());
 		}
 	}
-	
+
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param event
 	 */
 	public void openMedia(ActionEvent event)
@@ -159,7 +160,7 @@ public class MedienbibliothekController extends TitledPane
 		Medium selectedMedium = lv_medien.getSelectionModel().getSelectedItem();
 		if(selectedMedium == null)
 			return;
-		
+
 		// Show content in seperate window.
 		String type = selectedMedium.getType();
 		if(type.equalsIgnoreCase("png") || type.equalsIgnoreCase("jpg") || type.equalsIgnoreCase("bmp") || type.equalsIgnoreCase("gif"))
@@ -167,7 +168,7 @@ public class MedienbibliothekController extends TitledPane
 			// Convert raw data to image
 			InputStream stream = new ByteArrayInputStream(selectedMedium.getRawData());
 			Image image = new Image(stream);
-			
+
 			try
 			{
 				// Create view window and show data
@@ -194,7 +195,7 @@ public class MedienbibliothekController extends TitledPane
 			}
 		}
 		else if(type.equalsIgnoreCase("csv"))
-		{			
+		{
 			try
 			{
 				// Convert raw data to csv array
@@ -204,7 +205,7 @@ public class MedienbibliothekController extends TitledPane
 				{
 					table[i] = text[i].split(";");
 				}
-				
+
 				// Create view window and show data
 				createSubWindow("Medienbibliothek", new Scene(new TableViewController(table)));
 			}
@@ -218,10 +219,10 @@ public class MedienbibliothekController extends TitledPane
 			// TODO: implement this
 		}
 	}
-	
+
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param title
 	 * @param scene
 	 */
@@ -233,41 +234,44 @@ public class MedienbibliothekController extends TitledPane
 		stage.setTitle(title);
 		stage.show();
 	}
-	
+
 	//Getter & Setter
 	public ListView<Medium> getListViewMedien()
 	{
 		return lv_medien;
 	}
-	
+
 	public FXMLLoader getFXMLLoader()
 	{
 		return fxmlLoader.get();
 	}
-	
+
 	public void setFXMLLoader(FXMLLoader value)
 	{
 		fxmlLoader.set(value);
 	}
-	
+
 	public ReadOnlyObjectProperty<FXMLLoader> fxmlLoaderProperty()
 	{
 		return fxmlLoader;
 	}
 
-	
+
 	public final ObjectProperty<ClientMediaService> mediaServiceProperty()
 	{
 		return this.mediaService;
 	}
-	
+
 	public final ClientMediaService getMediaService()
 	{
 		return this.mediaServiceProperty().get();
-	}	
+	}
 
 	public final void setMediaService(final ClientMediaService chatService)
 	{
 		this.mediaServiceProperty().set(chatService);
-	}	
+	}
+	public Medium[] getMedienListe(){
+		return (Medium[]) liste.toArray();
+	}
 }
