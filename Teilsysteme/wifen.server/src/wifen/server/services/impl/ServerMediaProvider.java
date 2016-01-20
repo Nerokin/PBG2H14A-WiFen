@@ -1,25 +1,30 @@
 package wifen.server.services.impl;
 
+import javax.imageio.spi.ServiceRegistry;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import wifen.commons.network.ConnectionEvent;
+import wifen.commons.network.ConnectionListener;
 import wifen.commons.network.Packet;
 import wifen.commons.network.events.PacketReceivedEvent;
 import wifen.commons.network.packets.MediaDataPacket;
 import wifen.commons.network.packets.MediaRequestPacket;
 import wifen.commons.network.packets.impl.MediaRequestPacketImpl;
 import wifen.server.network.Server;
+import wifen.server.services.ServerGameService;
 import wifen.server.services.ServerMediaService;
 
-public class ServerMediaProvider implements ServerMediaService
+public class ServerMediaProvider implements ServerMediaService, ConnectionListener
 {
 	// Properties	
 	private final ObjectProperty<Server> server = new SimpleObjectProperty<>();
 	
 	// Attributes	
 	private final ChangeListener<Server> onServerChangedListener = this::onServerChanged;
+	private ServiceRegistry registry;
 	
 	// Constructor(s)	
 	public ServerMediaProvider(Server server)
@@ -52,8 +57,29 @@ public class ServerMediaProvider implements ServerMediaService
 			}
 			else if(packet instanceof MediaDataPacket)
 			{
+				ServerGameService gameService = getRegistry().getServiceProviders(ServerGameService.class, true).next();
+				//gameService.
 				getServer().broadcastPacket(packet);
 			}
+		}
+	}
+	
+	// <--- Registerable --->
+	@Override
+	public void onRegistration(ServiceRegistry registry, Class<?> category)
+	{
+		if (getRegistry() != null && !getRegistry().equals(registry))
+			registry.deregisterServiceProvider(this); 
+		else {
+			setRegistry(registry);
+		}
+	}
+
+	@Override
+	public void onDeregistration(ServiceRegistry registry, Class<?> category)
+	{
+		if (getRegistry() != null && getRegistry().equals(registry)) {
+			setRegistry(null);
 		}
 	}
 	
@@ -68,6 +94,7 @@ public class ServerMediaProvider implements ServerMediaService
 	{
 		this.serverProperty().set(server);
 	}
+
 	
 	// Event Handling	
 	/**
@@ -80,6 +107,7 @@ public class ServerMediaProvider implements ServerMediaService
 		{
 			oldValue.removeListener(this);
 		}
+		
 		if (newValue != null)
 		{
 			newValue.addListener(this);
@@ -95,6 +123,17 @@ public class ServerMediaProvider implements ServerMediaService
 	public ChangeListener<Server> getOnServerChangedListener()
 	{
 		return onServerChangedListener;
+	}
+
+
+	public ServiceRegistry getRegistry()
+	{
+		return registry;
+	}
+
+	private void setRegistry(ServiceRegistry registry)
+	{
+		this.registry = registry;
 	}
 
 }
