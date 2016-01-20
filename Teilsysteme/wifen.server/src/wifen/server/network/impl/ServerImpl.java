@@ -6,7 +6,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,8 +37,8 @@ public class ServerImpl implements Server, ConnectionListener {
 	
 	// Attributes
 	private final ServerSocket serverSocket;
-	private final List<ServerListener> listeners = new ArrayList<ServerListener>();
-	private final List<ConnectionListener> connectionListeners = new ArrayList<ConnectionListener>();
+	private final Set<ServerListener> listeners = new HashSet<ServerListener>();
+	private final Set<ConnectionListener> connectionListeners = new HashSet<ConnectionListener>();
 	private final List<Connection> connectionList = new ArrayList<Connection>();
 	
 	// Constructor(s)
@@ -71,9 +73,8 @@ public class ServerImpl implements Server, ConnectionListener {
 	public void acceptConnections() throws IOException {
 		Socket clientSocket;
 		while ((clientSocket = getServerSocket().accept()) != null) {
-			Connection conn = new ConnectionImpl(clientSocket);
+			Connection conn = new ConnectionImpl(clientSocket, this);
 			new Thread(conn::readPackets).start();
-			conn.addListener(this);
 			getConnectionList().add(conn);
 			logger.info("A connection has been accepted");
 		}
@@ -114,7 +115,7 @@ public class ServerImpl implements Server, ConnectionListener {
 	 */
 	protected final void fireEvent(ServerEvent event){
 		logger.info("A server event is being fired on " + getListeners().size() + " listeners.");
-		for (ServerListener serverListener : getListeners()) {
+		for (ServerListener serverListener : new HashSet<>(getListeners())) {
 			serverListener.handle(event);
 			if (event.isConsumed()) break;
 		}
@@ -127,7 +128,7 @@ public class ServerImpl implements Server, ConnectionListener {
 	 */
 	protected final void fireEvent(ConnectionEvent event){
 		logger.info("A connection event is being fired on " + getConnectionListeners().size() + " listeners.");
-		for (ConnectionListener connectionListener : getConnectionListeners()) {
+		for (ConnectionListener connectionListener : new HashSet<>(getConnectionListeners())) {
 			connectionListener.handle(event);
 			if (event.isConsumed()) break;
 		}
@@ -174,11 +175,11 @@ public class ServerImpl implements Server, ConnectionListener {
 		return serverSocket;
 	}
 
-	public List<ServerListener> getListeners() {
+	public Set<ServerListener> getListeners() {
 		return listeners;
 	}
 
-	public List<ConnectionListener> getConnectionListeners() {
+	public Set<ConnectionListener> getConnectionListeners() {
 		return connectionListeners;
 	}
 	

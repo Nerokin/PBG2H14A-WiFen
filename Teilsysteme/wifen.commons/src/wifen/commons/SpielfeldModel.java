@@ -1,7 +1,10 @@
 package wifen.commons;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.UUID;
 
+import javafx.scene.layout.Pane;
 import wifen.commons.services.FileNode;
 
 /**
@@ -10,7 +13,10 @@ import wifen.commons.services.FileNode;
  * @author unknown
  *
  */
-public class SpielfeldModel {
+public class SpielfeldModel implements Serializable {
+	
+	// Class Constants
+	private static final long serialVersionUID = -8355739346048731596L;
 	
 	private GridType typ;
 	private ArrayList<FileNode<?>> files;
@@ -60,22 +66,16 @@ public class SpielfeldModel {
 	/**
 	 * Put description here
 	 * 
-	 * @param mt
-	 * @param x
-	 * @param y
-	 * @param d
-	 */
-	public void placeMarker(MarkerType mt, double x, double y, String d) {
-		this.getMarkers().add(new MarkerModel(x, y, mt, d));
-	}
-	
-	/**
-	 * Put description here
-	 * 
 	 * @param m
 	 */
-	public void removeMarker(MarkerModel m) {
-		this.getMarkers().remove(m);
+	public void removeMarker(UUID id) {
+		MarkerModel mm = null;
+		for(MarkerModel n : getMarkers()){
+			if(n.getId().equals(id)){
+				mm = n;
+			}
+		}
+		this.getMarkers().remove(mm);
 	}
 	
 	/**

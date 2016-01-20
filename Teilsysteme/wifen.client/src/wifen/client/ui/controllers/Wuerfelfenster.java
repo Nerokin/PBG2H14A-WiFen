@@ -1,11 +1,15 @@
 package wifen.client.ui.controllers;
 
+import wifen.client.application.ClientApplication;
+import wifen.client.services.ClientGameeventService;
+import wifen.client.services.GameService;
 import wifen.client.services.impl.*;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 import javafx.animation.KeyFrame;
 import javafx.beans.property.ObjectProperty;
@@ -13,6 +17,7 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -74,6 +79,22 @@ public class Wuerfelfenster extends TitledPane {
 		double mousex,mousey;
 		Image wuerfelImage = new Image("/wifen/client/ui/views/wuerfel.png");
 		@FXML public Pane dropped;
+		private ArrayList<Timeline> AnimationLines = new ArrayList<Timeline>();		
+		
+		Image imagesD2[];
+		Image animationD2;
+		Image imagesD4[];
+		Image animationD4;
+		Image imagesD6[];
+		Image animationD6;
+		Image imagesD8[];
+		Image animationD8;
+		Image imagesD10[];
+		Image animationD10;
+		Image animations[];
+		
+		
+	
 
 
 
@@ -122,12 +143,70 @@ public class Wuerfelfenster extends TitledPane {
 
 		@FXML
 		private void initialize() {
+			
+				diceText.setPromptText("Ziehe die Würfel in das mittlere Feld!");
+				imagesD2 = new Image[2];
+				imagesD4 = new Image[4];
+				imagesD6 = new Image[6];
+				imagesD8 = new Image[8];
+				imagesD10 = new Image[11];
+				try {
+					// Bilder für 2er "Würfel" Animation laden... :
+					imagesD2[0] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d02/d2_1.png"));
+					imagesD2[1] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d02/d2_2.png"));
+					// Bilder für 4er "Würfel" Animation laden... :
+					imagesD4[0] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d04/d4_1.png"));
+					imagesD4[1] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d04/d4_2.png"));
+					imagesD4[2] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d04/d4_3.png"));
+					imagesD4[3] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d04/d4_4.png"));
+					// Bilder für 6er "Würfel" Animation laden... :
+					imagesD6[0] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d06/d6_1.png"));
+					imagesD6[1] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d06/d6_2.png"));
+					imagesD6[2] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d06/d6_3.png"));
+					imagesD6[3] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d06/d6_4.png"));
+					imagesD6[4] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d06/d6_5.png"));
+					imagesD6[5] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d06/d6_6.png"));
+					// Bilder für 8er "Würfel" Animation laden... :
+					imagesD8[0] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_1.png"));
+					imagesD8[1] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_2.png"));
+					imagesD8[2] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_3.png"));
+					imagesD8[3] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_4.png"));
+					imagesD8[4] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_5.png"));
+					imagesD8[5] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_6.png"));
+					imagesD8[6] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_7.png"));
+					imagesD8[7] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_8.png"));
+					// Bilder für 10er "Würfel" Animation laden... :
+					imagesD10[10] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_0.png"));
+					imagesD10[1] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_1.png"));
+					imagesD10[2] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_2.png"));
+					imagesD10[3] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_3.png"));
+					imagesD10[4] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_4.png"));
+					imagesD10[5] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_5.png"));
+					imagesD10[6] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_6.png"));
+					imagesD10[7] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_7.png"));
+					imagesD10[8] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_8.png"));
+					imagesD10[9] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_9.png"));
+			
+					
+				} catch (FileNotFoundException e) {
 
+					System.err.println("Bilder konnten nicht geladen werden!\n"+e.getMessage());
+				}
+				
+			
+				
+				
 		//testMe.setOnMousePressed(wuerfelOnMousePressedEventHandler);
 		//	testMe.setOnMouseDragged(wuerfelOnMouseDraggedEventHandler);
 
 
 			//TODO: Data Binding and Setup of Event Handling
+			setText("Würfel");
+		}
+		
+		@Override
+		public String toString() {
+			return "Wuerfel";
 		}
 
 		//Event Handlers
@@ -142,7 +221,7 @@ public class Wuerfelfenster extends TitledPane {
 		public void wuerfelDrag2(MouseEvent ev) throws FileNotFoundException{	// Erst beim Klicken und gleichzeitig ziehen!
 
 				Dragboard db = this.startDragAndDrop(TransferMode.ANY); // this hinzugefügt.. alternativ : wuerfel1.startDragAndDrop..
-				db.setDragView(new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d02/d2_1.png")));
+				db.setDragView(imagesD2[0]);
 			        ClipboardContent content = new ClipboardContent();
 
 
@@ -161,10 +240,10 @@ public class Wuerfelfenster extends TitledPane {
 		public void wuerfelDrag4(MouseEvent ev) throws FileNotFoundException{	// Erst beim Klicken und gleichzeitig ziehen!
 
 			Dragboard db = this.startDragAndDrop(TransferMode.ANY); // this hinzugefügt.. alternativ : wuerfel1.startDragAndDrop..
-			db.setDragView(new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d04/d4_4.png")));
+			db.setDragView(imagesD4[3]);
 		        ClipboardContent content = new ClipboardContent();
-		     db.setDragViewOffsetX(300);
-		     db.setDragViewOffsetY(75);
+		    /* db.setDragViewOffsetX(300);
+		     db.setDragViewOffsetY(75);*/
 
 		        content.putString("d4");
 
@@ -182,8 +261,9 @@ public class Wuerfelfenster extends TitledPane {
 			Dragboard db = this.startDragAndDrop(TransferMode.ANY); // this hinzugefügt.. alternativ : wuerfel1.startDragAndDrop..
 			db.setDragView(new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d06/d6_6.png")));
 			ClipboardContent content = new ClipboardContent();
-			 db.setDragViewOffsetX(300);
+			/* db.setDragViewOffsetX(300);
 			 db.setDragViewOffsetY(125);
+			 */
 
 		        content.putString("d6");
 
@@ -199,10 +279,10 @@ public class Wuerfelfenster extends TitledPane {
 	public void wuerfelDrag8(MouseEvent ev) throws FileNotFoundException{	// Erst beim Klicken und gleichzeitig ziehen!
 
 			Dragboard db = this.startDragAndDrop(TransferMode.ANY); // this hinzugefügt.. alternativ : wuerfel1.startDragAndDrop..
-			db.setDragView(new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_8.png")));
+			db.setDragView(imagesD8[7]);
 			ClipboardContent content = new ClipboardContent();
-			 db.setDragViewOffsetX(300);
-			 db.setDragViewOffsetY(125);
+			/* db.setDragViewOffsetX(300);
+			 db.setDragViewOffsetY(125);*/
 
 		        content.putString("d8");
 
@@ -218,10 +298,10 @@ public class Wuerfelfenster extends TitledPane {
 	public void wuerfelDrag10(MouseEvent ev) throws FileNotFoundException{	// Erst beim Klicken und gleichzeitig ziehen!
 
 		Dragboard db = this.startDragAndDrop(TransferMode.ANY); // this hinzugefügt.. alternativ : wuerfel1.startDragAndDrop..
-		db.setDragView(new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_0.png")));
+		db.setDragView(imagesD10[10]);
 		ClipboardContent content = new ClipboardContent();
-		 db.setDragViewOffsetX(300);
-		 db.setDragViewOffsetY(125);
+		/* db.setDragViewOffsetX(300);
+		 db.setDragViewOffsetY(125);*/
 
 	        content.putString("d10");
 
@@ -235,7 +315,7 @@ public class Wuerfelfenster extends TitledPane {
 	 */
 
 		public void onMousePressed(MouseEvent ev){
-			System.out.println("onMousePressed");
+			//System.out.println("onMousePressed");
 		/*	mousex = ev.getSceneX();
 		    mousey = ev.getSceneY();*/
 			ev.consume();
@@ -248,7 +328,7 @@ public class Wuerfelfenster extends TitledPane {
 		@FXML
 		public void wuerfelDone(){
 
-			System.out.println("DragDone");
+			//System.out.println("DragDone");
 		}
 		@FXML
 		public void wuerfelDragOver(){
@@ -266,8 +346,8 @@ public class Wuerfelfenster extends TitledPane {
 		 *
 		 * @param ev DragEvent beim Droppen
 		 */
+		
 		@FXML
-
 		public void wuerfelDrop(DragEvent ev){
 
 			Dragboard db = ev.getDragboard();
@@ -321,12 +401,10 @@ public class Wuerfelfenster extends TitledPane {
 			ev.consume();
 
 		}
-
-		//EreignisFensterAusgabe?(Ersezen durch System.out)
-
 		private static WürfelanimationListe w = new WürfelanimationListe();
 		@FXML
 		public void würfeln() throws IOException{
+			AnimationLines.clear();
 			w.resetWuerfelList();
 			animationGrid.getChildren().clear();
 			String[] tmp = diceText.getText().split(";");
@@ -336,30 +414,22 @@ public class Wuerfelfenster extends TitledPane {
 				for(int i = 0; i < tmp.length; i++){
 					if(dice.checkInput(tmp[i]) != null){
 						output[i] = dice.checkInput(tmp[i]);
-						//System.out.println(dice.checkInput(tmp[i]));
-						//System.out.println(tmp[i]);
-
-						String[] splitter = tmp[i].split("");
+						String[] splitter = tmp[i].split("w");
+					
 						int anzahl = Integer.parseInt(splitter[0]);
-						int seiten = Integer.parseInt(splitter[2]);
+						
+						int seiten = Integer.parseInt(splitter[1]);
 						if(seiten==1)
 							seiten =10;
 						String thisWurfel = ""+seiten;
 						for(int j = 0;j<=anzahl-1;j++)
 							w.addWelcherWuerfel(thisWurfel);
-
-						 // Testausgabe
-
 					}
 					else{
 						//System.out.println("Kein gueltiger Wuerfelausdruck.");
 						reset();
 						return;
 					}
-
-				}
-				for(String s : output){
-					//System.out.println(dice.checkInput(s));
 				}
 			}
 			else{
@@ -371,50 +441,81 @@ public class Wuerfelfenster extends TitledPane {
 					reset();
 					return;
 				}
-
 			}
 			int counterColumn= 0;
 			int rowCounter = 0;
 			int columnSize = 4;
 			int wuerfelCounter = 0;
+			Timeline tempTimeLine = null;
 			ArrayList<String> tempArrayList= w.getAlleWurfel();
 			ArrayList<Integer> arrayList = dice.returnAllSingleResults();
+			int resultAsZahl =0;
+			for(int result : arrayList)
+				resultAsZahl+=result; // Beinhaltet insgesamtes Ergebnis aller Würfel!
+			
+			
+		/*	try{
+				
+				GameService gameService = ClientApplication.instance().getServiceProviders().next();
+				ClientGameeventService clientGameeventService = ClientApplication.instance().getServiceProviders(ClientGameeventService.class, true).next();
+				clientGameeventService.sendGameevent(gameService.getActivePlayerName(),"hat " + resultAsZahl+ " gewürfelt.");
+
+			
+			}catch(NoSuchElementException e){
+				System.err.println("Service nicht registriert!");
+			}*/
+			animationGrid.setHgap(20);
+			animationGrid.setVgap(75);
+			animationGrid.setPadding(new Insets(20,5,5,5));
+			
 			for(String wfl : tempArrayList){
 				ImageView tempImageView = new ImageView();
-				Timeline tempTimeLine = null;
-				tempImageView.setFitWidth(80);
-				tempImageView.setFitHeight(80);
+				
+				tempImageView.setFitWidth(75);
+				tempImageView.setFitHeight(75);
+				
 				int result = arrayList.get(wuerfelCounter);
 					if(Integer.parseInt(wfl)==2){
 						tempTimeLine = d02animation(tempImageView, result);
+						AnimationLines.add(tempTimeLine);
 					}else if(Integer.parseInt(wfl)==4){
 						tempTimeLine = d04animation(tempImageView, result);
+						AnimationLines.add(tempTimeLine);
 					}
 					else if(Integer.parseInt(wfl)==6){
 						tempTimeLine = d06animation(tempImageView, result);
+						AnimationLines.add(tempTimeLine);
 					}
 					else if(Integer.parseInt(wfl)==8){
 						tempTimeLine = d08animation(tempImageView, result);
+						AnimationLines.add(tempTimeLine);
 					}
 					else if(Integer.parseInt(wfl)==10){
 						tempTimeLine = d10animation(tempImageView, result);
+						AnimationLines.add(tempTimeLine);
 					}
-
-				tempTimeLine.setCycleCount(1);
-				tempTimeLine.play();
+				
 				animationGrid.add(tempImageView, counterColumn, rowCounter);
 				counterColumn++;
 				wuerfelCounter++;
-				if(counterColumn>columnSize){
+				if(counterColumn>columnSize-1){
 					rowCounter++;
 					counterColumn= 0;
 				}
 			}
-
-
+			
+			for(Timeline t1 : AnimationLines){
+				//System.out.println("AnimationPlay");
+				t1.setCycleCount(1);
+				t1.play();
+			
+			}
 			dice.playWuerfeln();
-
-			reset();
+			
+		}
+		@FXML
+		public void onEnter() throws IOException{
+			würfeln();
 		}
 
 
@@ -452,6 +553,9 @@ public class Wuerfelfenster extends TitledPane {
 			w8 = 0;
 			w10 = 0;
 			diceText.setText("");
+			diceText.requestFocus();
+		
+				
 
 		}
 
@@ -471,27 +575,18 @@ public class Wuerfelfenster extends TitledPane {
 			* result ist das Ergebnis aus der Würfel-Methode
 			* alle Einzelbilder und Animation laden...
 			*/
-			Image[] images = new Image[11];
-			images[10] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_0.png"));
-			images[1] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_1.png"));
-			images[2] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_2.png"));
-			images[3] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_3.png"));
-			images[4] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_4.png"));
-			images[5] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_5.png"));
-			images[6] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_6.png"));
-			images[7] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_7.png"));
-			images[8] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_8.png"));
-			images[9] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_9.png"));
-			Image ani = new Image(new FileInputStream("./ressources/wuerfelAnimation/d10_animation.gif"));
+	
+			animationD10 = new Image(new FileInputStream("./ressources/wuerfelAnimation/d10_animation.gif"));
 
 			//Animation und Ergebnis den KeyFrames zuweisen
-			KeyFrame aniStart = new KeyFrame(Duration.millis(0), new KeyValue(iv.imageProperty(), ani));
-			KeyFrame aniFinish = new KeyFrame(Duration.millis(1000), new KeyValue(iv.imageProperty(), ani));
-			KeyFrame resultStart = new KeyFrame(Duration.millis(1100), new KeyValue(iv.imageProperty(), images[result]));	//Ergebnis-image aus dem Array holen (-1 nicht notwendig, da d10 Zahlen von 0-9 zeigt)
-			KeyFrame resultFinish = new KeyFrame(Duration.millis(2000), new KeyValue(iv.imageProperty(), images[result]));
+			KeyFrame aniStart = new KeyFrame(Duration.millis(0), new KeyValue(iv.imageProperty(), animationD10));
+			KeyFrame aniFinish = new KeyFrame(Duration.millis(1000), new KeyValue(iv.imageProperty(), animationD10));
+			KeyFrame resultStart = new KeyFrame(Duration.millis(1100), new KeyValue(iv.imageProperty(), imagesD10[result]));	//Ergebnis-image aus dem Array holen (-1 nicht notwendig, da d10 Zahlen von 0-9 zeigt)
+			KeyFrame resultFinish = new KeyFrame(Duration.millis(2000), new KeyValue(iv.imageProperty(), imagesD10[result]));
 
 			//Timeline aus den einzelnen KeyFrames erstellen und zurückgeben
 			Timeline timeline = new Timeline(aniStart, aniFinish, resultStart, resultFinish);
+			
 			return timeline;
 		}
 
@@ -503,20 +598,16 @@ public class Wuerfelfenster extends TitledPane {
 			*/
 
 
-			Image[] images = new Image[4];
-			images[0] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d04/d4_1.png"));
-			images[1] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d04/d4_2.png"));
-			images[2] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d04/d4_3.png"));
-			images[3] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d04/d4_4.png"));
-			Image ani = new Image(new FileInputStream("./ressources/wuerfelAnimation/d04_animation.gif"));
+			
+			animationD4 = new Image(new FileInputStream("./ressources/wuerfelAnimation/d04_animation.gif"));
 
 			if(result < 1)
 				result=1;
 
-			KeyFrame aniStart = new KeyFrame(Duration.millis(0), new KeyValue(iv.imageProperty(), ani));
-			KeyFrame aniFinish = new KeyFrame(Duration.millis(1000), new KeyValue(iv.imageProperty(), ani));
-			KeyFrame resultStart = new KeyFrame(Duration.millis(1100), new KeyValue(iv.imageProperty(), images[result-1]));
-			KeyFrame resultFinish = new KeyFrame(Duration.millis(2000), new KeyValue(iv.imageProperty(), images[result-1]));
+			KeyFrame aniStart = new KeyFrame(Duration.millis(0), new KeyValue(iv.imageProperty(), animationD4));
+			KeyFrame aniFinish = new KeyFrame(Duration.millis(1000), new KeyValue(iv.imageProperty(), animationD4));
+			KeyFrame resultStart = new KeyFrame(Duration.millis(1100), new KeyValue(iv.imageProperty(), imagesD4[result-1]));
+			KeyFrame resultFinish = new KeyFrame(Duration.millis(2000), new KeyValue(iv.imageProperty(), imagesD4[result-1]));
 
 			Timeline timeline = new Timeline(aniStart, aniFinish, resultStart, resultFinish);
 			return timeline;
@@ -530,22 +621,15 @@ public class Wuerfelfenster extends TitledPane {
 			*/
 
 
-			Image[] images = new Image[6];
-			images[0] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d06/d6_1.png"));
-			images[1] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d06/d6_2.png"));
-			images[2] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d06/d6_3.png"));
-			images[3] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d06/d6_4.png"));
-			images[4] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d06/d6_5.png"));
-			images[5] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d06/d6_6.png"));
-			Image ani = new Image(new FileInputStream("./ressources/wuerfelAnimation/d06_animation.gif"));
+			animationD6 = new Image(new FileInputStream("./ressources/wuerfelAnimation/d06_animation.gif"));
 
 			if(result < 1)
 				result=1;
 
-			KeyFrame aniStart = new KeyFrame(Duration.millis(0), new KeyValue(iv.imageProperty(), ani));
-			KeyFrame aniFinish = new KeyFrame(Duration.millis(1000), new KeyValue(iv.imageProperty(), ani));
-			KeyFrame resultStart = new KeyFrame(Duration.millis(1100), new KeyValue(iv.imageProperty(), images[result-1]));
-			KeyFrame resultFinish = new KeyFrame(Duration.millis(2000), new KeyValue(iv.imageProperty(), images[result-1]));
+			KeyFrame aniStart = new KeyFrame(Duration.millis(0), new KeyValue(iv.imageProperty(), animationD6));
+			KeyFrame aniFinish = new KeyFrame(Duration.millis(1000), new KeyValue(iv.imageProperty(), animationD6));
+			KeyFrame resultStart = new KeyFrame(Duration.millis(1100), new KeyValue(iv.imageProperty(), imagesD6[result-1]));
+			KeyFrame resultFinish = new KeyFrame(Duration.millis(2000), new KeyValue(iv.imageProperty(), imagesD6[result-1]));
 
 			Timeline timeline = new Timeline(aniStart, aniFinish, resultStart, resultFinish);
 			return timeline;
@@ -559,24 +643,15 @@ public class Wuerfelfenster extends TitledPane {
 			*/
 
 
-			Image[] images = new Image[8];
-			images[0] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_1.png"));
-			images[1] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_2.png"));
-			images[2] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_3.png"));
-			images[3] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_4.png"));
-			images[4] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_5.png"));
-			images[5] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_6.png"));
-			images[6] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_7.png"));
-			images[7] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_8.png"));
-			Image ani = new Image(new FileInputStream("./ressources/wuerfelAnimation/d08_animation.gif"));
+			animationD8 = new Image(new FileInputStream("./ressources/wuerfelAnimation/d08_animation.gif"));
+			
 
 			if(result < 1)
 				result=1;
-
-			KeyFrame aniStart = new KeyFrame(Duration.millis(0), new KeyValue(iv.imageProperty(), ani));
-			KeyFrame aniFinish = new KeyFrame(Duration.millis(1000), new KeyValue(iv.imageProperty(), ani));
-			KeyFrame resultStart = new KeyFrame(Duration.millis(1100), new KeyValue(iv.imageProperty(), images[result-1]));
-			KeyFrame resultFinish = new KeyFrame(Duration.millis(2000), new KeyValue(iv.imageProperty(), images[result-1]));
+			KeyFrame aniStart = new KeyFrame(Duration.millis(0), new KeyValue(iv.imageProperty(), animationD8));
+			KeyFrame aniFinish = new KeyFrame(Duration.millis(1000), new KeyValue(iv.imageProperty(), animationD8));
+			KeyFrame resultStart = new KeyFrame(Duration.millis(1100), new KeyValue(iv.imageProperty(), imagesD8[result-1]));
+			KeyFrame resultFinish = new KeyFrame(Duration.millis(2000), new KeyValue(iv.imageProperty(), imagesD8[result-1]));
 
 			Timeline timeline = new Timeline(aniStart, aniFinish, resultStart, resultFinish);
 			return timeline;
@@ -590,26 +665,22 @@ public class Wuerfelfenster extends TitledPane {
 			*/
 
 
-			Image[] images = new Image[2];
-			images[0] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d02/d2_1.png"));
-			images[1] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d02/d2_2.png"));
-			Image ani;
+		
 			if(result == 2)
-				 ani = new Image(new FileInputStream("./ressources/wuerfelAnimation/d02_animation_rot.gif"));
+				animationD2 = new Image(new FileInputStream("./ressources/wuerfelAnimation/d02_animation_rot.gif"));
 			else
 			{
 				if(result < 1)
 					result=1;
-				ani = new Image(new FileInputStream("./ressources/wuerfelAnimation/d02_animation_blau.gif"));
+				animationD2 = new Image(new FileInputStream("./ressources/wuerfelAnimation/d02_animation_blau.gif"));
 			}
 
 
 
-
-			KeyFrame aniStart = new KeyFrame(Duration.millis(0), new KeyValue(iv.imageProperty(), ani));
-			KeyFrame aniFinish = new KeyFrame(Duration.millis(1000), new KeyValue(iv.imageProperty(), ani));
-			KeyFrame resultStart = new KeyFrame(Duration.millis(1100), new KeyValue(iv.imageProperty(), images[result-1]));
-			KeyFrame resultFinish = new KeyFrame(Duration.millis(2000), new KeyValue(iv.imageProperty(), images[result-1]));
+			KeyFrame aniStart = new KeyFrame(Duration.millis(0), new KeyValue(iv.imageProperty(), animationD2));
+			KeyFrame aniFinish = new KeyFrame(Duration.millis(1000), new KeyValue(iv.imageProperty(), animationD2));
+			KeyFrame resultStart = new KeyFrame(Duration.millis(1100), new KeyValue(iv.imageProperty(), imagesD2[result-1]));
+			KeyFrame resultFinish = new KeyFrame(Duration.millis(2000), new KeyValue(iv.imageProperty(), imagesD2[result-1]));
 
 			Timeline timeline = new Timeline(aniStart, aniFinish, resultStart, resultFinish);
 			return timeline;

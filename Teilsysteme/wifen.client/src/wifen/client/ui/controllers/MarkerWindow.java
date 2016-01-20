@@ -2,6 +2,7 @@ package wifen.client.ui.controllers;
 
 import java.io.File;
 import java.io.IOException;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -32,6 +33,7 @@ import javafx.scene.paint.Color;
  * @author Hitziger Fabian (pbg2h14ahi)
  */
 public class MarkerWindow extends TitledPane{
+	private ImageView iv;
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 	public ObservableList<Button> button_colors = FXCollections.observableArrayList();
 	public ObservableList<ImageView> image_shapes = FXCollections.observableArrayList();
@@ -78,8 +80,9 @@ public class MarkerWindow extends TitledPane{
 	@FXML
 	private void initialize(){
 		//Beispiel für das erstellen einer Farbe
-		instance=this;
 		setText("Marker");
+		
+		instance=this;
 		Button temp;
 		System.out.println(colors.length);
 		for(int i = 0; i < colors.length;i++){
@@ -99,6 +102,7 @@ public class MarkerWindow extends TitledPane{
 		}
 		markerShape.setItems(image_shapes);
 		markerShape.getSelectionModel().select(0);
+		iv = markerShape.getSelectionModel().getSelectedItem();
 		for(Button b : button_colors){
 			b.setOnAction(new EventHandler<ActionEvent>(){
 				
@@ -115,8 +119,7 @@ public class MarkerWindow extends TitledPane{
 		
 		markerShape.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ImageView>() {
 			@Override
-			public void changed(ObservableValue<? extends ImageView> observable, ImageView oldValue,
-					ImageView newValue) {
+			public void changed(ObservableValue<? extends ImageView> observable, ImageView oldValue, ImageView newValue) {
 				if(oldValue != null){
 					oldValue.setEffect(null);
 				}
@@ -128,10 +131,15 @@ public class MarkerWindow extends TitledPane{
 			@Override
 			public void handle(MouseEvent event) {
 				System.out.println(markerShape.getSelectionModel().getSelectedItem());
-
-			}
+				setImageView(markerShape.getSelectionModel().getSelectedItem());
+				}
 		});
 
+	}
+	
+	@Override
+	public String toString() {
+		return "Marker";
 	}
 
 	public FXMLLoader getFXMLLoader() {
@@ -165,7 +173,8 @@ public class MarkerWindow extends TitledPane{
 	 * @return
 	 */
 	public ImageView getSelectedMarkerType(){
-		return markerShape.getSelectionModel().selectedItemProperty().getValue();
+		System.out.println(iv);
+		return markerShape.getSelectionModel().getSelectedItem();
 	}	
 	
 	/**
@@ -180,5 +189,10 @@ public class MarkerWindow extends TitledPane{
 	 */
 	public static double map(double value, double start, double stop, double targetStart, double targetStop) {
 	     return targetStart + (targetStop - targetStart) * ((value - start) / (stop - start));
+	}
+	public void setImageView(ImageView iv){
+		this.iv=iv;
+		System.out.println(iv);
+		System.out.println(this.iv);
 	}
 }

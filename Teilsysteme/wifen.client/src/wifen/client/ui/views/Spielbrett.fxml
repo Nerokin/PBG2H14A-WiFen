@@ -3,9 +3,10 @@
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<?import wifen.client.ui.controllers.ChatController?>
+<?import wifen.client.ui.controllers.*?>
 <?import org.controlsfx.control.CheckComboBox?>
 <?import javafx.scene.layout.StackPane?>
+<?import wifen.client.ui.controllers.MedienbibliothekController?>
 
 <fx:root maxHeight="1920" maxWidth="1080" minHeight="800" minWidth="600" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <top>
@@ -14,7 +15,7 @@
          	<CheckComboBox fx:id="choiceID" />
             <Button fx:id="optionID" mnemonicParsing="false" text="Optionen" />
             <Button fx:id="refreshID" mnemonicParsing="false" text="Refresh" />
-            <Button fx:id="dcID" mnemonicParsing="false" text="Trennen" />
+            <Button fx:id="dcID" mnemonicParsing="false" text="Trennen" disable="true" />
          </children>
       </HBox>
     </top>
@@ -25,6 +26,11 @@
       <VBox fx:id="ereignisVBoxID">
          <children>
             <ChatController fx:id="chatBox" />
+            <Wuerfelfenster fx:id="diceBox" />
+            <EreignisFenster fx:id="ereignisBox" />
+            <MarkerWindow fx:id="markerBox" />
+            <AdminFensterController fx:id="adminBox" />
+            <MedienbibliothekController fx:id="mediaLibrary" />
          </children>
       </VBox>
    </right>

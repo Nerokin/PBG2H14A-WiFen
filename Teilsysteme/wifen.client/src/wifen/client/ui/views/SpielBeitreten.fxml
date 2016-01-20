@@ -1,113 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root maxHeight="1920" maxWidth="1080" minHeight="800" minWidth="600" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Label text="WiFeN">
+
+<fx:root maxHeight="1920.0" maxWidth="1080.0" minHeight="600.0" minWidth="800.0" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Label text="WiFeN" BorderPane.alignment="CENTER">
          <font>
             <Font size="70.0" />
          </font>
       </Label>
-      <Label text="Name:">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <TextField id="tfName" fx:id="tfname">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </TextField>
-      <Label text="IP:">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <TextField id="tfIp" fx:id="tfIp">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </TextField>
-      <Label text="Port:">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <TextField id="tfPort" fx:id="tfPort">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </TextField>
-      <Button id="btnEnter" fx:id="btnEnter" mnemonicParsing="false" text="Beitreten" />
-      <Label id="ipAdress" text="IP:">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <Label id="versionNumber" fx:id="versionNumber" text="Version: 0.01">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-   </children>
-   <top>
-      <Label text="WiFeN" BorderPane.alignment="CENTER">
-         <font>
-            <Font size="40.0" />
-         </font>
-      </Label>
    </top>
    <center>
-      <SplitPane dividerPositions="0.5" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <items>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Region minHeight="50.0" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label text="Name:">
-                     <font>
-                        <Font size="32.0" />
-                     </font>
-                  </Label>
-                  <Label text="IP:">
-                     <font>
-                        <Font size="32.0" />
-                     </font>
-                  </Label>
-                  <Label text="Port:">
-                     <font>
-                        <Font size="32.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="backToMenuBtn" mnemonicParsing="false" onAction="#backToMenuOnAction" prefHeight="50.0" prefWidth="90.0" text="Zurück">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Button>
-               </children>
-            </VBox>
-            <VBox prefHeight="679.0" prefWidth="238.0">
-               <children>
-                  <TextField>
+                  <Label fx:id="lb_name" text="Name:">
                      <font>
                         <Font size="24.0" />
                      </font>
-                  </TextField>
-                  <TextField>
+                  </Label>
+                  <TextField fx:id="tf_name" promptText="Namen eingeben:">
                      <font>
                         <Font size="24.0" />
                      </font>
-                  </TextField>
-                  <TextField>
-                     <font>
-                        <Font size="24.0" />
-                     </font>
+                     <HBox.margin>
+                        <Insets left="40.0" />
+                     </HBox.margin>
                   </TextField>
                </children>
-            </VBox>
-         </items>
-      </SplitPane>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="lb_ip" text="IP:">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="tf_ip" promptText="IP eingeben">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="80.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="lb_port" text="Port:">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="tf_port" disable="true" editable="false">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
    </center>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btn_zurück" mnemonicParsing="false" text="zurück">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </Button>
+            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <Button fx:id="btn_beitreten" mnemonicParsing="false" text="beitreten">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </bottom>
 </fx:root>
+

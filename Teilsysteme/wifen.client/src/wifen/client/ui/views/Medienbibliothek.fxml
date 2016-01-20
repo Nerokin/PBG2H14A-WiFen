@@ -3,20 +3,21 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<fx:root maxHeight="1920" maxWidth="1080" minHeight="800" minWidth="600" type="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <Button id="btnMedienUpload" fx:id="btnMedienUpload" layoutX="20.0" layoutY="311.0" mnemonicParsing="false" onAction="#medienUpload" prefHeight="25.0" prefWidth="262.0" text="Upload" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="18.0" />
-      <Button id="btnMedienBrowser" fx:id="btnMedienBrowser" layoutX="236.0" layoutY="286.0" mnemonicParsing="false" onAction="#medienBrowser" prefHeight="25.0" prefWidth="45.0" text="..." AnchorPane.bottomAnchor="39.0" AnchorPane.rightAnchor="19.0" />
-      <TextField fx:id="tbxMedienBrowser" layoutX="20.0" layoutY="286.0" prefHeight="25.0" prefWidth="216.0" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="64.0" />
-      <Button id="btnMedienÖffnen" fx:id="btnMedienÖffnen" layoutX="19.0" layoutY="261.0" mnemonicParsing="false" onAction="#medienÖffnen" prefHeight="25.0" prefWidth="262.0" text="Öffnen" AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="19.0" AnchorPane.rightAnchor="19.0" />
-      <ListView id="lbxMedienbib" fx:id="listViewMedien" layoutX="20.0" layoutY="60.0" prefHeight="201.0" prefWidth="239.0" AnchorPane.bottomAnchor="89.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="41.0" AnchorPane.topAnchor="60.0" />
-      <ScrollBar id="scrollBarMedien" fx:id="scrollBarMedien" layoutX="259.0" layoutY="60.0" orientation="VERTICAL" prefHeight="201.0" prefWidth="20.0" AnchorPane.bottomAnchor="89.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="60.0" />
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="101.0" layoutY="28.0" text="Medienbibliothek" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="101.0" AnchorPane.rightAnchor="98.0" AnchorPane.topAnchor="28.0">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-   </children>
+<fx:root fx:id="tp_medien" text="Medienbibliothek" type="TitledPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <VBox alignment="CENTER" prefHeight="380.0" prefWidth="200.0" spacing="10.0">
+         <children>
+            <ListView fx:id="lv_medien" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+            <Button fx:id="btn_open" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Öffnen" VBox.vgrow="ALWAYS" />
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="tf_browse" prefHeight="25.0" prefWidth="200.0" />
+                  <Button fx:id="btn_browse" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" text="..." />
+               </children>
+            </HBox>
+            <Button fx:id="btn_upload" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Upload" />
+         </children>
+      </VBox>
+   </content>
 </fx:root>

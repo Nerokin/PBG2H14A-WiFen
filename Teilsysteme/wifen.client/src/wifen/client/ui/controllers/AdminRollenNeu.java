@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import wifen.commons.SpielerRolle;
 
 
 
@@ -36,16 +37,17 @@ public class AdminRollenNeu extends VBox {
 
 	// Injected Nodes
 
-	@FXML private Button erstellen_btn;
-	@FXML private CheckTreeView<String> checkTreeView;
-	@FXML private CheckBox verdeckt_cbx;
-	@FXML private CheckBox alleElementeSichtbar_cbx;
-	@FXML private TextField name_tbx;
+	@FXML private Button btn_erstellen;
+	@FXML private CheckTreeView<String> ctv_spielElemente;
+	@FXML private CheckBox cbx_verdecktWuerfeln;
+	@FXML private CheckBox cbx_alleElementeSichtbar;
+	@FXML private TextField tf_name;
 
+	private SpielerRolle spielerRolle;
 
 	// Constructor
 
-	public AdminRollenNeu() throws IOException {
+	public AdminRollenNeu(SpielerRolle spielerRolle) throws IOException {
 		super();
 
 		// Apply CSS
@@ -59,13 +61,15 @@ public class AdminRollenNeu extends VBox {
 
 		// Load the View
 		getFXMLLoader().load();
+		
+		this.spielerRolle = spielerRolle;
 	}
 
 	// Initialization
 	@FXML
 	private void initialize() {
 		// TODO: Data Binding and Setup of Event Handling
-		erstellen_btn.setOnAction(this::erstellen);
+		btn_erstellen.setOnAction(this::erstellen);
 	}
 
 	// Event Handler

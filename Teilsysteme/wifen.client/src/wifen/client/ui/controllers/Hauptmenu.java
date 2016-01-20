@@ -3,6 +3,8 @@ package wifen.client.ui.controllers;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
@@ -17,8 +19,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 /**
@@ -28,7 +29,9 @@ import javafx.stage.Stage;
  * @author Konstantin Schaper (Logik)
  * @author Justin Nussbaum (Exit Button)
  */
-public class Hauptmenu extends GridPane {
+public class Hauptmenu extends BorderPane {
+	
+	Logger logger = Logger.getLogger(Hauptmenu.class.getSimpleName());
 
 	// Constants
 
@@ -42,13 +45,13 @@ public class Hauptmenu extends GridPane {
 	// Injected Nodes
 
 	//@FXML private AnchorPane AnchorPaneHM;
-	@FXML private Label versionHmLabel;
-	@FXML private Label ipHmLabel;
-	@FXML private Button beitretenHmBtn;
-	@FXML private Button erstellenHmBtn;
-	@FXML private Button ladenHmBtn;
-	@FXML private Button optionenHmBtn;
-	@FXML private Button verlassenHmBtn;
+	@FXML private Label lb_version;
+	@FXML private Label lb_ip;
+	@FXML private Button btn_spielBeitreten;
+	@FXML private Button btn_spielErstellen;
+	@FXML private Button btn_spielLaden;
+	@FXML private Button btn_optionen;
+	@FXML private Button btn_spielVerlassen;
 	
 	// Constructor
 
@@ -87,15 +90,15 @@ public class Hauptmenu extends GridPane {
 		
 		// Look up IP-address and display it
 		try {
-			ipHmLabel.setText(InetAddress.getLocalHost().getHostAddress() + " (Lokal)");
+			lb_ip.setText(InetAddress.getLocalHost().getHostAddress() + " (Lokal)");
 		} catch (UnknownHostException e) {
-			ipHmLabel.setText("Konnte nicht gefunden werden");
+			lb_ip.setText("Konnte nicht gefunden werden");
 		}
 		
 		// Events
-		erstellenHmBtn.setOnAction(this::erstellenHmBtnOnAction);
-		optionenHmBtn.setOnAction(this::optionenHmBtnOnAction);
-		beitretenHmBtn.setOnAction(this::beitretenHmBtnOnAction);
+		btn_spielErstellen.setOnAction(this::erstellenHmBtnOnAction);
+		btn_optionen.setOnAction(this::optionenHmBtnOnAction);
+		btn_spielBeitreten.setOnAction(this::beitretenHmBtnOnAction);
 	}
 	
 	// Event Handlers
@@ -122,6 +125,7 @@ public class Hauptmenu extends GridPane {
 			p = new SpielBeitretenController();
 			getScene().setRoot(p);
 		} catch (IOException e) {
+			logger.log(Level.SEVERE, "Spielbeitrittsformular konnte nicht geladen werden", e);
 			new Alert(AlertType.ERROR, "Spielbeitrittsformular konnte nicht geladen werden").showAndWait();
 		}
 	}

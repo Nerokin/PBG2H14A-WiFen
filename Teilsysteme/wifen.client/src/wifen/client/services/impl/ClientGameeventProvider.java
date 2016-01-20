@@ -71,6 +71,13 @@ public class ClientGameeventProvider implements ClientGameeventService, Connecti
 		}
 		
 		@Override
+		public void makeLocalGameevent(String playername, String message) {
+			GameeventPacket temppack = new GameeventPacketImpl(playername, message);
+			logger.info("Adding local Gameevent to Log: " + temppack);
+			getGameeventHistory().add(temppack.toString());
+		}
+		
+		@Override
 		public ObservableList<String> getGameeventHistory() {
 			return gameeventHistory;
 		}
@@ -94,10 +101,10 @@ public class ClientGameeventProvider implements ClientGameeventService, Connecti
 				Packet packet = packetEvent.getPacket();
 				if (packet instanceof GameeventPacket) {
 					GameeventPacket gepacket = (GameeventPacket) packet;
-					logger.info("Incoming ChatPacket: " + gepacket);
+					logger.info("Incoming GameEventPacket: " + gepacket);
 					
 					// Perform change on JavaFX Application Thread as this service is most likely being used by UI Components
-					Platform.runLater(() -> getGameeventHistory().add(gepacket.getSourceName() + ": " + gepacket.getMessage()));
+					Platform.runLater(() -> getGameeventHistory().add(gepacket.getMessage()));
 				}
 			}
 		}

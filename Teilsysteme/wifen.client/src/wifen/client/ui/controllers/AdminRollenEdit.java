@@ -35,10 +35,10 @@ public class AdminRollenEdit extends VBox {
 
 	// Injected Nodes
 
-	@FXML private Button speichern_btn;
+	@FXML private Button btnSpeichern;
 	@FXML private CheckTreeView<String> checkTreeView;
-	@FXML private CheckBox verdeckt_cbx;
-	@FXML private CheckBox alleElementeSichtbar_cbx;
+	@FXML private CheckBox cbxVerdeckt;
+	@FXML private CheckBox cbxAlleElementeSichtbar;
 
 
 	// Constructor
@@ -63,7 +63,9 @@ public class AdminRollenEdit extends VBox {
 	@FXML
 	private void initialize() {
 		// TODO: Data Binding and Setup of Event Handling
-		speichern_btn.setOnAction(this::speichern);
+		btnSpeichern.setOnAction(this::speichern);
+		
+		
 	}
 
 	// Event Handler

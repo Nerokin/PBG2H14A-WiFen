@@ -11,34 +11,34 @@ public class GameeventPacketImpl extends PacketImpl implements GameeventPacket {
 	
 	// Attributes
 	
-	private final String sourceName;
 	private final String message;
+	private final String source;
 	
 	// Constructor(s)
 	
-	public GameeventPacketImpl(String sourceName, String message) {
+	public GameeventPacketImpl(String source, String message) {
 		super();
-		this.sourceName = sourceName;
 		this.message = message;
+		this.source = source;
 	}
 	
 	// Methods
 	
 	@Override
 	public String toString() {
-		return "{" +  getSourceName() + ": " + getMessage() + "}";
+		return "" + getSourceName() + ": "+ getMessage() + "";
 	}
 	
 	// Getter & Setter
 
 	@Override
-	public String getSourceName() {
-		return sourceName;
-	}
-
-	@Override
 	public String getMessage() {
 		return message;
+	}
+	
+	@Override
+	public String getSourceName() {
+		return source;
 	}
 
 }

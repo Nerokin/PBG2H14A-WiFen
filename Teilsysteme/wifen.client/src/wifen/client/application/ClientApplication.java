@@ -3,7 +3,9 @@ package wifen.client.application;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.logging.Level;
@@ -16,14 +18,20 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import wifen.client.services.ClientChatService;
 import wifen.client.services.ClientGameeventService;
+import wifen.client.services.ClientMediaService;
+import wifen.client.services.ClientRefreshService;
 import wifen.client.services.GameService;
 import wifen.client.services.OptionService;
 import wifen.client.services.impl.ClientChatProvider;
 import wifen.client.services.impl.ClientGameeventProvider;
+import wifen.client.services.impl.ClientMediaProvider;
 import wifen.client.services.impl.GameProvider;
+import wifen.client.services.impl.OptionProvider;
 import wifen.client.ui.controllers.Hauptmenu;
 import wifen.commons.GameStateModel;
 import wifen.commons.GridType;
@@ -33,7 +41,9 @@ import wifen.commons.network.ConnectionEvent;
 import wifen.commons.network.ConnectionListener;
 import wifen.commons.network.events.ConnectionClosedEvent;
 import wifen.commons.network.events.ConnectionEstablishedEvent;
+import wifen.commons.network.events.PacketReceivedEvent;
 import wifen.commons.network.impl.ConnectionImpl;
+import wifen.commons.network.packets.EnterGamePacket;
 import wifen.server.network.Server;
 import wifen.server.network.ServerEvent;
 import wifen.server.network.ServerListener;
@@ -41,9 +51,14 @@ import wifen.server.network.events.ServerShutdownEvent;
 import wifen.server.network.events.ServerStartedEvent;
 import wifen.server.network.impl.ServerImpl;
 import wifen.server.services.ServerChatService;
+import wifen.server.services.ServerGameService;
 import wifen.server.services.ServerGameeventService;
+import wifen.server.services.ServerMediaService;
+import wifen.server.services.ServerRefreshService;
 import wifen.server.services.impl.ServerChatProvider;
+import wifen.server.services.impl.ServerGameProvider;
 import wifen.server.services.impl.ServerGameeventProvider;
+import wifen.server.services.impl.ServerMediaProvider;
 
 /**
  * Core of the Application. 
@@ -83,6 +98,11 @@ public class ClientApplication extends Application implements ServerListener, Co
 	 * service provider.
 	 */
 	private final ServiceRegistry serviceRegistry;
+	
+	/**
+	 * Used to save the initial game state model while the server is starting.
+	 */
+	private final Map<String, Object> tmpModel = new HashMap<>();
 
 	static {
 		SERVICES = new HashSet<>();
@@ -94,8 +114,16 @@ public class ClientApplication extends Application implements ServerListener, Co
 		SERVICES.add(Connection.class); // Active Connection to Server (Network Client)
 		SERVICES.add(ClientChatService.class); // Active Client Chat Service
 		SERVICES.add(ServerChatService.class); // Active Server Chat Service
+		SERVICES.add(ServerGameService.class); // Active Game (Serverside)
 		SERVICES.add(GameService.class); // Active Game
 		SERVICES.add(OptionService.class); // Game settings
+		SERVICES.add(ClientGameeventService.class); // Ereignislog
+		SERVICES.add(ServerGameeventService.class); // Ereignislog
+		SERVICES.add(ServerRefreshService.class); // Refresh Service
+		SERVICES.add(ClientRefreshService.class); // Refresh Service
+		SERVICES.add(ClientMediaService.class); // Media Service
+		SERVICES.add(ServerMediaService.class); // Media Service
+		
 	}
 
 	// Constructor(s)
@@ -127,6 +155,15 @@ public class ClientApplication extends Application implements ServerListener, Co
 	@Override
 	public void init() {
 		// TODO What happens before the initialization of the GUI
+		// Register new option service provider if none is present
+		if(!getServiceRegistry().getServiceProviders(OptionService.class, false).hasNext()) {
+			try {
+				getServiceRegistry().registerServiceProvider(new OptionProvider(), OptionService.class);
+				logger.info("A new OptionProvider has been registered");
+			} catch (Exception e) {
+				logger.log(Level.SEVERE, "OptionProvider could not be registered", e);
+			}
+		}
 	}
 
 	@Override
@@ -137,6 +174,13 @@ public class ClientApplication extends Application implements ServerListener, Co
 	}
 
 	// Methods
+	
+	public void showLoadingScreen() {
+		logger.info("Showing loading screen ...");
+		BorderPane loadingScreen = new BorderPane();
+		loadingScreen.setCenter(new Label("Loading ... :D"));
+		ClientApplication.instance().getServiceRegistry().getServiceProviders(Stage.class, false).next().getScene().setRoot(loadingScreen);
+	}
 
 	/**
 	 * Connects to a remote or local host (server) and registers it with this
@@ -177,7 +221,7 @@ public class ClientApplication extends Application implements ServerListener, Co
 			return getServiceRegistry().getServiceProviders(Server.class, false).next();
 		} catch (NoSuchElementException e) {
 			// Instantiate the server
-			Server server = new ServerImpl(ApplicationConstants.APPLICATION_PORT, this);
+			ServerImpl server = new ServerImpl(ApplicationConstants.APPLICATION_PORT, this);
 			
 			// Actually start the server
 			Thread t = new Thread(() -> {
@@ -200,6 +244,18 @@ public class ClientApplication extends Application implements ServerListener, Co
 		}
 	}
 	
+	public void cancelGameCreation(Exception e) {
+		logger.log(Level.WARNING, "Game could not be created", e);
+		Platform.runLater(() -> {
+			new Alert(AlertType.ERROR, "Das Spiel konnte nicht erstellt werden (" + e.getMessage() + ")").showAndWait();
+			try {
+				getServiceRegistry().getServiceProviders(Stage.class, false).next().getScene().setRoot(new Hauptmenu());
+			} catch (Exception e1) {
+				new Alert(AlertType.ERROR, "Das Hauptmenü konnte nicht initialisiert werden, die Anwendung wird geschlossen").showAndWait();
+			}
+		});
+	}
+	
 	/**
 	 * Instantiates a new {@linkplain GameProvider} and registers it with this
 	 * application's service registry, if there is none yet.
@@ -218,36 +274,39 @@ public class ClientApplication extends Application implements ServerListener, Co
 			// Check if a game is already running
 			if (!(getServiceRegistry().getServiceProviders(GameService.class, false).hasNext()
 				 || getServiceRegistry().getServiceProviders(Server.class, false).hasNext())) {
+				
+				// Loading Screen
+				logger.info("Showing loading screen ...");
+				ClientApplication.instance().showLoadingScreen();
+				
+				// Creating tmpModel
+				tmpModel.put("maximumPlayerCount", maximumPlayerCount);
+				tmpModel.put("spectatorsAllowed", spectatorsAllowed);
+				tmpModel.put("mediaInitiallyVisible", mediaInitiallyVisible);
+				tmpModel.put("maxDiceFaceCount", maxDiceFaceCount);
+				tmpModel.put("playerName", playerName);
+				tmpModel.put("standardPlayerRole", standardPlayerRole);
+				tmpModel.put("gridType", gridType);
+				
 				// Start the Server
-				startServer();
-				
-				// Connect to local Server
-				startConnection(InetAddress.getLocalHost());
-				
-				// Initialize the model
-				GameStateModel model = new GameStateModel(maximumPlayerCount, spectatorsAllowed, mediaInitiallyVisible, maxDiceFaceCount, standardPlayerRole, gridType, new ArrayList<>(), new ArrayList<>());
-				
-				// Initialize the game service which ties everything together
-				GameService gameService = new GameProvider(model, playerName);
-				getServiceRegistry().registerServiceProvider(gameService, GameService.class);
-			
-				// Define the Game's Chat Player Name
-				gameService.getGameView().chatBox.setPlayerName(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getPlayerName());
-				
-				// Display the game's playfield
-				getServiceRegistry().getServiceProviders(Stage.class, false).next().getScene().setRoot(gameService.getGameView());
+				Thread t;
+				t = new Thread(() -> {
+					try {
+						startServer();
+					} catch (Exception e) {
+						cancelGameCreation(e);
+					}
+				});
+				t.setDaemon(true);
+				t.setName("ServerStartThread");
+				t.start();
 				
 			} else throw new IllegalStateException("There already is a game/server running");
 			
 		} catch (Exception e) {
-			//e.printStackTrace();
-			new Alert(AlertType.ERROR, "Das Spiel konnte nicht erstellt werden (" + e.getMessage() + ")").showAndWait();
-			try {
-				getServiceRegistry().getServiceProviders(Stage.class, false).next().getScene().setRoot(new Hauptmenu());
-			} catch (IOException e1) {
-				new Alert(AlertType.ERROR, "Das Hauptmenü konnte nicht initialisiert werden, die Anwendung wird geschlossen").showAndWait();
-				Platform.exit();
-			}
+			
+			cancelGameCreation(e);
+			
 		}
 	}
 	
@@ -257,25 +316,83 @@ public class ClientApplication extends Application implements ServerListener, Co
 	public void handle(ServerEvent event) {
 		if (event instanceof ServerStartedEvent) {
 			
-			// Register a new chat service provider if the is none present
-			if (!getServiceRegistry().getServiceProviders(ServerChatService.class, false).hasNext()) {
-				try {
-					getServiceRegistry().registerServiceProvider(new ServerChatProvider(event.getSource()), ServerChatService.class);
-					logger.info("A new ServerChatProvider has been registered");
-				} catch (Exception e) {
-					logger.log(Level.SEVERE, "ServerChatProvider could not be registered", e);
+			try {
+				
+				// Register the server
+				getServiceRegistry().registerServiceProvider(event.getSource(), Server.class);
+			
+				// Initialize the model
+				GameStateModel model = new GameStateModel((int) tmpModel.get("maximumPlayerCount"),
+						(boolean) tmpModel.get("spectatorsAllowed"), (boolean) tmpModel.get("mediaInitiallyVisible"),
+						(int) tmpModel.get("maxDiceFaceCount"), (SpielerRolle) tmpModel.get("standardPlayerRole"),
+						(GridType) tmpModel.get("gridType"), new ArrayList<>(), new ArrayList<>());
+				
+				// Register a new chat service provider if the is none present
+				if (!getServiceRegistry().getServiceProviders(ServerChatService.class, false).hasNext()) {
+					try {
+						getServiceRegistry().registerServiceProvider(new ServerChatProvider(event.getSource()), ServerChatService.class);
+						logger.info("A new ServerChatProvider has been registered");
+					} catch (Exception e) {
+						logger.log(Level.SEVERE, "ServerChatProvider could not be registered", e);
+					}
+					
 				}
 				
-			}
-			
-			// Register new gameevent service provider if none is present
-			if(!getServiceRegistry().getServiceProviders(ServerGameeventService.class, false).hasNext()) {
-				try {
-					getServiceRegistry().registerServiceProvider(new ServerGameeventProvider(event.getSource()), ServerGameeventService.class);
-					logger.info("A new ServerGameeventProvider has been registered");
-				} catch (Exception e) {
-					logger.log(Level.SEVERE, "ServerGameeventProvider could not be registered", e);
+				// Register new gameevent service provider if none is present
+				if(!getServiceRegistry().getServiceProviders(ServerGameeventService.class, false).hasNext()) {
+					try {
+						getServiceRegistry().registerServiceProvider(new ServerGameeventProvider(event.getSource()), ServerGameeventService.class);
+						logger.info("A new ServerGameeventProvider has been registered");
+					} catch (Exception e) {
+						logger.log(Level.SEVERE, "ServerGameeventProvider could not be registered", e);
+					}
 				}
+				
+				// Register new media service provider if none is present
+				if(!getServiceRegistry().getServiceProviders(ServerMediaService.class, false).hasNext()) {
+					try {
+						getServiceRegistry().registerServiceProvider(new ServerMediaProvider(event.getSource()), ServerMediaService.class);
+						logger.info("A new ServerMediaProvider has been registered");
+					} catch (Exception e) {
+						logger.log(Level.SEVERE, "ServerMediaProvider could not be registered", e);
+					}
+				}
+				
+				// Initialize the server game service
+				ServerGameService serverGameService = null;;
+				try {
+					serverGameService = new ServerGameProvider(getServiceRegistry().getServiceProviders(Server.class, true).next(), model,
+							getServiceRegistry().getServiceProviders(ServerGameeventService.class, true).next());
+					getServiceRegistry().registerServiceProvider(serverGameService, ServerGameService.class);
+				} catch (Exception e) {
+					logger.log(Level.SEVERE, "ServerGameService could not be created", e);
+				}
+				
+				// Connect to local Server
+				startConnection(InetAddress.getLocalHost());
+				
+				// Send yourself an invite. How charming!
+				final ServerGameService finalGameService = serverGameService;
+				final ConnectionListener listener = new ConnectionListener() {
+
+					@Override
+					public void handle(ConnectionEvent connectionEvent) {
+						if (connectionEvent instanceof ConnectionEstablishedEvent) {
+							finalGameService.addPlayer((String) tmpModel.get("playerName"), SpielerRolle.ADMIN, connectionEvent.getSource());
+							event.getSource().removeListener(this);
+						}
+					} 
+					
+				};
+				event.getSource().addListener(listener);
+				
+			} catch (Exception e) {
+				// TODO Shutdown Server
+				// TODO ChatService(s) deregistrieren
+				// TODO GameEventService(s) deregistrieren
+				// TODO GameService deregistrieren
+				
+				cancelGameCreation(e);
 			}
 			
 		} else if (event instanceof ServerShutdownEvent) {
@@ -302,33 +419,21 @@ public class ClientApplication extends Application implements ServerListener, Co
 	
 	@Override
 	public void handle(ConnectionEvent connectionEvent) {
-		if (connectionEvent instanceof ConnectionEstablishedEvent) {
+		
+		logger.log(Level.INFO, "Client handles the event " + connectionEvent);
 			
+		if (connectionEvent instanceof ConnectionClosedEvent) {
 			
-			// Whenever a player connects to a server, create a new chat service for that connection and register it if there is none present yet
-			if (!getServiceRegistry().getServiceProviders(ClientChatService.class, false).hasNext()) {
-				try {
-					getServiceRegistry().registerServiceProvider(new ClientChatProvider(connectionEvent.getSource()), ClientChatService.class);
-					logger.info("A new ClientChatProvider has been registered");
-				} catch (Exception e) {
-					logger.log(Level.SEVERE, "ClientChatProvider could not be registered", e);
-				}
-			}
-			
-			// Create a new Gameevent-Service for the new connection and register it if there is none yet present
-			if(!getServiceRegistry().getServiceProviders(ClientGameeventService.class, false).hasNext()) {
-				try {
-					getServiceRegistry().registerServiceProvider(new ClientGameeventProvider(connectionEvent.getSource()));
-					logger.info("A new ClientGameeventProvider has been registered");
-				} catch (Exception e) {
-					logger.log(Level.SEVERE, "ClientGameeventProvider could not be registered", e);
-				}
-			}
-			
-		} else if (connectionEvent instanceof ConnectionClosedEvent) {
+			logger.info("Attempting to shutdown ClientChatService ...");
 			
 			// Fetch the current chat service
-			ClientChatService chatService = getServiceRegistry().getServiceProviders(ClientChatService.class, false).next();
+			ClientChatService chatService;
+			try {
+				chatService = getServiceRegistry().getServiceProviders(ClientChatService.class, false).next();
+			} catch (NoSuchElementException e) {
+				chatService = null;
+			}
+		
 			
 			if (chatService != null) {
 			
@@ -337,22 +442,129 @@ public class ClientApplication extends Application implements ServerListener, Co
 				
 				// Remove the chat service from the service registry
 				getServiceRegistry().deregisterServiceProvider(chatService, ClientChatService.class);
+				
+				logger.info("The ClientChatService has been successfully shut down");
 			
-			}
+			} else logger.info("There is no ClientChatService");
 			
 			// Fetch the current gameevent service
 			
-			ClientGameeventService geservice = getServiceRegistry().getServiceProviders(ClientGameeventService.class, false).next();
+			logger.info("Attempting to shutdown ClientGameEventService ...");
+			
+			ClientGameeventService geservice;
+			try {
+				geservice = getServiceRegistry().getServiceProviders(ClientGameeventService.class, false).next();
+			} catch (NoSuchElementException e) {
+				geservice = null;
+			}
 			if(geservice != null) {
 				// Remove invalidated connection from service
 				geservice.setConnection(null);
 				
 				// Remove service from registry
 				getServiceRegistry().deregisterServiceProvider(geservice, ClientGameeventService.class);
+				
+				logger.info("The ClientGameEventService has been successfully shut down");
+			} else logger.info("There is no ClientGameEventService");
+			
+			// Fetch current game service
+			
+			logger.info("Attempting to shutdown ClientGameService ...");
+			
+			GameService gameService;
+			try {
+				gameService = getServiceRegistry().getServiceProviders(GameService.class, true).next();
+			} catch (NoSuchElementException e) {
+				gameService = null;
 			}
+			if (gameService != null) {
+				getServiceRegistry().deregisterServiceProvider(gameService, GameService.class);
+				logger.info("The ClientGameService has been successfully shut down");
+			} else logger.info("There is no GameService");
 			
 			// Deregister the Connection
 			getServiceRegistry().deregisterServiceProvider(connectionEvent.getSource(), Connection.class);
+			
+		} else if (connectionEvent instanceof PacketReceivedEvent) {
+			
+			PacketReceivedEvent packetEvent = (PacketReceivedEvent) connectionEvent;
+			if (packetEvent.getPacket() instanceof EnterGamePacket) {
+				EnterGamePacket packet = (EnterGamePacket) packetEvent.getPacket();
+				
+				logger.info("Checking incoming EnterGamePacket ...");
+				
+				// Falls der Name zurückkommt, kommt das Modell mit ( falls kein Modell kommt -> Fehler)
+				if(packet.getPlayer() != null && packet.getInitialModel() != null) {
+					
+					logger.info("Attempting to register Client-Side ChatService ...");
+					
+					// Whenever a player connects to a game, create a new chat service for that connection and register it if there is none present yet
+					if (!getServiceRegistry().getServiceProviders(ClientChatService.class, false).hasNext()) {
+						try {
+							getServiceRegistry().registerServiceProvider(new ClientChatProvider(connectionEvent.getSource()), ClientChatService.class);
+							logger.info("A new ClientChatProvider has been registered");
+						} catch (Exception e) {
+							logger.log(Level.SEVERE, "ClientChatProvider could not be registered", e);
+						}
+					}
+
+					
+					logger.info("Attempting to register Client-Side MediaService ...");
+					
+					// Whenever a player connects to a game, create a new media service for that connection and register it if there is none present yet
+					if (!getServiceRegistry().getServiceProviders(ClientMediaService.class, false).hasNext()) {
+						try {
+							getServiceRegistry().registerServiceProvider(new ClientMediaProvider(connectionEvent.getSource()), ClientMediaService.class);
+							logger.info("A new ClientMediaProvider has been registered");
+						} catch (Exception e) {
+							logger.log(Level.SEVERE, "ClientMediaProvider could not be registered", e);
+						}
+					}
+					
+					logger.info("Attempting to register Client-Side GameEventService ...");
+					
+					// Create a new Gameevent-Service for the new connection and register it if there is none yet present
+					if(!getServiceRegistry().getServiceProviders(ClientGameeventService.class, false).hasNext()) {
+						try {
+							getServiceRegistry().registerServiceProvider(new ClientGameeventProvider(connectionEvent.getSource()));
+							logger.info("A new ClientGameeventProvider has been registered");
+						} catch (Exception e) {
+							logger.log(Level.SEVERE, "ClientGameeventProvider could not be registered", e);
+						}
+					}
+					
+					logger.info("Attempting to register Client-Side GameService ...");
+					
+					// Create the client-side game service
+					GameService gameService = null;
+					try {
+						gameService = new GameProvider(packet.getInitialModel(), packet.getPlayer());
+					} catch (Exception e) {
+						logger.log(Level.SEVERE, "GameProvider could not be created", e);
+					}
+					
+					// Register the game service
+					try {
+						getServiceRegistry().registerServiceProvider(gameService, GameService.class);
+						logger.info("A new GameProvider has been registered");
+					} catch (Exception e) {
+						logger.log(Level.SEVERE, "GameProvider could not be registered", e);
+					}
+					
+					// Define the Game's Chat Player Name
+					gameService.getGameView().chatBox.setPlayerName(gameService.getActivePlayerName());
+					
+					// Display the game's playfield
+					getServiceRegistry().getServiceProviders(Stage.class, false).next().getScene().setRoot(gameService.getGameView());
+					
+					// Register any other relevant client-side services ....
+					
+					// TODO
+					
+				}	
+				
+			}
+			
 		}
 
 	}

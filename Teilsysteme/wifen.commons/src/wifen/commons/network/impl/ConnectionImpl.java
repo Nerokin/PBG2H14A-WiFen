@@ -7,7 +7,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,13 +33,14 @@ public class ConnectionImpl implements Connection {
 	private final Socket socket;
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
-	private final List<ConnectionListener> listeners = new ArrayList<ConnectionListener>();
+	private final Set<ConnectionListener> listeners = new HashSet<ConnectionListener>();
 	
 
-	public ConnectionImpl(Socket s) throws IOException
+	public ConnectionImpl(Socket s, ConnectionListener... listeners) throws IOException
 	{
 		this.socket = s;
 		this.oos = new ObjectOutputStream(getSocket().getOutputStream());
+		if (listeners != null) Arrays.asList(listeners).forEach((listener) -> addListener(listener));
 		fireEvent(new ConnectionEstablishedEventImpl(this));
 		logger.info("Connection has been established.");
 		
@@ -71,7 +73,7 @@ public class ConnectionImpl implements Connection {
 	public ConnectionImpl(InetAddress address, int port, ConnectionListener... listeners) throws IOException {
 		this.socket = new Socket(address, port);
 		this.oos = new ObjectOutputStream(getSocket().getOutputStream());
-		Arrays.asList(listeners).forEach((listener) -> addListener(listener));
+		if (listeners != null) Arrays.asList(listeners).forEach((listener) -> addListener(listener));
 		fireEvent(new ConnectionEstablishedEventImpl(this));
 		logger.info("Connection has been established.");
 	}
@@ -79,6 +81,7 @@ public class ConnectionImpl implements Connection {
 	@Override
 	public boolean sendPacket(Packet packet) {
 		try {
+			packet.setSource(null);
 			oos.writeObject(packet);
 			oos.flush();
 			logger.info("A Packet has been successfully sent (" + packet + ")");
@@ -105,8 +108,10 @@ public class ConnectionImpl implements Connection {
 				ois = new ObjectInputStream(getSocket().getInputStream());
 				Object obj = null;
 				while ((obj = ois.readObject()) != null) { 
-					if(obj instanceof Packet)
+					if(obj instanceof Packet) {
+						((Packet) obj).setSource(this);
 						fireEvent(new PacketReceivedEventImpl((Packet) obj, this));
+					}
 				}
 			} catch (ClassNotFoundException e) {
 				logger.log(Level.WARNING, "Input type could not be found", e);
@@ -143,7 +148,8 @@ public class ConnectionImpl implements Connection {
 	 * @param event
 	 */
 	protected final void fireEvent(ConnectionEvent event){
-		for (ConnectionListener connectionListener : new ArrayList<>(getListeners())) {
+		logger.log(Level.INFO, "The event " + event + " has been fired on " + getListeners().size() + " listeners.");
+		for (ConnectionListener connectionListener : new HashSet<>(getListeners())) {
 			connectionListener.handle(event);
 			if (event.isConsumed()) break;
 		}
@@ -151,7 +157,7 @@ public class ConnectionImpl implements Connection {
 	
 	// Getter & Setter
 	
-	public List<ConnectionListener> getListeners() {
+	public Set<ConnectionListener> getListeners() {
 		return listeners;
 	}
 	public Socket getSocket() {

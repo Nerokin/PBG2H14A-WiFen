@@ -20,8 +20,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 //import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import wifen.client.application.ApplicationConstants;
 import wifen.client.application.ClientApplication;
 import wifen.commons.network.Connection;
@@ -49,13 +49,11 @@ public class SpielBeitretenController extends BorderPane {
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 
 	// Injected Nodes
-	@FXML TextField tfPort;
-	@FXML TextField tfname;
-	@FXML TextField tfIp;
-	@FXML Label ipAdress;
-	@FXML Label versionNumber;
-	@FXML Button btnEnter;
-	@FXML Button backToMenuBtn;
+	@FXML TextField tf_name;
+	@FXML TextField tf_port;
+	@FXML TextField tf_ip;
+	@FXML Button btn_beitreten;
+	@FXML Button btn_zurück;
 
 	// @FXML private FormationDisplay formatDisplay;
 	// TODO
@@ -90,8 +88,8 @@ public class SpielBeitretenController extends BorderPane {
 		// formatDisplay.setOnMouseClicked(this::click);
 		// TODO: Data Binding and Setup of Event Handling
 		
-	
-		backToMenuBtn.setOnAction(new EventHandler<ActionEvent>(){
+		tf_port.setText(ApplicationConstants.APPLICATION_PORT+"");
+		btn_zurück.setOnAction(new EventHandler<ActionEvent>(){
 			 public void handle(ActionEvent e) {
 			Parent p = null;
 			try {
@@ -104,19 +102,22 @@ public class SpielBeitretenController extends BorderPane {
 		}
 		});
 		
-		btnEnter.setOnAction(new EventHandler<ActionEvent>(){
+		btn_beitreten.setOnAction(new EventHandler<ActionEvent>(){
 			 public void handle(ActionEvent e) {
+				 
 				 try{
-					 Connection tmpConn = null;
-					 try {
-						 tmpConn = ClientApplication.instance().getServiceRegistry().getServiceProviders(Connection.class, true).next();
-					 } catch (NoSuchElementException e2) {
-						 InetAddress tmpAdd = InetAddress.getByName(tfIp.getText());
-						 tmpConn = new ConnectionImpl(tmpAdd, ApplicationConstants.APPLICATION_PORT);
-						 ClientApplication.instance().getServiceRegistry().registerServiceProvider(tmpConn, Connection.class);
-					 }
+					String requestedName = tf_name.getText();
+					 
+					// Loading Screen
+					logger.info("Showing loading screen ...");
+					ClientApplication.instance().showLoadingScreen();
+						
+					// Connect to Server
+					logger.info("Attempting to retrieve Connection ...");
+					Connection tmpConn = ClientApplication.instance().startConnection(InetAddress.getByName(tf_ip.getText()));
 						 
-					String requestedName = tfname.getText();
+					// Attempt to enter game
+					logger.info("Attempting to enter game ...");
 					EnterGamePacket packet = new EnterGamePacketImpl(requestedName);
 					tmpConn.sendPacket(packet);
 
@@ -124,9 +125,11 @@ public class SpielBeitretenController extends BorderPane {
 				 catch(Exception ex){
 					 // Warnung ausgeben
 					 logger.log(Level.WARNING, "Spiel konnte nicht beigetreten werden", ex);
+					 
+					 // TODO: Revert EVERYTHING
 					 new Alert(AlertType.WARNING, "Spiel konnte nicht beigetreten werden").showAndWait();
 				 }
-				 }
+			}
 				 
 		});
 	}

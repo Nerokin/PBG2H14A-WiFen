@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -58,11 +59,6 @@ public class ClientChatProvider implements ClientChatService, ConnectionListener
 	}
 	
 	// <--- ClientChatService --->
-
-	@Override
-	public void showRole() {
-		throw new UnsupportedOperationException("Not yet implemented!"); // TODO: Implement
-	}
 
 	@Override
 	public void loadChatlog(List<String> chatLog) {
@@ -145,6 +141,16 @@ public class ClientChatProvider implements ClientChatService, ConnectionListener
 	
 	public ChangeListener<Connection> getOnConnectionChangeListener() {
 		return onConnectionChangeListener;
+	}
+
+	@Override
+	public ObservableList<String> showRole(StringProperty playerRole) {
+		throw new UnsupportedOperationException("Not yet implemented!");
+	}
+
+	@Override
+	public void showOtherPlayer() {
+		throw new UnsupportedOperationException("Not yet implemented!");
 	}
 
 }

@@ -1,22 +1,33 @@
 package wifen.server.services.impl;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.imageio.spi.ServiceRegistry;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import wifen.commons.network.ConnectionEvent;
-import wifen.commons.network.Packet;
+import wifen.commons.network.ConnectionListener;
 import wifen.commons.network.events.PacketReceivedEvent;
 import wifen.commons.network.packets.ChatPacket;
+import wifen.commons.network.packets.impl.ChatPacketImpl;
 import wifen.server.network.Server;
 import wifen.server.services.ServerChatService;
+import wifen.server.services.ServerGameService;
 
 /**
  * Implementation of the {@linkplain ServerChatService} interface.
  * 
  * @author Konstantin Schaper
  */
-public class ServerChatProvider implements ServerChatService {
+public class ServerChatProvider implements ServerChatService, ConnectionListener {
+	
+	// Class Constants
+	
+	private final Logger logger = Logger.getLogger(ServerChatProvider.class.getName());
 	
 	// Properties	
 	
@@ -25,6 +36,7 @@ public class ServerChatProvider implements ServerChatService {
 	// Attributes	
 	
 	private final ChangeListener<Server> onServerChangedListener = this::onServerChanged;
+	private ServiceRegistry registry;
 	
 	// Constructor(s)	
 	
@@ -39,9 +51,15 @@ public class ServerChatProvider implements ServerChatService {
 	public void handle(ConnectionEvent connectionEvent) {
 		if (connectionEvent instanceof PacketReceivedEvent) {
 			PacketReceivedEvent packetEvent = (PacketReceivedEvent) connectionEvent;
-			Packet packet = packetEvent.getPacket();
-			if (packet instanceof ChatPacket) {
-				getServer().broadcastPacket(packet);
+			if (packetEvent.getPacket() instanceof ChatPacket) {
+				ChatPacket packet = (ChatPacket) packetEvent.getPacket();
+				try {
+					ServerGameService gameService = getRegistry().getServiceProviders(ServerGameService.class, true).next();
+					gameService.addChatMessage(packet.getSourceName() + ": " + packet.getMessage());
+					getServer().broadcastPacket(new ChatPacketImpl(packet.getSourceName(), packet.getMessage()));
+				} catch (Exception e) {
+					logger.log(Level.WARNING, "Cannot save ChatMessage.", e);
+				}
 			}
 		}
 	}
@@ -55,6 +73,24 @@ public class ServerChatProvider implements ServerChatService {
 
 	public final void setServer(final Server server) {
 		this.serverProperty().set(server);
+	}
+	
+	// <--- Registerable --->
+	
+	@Override
+	public void onRegistration(ServiceRegistry registry, Class<?> category) {
+		if (getRegistry() != null && !getRegistry().equals(registry))
+			registry.deregisterServiceProvider(this); 
+		else {
+			setRegistry(registry);
+		}
+	}
+
+	@Override
+	public void onDeregistration(ServiceRegistry registry, Class<?> category) {
+		if (getRegistry() != null && getRegistry().equals(registry)) {
+			setRegistry(null);
+		}
 	}
 	
 	// Event Handling	
@@ -81,6 +117,14 @@ public class ServerChatProvider implements ServerChatService {
 
 	public ChangeListener<Server> getOnServerChangedListener() {
 		return onServerChangedListener;
+	}
+
+	public ServiceRegistry getRegistry() {
+		return registry;
+	}
+
+	private void setRegistry(ServiceRegistry registry) {
+		this.registry = registry;
 	}
 
 }

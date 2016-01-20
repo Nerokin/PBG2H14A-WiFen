@@ -1,9 +1,16 @@
 
 package wifen.client.ui.controllers;
 
+import java.awt.MouseInfo;
+import java.io.File;
+import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
+import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
@@ -13,12 +20,16 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polyline;
+import wifen.client.application.ClientApplication;
 import wifen.client.resources.MarkerView;
+import wifen.client.services.ClientGameeventService;
+import wifen.client.services.GameService;
 import wifen.client.services.MarkerService;
 import wifen.commons.GridType;
 import wifen.commons.MarkerModel;
 import wifen.commons.MarkerType;
 import wifen.commons.SpielfeldModel;
+import wifen.commons.impl.PlayerImpl;
 
 /**
  * View for displaying a given Playfield Model
@@ -160,6 +171,8 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 				hasDragged = false;
 				lastTime=0;
 				if(event.getButton() == MouseButton.PRIMARY && event.isAltDown()){
+					System.out.println("Beginn Drawing!");
+					((ScrollPane) event.getSource()).setPannable(false);
 					lastX = event.getX();
 					lastY = event.getY();
 					points = new Double[2];
@@ -169,24 +182,29 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 				}
 				if(event.getButton() == MouseButton.SECONDARY && event.isControlDown()){
 					hasPressed = true;
+					((ScrollPane) event.getSource()).setPannable(false);
 					values[0]=event.getX();
 					values[1]=event.getY();
 				}
 			}		
 		});
-
-		this.setOnDragDetected(new EventHandler<MouseEvent>(){
+		this.setOnMouseMoved(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event) {
-				hasDragged = true;
-				if(event.isAltDown()){
+				if(event.isAltDown() && MouseButton.PRIMARY == event.getButton()){
+					System.out.println("Dragging");
 					drawn = true;
 					timer = new Timer();
 				    timer.scheduleAtFixedRate(new TimerTask() {
 				        @Override
 				        public void run() {
+				        	//double x = MouseInfo.getPointerInfo().getLocation().getX();
+				        	//double y = MouseInfo.getPointerInfo().getLocation().getY();
 				            if(distance(lastX,lastY,event.getX(),event.getY())>2){
+				            	for(Double p : points){
+				            		System.out.println(p);
+				            	}
 				            	Double[] help = points;
 				            	points = new Double[help.length+2];
 				            	points = help;
@@ -197,22 +215,36 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 				            }
 				        }
 				    }, 0, 500);
-				}
+				}				
+			}
+			
+		});
+		this.setOnDragDetected(new EventHandler<MouseEvent>(){
+
+			@Override
+			public void handle(MouseEvent event) {
+				hasDragged = true;
 			}
 			
 		});
 		this.setOnMouseReleased(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent event) {
-				if(hasPressed && hasDragged && event.isControlDown()){
+				if(hasPressed && event.isControlDown()){
+					((ScrollPane) event.getSource()).setPannable(true);
 					values[2]=event.getX();
 					values[3]=event.getY();
-					/*ClientApplication.instance().getServiceRegistry().getServiceProviders(*///TODO: Ereignislog/*, false).log((distance(values[0],values[1],values[2],values[3]))+"");*/
+					DecimalFormat df = new DecimalFormat("#.##");
+					System.out.println("Mouse Released");
+					ClientApplication.instance().getServiceRegistry().getServiceProviders(ClientGameeventService.class, false).next().makeLocalGameevent("Lokal:", (df.format(distance(values[0],values[1],values[2],values[3])))+" Units");
 				}
 				if(drawn){
+					((ScrollPane) event.getSource()).setPannable(true);
+					System.out.println("Drawn!");
 					drawn = false;
 					timer.cancel();
 					drawing.getPoints().addAll(points);
+					((SpielfeldView) event.getSource()).addToView(drawing);
 				}
 				hasPressed = false;
 			}
@@ -226,16 +258,24 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 						System.out.println("Invalid coordinates for placing Marker: Out of field!");
 					} else {
 						if(event.isControlDown()){
-							Image i = new Image("src/resources/note.png", true);
-							MarkerModel m = new MarkerModel(event.getX(), event.getY(), new MarkerType("note", i), "");
+							File file = new File(getClass().getResource("../../resources/note.png").getFile());
+							Image i = new Image(file.toURI().toString());
+							MarkerModel m = null;
+							try {
+								m = new MarkerModel(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer(), event.getX(), event.getY(), new MarkerType("note", i), "");
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 							model.placeMarker(m);
 							((Pane) event.getSource()).getChildren().add(new MarkerView(m, self));
 							// snapshot renders all children again so the added element is displayed properly
 							self.snapshot(null,null);
 						}else{
-							MarkerModel m = new MarkerModel(event.getX(), event.getY(), getSelectedType(), "");
-							model.placeMarker(m);
-							((Pane) event.getSource()).getChildren().add(new MarkerView(m, self));
+							MarkerModel m = new MarkerModel(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer(), event.getX(), event.getY(), getSelectedType(), "");
+							//model.placeMarker(m);
+							//((Pane) event.getSource()).getChildren().add(new MarkerView(m, self));
+							ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMarkerPlaced(m);
 							// snapshot renders all children again so the added element is displayed properly
 							self.snapshot(null,null);
 						}
@@ -289,8 +329,8 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 	
 	// Getters & Setters
 	
-	public SpielfeldModel getModel() {
-		return this.model;
+	public SpielfeldView getView() {
+		return this;
 	}
 	
 	public void setModel(SpielfeldModel sm) {
@@ -304,6 +344,26 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		addAllFromModel();
 		// snapshot renders all children again so the added element is displayed properly
 		this.snapshot(null,null);
+	}
+	
+	public void AddMarker(MarkerModel m){
+		
+		Platform.runLater(() -> addToView(new MarkerView(m, self)));
+		Platform.runLater(() -> model.placeMarker(m));
+	}
+	
+	public void RemoveMarker(UUID ID){
+		MarkerView mv = null;
+		for(Node n : ((Pane)this.getContent()).getChildren()){
+			if(n instanceof MarkerView){
+				if(((MarkerView)n).getMarkerModel().getId().equals(ID)){
+					mv=(MarkerView) n;
+				}
+			}
+		}
+		final MarkerView mvReturn = mv; 
+		Platform.runLater(() -> removeFromView(mvReturn));
+		Platform.runLater(() -> model.removeMarker(ID));
 	}
 	
 	/**Add Node to Pane*/
@@ -321,7 +381,13 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 	@Override
 	public MarkerType getSelectedType() {
 		ImageView iv = markerWindow.getSelectedMarkerType();
-		return new MarkerType(iv.getImage(), iv.getId());
+		try {
+			return new MarkerType(iv.getImage(), iv.getId());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	/*
