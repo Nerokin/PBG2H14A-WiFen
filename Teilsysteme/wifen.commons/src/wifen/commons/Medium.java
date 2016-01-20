@@ -13,7 +13,7 @@ import wifen.commons.services.impl.FileLoaderProvider;
  * @author unknown
  *
  */
-public class Medium
+public class Medium implements java.io.Serializable
 {
 	private String name;
 	private String type;

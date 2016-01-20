@@ -24,54 +24,54 @@ import wifen.commons.services.impl.TxtNode;
 
 /**
  * Put description here
- * 
+ *
  * @author unknown
  *
  */
 public class MedienbibliothekController extends AnchorPane
 {
-	ObservableList<Medium> liste = FXCollections.observableArrayList();
-	
+	ObservableList<Medium> medienListe = FXCollections.observableArrayList();
+
 	//Properties
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
-	
-	//Injected Nodes	
+
+	//Injected Nodes
 	@FXML
 	private ListView<Medium> listViewMedien;
 	@FXML
 	private TextField tbxMedienBrowser;
-	
+
 	//Constructor
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public MedienbibliothekController() throws IOException
 	{
 		super();
-		
+
 		//Setup FXMLLoader
 		setFXMLLoader(new FXMLLoader());
 		getFXMLLoader().setRoot(this);
 		getFXMLLoader().setLocation(getClass().getResource("/fxml/Medienbibliothek.fxml"));
 		getFXMLLoader().setController(this);
-		
+
 		//Load the View
 		getFXMLLoader().load();
 	}
-	
+
 	//Initialization
 	@FXML
 	private void initialize()
-	{		
-		listViewMedien.setItems(liste);	
+	{
+		listViewMedien.setItems(medienListe);
 	}
-	
+
 	//Event Handlers
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param event
 	 */
 	public void medienUpload(ActionEvent event)
@@ -80,17 +80,17 @@ public class MedienbibliothekController extends AnchorPane
 		if(file != null)
 		{
 			// TODO: upload file to server
-			liste.add(new Medium(file));
-			
+			medienListe.add(new Medium(file));
+
 			// Clear text field
 			tbxMedienBrowser.setText(null);
 			tbxMedienBrowser.setUserData(null);
 		}
 	}
-	
+
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param event
 	 */
 	public void medienBrowser(ActionEvent event)
@@ -98,17 +98,17 @@ public class MedienbibliothekController extends AnchorPane
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Media File");
 		File file = fileChooser.showOpenDialog(this.getScene().getWindow());
-		
+
 		if(file != null)
 		{
 			tbxMedienBrowser.setUserData(file);
 			tbxMedienBrowser.setText(file.getAbsolutePath());
 		}
 	}
-	
+
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param event
 	 */
 	public void medien÷ffnen(ActionEvent event)
@@ -116,7 +116,7 @@ public class MedienbibliothekController extends AnchorPane
 		Medium selectedMedium = listViewMedien.getSelectionModel().getSelectedItem();
 		if(selectedMedium == null)
 			return;
-		
+
 		// Show content in seperate window. TODO: create window to show content
 		if(selectedMedium.getFile() instanceof ImageNode)
 		{
@@ -154,10 +154,10 @@ public class MedienbibliothekController extends AnchorPane
 		else // All other filetypes open on their own
 			selectedMedium.getFile().getFileContent();
 	}
-	
+
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param title
 	 * @param scene
 	 */
@@ -169,25 +169,29 @@ public class MedienbibliothekController extends AnchorPane
 		stage.setTitle(title);
 		stage.show();
 	}
-	
+
 	//Getter & Setter
 	public ListView<Medium> getListViewMedien()
 	{
 		return listViewMedien;
 	}
-	
+
 	public FXMLLoader getFXMLLoader()
 	{
 		return fxmlLoader.get();
 	}
-	
+
 	public void setFXMLLoader(FXMLLoader value)
 	{
 		fxmlLoader.set(value);
 	}
-	
+
 	public ReadOnlyObjectProperty<FXMLLoader> fxmlLoaderProperty()
 	{
 		return fxmlLoader;
+	}
+
+	public ObservableList<Medium> getMedienListe() {
+		return medienListe;
 	}
 }

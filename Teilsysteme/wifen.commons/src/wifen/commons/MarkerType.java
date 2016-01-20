@@ -5,17 +5,17 @@ import javafx.scene.image.Image;
 
 /**
  * Put description here
- * 
+ *
  * @author unknown
  *
  */
-public class MarkerType {
-	private Image img;
+public class MarkerType implements java.io.Serializable {
+	private transient Image img;
 	private String name;
-	
+
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param n
 	 * @param img
 	 */
@@ -23,10 +23,10 @@ public class MarkerType {
 		this.name = n;
 		this.img = img;
 	}
-	
+
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param img
 	 * @param n
 	 */
@@ -46,7 +46,7 @@ public class MarkerType {
 
 	public void setImg(Image img) {
 		this.img = img;
-	}	
+	}
 
 	public String getName() {
 		return name;
@@ -55,6 +55,6 @@ public class MarkerType {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
+
+
 }

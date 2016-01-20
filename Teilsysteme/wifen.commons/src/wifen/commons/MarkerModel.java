@@ -4,21 +4,21 @@ package wifen.commons;
 
 /**
  * Put description here
- * 
+ *
  * @author unkown
  *
  */
-public class MarkerModel {
-	
+public class MarkerModel implements java.io.Serializable {
+
 	private MarkerType type;
 	private double posx;
 	private double posy;
 	private String desc;
-	
-	// Constructors	
+
+	// Constructors
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 * @param mt
@@ -30,12 +30,12 @@ public class MarkerModel {
 		this.posy = y;
 		this.desc = d;
 	}
-	
-	// Methods
-	
-	
 
-	// Getters & Setters	
+	// Methods
+
+
+
+	// Getters & Setters
 	public MarkerType getType() {
 		return type;
 	}
@@ -67,6 +67,6 @@ public class MarkerModel {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
-	
-	
+
+
 }
