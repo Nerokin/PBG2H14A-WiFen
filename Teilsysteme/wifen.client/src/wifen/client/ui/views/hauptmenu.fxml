@@ -49,7 +49,7 @@
                   <Font size="25.0" />
                </font>
             </Button>
-            <Button fx:id="btn_spielVerlassen" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Spiel Verlassen" textAlignment="CENTER">
+            <Button fx:id="btn_spielVerlassen" onAction="#close" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Spiel Verlassen" textAlignment="CENTER">
                <VBox.margin>
                   <Insets top="25.0" />
                </VBox.margin>

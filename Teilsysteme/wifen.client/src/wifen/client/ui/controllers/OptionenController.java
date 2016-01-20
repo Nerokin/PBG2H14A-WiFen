@@ -7,16 +7,14 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import wifen.client.application.ClientApplication;
-import wifen.client.services.OptionService;
 import wifen.client.services.impl.OptionProvider;
 
 /**
@@ -29,7 +27,6 @@ import wifen.client.services.impl.OptionProvider;
 public class OptionenController extends BorderPane {
 	
 	// Attributes
-	ClientApplication client;
 	OptionProvider op;
 
 	// constants
@@ -52,7 +49,6 @@ public class OptionenController extends BorderPane {
 	// @FXML private FormationDisplay formatDisplay;
 	// TODO
 
-	// Constructor.
 
 	/**
 	 * Put description here
@@ -61,9 +57,10 @@ public class OptionenController extends BorderPane {
 	 */
 	public OptionenController() throws IOException {
 		super();
+		op = ClientApplication.instance().getServiceRegistry().getServiceProviderByClass(OptionProvider.class);
 
 		// Apply CSS
-		//getStylesheets().add(getClass().getResource(CSS_PATH).toExternalForm());
+		// getStylesheets().add(getClass().getResource(CSS_PATH).toExternalForm());
 
 		// Setup FXMLLoader
 		setFXMLLoader(new FXMLLoader());
@@ -76,45 +73,41 @@ public class OptionenController extends BorderPane {
 	}
 
 	// Initialization
-	@FXML
+	@FXML	
 	private void initialize() {		
-		client = ClientApplication.instance();
-		op = client.getServiceRegistry().getServiceProviderByClass(OptionProvider.class);
-		
 		btn_speichern.setOnAction(this::speichernOnAction);
-		btn_abbrechen.setOnAction(this::abbrechenOnAction);		
-		/*
+		btn_abbrechen.setOnAction(this::abbrechenOnAction);			
+		
 		sd_volumen.setValue(op.getVolume());
 		cbx_muteMusic.setSelected(op.getMusicMuted());
 		cbx_muteSound.setSelected(op.getSoundMuted());
-		sd_filesize.setValue(op.getMaxFileSize());	
-		*/			
+		sd_filesize.setValue(op.getMaxFileSize());
 	}
 
 	// Event Handlers	
 	/**
 	 * Saves the options in the user preferences via {@linkplain OptionProvider}
 	 */
-	private void speichernOnAction(ActionEvent event){		
-		op.setMaxFileSize(sd_volumen.getValue());
+	private void speichernOnAction(ActionEvent event){	
+		op.setVolume(sd_volumen.getValue());		
 		op.setMusicMuted(cbx_muteMusic.isSelected());
 		op.setSoundMuted(cbx_muteSound.isSelected());
-		op.setVolume(sd_filesize.getValue());	
+		op.setMaxFileSize(sd_filesize.getValue());
+		closeWindow();
 	}
 	
+	private void abbrechenOnAction(ActionEvent event){	
+		closeWindow();
+	}
 	
-	/**
-	 * Return to the main menu
-	 */
-	private void abbrechenOnAction(ActionEvent event){
-		Parent p = null;
-		try {
-			p = new Hauptmenu();
-			getScene().setRoot(p);
-		} catch (IOException e2) {
-			new Alert(AlertType.ERROR, "Hauptmenü konnte nicht geladen werden").showAndWait();
-		}
-	}	
+	private void closeWindow() {
+		Window window = getScene().getWindow();   
+
+        if (window instanceof Stage){
+            ((Stage) window).close();
+        }
+	}
+	
 	
 	// Getter & Setter
 	public FXMLLoader getFXMLLoader() {

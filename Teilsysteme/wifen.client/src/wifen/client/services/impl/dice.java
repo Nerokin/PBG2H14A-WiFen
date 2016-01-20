@@ -9,9 +9,8 @@ import java.util.logging.Logger;
 
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
-import wifen.client.application.ClientApplication;
-import wifen.client.ui.controllers.EreignisFenster;
-import wifen.client.ui.controllers.W�rfelanimationListe;
+
+
 
 /**
  * Bereitstellung der Würfelfunktionen: Normaler Würfelwurf (mit Modifikator), Schwellentest (mit Modifikator)

@@ -1,6 +1,8 @@
 package wifen.client.ui.controllers;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -16,6 +18,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import wifen.client.application.ApplicationConstants;
@@ -53,6 +56,8 @@ public class SpielErstellenController extends BorderPane {
 	@FXML ComboBox<GridType> cbx_raster;
 	@FXML Button btn_spielErstellen;
 	@FXML Button btn_backToMenu;
+	@FXML Label lb_ip;
+	@FXML Label lb_version;
 
 	// Constructor
 
@@ -65,7 +70,7 @@ public class SpielErstellenController extends BorderPane {
 		super();
 
 		// Apply CSS
-		// getStylesheets().add(getClass().getResource(CSS_PATH).toExternalForm());
+		 getStylesheets().add(getClass().getResource(CSS_PATH).toExternalForm());
 
 		// Setup FXMLLoader
 		setFXMLLoader(new FXMLLoader());
@@ -81,6 +86,7 @@ public class SpielErstellenController extends BorderPane {
 
 	@FXML
 	private void initialize() {
+		tf_port.setText(ApplicationConstants.APPLICATION_PORT+"");
 		btn_backToMenu.setOnAction(this::backToMenuBtnOnAction);
 		btn_spielErstellen.setOnAction(this::btnSpielErstellenOnAction);
 		cbx_standardRolle.setItems(FXCollections.observableArrayList(SpielerRolle.values()));
@@ -92,8 +98,15 @@ public class SpielErstellenController extends BorderPane {
 		tf_port.setEditable(false);
 		tf_port.setText(String.valueOf(ApplicationConstants.APPLICATION_PORT));
 		tf_eigenerName.setPromptText("...");
-		tf_maxSpieler.setText("4");
-		chb_beobachterZulassen.setSelected(true);
+		tf_maxSpieler.setText("99");
+		chb_medienSichtbar.setSelected(true);
+		
+		
+		try {
+			lb_ip.setText(InetAddress.getLocalHost().getHostAddress() + " (Lokal)");
+		} catch (UnknownHostException e) {
+			lb_ip.setText("Konnte nicht gefunden werden");
+		}
 	}
 
 	// Event Handlers
