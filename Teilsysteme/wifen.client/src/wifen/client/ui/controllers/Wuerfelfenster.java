@@ -17,6 +17,7 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -241,8 +242,8 @@ public class Wuerfelfenster extends TitledPane {
 			Dragboard db = this.startDragAndDrop(TransferMode.ANY); // this hinzugefügt.. alternativ : wuerfel1.startDragAndDrop..
 			db.setDragView(imagesD4[3]);
 		        ClipboardContent content = new ClipboardContent();
-		     db.setDragViewOffsetX(300);
-		     db.setDragViewOffsetY(75);
+		    /* db.setDragViewOffsetX(300);
+		     db.setDragViewOffsetY(75);*/
 
 		        content.putString("d4");
 
@@ -260,8 +261,9 @@ public class Wuerfelfenster extends TitledPane {
 			Dragboard db = this.startDragAndDrop(TransferMode.ANY); // this hinzugefügt.. alternativ : wuerfel1.startDragAndDrop..
 			db.setDragView(new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d06/d6_6.png")));
 			ClipboardContent content = new ClipboardContent();
-			 db.setDragViewOffsetX(300);
+			/* db.setDragViewOffsetX(300);
 			 db.setDragViewOffsetY(125);
+			 */
 
 		        content.putString("d6");
 
@@ -279,8 +281,8 @@ public class Wuerfelfenster extends TitledPane {
 			Dragboard db = this.startDragAndDrop(TransferMode.ANY); // this hinzugefügt.. alternativ : wuerfel1.startDragAndDrop..
 			db.setDragView(imagesD8[7]);
 			ClipboardContent content = new ClipboardContent();
-			 db.setDragViewOffsetX(300);
-			 db.setDragViewOffsetY(125);
+			/* db.setDragViewOffsetX(300);
+			 db.setDragViewOffsetY(125);*/
 
 		        content.putString("d8");
 
@@ -298,8 +300,8 @@ public class Wuerfelfenster extends TitledPane {
 		Dragboard db = this.startDragAndDrop(TransferMode.ANY); // this hinzugefügt.. alternativ : wuerfel1.startDragAndDrop..
 		db.setDragView(imagesD10[10]);
 		ClipboardContent content = new ClipboardContent();
-		 db.setDragViewOffsetX(300);
-		 db.setDragViewOffsetY(125);
+		/* db.setDragViewOffsetX(300);
+		 db.setDragViewOffsetY(125);*/
 
 	        content.putString("d10");
 
@@ -462,7 +464,9 @@ public class Wuerfelfenster extends TitledPane {
 			}catch(NoSuchElementException e){
 				System.err.println("Service nicht registriert!");
 			}*/
-			
+			animationGrid.setHgap(20);
+			animationGrid.setVgap(75);
+			animationGrid.setPadding(new Insets(20,5,5,5));
 			
 			for(String wfl : tempArrayList){
 				ImageView tempImageView = new ImageView();
