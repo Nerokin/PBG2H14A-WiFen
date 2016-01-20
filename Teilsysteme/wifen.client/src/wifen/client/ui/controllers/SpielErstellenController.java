@@ -70,7 +70,7 @@ public class SpielErstellenController extends BorderPane {
 		super();
 
 		// Apply CSS
-		// getStylesheets().add(getClass().getResource(CSS_PATH).toExternalForm());
+		 getStylesheets().add(getClass().getResource(CSS_PATH).toExternalForm());
 
 		// Setup FXMLLoader
 		setFXMLLoader(new FXMLLoader());
@@ -86,6 +86,7 @@ public class SpielErstellenController extends BorderPane {
 
 	@FXML
 	private void initialize() {
+		tf_port.setText(ApplicationConstants.APPLICATION_PORT+"");
 		btn_backToMenu.setOnAction(this::backToMenuBtnOnAction);
 		btn_spielErstellen.setOnAction(this::btnSpielErstellenOnAction);
 		cbx_standardRolle.setItems(FXCollections.observableArrayList(SpielerRolle.values()));
@@ -97,8 +98,9 @@ public class SpielErstellenController extends BorderPane {
 		tf_port.setEditable(false);
 		tf_port.setText(String.valueOf(ApplicationConstants.APPLICATION_PORT));
 		tf_eigenerName.setPromptText("...");
-		tf_maxSpieler.setText("4");
-		chb_beobachterZulassen.setSelected(true);
+		tf_maxSpieler.setText("99");
+		chb_medienSichtbar.setSelected(true);
+		
 		
 		try {
 			lb_ip.setText(InetAddress.getLocalHost().getHostAddress() + " (Lokal)");
