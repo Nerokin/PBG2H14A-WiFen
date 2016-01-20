@@ -31,6 +31,7 @@ import wifen.client.services.impl.ClientChatProvider;
 import wifen.client.services.impl.ClientGameeventProvider;
 import wifen.client.services.impl.ClientMediaProvider;
 import wifen.client.services.impl.GameProvider;
+import wifen.client.services.impl.OptionProvider;
 import wifen.client.ui.controllers.Hauptmenu;
 import wifen.commons.GameStateModel;
 import wifen.commons.GridType;
@@ -154,6 +155,15 @@ public class ClientApplication extends Application implements ServerListener, Co
 	@Override
 	public void init() {
 		// TODO What happens before the initialization of the GUI
+		// Register new option service provider if none is present
+		if(!getServiceRegistry().getServiceProviders(OptionService.class, false).hasNext()) {
+			try {
+				getServiceRegistry().registerServiceProvider(new OptionProvider(), OptionService.class);
+				logger.info("A new OptionProvider has been registered");
+			} catch (Exception e) {
+				logger.log(Level.SEVERE, "OptionProvider could not be registered", e);
+			}
+		}
 	}
 
 	@Override

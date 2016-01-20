@@ -16,7 +16,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import wifen.client.application.ClientApplication;
-import wifen.client.services.OptionService;
 import wifen.client.services.impl.OptionProvider;
 
 /**
@@ -61,6 +60,8 @@ public class OptionenController extends BorderPane {
 	 */
 	public OptionenController() throws IOException {
 		super();
+		client = ClientApplication.instance();
+		op = client.getServiceRegistry().getServiceProviderByClass(OptionProvider.class);
 
 		// Apply CSS
 		//getStylesheets().add(getClass().getResource(CSS_PATH).toExternalForm());
@@ -77,18 +78,14 @@ public class OptionenController extends BorderPane {
 
 	// Initialization
 	@FXML
-	private void initialize() {		
-		client = ClientApplication.instance();
-		op = client.getServiceRegistry().getServiceProviderByClass(OptionProvider.class);
-		
+	private void initialize() {				
 		btn_speichern.setOnAction(this::speichernOnAction);
-		btn_abbrechen.setOnAction(this::abbrechenOnAction);		
-		/*
+		btn_abbrechen.setOnAction(this::abbrechenOnAction);				
+		
 		sd_volumen.setValue(op.getVolume());
 		cbx_muteMusic.setSelected(op.getMusicMuted());
 		cbx_muteSound.setSelected(op.getSoundMuted());
-		sd_filesize.setValue(op.getMaxFileSize());	
-		*/			
+		sd_filesize.setValue(op.getMaxFileSize());			
 	}
 
 	// Event Handlers	
