@@ -9,26 +9,26 @@ import wifen.commons.services.FileNode;
 
 /**
  * Put description here
- * 
+ *
  * @author unknown
  *
  */
 public class SpielfeldModel implements Serializable {
-	
+
 	// Class Constants
 	private static final long serialVersionUID = -8355739346048731596L;
-	
+
 	private GridType typ;
 	private ArrayList<FileNode<?>> files;
 	private ArrayList<MarkerModel> markers;
 	private double sizeX;
 	private double sizeY;
-	
+
 	// Constructors
-	
+
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param t
 	 */
 	public SpielfeldModel(GridType t, double x, double y) {
@@ -38,10 +38,10 @@ public class SpielfeldModel implements Serializable {
 		this.sizeX = x;
 		this.sizeY = y;
 	}
-	
+
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param sm
 	 */
 	public SpielfeldModel(SpielfeldModel sm) {
@@ -51,21 +51,21 @@ public class SpielfeldModel implements Serializable {
 		this.sizeX = sm.getSizeX();
 		this.sizeY = sm.getSizeY();
 	}
-	
+
 	// Methods
 
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param m
 	 */
 	public void placeMarker(MarkerModel m) {
 		this.getMarkers().add(m);
 	}
-	
+
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param m
 	 */
 	public void removeMarker(UUID id) {
@@ -77,27 +77,27 @@ public class SpielfeldModel implements Serializable {
 		}
 		this.getMarkers().remove(mm);
 	}
-	
+
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param fn
 	 */
 	public void placeFileNode(FileNode<?> fn) {
 		this.getFiles().add(fn);
 	}
-	
+
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param fn
 	 */
 	public void removeFileNode(FileNode<?> fn) {
 		this.getFiles().add(fn);
 	}
-	
+
 	// Getters & Setters
-	
+
 	public GridType getTyp() {
 		return typ;
 	}
@@ -107,7 +107,7 @@ public class SpielfeldModel implements Serializable {
 	public ArrayList<MarkerModel> getMarkers() {
 		return markers;
 	}
-	
+
 	public double getSizeY() {
 		return this.sizeY;
 	}

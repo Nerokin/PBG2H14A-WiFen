@@ -40,7 +40,7 @@ import wifen.commons.impl.PlayerImpl;
 
 /**
  * View for displaying a given Playfield Model
- * 
+ *
  * @author Steffen Müller
  * @author Nicolas Braun
  *
@@ -62,7 +62,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 	private MarkerWindow markerWindow;
 	private Polyline grid;
 	private SpielfeldView self;
-	
+
 	/**initialize a field of given size for given model
 	 * sizeFieldX => Stack width
 	 * sizeFieldY => Stack height
@@ -106,10 +106,10 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 					        (j+1)*a, i*b,
 					        (j+1)*a, (i+1)*b,
 					        j*a, (i+1)*b,
-					        j*a, i*b});				
+					        j*a, i*b});
 				}
 				grid.getPoints().addAll(new Double[]{
-				        (tilesPerRow-1)*a, (i+1)*b});	
+				        (tilesPerRow-1)*a, (i+1)*b});
 			}
 			this.addToView(grid);
 		}else if(typ == GridType.HEX){
@@ -137,7 +137,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 						        (((2*(c+a))*j)), (i*(2*b))+b,
 						        (a+((2*(c+a))*j)), i*(2*b),
 						        (a+c+((2*(c+a))*j)), i*(2*b),
-						        ((2*a+2*c)*j)+(2*a+c), (i*(2*b))+b});		
+						        ((2*a+2*c)*j)+(2*a+c), (i*(2*b))+b});
 					}
 					if(i<tilesPerCol-1){
 						grid.getPoints().addAll(new Double[]{
@@ -157,7 +157,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 						        ((2*a+2*c)*j)+(2*a+c), (i*(2*b))+b,
 						        (a+c+((2*(c+a))*j)), i*(2*b),
 						        (a+((2*(c+a))*j)), i*(2*b),
-						        (((2*(c+a))*j)), (i*(2*b))+b});			
+						        (((2*(c+a))*j)), (i*(2*b))+b});
 					}
 					if(i<tilesPerCol-1){
 						grid.getPoints().addAll(new Double[]{
@@ -168,9 +168,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 				}
 			}
 			this.addToView(grid);
-		}
-		
-		
+		}		
 
 		/* Register Listeners */
 		this.setOnMousePressed(new EventHandler<MouseEvent>(){
@@ -194,7 +192,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 					values[0]=event.getX();
 					values[1]=event.getY();
 				}
-			}		
+			}
 		});
 		this.setOnMouseMoved(new EventHandler<MouseEvent>(){
 
@@ -223,9 +221,9 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 				            }
 				        }
 				    }, 0, 500);
-				}				
+				}
 			}
-			
+
 		});
 		this.setOnDragDetected(new EventHandler<MouseEvent>(){
 
@@ -233,7 +231,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 			public void handle(MouseEvent event) {
 				hasDragged = true;
 			}
-			
+
 		});
 		this.setOnMouseReleased(new EventHandler<MouseEvent>(){
 			@Override
@@ -256,7 +254,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 				}
 				hasPressed = false;
 			}
-			
+
 		});
 		((Pane) this.getContent()).setOnMouseReleased(new EventHandler<MouseEvent>() {
 			@Override
@@ -303,11 +301,11 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 			this.addToView(new MarkerView(m, this));
 		}
 	}
-	
+
 	private void addFilesFromModel() {
 		// TODO: Add File Views to children
 	}
-	
+
 	private void removeAllMarkerViews() {
 		for(Node n : ((Pane)this.getContent()).getChildren()) {
 			if(n instanceof MarkerView) {
@@ -315,17 +313,17 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 			}
 		}
 	}
-	
+
 	private void removeAllFileViews() {
 		// TODO: Remove File Views from Children
 	}
-	
+
 	private void removeAllViews() {
 		removeAllMarkerViews();
 		removeAllFileViews();
 		// Add additional types of views here
 	}
-	
+
 	private void addAllFromModel() {
 		addMarkersFromModel();
 		addFilesFromModel();
@@ -337,13 +335,13 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		dis = Math.sqrt(dis);
 		return dis;
 	}
-	
+
 	// Getters & Setters
-	
+
 	public SpielfeldView getView() {
 		return this;
 	}
-	
+
 	public void setModel(SpielfeldModel sm) {
 		removeAllViews();
 		boolean switchtype = sm.getTyp() != this.model.getTyp();
@@ -356,13 +354,17 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		// snapshot renders all children again so the added element is displayed properly
 		this.snapshot(null,null);
 	}
-	
+
+	public SpielfeldModel getModel(){
+		return model;
+	}
+
 	public void AddMarker(MarkerModel m){
-		
+
 		Platform.runLater(() -> addToView(new MarkerView(m, self)));
 		Platform.runLater(() -> model.placeMarker(m));
 	}
-	
+
 	public void RemoveMarker(UUID ID){
 		MarkerView mv = null;
 		for(Node n : ((Pane)this.getContent()).getChildren()){
@@ -372,11 +374,11 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 				}
 			}
 		}
-		final MarkerView mvReturn = mv; 
+		final MarkerView mvReturn = mv;
 		Platform.runLater(() -> removeFromView(mvReturn));
 		Platform.runLater(() -> model.removeMarker(ID));
 	}
-	
+
 	/**Add Node to Pane*/
 	public void addToView(Node value){
 		((Pane) this.getContent()).getChildren().add(value);
@@ -385,7 +387,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 	public void removeFromView(Node value){
 		((Pane) this.getContent()).getChildren().remove(value);
 	}
-	
+
 	/**
 	 * Return the type of marker currently selected in the marker-selection window.
 	 */
@@ -400,12 +402,12 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		}
 		return null;
 	}
-	
+
 	/*
 	 * Optional functionalities
 	@Override
 	public void changeMarkerType(Marker m, MarkerType mt) {
-		m.changeType(mt);		
+		m.changeType(mt);
 	}
 	@Override
 	public void changeMarkerDescription(Marker m, String newd) {

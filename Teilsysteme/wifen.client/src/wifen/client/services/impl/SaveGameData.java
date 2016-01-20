@@ -1,7 +1,8 @@
-package wifen.commons;
+package wifen.client.services.impl;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -9,14 +10,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.scene.image.Image;
+import wifen.commons.GameStateModel;
+import wifen.commons.GridType;
+import wifen.commons.MarkerModel;
+import wifen.commons.Medium;
+import wifen.commons.SpielfeldModel;
 
 public class SaveGameData implements java.io.Serializable{
 	public String[] chatLog;
 	public String[] eventLog;
 	public MarkerSave[] marker;
-	public MediumSave[] medien;
+	public Medium[] medien;
 	public GameStateModel model;
-	public SpielfeldModelSave spielfeldModel;
+	public SpielfeldModel spielfeldModel;
 
 	private void prepareLoad()
 	{
@@ -33,23 +39,23 @@ public class SaveGameData implements java.io.Serializable{
 		}
 	}
 
-	public void saveSpielfeldModel(SpielfeldModel spModel)
+	/*public void saveSpielfeldModel(SpielfeldModel spModel)
 	{
 		this.spielfeldModel = new SpielfeldModelSave();
 		this.spielfeldModel.type = spModel.getTyp();
 		this.spielfeldModel.sizeX = spModel.getSizeX();
 		this.spielfeldModel.sizeY = spModel.getSizeY();
-	}
+	}*/
 
 	public void deserializeAll()
 	{
-		for (MediumSave medium : medien) {
+		/*for (MediumSave medium : medien) {
 			medium.writeFile();
-		}
+		}*/
 		prepareLoad();
 	}
 
-	class MarkerSave implements java.io.Serializable{
+	public class MarkerSave implements java.io.Serializable{
 		public MarkerModel model;
 		public String imagePath;
 
@@ -61,15 +67,20 @@ public class SaveGameData implements java.io.Serializable{
 
 		public void loadImage()
 		{
-			model.getType().setImg(new Image(imagePath));
+			try {
+				model.getType().setImg(new Image(imagePath));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
-	class MediumSave implements java.io.Serializable{
+	public class MediumSave implements java.io.Serializable{
 		public Medium baseMedium;
 
-		public void writeFile() {
+		/*public void writeFile() {
 			try {
-				File f = new File(baseMedium.getFile().getPath());
+				File f = new File(baseMedium.);
 				FileOutputStream fo = new FileOutputStream(f);
 				fo.write(baseMedium.getRawData());
 				fo.flush();
@@ -78,7 +89,7 @@ public class SaveGameData implements java.io.Serializable{
 			} catch (Exception e) {
 				Logger.getGlobal().log(Level.WARNING, "File could not be saved!");
 			}
-		}
+		}*/
 	}
 	class SpielfeldModelSave implements java.io.Serializable{
 		public GridType type;
