@@ -26,9 +26,7 @@ public class ClientMediaProvider implements ClientMediaService, ConnectionListen
 	private final ChangeListener<Connection> onConnectionChangeListener = this::onConnectionChanged;
 	
 	private String tempPlayerName = "";
-	private String tempFileName = "";
-	private String tempFileType = "";
-	private byte[] tempFileData = null;
+	private Medium tempMedium = null;
 	
 	public ClientMediaProvider()
 	{
@@ -87,7 +85,7 @@ public class ClientMediaProvider implements ClientMediaService, ConnectionListen
 					// Create and send data packet with id
 					if (getConnection() != null && getConnection().isConnected())
 					{						
-						MediaDataPacket dataPacket = new MediaDataPacketImpl(tempPlayerName, tempFileName + tempFileType + ":" + tempFileData);
+						MediaDataPacket dataPacket = new MediaDataPacketImpl(tempPlayerName, tempMedium);
 						logger.info("Sending DataPacket: " + dataPacket);
 						getConnection().sendPacket(dataPacket);
 					}
@@ -116,9 +114,7 @@ public class ClientMediaProvider implements ClientMediaService, ConnectionListen
 	{
 		if (getConnection() != null && getConnection().isConnected())
 		{
-			tempFileData = medium.getRawData();
-			tempFileName = medium.getName();
-			tempFileType = medium.getType();
+			tempMedium = medium;
 			
 			MediaRequestPacket requestPacket = new MediaRequestPacketImpl(playerName, medium.getName() + "." + medium.getType(), 2);
 			logger.info("Sending RequestPacket: " + requestPacket);

@@ -17,7 +17,6 @@ public class Medium
 {
 	private String name;
 	private String type;
-	private FileNode<?> file;
 	private byte[] rawrData;
 
 	/**
@@ -28,38 +27,8 @@ public class Medium
 	public Medium(File file) throws IOException
 	{
 		name = file.getName();
-		// Create filenode
-		FileLoaderProvider loader = new FileLoaderProvider(file.length());
-
+		
 		type = name.substring(name.lastIndexOf('.')).toLowerCase();
-		if(type.equalsIgnoreCase("txt"))
-		{
-			this.file = loader.loadText(file.getPath());
-		}
-		else if(type.equalsIgnoreCase("csv"))
-		{
-			this.file = loader.loadCsv(file.getPath(), ";");
-		}
-		else if(type.equalsIgnoreCase("pdf"))
-		{
-			this.file = loader.loadPdf(file.getPath());
-		}
-		else if(type.equalsIgnoreCase("png") || type.equalsIgnoreCase("jpg") || type.equalsIgnoreCase("bmp") || type.equalsIgnoreCase("gif"))
-		{
-			this.file = loader.loadImage(file.getPath());
-		}
-		else if(type.equalsIgnoreCase("doc") || type.equalsIgnoreCase("docx"))
-		{
-			this.file = loader.loadDoc(file.getPath());
-		}
-		else if(type.equalsIgnoreCase("xls") || type.equalsIgnoreCase("xlsx"))
-		{
-			this.file = loader.loadXls(file.getPath());
-		}
-		else
-		{
-			throw new IllegalArgumentException("Unrecognized file extension");
-		}
 
 		rawrData = Files.readAllBytes(file.toPath());
 	}
@@ -72,11 +41,6 @@ public class Medium
 
 	public String getType() {
 		return type;
-	}
-
-	public FileNode<?> getFile()
-	{
-		return file;
 	}
 
 	public byte[] getRawData()

@@ -23,11 +23,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import wifen.client.services.ClientChatService;
 import wifen.client.services.ClientGameeventService;
+import wifen.client.services.ClientMediaService;
 import wifen.client.services.ClientRefreshService;
 import wifen.client.services.GameService;
 import wifen.client.services.OptionService;
 import wifen.client.services.impl.ClientChatProvider;
 import wifen.client.services.impl.ClientGameeventProvider;
+import wifen.client.services.impl.ClientMediaProvider;
 import wifen.client.services.impl.GameProvider;
 import wifen.client.ui.controllers.Hauptmenu;
 import wifen.commons.GameStateModel;
@@ -50,10 +52,12 @@ import wifen.server.network.impl.ServerImpl;
 import wifen.server.services.ServerChatService;
 import wifen.server.services.ServerGameService;
 import wifen.server.services.ServerGameeventService;
+import wifen.server.services.ServerMediaService;
 import wifen.server.services.ServerRefreshService;
 import wifen.server.services.impl.ServerChatProvider;
 import wifen.server.services.impl.ServerGameProvider;
 import wifen.server.services.impl.ServerGameeventProvider;
+import wifen.server.services.impl.ServerMediaProvider;
 
 /**
  * Core of the Application. 
@@ -116,6 +120,8 @@ public class ClientApplication extends Application implements ServerListener, Co
 		SERVICES.add(ServerGameeventService.class); // Ereignislog
 		SERVICES.add(ServerRefreshService.class); // Refresh Service
 		SERVICES.add(ClientRefreshService.class); // Refresh Service
+		SERVICES.add(ClientMediaService.class); // Media Service
+		SERVICES.add(ServerMediaService.class); // Media Service
 		
 	}
 
@@ -332,6 +338,16 @@ public class ClientApplication extends Application implements ServerListener, Co
 					}
 				}
 				
+				// Register new media service provider if none is present
+				if(!getServiceRegistry().getServiceProviders(ServerMediaService.class, false).hasNext()) {
+					try {
+						getServiceRegistry().registerServiceProvider(new ServerMediaProvider(event.getSource()), ServerMediaService.class);
+						logger.info("A new ServerMediaProvider has been registered");
+					} catch (Exception e) {
+						logger.log(Level.SEVERE, "ServerMediaProvider could not be registered", e);
+					}
+				}
+				
 				// Initialize the server game service
 				ServerGameService serverGameService = null;;
 				try {
@@ -479,6 +495,19 @@ public class ClientApplication extends Application implements ServerListener, Co
 							logger.info("A new ClientChatProvider has been registered");
 						} catch (Exception e) {
 							logger.log(Level.SEVERE, "ClientChatProvider could not be registered", e);
+						}
+					}
+
+					
+					logger.info("Attempting to register Client-Side MediaService ...");
+					
+					// Whenever a player connects to a game, create a new media service for that connection and register it if there is none present yet
+					if (!getServiceRegistry().getServiceProviders(ClientMediaService.class, false).hasNext()) {
+						try {
+							getServiceRegistry().registerServiceProvider(new ClientMediaProvider(connectionEvent.getSource()), ClientMediaService.class);
+							logger.info("A new ClientMediaProvider has been registered");
+						} catch (Exception e) {
+							logger.log(Level.SEVERE, "ClientMediaProvider could not be registered", e);
 						}
 					}
 					
