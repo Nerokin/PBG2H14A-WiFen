@@ -2,10 +2,8 @@ package wifen.commons;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
-
-import wifen.commons.services.FileNode;
-import wifen.commons.services.impl.FileLoaderProvider;
 
 /**
  * Put description here
@@ -13,8 +11,10 @@ import wifen.commons.services.impl.FileLoaderProvider;
  * @author unknown
  *
  */
-public class Medium
+public class Medium implements Serializable
 {
+	private static final long serialVersionUID = 5665637985008900238L;
+	
 	private String name;
 	private String type;
 	private byte[] rawrData;

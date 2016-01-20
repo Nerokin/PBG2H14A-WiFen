@@ -105,7 +105,7 @@ public class ClientMediaProvider implements ClientMediaService, ConnectionListen
 				
 				logger.info("Incoming MediaDataPacket: " + packet);
 				
-				// TODO: Add file library (However that'll work)
+				// TODO: Add file to library (However that'll work)
 			}
 		}
 	}
