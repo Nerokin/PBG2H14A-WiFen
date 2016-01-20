@@ -114,11 +114,6 @@
                         <Font size="18.0" />
                      </font>
                   </Button>
-                  <Button id="btnSpeichern" fx:id="btn_abbrechen" mnemonicParsing="false" text="Abbrechen">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Button>
                </children>
             </HBox>
          </children>

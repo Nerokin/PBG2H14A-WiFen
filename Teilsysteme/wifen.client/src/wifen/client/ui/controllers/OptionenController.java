@@ -45,7 +45,6 @@ public class OptionenController extends BorderPane {
 	@FXML CheckBox cbx_muteSound;
 	@FXML Slider sd_filesize;
 	@FXML Button btn_speichern;
-	@FXML Button btn_abbrechen;
 	@FXML Label lb_ip;
 	@FXML Label lb_version;
 
@@ -63,7 +62,7 @@ public class OptionenController extends BorderPane {
 		super();
 
 		// Apply CSS
-		//getStylesheets().add(getClass().getResource(CSS_PATH).toExternalForm());
+		getStylesheets().add(getClass().getResource(CSS_PATH).toExternalForm());
 
 		// Setup FXMLLoader
 		setFXMLLoader(new FXMLLoader());
@@ -81,8 +80,7 @@ public class OptionenController extends BorderPane {
 		client = ClientApplication.instance();
 		op = client.getServiceRegistry().getServiceProviderByClass(OptionProvider.class);
 		
-		btn_speichern.setOnAction(this::speichernOnAction);
-		btn_abbrechen.setOnAction(this::abbrechenOnAction);		
+		btn_speichern.setOnAction(this::speichernOnAction);	
 		/*
 		sd_volumen.setValue(op.getVolume());
 		cbx_muteMusic.setSelected(op.getMusicMuted());
@@ -102,19 +100,6 @@ public class OptionenController extends BorderPane {
 		op.setVolume(sd_filesize.getValue());	
 	}
 	
-	
-	/**
-	 * Return to the main menu
-	 */
-	private void abbrechenOnAction(ActionEvent event){
-		Parent p = null;
-		try {
-			p = new Hauptmenu();
-			getScene().setRoot(p);
-		} catch (IOException e2) {
-			new Alert(AlertType.ERROR, "Hauptmenü konnte nicht geladen werden").showAndWait();
-		}
-	}	
 	
 	// Getter & Setter
 	public FXMLLoader getFXMLLoader() {
