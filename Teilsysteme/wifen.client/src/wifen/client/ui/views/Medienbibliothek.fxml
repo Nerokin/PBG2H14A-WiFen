@@ -4,19 +4,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="361.0" text="Medienbibliothek" type="TitledPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" text="Medienbibliothek" type="TitledPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <content>
-      <VBox alignment="CENTER" prefHeight="374.0" prefWidth="404.0" spacing="10.0">
+      <VBox alignment="CENTER" prefHeight="380.0" prefWidth="200.0" spacing="10.0">
          <children>
             <ListView fx:id="lv_medien" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-            <Button fx:id="btn_öffnen" mnemonicParsing="false" prefHeight="25.0" prefWidth="350.0" text="Öffnen" VBox.vgrow="ALWAYS" />
-            <HBox alignment="CENTER" prefHeight="46.0" prefWidth="339.0">
+            <Button fx:id="btn_öffnen" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Öffnen" VBox.vgrow="ALWAYS" />
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="tf_browse" prefHeight="25.0" prefWidth="287.0" />
+                  <TextField fx:id="tf_browse" prefHeight="25.0" prefWidth="200.0" />
                   <Button fx:id="btn_browse" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" text="..." />
                </children>
             </HBox>
-            <Button fx:id="btn_upload" mnemonicParsing="false" prefHeight="25.0" prefWidth="350.0" text="Upload" />
+            <Button fx:id="btn_upload" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Upload" />
          </children>
       </VBox>
    </content>
