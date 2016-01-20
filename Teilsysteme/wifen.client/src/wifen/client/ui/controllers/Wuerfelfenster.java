@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
+import java.util.logging.Logger;
 
 import javafx.animation.KeyFrame;
 import javafx.beans.property.ObjectProperty;
@@ -95,7 +96,7 @@ public class Wuerfelfenster extends TitledPane {
 		
 	
 
-
+		private static final Logger logger = Logger.getLogger(Wuerfelfenster.class.getName());
 
 
 		//Properties
@@ -402,16 +403,21 @@ public class Wuerfelfenster extends TitledPane {
 		private static WürfelanimationListe w = new WürfelanimationListe();
 		@FXML
 		public void würfeln() throws IOException{
+//			logger.info("THIS IS WUERFELN!");
 			AnimationLines.clear();
 			w.resetWuerfelList();
 			animationGrid.getChildren().clear();
 			String[] tmp = diceText.getText().split(";");
-			String[] output = new String[tmp.length];
+			String output = "";
+			
+			ArrayList<Integer> arrayList = null;
 
+			
 			if(tmp.length >= 1){
 				for(int i = 0; i < tmp.length; i++){
-					if(dice.checkInput(tmp[i]) != null){
-						output[i] = dice.checkInput(tmp[i]);
+					String tmpInput = dice.checkInput(tmp[i]);
+					if(tmpInput != null){
+						output += tmpInput;
 						String[] splitter = tmp[i].split("w");
 					
 						int anzahl = Integer.parseInt(splitter[0]);
@@ -422,6 +428,7 @@ public class Wuerfelfenster extends TitledPane {
 						String thisWurfel = ""+seiten;
 						for(int j = 0;j<=anzahl-1;j++)
 							w.addWelcherWuerfel(thisWurfel);
+					
 					}
 					else{
 						//System.out.println("Kein gueltiger Wuerfelausdruck.");
@@ -429,6 +436,14 @@ public class Wuerfelfenster extends TitledPane {
 						return;
 					}
 				}
+				arrayList = dice.returnAllSingleResults();
+				int resultAsZahl =0;
+				for(int tmpResult : arrayList)
+					resultAsZahl+=tmpResult;
+				String p = ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, true)
+						.next().getActivePlayerName();
+			    ClientApplication.instance().getServiceRegistry().getServiceProviders(ClientGameeventService.class, true)
+			    		.next().sendGameevent("", p +  " : Ergebnis: "+resultAsZahl+ " " + output);
 			}
 			else{
 				if(dice.checkInput(tmp[0]) != null){
@@ -446,24 +461,10 @@ public class Wuerfelfenster extends TitledPane {
 			int wuerfelCounter = 0;
 			Timeline tempTimeLine = null;
 			ArrayList<String> tempArrayList= w.getAlleWurfel();
-			ArrayList<Integer> arrayList = dice.returnAllSingleResults();
-			int resultAsZahl =0;
-			for(int result : arrayList)
-				resultAsZahl+=result; // Beinhaltet insgesamtes Ergebnis aller Würfel!
+			 // Beinhaltet insgesamtes Ergebnis aller Würfel!
+				    	
 			
-			
-		/*	try{
-				
-				GameService gameService = ClientApplication.instance().getServiceProviders().next();
-				ClientGameeventService clientGameeventService = ClientApplication.instance().getServiceProviders(ClientGameeventService.class, true).next();
-				clientGameeventService.sendGameevent(gameService.getActivePlayerName(),"hat " + resultAsZahl+ " gewürfelt.");
-
-			
-			}catch(NoSuchElementException e){
-				System.err.println("Service nicht registriert!");
-			}*/
-			
-			
+//			logger.info("ArrayList " + arrayList.size());
 			for(String wfl : tempArrayList){
 				ImageView tempImageView = new ImageView();
 				
