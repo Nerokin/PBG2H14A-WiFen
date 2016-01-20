@@ -17,7 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.BorderPane;
 import wifen.client.application.ApplicationConstants;
 import wifen.client.application.ClientApplication;
 import wifen.commons.GridType;
@@ -30,7 +30,7 @@ import wifen.commons.SpielerRolle;
  * @author Konstantin Schaper (Logik/Fehlerbehebungen)
  *
  */
-public class SpielErstellenController extends Pane {
+public class SpielErstellenController extends BorderPane {
 
 	// Constants
 	
@@ -43,16 +43,16 @@ public class SpielErstellenController extends Pane {
 
 	// Injected Nodes
 	
-	@FXML TextField tfPort;
-	@FXML TextField tfMaxSpieler;
-	@FXML TextField tfName;
-	@FXML CheckBox cbBeobachterZulassen;
-	@FXML CheckBox cbMedienSichtbarkeit;
-	@FXML ComboBox<Integer> comboSeitenanzahl;
-	@FXML ComboBox<SpielerRolle> comboStandardRolle;
-	@FXML ComboBox<GridType> comboRaster;
-	@FXML Button btnSpielErstellen;
-	@FXML Button backToMenuBtn;
+	@FXML TextField tf_port;
+	@FXML TextField tf_maxSpieler;
+	@FXML TextField tf_eigenerName;
+	@FXML CheckBox chb_beobachterZulassen;
+	@FXML CheckBox chb_medienSichtbar;
+	@FXML ComboBox<Integer> cbx_würfelSeitenzahl;
+	@FXML ComboBox<SpielerRolle> cbx_standardRolle;
+	@FXML ComboBox<GridType> cbx_raster;
+	@FXML Button btn_spielErstellen;
+	@FXML Button btn_backToMenu;
 
 	// Constructor
 
@@ -81,19 +81,19 @@ public class SpielErstellenController extends Pane {
 
 	@FXML
 	private void initialize() {
-		backToMenuBtn.setOnAction(this::backToMenuBtnOnAction);
-		btnSpielErstellen.setOnAction(this::btnSpielErstellenOnAction);
-		comboStandardRolle.setItems(FXCollections.observableArrayList(SpielerRolle.values()));
-		comboStandardRolle.getSelectionModel().select(SpielerRolle.PLAYER);
-		comboRaster.setItems(FXCollections.observableArrayList(GridType.values()));
-		comboRaster.getSelectionModel().select(GridType.NONE);
-		comboSeitenanzahl.setItems(FXCollections.observableArrayList(2, 4, 6, 10, 12, 20));
-		comboSeitenanzahl.getSelectionModel().select(new Integer(20));
-		tfPort.setEditable(false);
-		tfPort.setText(String.valueOf(ApplicationConstants.APPLICATION_PORT));
-		tfName.setPromptText("...");
-		tfMaxSpieler.setText("4");
-		cbBeobachterZulassen.setSelected(true);
+		btn_backToMenu.setOnAction(this::backToMenuBtnOnAction);
+		btn_spielErstellen.setOnAction(this::btnSpielErstellenOnAction);
+		cbx_standardRolle.setItems(FXCollections.observableArrayList(SpielerRolle.values()));
+		cbx_standardRolle.getSelectionModel().select(SpielerRolle.PLAYER);
+		cbx_raster.setItems(FXCollections.observableArrayList(GridType.values()));
+		cbx_raster.getSelectionModel().select(GridType.NONE);
+		cbx_würfelSeitenzahl.setItems(FXCollections.observableArrayList(2, 4, 6, 10, 12, 20));
+		cbx_würfelSeitenzahl.getSelectionModel().select(new Integer(20));
+		tf_port.setEditable(false);
+		tf_port.setText(String.valueOf(ApplicationConstants.APPLICATION_PORT));
+		tf_eigenerName.setPromptText("...");
+		tf_maxSpieler.setText("4");
+		chb_beobachterZulassen.setSelected(true);
 	}
 
 	// Event Handlers
@@ -119,9 +119,9 @@ public class SpielErstellenController extends Pane {
 	
 	private final void btnSpielErstellenOnAction(ActionEvent event) {
 		try {
-			ClientApplication.instance().hostGame(Integer.valueOf(tfMaxSpieler.getText()), cbBeobachterZulassen.isSelected(),
-					cbMedienSichtbarkeit.isSelected(), comboSeitenanzahl.getSelectionModel().getSelectedItem(), tfName.getText(),
-					comboStandardRolle.getSelectionModel().getSelectedItem(), comboRaster.getSelectionModel().getSelectedItem());
+			ClientApplication.instance().hostGame(Integer.valueOf(tf_maxSpieler.getText()), chb_beobachterZulassen.isSelected(),
+					chb_medienSichtbar.isSelected(), cbx_würfelSeitenzahl.getSelectionModel().getSelectedItem(), tf_eigenerName.getText(),
+					cbx_standardRolle.getSelectionModel().getSelectedItem(), cbx_raster.getSelectionModel().getSelectedItem());
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, "Das Spiel konnte nicht erstellt werden (" + e.getLocalizedMessage() + ")").showAndWait();
 		}
