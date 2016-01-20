@@ -1,6 +1,8 @@
 package wifen.client.ui.controllers;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -16,6 +18,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import wifen.client.application.ApplicationConstants;
@@ -53,6 +56,8 @@ public class SpielErstellenController extends BorderPane {
 	@FXML ComboBox<GridType> cbx_raster;
 	@FXML Button btn_spielErstellen;
 	@FXML Button btn_backToMenu;
+	@FXML Label lb_ip;
+	@FXML Label lb_version;
 
 	// Constructor
 
@@ -94,6 +99,12 @@ public class SpielErstellenController extends BorderPane {
 		tf_eigenerName.setPromptText("...");
 		tf_maxSpieler.setText("4");
 		chb_beobachterZulassen.setSelected(true);
+		
+		try {
+			lb_ip.setText(InetAddress.getLocalHost().getHostAddress() + " (Lokal)");
+		} catch (UnknownHostException e) {
+			lb_ip.setText("Konnte nicht gefunden werden");
+		}
 	}
 
 	// Event Handlers

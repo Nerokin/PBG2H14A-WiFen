@@ -1,9 +1,10 @@
 package wifen.server.services;
 
-import wifen.commons.network.ConnectionListener;
+import javax.imageio.spi.RegisterableService;
+
 import wifen.server.network.Server;
 
-public interface ServerMediaService extends ConnectionListener
+public interface ServerMediaService extends RegisterableService
 {
 	public Server getServer();
 	public void setServer(Server newServer);

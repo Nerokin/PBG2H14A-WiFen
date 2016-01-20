@@ -35,6 +35,7 @@ import javafx.stage.Stage;
 import wifen.client.application.ClientApplication;
 import wifen.client.services.ClientChatService;
 import wifen.client.services.ClientGameeventService;
+import wifen.client.services.ClientMediaService;
 import wifen.client.services.impl.ClientRefreshProvider;
 import wifen.commons.GameStateModel;
 import wifen.commons.network.Connection;
@@ -123,6 +124,13 @@ import wifen.commons.network.Connection;
  			chatBox.setChatService(ClientApplication.instance().getServiceRegistry().getServiceProviders(ClientChatService.class, false).next());
  		} catch (Exception e) {
  			logger.log(Level.WARNING, "Es ist kein ChatService registriert", e);
+ 		}
+ 		
+ 		try {
+ 			ereignisBox.lv_ereignislog.setItems(ClientApplication.instance().getServiceRegistry().getServiceProviders(ClientGameeventService.class, false).next().getGameeventHistory());
+ 			mediaLibrary.setMediaService(ClientApplication.instance().getServiceRegistry().getServiceProviders(ClientMediaService.class, false).next());
+ 		} catch (Exception e) {
+ 			logger.log(Level.WARNING, "Es ist kein MediaService registriert", e);
  		}
  		
 		 // and listen to the relevant events (e.g. when the selected indices or selected items change).

@@ -21,6 +21,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import wifen.client.services.ClientMediaService;
 import wifen.commons.Medium;
 
 /**
@@ -35,6 +36,7 @@ public class MedienbibliothekController extends TitledPane
 	
 	//Properties
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
+	private final ObjectProperty<ClientMediaService> mediaService = new SimpleObjectProperty<>();
 	
 	//Injected Nodes	
 	@FXML
@@ -67,6 +69,19 @@ public class MedienbibliothekController extends TitledPane
 		//Load the View
 		getFXMLLoader().load();
 	}
+
+	
+	/**
+	 * Put description here
+	 * 
+	 * @param mediaService
+	 * @throws IOException
+	 */
+	public MedienbibliothekController(ClientMediaService mediaService) throws IOException
+	{
+		this();
+		setMediaService(mediaService);
+	}
 	
 	//Initialization
 	@FXML
@@ -85,6 +100,11 @@ public class MedienbibliothekController extends TitledPane
 		return "Medien";
 	}
 	
+	public void addMedium(Medium medium)
+	{
+		liste.add(medium);
+	}
+	
 	//Event Handlers
 	/**
 	 * Put description here
@@ -96,10 +116,9 @@ public class MedienbibliothekController extends TitledPane
 		File file = (File)tf_browse.getUserData();
 		if(file != null)
 		{
-			// TODO: upload file to server
 			try
 			{
-				liste.add(new Medium(file));
+				getMediaService().trySendFile(null, new Medium(file));
 			}
 			catch (IOException e)
 			{
@@ -235,4 +254,20 @@ public class MedienbibliothekController extends TitledPane
 	{
 		return fxmlLoader;
 	}
+
+	
+	public final ObjectProperty<ClientMediaService> mediaServiceProperty()
+	{
+		return this.mediaService;
+	}
+	
+	public final ClientMediaService getMediaService()
+	{
+		return this.mediaServiceProperty().get();
+	}	
+
+	public final void setMediaService(final ClientMediaService chatService)
+	{
+		this.mediaServiceProperty().set(chatService);
+	}	
 }
