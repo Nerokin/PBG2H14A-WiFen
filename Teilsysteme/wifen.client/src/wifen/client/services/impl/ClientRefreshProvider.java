@@ -68,7 +68,7 @@ public class ClientRefreshProvider implements ClientRefreshService, ConnectionLi
 				client.getServiceRegistry().getServiceProviderByClass(ClientChatProvider.class).loadChatlog(state.getChatLog());
 				client.getServiceRegistry().getServiceProviderByClass(ClientGameeventProvider.class).loadGameeventlog(state.getEreignisLog());
 				//Medienservice einbinden
-				//client.getServiceRegistry().getServiceProviderByClass(ClientMediaProvider.class)
+				//client.getServiceRegistry().getServiceProviderByClass(ClientMediaProvider.class).
 				//Rollenservice (NYI)
 			}
 		}
