@@ -498,7 +498,7 @@ public class Wuerfelfenster extends TitledPane {
 				animationGrid.add(tempImageView, counterColumn, rowCounter);
 				counterColumn++;
 				wuerfelCounter++;
-				if(counterColumn>columnSize){
+				if(counterColumn>columnSize-1){
 					rowCounter++;
 					counterColumn= 0;
 				}
