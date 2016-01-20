@@ -24,7 +24,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -40,7 +39,14 @@ import wifen.client.services.impl.ClientRefreshProvider;
 import wifen.commons.GameStateModel;
 import wifen.commons.network.Connection;
  
- public class SpielbrettController extends BorderPane {
+ /**
+  * Put description here
+  * 
+  * @author unknown
+  * @author Marc Brinkmann
+  *
+  */
+public class SpielbrettController extends BorderPane {
  	
  	private static final Logger logger = Logger.getLogger(SpielbrettController.class.getName());
  
@@ -78,7 +84,7 @@ import wifen.commons.network.Connection;
  		super();
  		
  		//Apply CSS
- 		//getStylesheets().add(getClass().getResource(CSS_PATH).toExternalForm());
+ 		getStylesheets().add(getClass().getResource(CSS_PATH).toExternalForm());
  		
  		//Setup FXMLLoader
  		setFXMLLoader(new FXMLLoader());
@@ -87,9 +93,7 @@ import wifen.commons.network.Connection;
  		getFXMLLoader().setController(this);
  		
  		//Load the View
- 		getFXMLLoader().load();
- 		
- 		
+ 		getFXMLLoader().load(); 		
  	}
  	
  	public SpielbrettController(GameStateModel initialModel) throws IOException {
@@ -118,7 +122,7 @@ import wifen.commons.network.Connection;
  	//Initialization
  	
  	@FXML
- 	private void initialize() {
+ 	private void initialize() { 		
  		try {
  			ereignisBox.lv_ereignislog.setItems(ClientApplication.instance().getServiceRegistry().getServiceProviders(ClientGameeventService.class, false).next().getGameeventHistory());
  			chatBox.setChatService(ClientApplication.instance().getServiceRegistry().getServiceProviders(ClientChatService.class, false).next());

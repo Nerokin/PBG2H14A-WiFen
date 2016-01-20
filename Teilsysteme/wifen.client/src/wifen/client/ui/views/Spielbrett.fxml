@@ -20,7 +20,7 @@
       </HBox>
     </top>
     <center>
-    	<StackPane fx:id="PlayField" />
+    	<StackPane fx:id="PlayField" id="playfield"/>
     </center>
     <right>
       <VBox fx:id="ereignisVBoxID">

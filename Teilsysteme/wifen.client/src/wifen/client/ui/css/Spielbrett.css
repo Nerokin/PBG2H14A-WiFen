@@ -1,0 +1,6 @@
+#playfield {
+	-fx-background-image: url("../../resources/luda_playfield.png");
+    -fx-background-repeat: stretch;   
+    -fx-background-size: stretch;
+    -fx-background-position: center center;
+}
