@@ -153,10 +153,8 @@ public class ClientChatProvider implements ClientChatService, ConnectionListener
 		
 			GameService gameService = ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class,true).next();
 						
-			String rolle = gameService.getActivePlayer().getRolle().toString().toLowerCase();
-			rolle = Character.toUpperCase(rolle.charAt(0)) + rolle.substring(1);
-						
-			gameService.getGameView().chatBox.getChatService().getChatHistory().add("Deine Rolle ist: "+rolle);
+			String rolle = gameService.getActivePlayer().getRolle().toString();
+			gameService.getGameView().ereignisBox.lv_ereignislog.getItems().add("Deine Rolle ist: "+rolle);
 			return null;
 		}
 
