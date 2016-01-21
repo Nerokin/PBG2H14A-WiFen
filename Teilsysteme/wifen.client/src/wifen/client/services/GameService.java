@@ -32,6 +32,7 @@ public interface GameService extends RegisterableService {
 	public void sendMarkerPlaced(MarkerModel marker);
 	public void sendMarkerRemoved(UUID id);
 	public void sendMediumPlaced(MediumModel m);
+	public void sendMediumRemoved(UUID id);
 	public void addListener(GameServiceListener listener);
 	public void removeListener(GameServiceListener listener);
 
