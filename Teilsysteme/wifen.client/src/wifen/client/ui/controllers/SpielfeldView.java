@@ -71,6 +71,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 	 * model => the data model of the field to display*/
 	public SpielfeldView(int tilesPerRow, int tilesPerCol, SpielfeldModel sm, MarkerWindow markerWindow) {
 		super(new Pane());
+		self=this;
 		this.model = sm;
 		((Pane) this.getContent()).setMaxSize(this.model.getSizeX(), this.model.getSizeY());
 		((Pane) this.getContent()).setMinSize(this.model.getSizeX(), this.model.getSizeY());
@@ -279,8 +280,6 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 							self.snapshot(null,null);
 						}else{
 							MarkerModel m = new MarkerModel(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer(), event.getX(), event.getY(), getSelectedType(), "");
-							//model.placeMarker(m);
-							//((Pane) event.getSource()).getChildren().add(new MarkerView(m, self));
 							ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMarkerPlaced(m);
 							// snapshot renders all children again so the added element is displayed properly
 							self.snapshot(null,null);
@@ -360,8 +359,21 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 	}
 
 	public void AddMarker(MarkerModel m){
-
-		Platform.runLater(() -> addToView(new MarkerView(m, self)));
+		boolean neu = true;
+		for(Node n : ((Pane)this.getContent()).getChildren()){
+			if(n instanceof MarkerView){
+				if(((MarkerView)n).getMarkerModel().equals(m)){
+					((MarkerView)n).setTranslateX(m.getPosx());
+					((MarkerView)n).setTranslateY(m.getPosy());
+					((MarkerView)n).setMarker(m);
+					neu = false;
+					break;
+				}
+			}
+		}
+		if(neu){
+			Platform.runLater(() -> addToView(new MarkerView(m, self)));
+		}
 		Platform.runLater(() -> model.placeMarker(m));
 	}
 

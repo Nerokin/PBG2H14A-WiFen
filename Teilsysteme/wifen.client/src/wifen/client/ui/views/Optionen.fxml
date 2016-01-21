@@ -14,43 +14,6 @@
          </font>
       </Label>
    </top>
-   <bottom>
-      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="800.0" BorderPane.alignment="CENTER">
-         <children>
-            <HBox alignment="BOTTOM_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="795.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="26.0">
-               <children>
-                  <Label id="versionNumber" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="35.0" text="IP: ">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lb_ip" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="200.0" text="255.255.255.255">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-               <padding>
-                  <Insets left="5.0" />
-               </padding>
-            </HBox>
-            <HBox alignment="BOTTOM_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="795.0" AnchorPane.bottomAnchor="2.0" AnchorPane.rightAnchor="5.0">
-               <children>
-                  <Label id="ipAdress" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="100.0" text="Version:" textAlignment="CENTER">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lb_version" alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="50.0" text="0.01" textAlignment="CENTER">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-            </HBox>
-         </children>
-      </AnchorPane>
-   </bottom>
    <center>
       <VBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
@@ -124,4 +87,37 @@
          </children>
       </VBox>
    </center>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="IP:">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </Text>
+            <Label fx:id="lb_ip" text="192.168.2.1">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Version:">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Label fx:id="lb_version" text="0.0.1">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+   </bottom>
 </fx:root>

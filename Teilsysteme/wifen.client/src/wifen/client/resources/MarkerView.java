@@ -15,6 +15,7 @@ import wifen.client.application.ClientApplication;
 import wifen.client.services.GameService;
 import wifen.client.ui.controllers.SpielfeldView;
 import wifen.commons.MarkerModel;
+import wifen.commons.SpielerRolle;
 
 /**
  * Put description here
@@ -38,7 +39,7 @@ public class MarkerView extends Parent {
 	 */
 	public MarkerView(MarkerModel m, SpielfeldView f) {
 		parent = f;
-		marker = m;
+		setMarker(m);
 		this.setTranslateX(marker.getPosx());
 		this.setTranslateY(marker.getPosy());
 		this.adjustPosition();
@@ -59,7 +60,7 @@ public class MarkerView extends Parent {
 			@Override
 			public void handle(MouseEvent event) {
 				parent.setPannable(false);
-				if(lastX != 0 || lastY != 0) {
+				if((lastX != 0 || lastY != 0)&&(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(((MarkerView)event.getSource()).marker.getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))) {
 					MarkerView m = (MarkerView)event.getSource();
 					double xoffs = event.getSceneX() - lastX;
 					double yoffs = event.getSceneY() - lastY;
@@ -77,6 +78,12 @@ public class MarkerView extends Parent {
 			@Override
 			public void handle(MouseEvent event) {
 				parent.setPannable(true);
+				if((lastX != 0 || lastY != 0)&&(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(((MarkerView)event.getSource()).marker.getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))) {
+					MarkerView m = (MarkerView)event.getSource();
+					marker.setPosx(m.getTranslateX());
+					marker.setPosy(m.getTranslateY());
+					ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMarkerPlaced(marker);
+				}
 				lastX=0;
 				lastY=0;
 			}
@@ -86,7 +93,7 @@ public class MarkerView extends Parent {
 		this.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				if(event.getButton() == MouseButton.SECONDARY  && !event.isControlDown() && ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(((MarkerView)event.getSource()).marker.getOwner())) {
+				if(event.getButton() == MouseButton.SECONDARY  && !event.isControlDown() && (ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(((MarkerView)event.getSource()).marker.getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))) {
 					MarkerView mv = (MarkerView) event.getSource();
 					ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMarkerRemoved(mv.marker.getId());
 				}
@@ -103,6 +110,10 @@ public class MarkerView extends Parent {
 	}
 	
 	public MarkerModel getMarkerModel() {
-		return this.marker;
+		return marker;
+	}
+
+	public void setMarker(MarkerModel marker) {
+		this.marker = marker;
 	}
 }
