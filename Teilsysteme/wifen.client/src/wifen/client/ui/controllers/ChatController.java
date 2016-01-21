@@ -183,7 +183,7 @@ public class ChatController extends TitledPane {
 			/*
 			 * Chatbefehl für SpielerRolle
 			 */
-			if(tf_eingabe.getText().equals("/rolle"))
+			if(tf_eingabe.getText().equals("/rolle") || tf_eingabe.getText().equals("/Rolle") )
 			{
 				getChatService().showRole(playerRole);
 				

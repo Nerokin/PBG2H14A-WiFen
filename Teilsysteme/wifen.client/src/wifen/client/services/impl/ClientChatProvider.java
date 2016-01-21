@@ -1,6 +1,7 @@
 package wifen.client.services.impl;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.logging.Logger;
 
 import javafx.application.Platform;
@@ -11,7 +12,11 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import wifen.client.application.ClientApplication;
 import wifen.client.services.ClientChatService;
+import wifen.client.services.ClientGameeventService;
+import wifen.client.services.GameService;
+import wifen.commons.SpielerRolle;
 import wifen.commons.network.Connection;
 import wifen.commons.network.ConnectionEvent;
 import wifen.commons.network.ConnectionListener;
@@ -145,8 +150,15 @@ public class ClientChatProvider implements ClientChatService, ConnectionListener
 
 	@Override
 	public ObservableList<String> showRole(StringProperty playerRole) {
-		throw new UnsupportedOperationException("Not yet implemented!");
-	}
+		
+			GameService gameService = ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class,true).next();
+						
+			String rolle = gameService.getActivePlayer().getRolle().toString().toLowerCase();
+			rolle = Character.toUpperCase(rolle.charAt(0)) + rolle.substring(1);
+						
+			gameService.getGameView().chatBox.getChatService().getChatHistory().add("Deine Rolle ist: "+rolle);
+			return null;
+		}
 
 	@Override
 	public void showOtherPlayer() {
