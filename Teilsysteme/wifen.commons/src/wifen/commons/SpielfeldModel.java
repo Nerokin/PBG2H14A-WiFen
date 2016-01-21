@@ -91,7 +91,13 @@ public class SpielfeldModel implements Serializable {
 	 *
 	 * @param mm
 	 */
-	public void removeMedium(MediumModel mm) {
+	public void removeMedium(UUID id) {
+		MediumModel mm = null;
+		for(MediumModel m : getMediums()) {
+			if(m.getId().equals(id)) {
+				mm = m;
+			}
+		}
 		getMediums().remove(mm);
 		getMediums().add(mm);
 	}
