@@ -1,6 +1,9 @@
 package wifen.client.ui.controllers;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -82,6 +85,12 @@ public class OptionenController extends BorderPane {
 		cbx_muteMusic.setSelected(op.getMusicMuted());
 		cbx_muteSound.setSelected(op.getSoundMuted());
 		sd_filesize.setValue(op.getMaxFileSize());
+		
+		try {
+			lb_ip.setText(InetAddress.getLocalHost().getHostAddress() + " (Lokal)");
+		} catch (UnknownHostException e) {
+			lb_ip.setText("Konnte nicht gefunden werden");
+		}
 	}
 
 	// Event Handlers	
