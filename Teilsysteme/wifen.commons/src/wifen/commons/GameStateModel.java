@@ -17,6 +17,9 @@ public class GameStateModel implements Serializable {
 	private ArrayList<String> chatLog;
 	private ArrayList<String> ereignisLog;
 
+	/*
+	 * TODO: Image übergeben zur Berechnung der Bildgröße bzw. die Bildgröße übergeben
+	 */
 	public GameStateModel(int maxPlayerCount, boolean spectatingAllowed, boolean mediaVisible, int maxSideCount,
 			SpielerRolle standard, GridType grid, ArrayList<String> chat, ArrayList<String> ereignis) {
 		this.maxPlayerCount = maxPlayerCount;
@@ -24,7 +27,7 @@ public class GameStateModel implements Serializable {
 		this.mediaVisible = mediaVisible;
 		this.maxDiceSideCount = maxSideCount;
 		this.standardRolle = standard;
-		this.viewModel = new SpielfeldModel(grid, 1920, 1080);
+		this.viewModel = new SpielfeldModel(grid, 1024, 1024);
 		this.chatLog = chat;
 		this.ereignisLog = ereignis;
 	}
