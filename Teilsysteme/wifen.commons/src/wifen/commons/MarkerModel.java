@@ -14,6 +14,7 @@ public class MarkerModel implements Serializable {
 	private static final long serialVersionUID = 9190467360671950047L;
 	
 	private final UUID id = UUID.randomUUID();
+	private boolean isStatic = false;
 	private Player owner;
 	private MarkerType type;
 	private double posx;
@@ -105,6 +106,14 @@ public class MarkerModel implements Serializable {
 
 	public void setOwner(Player owner) {
 		this.owner = owner;
+	}
+
+	public boolean getIsStatic() {
+		return isStatic;
+	}
+
+	public void setIsStatic(boolean isStatic) {
+		this.isStatic = isStatic;
 	}
 	
 	

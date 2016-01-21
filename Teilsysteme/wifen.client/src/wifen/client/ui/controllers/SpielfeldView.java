@@ -11,6 +11,7 @@ import java.util.UUID;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -387,6 +388,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 					((MarkerView)n).setTranslateX(m.getPosx());
 					((MarkerView)n).setTranslateY(m.getPosy());
 					((MarkerView)n).setMarker(m);
+					((CheckMenuItem)((MarkerView)n).getContextMenu().getItems().get(1)).setSelected(((MarkerView)n).getMarkerModel().getIsStatic());;
 					neu = false;
 					break;
 				}
