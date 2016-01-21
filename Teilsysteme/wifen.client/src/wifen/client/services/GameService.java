@@ -8,6 +8,7 @@ import wifen.client.ui.controllers.SpielbrettController;
 import wifen.commons.GameStateModel;
 import wifen.commons.MarkerModel;
 import wifen.commons.Player;
+import wifen.commons.SpielerRolle;
 
 /**
  * Manages a single game session.
@@ -17,6 +18,11 @@ import wifen.commons.Player;
  */
 public interface GameService extends RegisterableService {
 	
+	public interface GameServiceListener {
+		// TODO Add methods
+		public void onRolleChanged(GameService service, SpielerRolle rolle);
+	}
+	
 	public String getActivePlayerName();
 	public Player getActivePlayer();
 	public GameStateModel getCurrentModel();
@@ -24,5 +30,7 @@ public interface GameService extends RegisterableService {
 	public SpielbrettController getGameView();
 	public void sendMarkerPlaced(MarkerModel marker);
 	public void sendMarkerRemoved(UUID id);
+	public void addListener(GameServiceListener listener);
+	public void removeListener(GameServiceListener listener);
 
 }

@@ -457,7 +457,7 @@ public class dice {
 
 		}
 		dice[x] += m;
-
+		addSingleModifier(m);
 		return dice;
 	}
 
@@ -497,6 +497,8 @@ public class dice {
 	
 	
 	private static ArrayList<Integer> singleResults = new ArrayList<Integer>();
+	private static ArrayList<Integer> modifier = new ArrayList<Integer>();
+	
 	public static void addSingleResult(int result){
 		singleResults.add(result);
 	}
@@ -506,6 +508,19 @@ public class dice {
 		for(Integer result : singleResults)
 			temp.add(result);
 		singleResults.clear();
+		//logger.info("SingleResult  : " + temp.get(0));
+		return temp;
+	}
+	
+	public static void addSingleModifier(int result){
+		modifier.add(result);
+	}
+	public static ArrayList<Integer> returnModifier(){
+
+		ArrayList<Integer> temp = new ArrayList<Integer>();
+		for(Integer result : modifier)
+			temp.add(result);
+		modifier.clear();
 		//logger.info("SingleResult  : " + temp.get(0));
 		return temp;
 	}

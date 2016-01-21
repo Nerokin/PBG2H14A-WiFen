@@ -84,7 +84,6 @@ public class MarkerWindow extends TitledPane{
 		
 		instance=this;
 		Button temp;
-		System.out.println(colors.length);
 		for(int i = 0; i < colors.length;i++){
 		temp = new Button(colors[i]);
 		temp.setId(colors[i]);
@@ -108,6 +107,7 @@ public class MarkerWindow extends TitledPane{
 				
 				 @Override public void handle(ActionEvent e) {
 					String colorName = b.getId();
+					System.out.println(colorName);
 					ImageView selected;
 				
 					if((selected = markerShape.getSelectionModel().getSelectedItem()) != null){
