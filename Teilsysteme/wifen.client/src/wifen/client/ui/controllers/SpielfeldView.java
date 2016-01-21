@@ -1,7 +1,6 @@
 
 package wifen.client.ui.controllers;
 
-import java.awt.MouseInfo;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -10,23 +9,24 @@ import java.util.TimerTask;
 import java.util.UUID;
 
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DataFormat;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polyline;
 import wifen.client.application.ClientApplication;
 import wifen.client.resources.MarkerView;
@@ -36,8 +36,9 @@ import wifen.client.services.MarkerService;
 import wifen.commons.GridType;
 import wifen.commons.MarkerModel;
 import wifen.commons.MarkerType;
+import wifen.commons.Medium;
+import wifen.commons.MediumModel;
 import wifen.commons.SpielfeldModel;
-import wifen.commons.impl.PlayerImpl;
 
 /**
  * View for displaying a given Playfield Model
@@ -287,6 +288,26 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 						}
 					}
 				}
+			}
+		});
+		
+		setOnDragOver(new EventHandler<DragEvent>() {
+			public void handle(DragEvent e) {
+				if(e.getDragboard().hasContent(DataFormat.FILES) && e.getDragboard().getContent(DataFormat.FILES) instanceof Medium) {
+					e.acceptTransferModes(TransferMode.ANY);
+				}
+				e.consume();
+			}
+		});
+		
+		setOnDragDropped(new EventHandler<DragEvent>() {
+			public void handle(DragEvent e) {
+				Dragboard db = e.getDragboard();
+				if(db.hasContent(DataFormat.FILES) && db.getContent(DataFormat.FILES) instanceof Medium) {
+					ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next()
+					.sendMediumPlaced(new MediumModel((Medium) db.getContent(DataFormat.FILES), e.getSceneX(), e.getSceneY()));
+					e.setDropCompleted(true);
+				} else e.setDropCompleted(false);
 			}
 		});
 	}

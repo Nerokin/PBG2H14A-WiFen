@@ -7,6 +7,7 @@ import javax.imageio.spi.RegisterableService;
 import wifen.client.ui.controllers.SpielbrettController;
 import wifen.commons.GameStateModel;
 import wifen.commons.MarkerModel;
+import wifen.commons.MediumModel;
 import wifen.commons.Player;
 import wifen.commons.SpielerRolle;
 
@@ -30,6 +31,7 @@ public interface GameService extends RegisterableService {
 	public SpielbrettController getGameView();
 	public void sendMarkerPlaced(MarkerModel marker);
 	public void sendMarkerRemoved(UUID id);
+	public void sendMediumPlaced(MediumModel m);
 	public void addListener(GameServiceListener listener);
 	public void removeListener(GameServiceListener listener);
 

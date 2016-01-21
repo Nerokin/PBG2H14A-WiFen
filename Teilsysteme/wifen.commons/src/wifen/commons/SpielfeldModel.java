@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import javafx.scene.layout.Pane;
-import wifen.commons.services.FileNode;
-
 /**
  * Put description here
  *
@@ -19,7 +16,7 @@ public class SpielfeldModel implements Serializable {
 	private static final long serialVersionUID = -8355739346048731596L;
 
 	private GridType typ;
-	private ArrayList<FileNode<?>> files;
+	private ArrayList<MediumModel> mediums;
 	private ArrayList<MarkerModel> markers;
 	private double sizeX;
 	private double sizeY;
@@ -33,7 +30,7 @@ public class SpielfeldModel implements Serializable {
 	 */
 	public SpielfeldModel(GridType t, double x, double y) {
 		this.typ = t;
-		this.files = new ArrayList<FileNode<?>>();
+		this.mediums = new ArrayList<MediumModel>();
 		this.markers = new ArrayList<MarkerModel>();
 		this.sizeX = x;
 		this.sizeY = y;
@@ -46,7 +43,7 @@ public class SpielfeldModel implements Serializable {
 	 */
 	public SpielfeldModel(SpielfeldModel sm) {
 		this.typ = sm.getTyp();
-		this.files = new ArrayList<FileNode<?>>(sm.getFiles());
+		this.mediums = new ArrayList<MediumModel>(sm.getMediums());
 		this.markers = new ArrayList<MarkerModel>(sm.getMarkers());
 		this.sizeX = sm.getSizeX();
 		this.sizeY = sm.getSizeY();
@@ -82,19 +79,21 @@ public class SpielfeldModel implements Serializable {
 	/**
 	 * Put description here
 	 *
-	 * @param fn
+	 * @param mm
 	 */
-	public void placeFileNode(FileNode<?> fn) {
-		this.getFiles().add(fn);
+	public void placeMedium(MediumModel mm) {
+		getMediums().remove(mm);
+		getMediums().add(mm);
 	}
 
 	/**
 	 * Put description here
 	 *
-	 * @param fn
+	 * @param mm
 	 */
-	public void removeFileNode(FileNode<?> fn) {
-		this.getFiles().add(fn);
+	public void removeMedium(MediumModel mm) {
+		getMediums().remove(mm);
+		getMediums().add(mm);
 	}
 
 	// Getters & Setters
@@ -102,8 +101,8 @@ public class SpielfeldModel implements Serializable {
 	public GridType getTyp() {
 		return typ;
 	}
-	public ArrayList<FileNode<?>> getFiles() {
-		return files;
+	public ArrayList<MediumModel> getMediums() {
+		return mediums;
 	}
 	public ArrayList<MarkerModel> getMarkers() {
 		return markers;
@@ -119,4 +118,5 @@ public class SpielfeldModel implements Serializable {
 	public void setSizeX(double x) {
 		this.sizeX=x;
 	}
+	
 }
