@@ -75,10 +75,13 @@ public class ServerGameeventProvider implements ServerGameeventService, Connecti
 	@Override
 	public void fireEvent(String eventMessage) {
 		try {
+			// Save the event in the game state model
 			getRegistry()
 			.getServiceProviders(ServerGameService.class, true)
 			.next()
 			.addGameEvent(eventMessage);
+			
+			// Broadcast the event
 			getServer().broadcastPacket(new GameeventPacketImpl("", eventMessage));
 		} catch (NoSuchElementException e) {
 			logger.log(Level.SEVERE, "Cannot fire GameEvent", e);

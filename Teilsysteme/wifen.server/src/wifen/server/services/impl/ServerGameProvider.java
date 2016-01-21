@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import wifen.commons.GameStateModel;
+import wifen.commons.MarkerModel;
+import wifen.commons.Medium;
 import wifen.commons.Player;
 import wifen.commons.SpielerRolle;
 import wifen.commons.impl.PlayerImpl;
@@ -69,6 +71,16 @@ public class ServerGameProvider implements ServerGameService, ConnectionListener
 		getGameState().getChatLog().add(chatMessage);
 	}
 	
+	@Override
+	public void addMarker(MarkerModel marker) {
+		getGameState().getViewModel().placeMarker(marker);
+	}
+
+	@Override
+	public void addMedia(Medium media) {
+		getGameState().getMedia().add(media);
+	}
+	
 	// <--- ConnectionListener --->
 	
 	@Override
@@ -92,7 +104,7 @@ public class ServerGameProvider implements ServerGameService, ConnectionListener
 			} else if (packetEvent.getPacket() instanceof MarkerPacket) {
 				MarkerPacket packet = (MarkerPacket) packetEvent.getPacket();
 				
-				getGameState().getViewModel().getMarkers().add(packet.getMarkerModel());
+				addMarker(packet.getMarkerModel());
 				getPlayerConns().values()
 				.forEach((connection) -> connection.sendPacket(new MarkerPacketImpl(packet.getMarkerModel())));
 			} 

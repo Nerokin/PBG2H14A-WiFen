@@ -16,6 +16,7 @@ public class GameStateModel implements Serializable {
 	private SpielfeldModel viewModel;
 	private ArrayList<String> chatLog;
 	private ArrayList<String> ereignisLog;
+	private ArrayList<Medium> media;
 
 	/*
 	 * TODO: Image übergeben zur Berechnung der Bildgröße bzw. die Bildgröße übergeben
@@ -94,6 +95,14 @@ public class GameStateModel implements Serializable {
 
 	public void setViewModel(SpielfeldModel viewModel) {
 		this.viewModel = viewModel;
+	}
+
+	public ArrayList<Medium> getMedia() {
+		return media;
+	}
+
+	public void setMedia(ArrayList<Medium> media) {
+		this.media = media;
 	}
 	
 	
