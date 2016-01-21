@@ -1,16 +1,20 @@
 package wifen.client.resources;
 
-import java.util.UUID;
-
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
+import javafx.stage.WindowEvent;
 import wifen.client.application.ClientApplication;
 import wifen.client.services.GameService;
 import wifen.client.ui.controllers.SpielfeldView;
@@ -29,6 +33,7 @@ public class MarkerView extends Parent {
 	private double lastY=0;
 	private SpielfeldView parent;
 	private MarkerModel marker;
+	ContextMenu contextMenu;
 	
 
 	/**
@@ -45,6 +50,25 @@ public class MarkerView extends Parent {
 		this.adjustPosition();
 		this.getChildren().add(new ImageView(marker.getType().getImg()));
 		
+		contextMenu = new ContextMenu();
+
+		MenuItem item1 = new MenuItem("entfernen");
+		item1.setOnAction(new EventHandler<ActionEvent>() {
+		    public void handle(ActionEvent e) {
+				ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMarkerRemoved(getMarkerModel().getId());
+		    }
+		});
+		
+		CheckMenuItem item2 = new CheckMenuItem("statisch");
+		item2.setOnAction(new EventHandler<ActionEvent>() {
+		    public void handle(ActionEvent e) {
+		    	getMarkerModel().setIsStatic(!(getMarkerModel().getIsStatic()));
+		    	ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMarkerPlaced(getMarkerModel());
+		    }
+		});
+
+		contextMenu.getItems().addAll(item1, item2);		
+		
 		marker.getType().getImg().progressProperty().addListener(new ChangeListener<Number>() {
 
 			@Override
@@ -60,7 +84,7 @@ public class MarkerView extends Parent {
 			@Override
 			public void handle(MouseEvent event) {
 				parent.setPannable(false);
-				if((lastX != 0 || lastY != 0)&&(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(((MarkerView)event.getSource()).marker.getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))) {
+				if(!(marker.getIsStatic())&&(lastX != 0 || lastY != 0)&&(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(((MarkerView)event.getSource()).marker.getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))&&event.getButton()==MouseButton.PRIMARY) {
 					MarkerView m = (MarkerView)event.getSource();
 					double xoffs = event.getSceneX() - lastX;
 					double yoffs = event.getSceneY() - lastY;
@@ -94,8 +118,7 @@ public class MarkerView extends Parent {
 			@Override
 			public void handle(MouseEvent event) {
 				if(event.getButton() == MouseButton.SECONDARY  && !event.isControlDown() && (ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(((MarkerView)event.getSource()).marker.getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))) {
-					MarkerView mv = (MarkerView) event.getSource();
-					ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMarkerRemoved(mv.marker.getId());
+					contextMenu.show((MarkerView) event.getSource(), event.getScreenX(), event.getScreenY());
 				}
 			}
 		});
@@ -115,5 +138,13 @@ public class MarkerView extends Parent {
 
 	public void setMarker(MarkerModel marker) {
 		this.marker = marker;
+	}
+
+	public ContextMenu getContextMenu() {
+		return contextMenu;
+	}
+
+	public void setContextMenu(ContextMenu contextMenu) {
+		this.contextMenu = contextMenu;
 	}
 }
