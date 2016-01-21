@@ -26,6 +26,7 @@ import wifen.commons.network.ConnectionListener;
 import wifen.commons.network.events.PacketReceivedEvent;
 import wifen.commons.network.packets.MarkerPacket;
 import wifen.commons.network.packets.MarkerRemovedPacket;
+import wifen.commons.network.packets.MediumPacket;
 import wifen.commons.network.packets.impl.MarkerPacketImpl;
 import wifen.commons.network.packets.impl.MarkerRemovedPacketImpl;
 import wifen.commons.network.packets.impl.MediumPacketImpl;
@@ -73,6 +74,10 @@ public class GameProvider implements GameService, ConnectionListener {
 			else if(packetEvent.getPacket() instanceof MarkerRemovedPacket){
 				MarkerRemovedPacket packet = (MarkerRemovedPacket) packetEvent.getPacket();
 				getGameView().getPlayfield().RemoveMarker(packet.getMarkerId());
+			}
+			else if(packetEvent.getPacket() instanceof MediumPacket) {
+				MediumPacket packet = (MediumPacket) packetEvent.getPacket();
+				getGameView().getPlayfield().AddMedium(packet.getMediumModel());
 			}
 		} 
 	}

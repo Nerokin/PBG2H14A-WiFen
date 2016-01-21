@@ -102,30 +102,8 @@ public class MedienbibliothekController extends TitledPane
 		lv_medien.setOnDragDetected(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent e) {
 				Dragboard db = lv_medien.startDragAndDrop(TransferMode.ANY);
-				Image dv = null;
 				Medium m = (Medium) e.getSource();
-				switch(m.getType()) {
-				case CSV:
-					dv = new Image("./ressources/csv.png");
-					break;
-				case DOC:
-					dv = new Image("./ressources/doc.png");
-					break;
-				case IMG:
-					dv = new Image("./ressources/img.png");
-					break;
-				case PDF:
-					dv = new Image("./ressources/pdf.png");
-					break;
-				case TXT:
-					dv = new Image("./ressources/txt.png");
-					break;
-				case XLS:
-					dv = new Image("./ressources/xls.png");
-					break;
-				default:
-					throw new UnsupportedOperationException("Unhandled FileType encountered!");
-				}
+				Image dv = m.getType().getImg();
 				db.setDragView(dv);
 				
 				ClipboardContent cc = new ClipboardContent();
