@@ -57,8 +57,11 @@ public class ServerMediaProvider implements ServerMediaService, ConnectionListen
 			}
 			else if(packet instanceof MediaDataPacket)
 			{
+				// Add media to game state model
 				ServerGameService gameService = getRegistry().getServiceProviders(ServerGameService.class, true).next();
-				//gameService.
+				gameService.addMedia(((MediaDataPacket) packet).getMedium());
+				
+				// Broadcast media
 				getServer().broadcastPacket(packet);
 			}
 		}

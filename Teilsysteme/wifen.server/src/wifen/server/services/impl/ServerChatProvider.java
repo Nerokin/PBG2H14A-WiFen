@@ -54,8 +54,11 @@ public class ServerChatProvider implements ServerChatService, ConnectionListener
 			if (packetEvent.getPacket() instanceof ChatPacket) {
 				ChatPacket packet = (ChatPacket) packetEvent.getPacket();
 				try {
+					// Save the message in the game state model
 					ServerGameService gameService = getRegistry().getServiceProviders(ServerGameService.class, true).next();
 					gameService.addChatMessage(packet.getSourceName() + ": " + packet.getMessage());
+					
+					// Broadcast the message
 					getServer().broadcastPacket(new ChatPacketImpl(packet.getSourceName(), packet.getMessage()));
 				} catch (Exception e) {
 					logger.log(Level.WARNING, "Cannot save ChatMessage.", e);

@@ -16,6 +16,7 @@ public class GameStateModel implements Serializable {
 	private SpielfeldModel viewModel;
 	private ArrayList<String> chatLog;
 	private ArrayList<String> ereignisLog;
+	private ArrayList<Medium> media;
 
 	public GameStateModel(int maxPlayerCount, boolean spectatingAllowed, boolean mediaVisible, int maxSideCount,
 			SpielerRolle standard, GridType grid, ArrayList<String> chat, ArrayList<String> ereignis) {
@@ -91,6 +92,14 @@ public class GameStateModel implements Serializable {
 
 	public void setViewModel(SpielfeldModel viewModel) {
 		this.viewModel = viewModel;
+	}
+
+	public ArrayList<Medium> getMedia() {
+		return media;
+	}
+
+	public void setMedia(ArrayList<Medium> media) {
+		this.media = media;
 	}
 	
 	

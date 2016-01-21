@@ -60,7 +60,8 @@ public class SpielfeldModel implements Serializable {
 	 * @param m
 	 */
 	public void placeMarker(MarkerModel m) {
-		this.getMarkers().add(m);
+		getMarkers().remove(m);
+		getMarkers().add(m);
 	}
 
 	/**
