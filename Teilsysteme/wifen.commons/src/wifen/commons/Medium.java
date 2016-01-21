@@ -16,7 +16,7 @@ public class Medium implements Serializable
 	private static final long serialVersionUID = 5665637985008900238L;
 	
 	private String name;
-	private String type;
+	private FileType type;
 	private byte[] rawrData;
 
 	/**
@@ -28,7 +28,7 @@ public class Medium implements Serializable
 	{
 		name = file.getName();
 		
-		type = name.substring(name.lastIndexOf('.')).toLowerCase();
+		type = getTypeFromName(name);
 
 		rawrData = Files.readAllBytes(file.toPath());
 	}
@@ -39,7 +39,7 @@ public class Medium implements Serializable
 		return name;
 	}
 
-	public String getType() {
+	public FileType getType() {
 		return type;
 	}
 
@@ -63,5 +63,30 @@ public class Medium implements Serializable
 	public MediumInstance createInstance()
 	{
 		return new MediumInstance(this);
+	}
+	
+	private FileType getTypeFromName(String name) {
+		String x = name.substring(name.lastIndexOf('.')).toLowerCase(); 
+		switch(x) {
+		case "bmp":
+		case "jpg":
+		case "png":
+		case "gif":
+			return FileType.IMG;
+		case "txt":
+			return FileType.TXT;
+		case "csv":
+			return FileType.CSV;
+		case "doc":
+		case "docx":
+			return FileType.DOC;
+		case "xls":
+		case "xlsx":
+			return FileType.XLS;
+		case "pdf":
+			return FileType.PDF;
+		default:
+			throw new UnsupportedOperationException("Filetype " + x + " not supported");
+		}
 	}
 }

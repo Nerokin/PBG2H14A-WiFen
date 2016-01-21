@@ -1,14 +1,9 @@
 package wifen.client.ui.controllers;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-
-import com.sun.deploy.uitoolkit.impl.fx.HostServicesFactory;
-import com.sun.javafx.application.HostServicesDelegate;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
@@ -16,16 +11,20 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import wifen.client.application.ClientApplication;
 import wifen.client.services.ClientMediaService;
 import wifen.commons.Medium;
@@ -99,6 +98,43 @@ public class MedienbibliothekController extends TitledPane
 		btn_browse.setOnAction(this::browse);
 		btn_upload.setOnAction(this::upload);
 		btn_open.setOnAction(this::openMedia);
+		
+		lv_medien.setOnDragDetected(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent e) {
+				Dragboard db = lv_medien.startDragAndDrop(TransferMode.ANY);
+				Image dv = null;
+				Medium m = (Medium) e.getSource();
+				switch(m.getType()) {
+				case CSV:
+					dv = new Image("./ressources/csv.png");
+					break;
+				case DOC:
+					dv = new Image("./ressources/doc.png");
+					break;
+				case IMG:
+					dv = new Image("./ressources/img.png");
+					break;
+				case PDF:
+					dv = new Image("./ressources/pdf.png");
+					break;
+				case TXT:
+					dv = new Image("./ressources/txt.png");
+					break;
+				case XLS:
+					dv = new Image("./ressources/xls.png");
+					break;
+				default:
+					throw new UnsupportedOperationException("Unhandled FileType encountered!");
+				}
+				db.setDragView(dv);
+				
+				ClipboardContent cc = new ClipboardContent();
+				cc.put(DataFormat.FILES, m);
+				
+				db.setContent(cc);
+				e.consume();
+			}
+		});
 	}
 	
 	@Override
