@@ -49,7 +49,7 @@
                   <Font size="25.0" />
                </font>
             </Button>
-            <Button fx:id="btn_spielVerlassen" onAction="#close" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Spiel Verlassen" textAlignment="CENTER">
+            <Button fx:id="btn_spielVerlassen" contentDisplay="CENTER" mnemonicParsing="false" onAction="#close" prefHeight="60.0" prefWidth="200.0" text="Spiel Verlassen" textAlignment="CENTER">
                <VBox.margin>
                   <Insets top="25.0" />
                </VBox.margin>
@@ -61,43 +61,39 @@
       </VBox>
    </center>
    <bottom>
-      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="75.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="BOTTOM_LEFT" layoutY="26.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="55.0" prefWidth="795.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="26.0">
-               <children>
-                  <Label minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="35.0" text="IP: ">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lb_ip" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="200.0" text="255.255.255.255">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-               <padding>
-                  <Insets left="5.0" />
-               </padding>
-            </HBox>
-            <HBox alignment="BOTTOM_RIGHT" layoutY="45.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="795.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.0">
-               <children>
-                  <Label alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="100.0" text="Version: " textAlignment="CENTER">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lb_version" alignment="CENTER_RIGHT" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" text="0.01" textAlignment="CENTER">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Label>
-               </children>
-               <padding>
-                  <Insets right="5.0" />
-               </padding>
-            </HBox>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="IP:">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </Text>
+            <Label fx:id="lb_ip" text="255.255.255.0">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <HBox.margin>
+                  <Insets top="5.0" />
+               </HBox.margin>
+            </Label>
+            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Version:">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Label fx:id="lb_version" text="0.0.1">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <HBox.margin>
+                  <Insets right="20.0" top="5.0" />
+               </HBox.margin>
+            </Label>
          </children>
-      </AnchorPane>
+      </HBox>
    </bottom>
 </fx:root>
