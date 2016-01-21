@@ -40,6 +40,16 @@ public class MarkerModel implements Serializable {
 	// Methods
 	
 	@Override
+	public String toString() {
+		return getClass().getSimpleName() + "{" 
+				+ "owner: " + getOwner()
+				+ ", x: " + getPosx()
+				+ ", y: " + getPosy()
+				+ ", desc: " + getDesc()
+				+ "}";
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		return obj != null
 				&& obj instanceof MarkerModel

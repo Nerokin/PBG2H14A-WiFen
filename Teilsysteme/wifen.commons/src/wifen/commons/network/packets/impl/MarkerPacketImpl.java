@@ -21,6 +21,14 @@ public class MarkerPacketImpl extends PacketImpl implements MarkerPacket {
 		this.markerModel = markerModel;
 	}
 	
+	// Methods
+	
+	public String toString() {
+		return getClass().getSimpleName() + "{"
+				+ "markerModel: " + getMarkerModel()
+				+ "}";
+	}
+	
 	// Getter & Setter
 
 	@Override
