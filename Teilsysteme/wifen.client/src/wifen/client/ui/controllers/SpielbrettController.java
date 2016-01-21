@@ -96,7 +96,8 @@ import wifen.commons.network.Connection;
  	}
 
  	public SpielbrettController(GameStateModel initialModel) throws IOException {
- 		this();
+ 		this(); 		
+ 		
  		// Initialize Playfield
  		setMarkerWindow(MarkerWindow.getInstance());
  		setPlayfield(new SpielfeldView(20, 20, initialModel.getViewModel(), getMarkerWindow()));
@@ -113,7 +114,6 @@ import wifen.commons.network.Connection;
  		StackPane.setAlignment(scale, Pos.TOP_LEFT);
  		StackPane.setMargin(scale, new Insets(15, 0, 0, 15));
  		PlayField.getChildren().add(scale);
-
 
  		layout();
  	}
