@@ -3,12 +3,12 @@ package wifen.commons;
 import javafx.scene.image.Image;
 
 public enum FileType {
-	PDF("./resources/pdf.png"),
-	DOC("./resources/doc.png"),
-	XLS("./resources/xls.png"),
-	TXT("./resources/txt.png"),
-	CSV("./resources/csv.png"),
-	IMG("./resources/img.png");
+	PDF("./ressources/pdf.png"),
+	DOC("./ressources/doc.png"),
+	XLS("./ressources/xls.png"),
+	TXT("./ressources/txt.png"),
+	CSV("./ressources/csv.png"),
+	IMG("./ressources/img.png");
 	
 	private Image img;
 	
