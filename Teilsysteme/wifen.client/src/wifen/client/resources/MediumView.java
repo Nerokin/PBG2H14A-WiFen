@@ -15,6 +15,7 @@ import wifen.client.application.ClientApplication;
 import wifen.client.services.GameService;
 import wifen.client.ui.controllers.SpielfeldView;
 import wifen.commons.MarkerModel;
+import wifen.commons.MediumModel;
 import wifen.commons.SpielerRolle;
 
 /**
@@ -23,12 +24,12 @@ import wifen.commons.SpielerRolle;
  * @author unknown
  *
  */
-public class MarkerView extends Parent {
+public class MediumView extends Parent {
 	
 	private double lastX=0;
 	private double lastY=0;
 	private SpielfeldView parent;
-	private MarkerModel marker;
+	private MediumModel medium;
 	ContextMenu contextMenu;
 	
 
@@ -38,34 +39,34 @@ public class MarkerView extends Parent {
 	 * @param m
 	 * @param f
 	 */
-	public MarkerView(MarkerModel m, SpielfeldView f) {
+	public MediumView(MediumModel m, SpielfeldView f) {
 		parent = f;
-		setMarker(m);
-		this.setTranslateX(marker.getPosx());
-		this.setTranslateY(marker.getPosy());
+		setMedium(m);
+		this.setTranslateX(medium.getPosx());
+		this.setTranslateY(medium.getPosy());
 		this.adjustPosition();
-		this.getChildren().add(new ImageView(marker.getType().getImg()));
+		this.getChildren().add(new ImageView(medium.getMedium().getType().getImg()));
 		
 		contextMenu = new ContextMenu();
 
 		MenuItem item1 = new MenuItem("entfernen");
 		item1.setOnAction(new EventHandler<ActionEvent>() {
 		    public void handle(ActionEvent e) {
-				ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMarkerRemoved(getMarkerModel().getId());
+				ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMediumRemoved(getMedium().getId());
 		    }
 		});
 		
 		CheckMenuItem item2 = new CheckMenuItem("statisch");
 		item2.setOnAction(new EventHandler<ActionEvent>() {
 		    public void handle(ActionEvent e) {
-		    	getMarkerModel().setIsStatic(!(getMarkerModel().getIsStatic()));
-		    	ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMarkerPlaced(getMarkerModel());
+		    	getMedium().setIsStatic(!(getMedium().getIsStatic()));
+		    	ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMediumPlaced(getMedium());
 		    }
 		});
 
 		contextMenu.getItems().addAll(item1, item2);		
 		
-		marker.getType().getImg().progressProperty().addListener(new ChangeListener<Number>() {
+		medium.getMedium().getType().getImg().progressProperty().addListener(new ChangeListener<Number>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -80,7 +81,7 @@ public class MarkerView extends Parent {
 			@Override
 			public void handle(MouseEvent event) {
 				parent.setPannable(false);
-				if(!(marker.getIsStatic())&&(lastX != 0 || lastY != 0)&&(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(((MarkerView)event.getSource()).marker.getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))&&event.getButton()==MouseButton.PRIMARY) {
+				if(!(medium.getMedium().getIsStatic())&&(lastX != 0 || lastY != 0)&&(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(((MarkerView)event.getSource()).marker.getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))&&event.getButton()==MouseButton.PRIMARY) {
 					MarkerView m = (MarkerView)event.getSource();
 					double xoffs = event.getSceneX() - lastX;
 					double yoffs = event.getSceneY() - lastY;
@@ -98,11 +99,11 @@ public class MarkerView extends Parent {
 			@Override
 			public void handle(MouseEvent event) {
 				parent.setPannable(true);
-				if((lastX != 0 || lastY != 0)&&(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(((MarkerView)event.getSource()).marker.getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))) {
+				if((lastX != 0 || lastY != 0)&&(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(((MediumView)event.getSource()).medium.getMedium().getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))) {
 					MarkerView m = (MarkerView)event.getSource();
-					marker.setPosx(m.getTranslateX());
-					marker.setPosy(m.getTranslateY());
-					ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMarkerPlaced(marker);
+					medium.setPosx(m.getTranslateX());
+					medium.setPosy(m.getTranslateY());
+					ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMediumPlaced(medium);
 				}
 				lastX=0;
 				lastY=0;
@@ -113,7 +114,7 @@ public class MarkerView extends Parent {
 		this.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				if(event.getButton() == MouseButton.SECONDARY  && !event.isControlDown() && (ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(((MarkerView)event.getSource()).marker.getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))) {
+				if(event.getButton() == MouseButton.SECONDARY  && !event.isControlDown() && (ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(((MediumView)event.getSource()).medium.getMedium().getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))) {
 					contextMenu.show((MarkerView) event.getSource(), event.getScreenX(), event.getScreenY());
 				}
 			}
@@ -124,16 +125,16 @@ public class MarkerView extends Parent {
 	 * Put description here
 	 */
 	protected void adjustPosition() {
-		this.setTranslateX(getTranslateX() - (marker.getType().getImg().getWidth()/2));
-		this.setTranslateY(getTranslateY() - (marker.getType().getImg().getHeight()/2));
+		this.setTranslateX(getTranslateX() - (medium.getMedium().getType().getImg().getWidth()/2));
+		this.setTranslateY(getTranslateY() - (medium.getMedium().getType().getImg().getHeight()/2));
 	}
 	
-	public MarkerModel getMarkerModel() {
-		return marker;
+	public MediumModel getMedium() {
+		return medium;
 	}
 
-	public void setMarker(MarkerModel marker) {
-		this.marker = marker;
+	public void setMedium (MediumModel medium) {
+		this.medium = medium;
 	}
 
 	public ContextMenu getContextMenu() {

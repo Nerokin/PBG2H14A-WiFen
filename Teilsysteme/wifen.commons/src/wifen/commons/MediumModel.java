@@ -33,7 +33,6 @@ public class MediumModel implements Serializable {
 	// Methods
 	
 	
-	
 	// Getters & Setters
 
 	public Medium getMedium() {
