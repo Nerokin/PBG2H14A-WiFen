@@ -196,7 +196,7 @@ public class Wuerfelfenster extends TitledPane {
 					imagesD10[6] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_7.png"));
 					imagesD10[7] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_8.png"));
 					imagesD10[8] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_9.png"));
-					imagesD10[9] = new Image(getClass().getResourceAsStream("../../resources/wuerfels/wuerfelAnimation/Einzelbilder_d10/d10_0.png"));
+					imagesD10[9] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_0.png"));
 			
 					
 				} catch (Exception e) {
@@ -366,20 +366,32 @@ public class Wuerfelfenster extends TitledPane {
 			
 			try{
 				
-			ImageView tempImageView = new ImageView();
-				
-			tempImageView.setFitWidth(75);
-			tempImageView.setFitHeight(75);
+			
+			DiceObject tmpDiceImg = new DiceObject();
+			logger.info("" + tmpDiceImg.getWuerfelImg());
+//			tempImageView.setFitWidth(75);
+//			tempImageView.setFitHeight(75);
 			int columnSize = 4;
+			int check = 0;
 			
 			Dragboard db = ev.getDragboard();
 			ev.setDropCompleted(true);
 			switch(db.getString()){
-				case("d2"):w2++;break;
-				case("d4"):w4++;break;
-				case("d6"):w6++;break;
-				case("d8"):w8++;break;
+				case("d2"):w2++;
+					check = 2;
+					break;
+				case("d4"):w4++;
+					check = 4;
+					break;
+				case("d6"):w6++;
+					check = 6;
+					break;
+				case("d8"):w8++;
+					check = 8;
+					break;
 				case("d10"):w10++;
+					check = 10;
+					break;
 			}
 			
 			String ausgabe = "";
@@ -388,8 +400,10 @@ public class Wuerfelfenster extends TitledPane {
 			if(w2!=0){
 				ausgabe=w2+"w2";
 				temp = true;
-				DiceObject tmpDiceImg = new DiceObject(imagesD2[0]);
-				animationGrid.add(tmpDiceImg.getWuerfelImg(), colInd, rowInd);
+				if( check == 2){
+					tmpDiceImg = new DiceObject(imagesD2[0]);
+					animationGrid.add(tmpDiceImg.getWuerfelImg(), colInd, rowInd);
+				}
 			}
 			if(w4!=0){
 				if(temp){					
@@ -397,8 +411,10 @@ public class Wuerfelfenster extends TitledPane {
 				}
 				temp = true;
 				ausgabe+=w4+"w4";
-				DiceObject tmpDiceImg = new DiceObject(imagesD4[3]);
-				animationGrid.add(tmpDiceImg.getWuerfelImg(), colInd, rowInd);
+				if( check == 4){
+					tmpDiceImg = new DiceObject(imagesD4[3]);
+					animationGrid.add(tmpDiceImg.getWuerfelImg(), colInd, rowInd);
+				}
 			}
 			if(w6!=0){
 				if(temp){
@@ -406,8 +422,10 @@ public class Wuerfelfenster extends TitledPane {
 				}
 				temp = true;
 				ausgabe+=w6+"w6";
-				DiceObject tmpDiceImg = new DiceObject(imagesD6[5]);
-				animationGrid.add(tmpDiceImg.getWuerfelImg(), colInd, rowInd);
+				if( check == 6){
+					tmpDiceImg = new DiceObject(imagesD6[5]);
+					animationGrid.add(tmpDiceImg.getWuerfelImg(), colInd, rowInd);
+				}
 			}
 	
 			if(w8!=0){
@@ -416,8 +434,10 @@ public class Wuerfelfenster extends TitledPane {
 				}
 				temp = true;
 				ausgabe+=w8+"w8";
-				DiceObject tmpDiceImg = new DiceObject(imagesD8[7]);
-				animationGrid.add(tmpDiceImg.getWuerfelImg(), colInd, rowInd);
+				if( check == 8){
+					tmpDiceImg = new DiceObject(imagesD8[7]);
+					animationGrid.add(tmpDiceImg.getWuerfelImg(), colInd, rowInd);
+				}
 			}
 			if(w10!=0){
 				if(temp){
@@ -425,9 +445,13 @@ public class Wuerfelfenster extends TitledPane {
 				}
 				temp = true;
 				ausgabe+=w10+"w10";
-				DiceObject tmpDiceImg = new DiceObject(imagesD10[9]);
-				animationGrid.add(tmpDiceImg.getWuerfelImg(), colInd, rowInd);
+				if( check == 10){
+					tmpDiceImg = new DiceObject(imagesD10[8]);
+					animationGrid.add(tmpDiceImg.getWuerfelImg(), colInd, rowInd);
+				}
 			}
+			
+			tmpDiceImg.setWuerfelImg(null);
 			
 			colInd++;
 			if(colInd>columnSize-1){

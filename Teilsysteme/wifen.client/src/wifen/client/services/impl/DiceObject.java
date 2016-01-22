@@ -42,9 +42,14 @@ public class DiceObject {
 	}
 	
 	public DiceObject(Image i){
-		ImageView wuerfelImageView =  new ImageView(i);
+	
+		ImageView wuerfelImageView = new ImageView();
+		wuerfelImageView.setImage(i);
+		
 		this.wuerfelImg = wuerfelImageView;
 	}
+	
+	public DiceObject(){}
 
 	public int getSideCount() {
 		return sideCount;
