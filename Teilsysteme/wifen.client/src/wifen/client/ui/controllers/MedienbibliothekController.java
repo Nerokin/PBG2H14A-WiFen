@@ -108,7 +108,7 @@ public class MedienbibliothekController extends TitledPane
 				db.setDragView(dv);
 				
 				ClipboardContent cc = new ClipboardContent();
-				cc.put(DataFormat.FILES, m);
+				cc.put(DataFormat.IMAGE, m);
 				
 				db.setContent(cc);
 				e.consume();
