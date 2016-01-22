@@ -20,22 +20,22 @@ import wifen.commons.SpielerRolle;
 
 /**
  * Put description here
- * 
+ *
  * @author unknown
  *
  */
 public class MediumView extends Parent {
-	
+
 	private double lastX=0;
 	private double lastY=0;
 	private SpielfeldView parent;
 	private MediumModel medium;
 	ContextMenu contextMenu;
-	
+
 
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param m
 	 * @param f
 	 */
@@ -46,7 +46,7 @@ public class MediumView extends Parent {
 		this.setTranslateY(medium.getPosy());
 		this.adjustPosition();
 		this.getChildren().add(new ImageView(medium.getMedium().getType().getImg()));
-		
+
 		contextMenu = new ContextMenu();
 
 		MenuItem item1 = new MenuItem("entfernen");
@@ -55,7 +55,7 @@ public class MediumView extends Parent {
 				ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMediumRemoved(getMedium().getId());
 		    }
 		});
-		
+
 		CheckMenuItem item2 = new CheckMenuItem("statisch");
 		item2.setOnAction(new EventHandler<ActionEvent>() {
 		    public void handle(ActionEvent e) {
@@ -71,24 +71,24 @@ public class MediumView extends Parent {
 				if(selectedMedium == null)
 					return;
 
-				
+
 				// Show content
 				ClientApplication.instance().getHostServices().showDocument(System.getProperty("java.io.tmpdir") + selectedMedium.getName());
 		    }
 		});
-		
-		contextMenu.getItems().addAll(item1, item2, item3);		
-		
-		medium.getMedium().getType().getImg().progressProperty().addListener(new ChangeListener<Number>() {
 
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				if(newValue.intValue() >= 1) {
-					adjustPosition();
-				}
-			}	
-		});
-		
+		contextMenu.getItems().addAll(item1, item2, item3);
+
+//		medium.getMedium().getType().getImg().progressProperty().addListener(new ChangeListener<Number>() {
+//
+//			@Override
+//			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+//				if(newValue.intValue() >= 1) {
+//					adjustPosition();
+//				}
+//			}
+//		});
+
 		this.setOnMouseDragged(new EventHandler<MouseEvent>(){
 
 			@Override
@@ -104,15 +104,15 @@ public class MediumView extends Parent {
 				lastX=event.getSceneX();
 				lastY=event.getSceneY();
 			}
-			
+
 		});
-		
+
 		this.setOnMouseReleased(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event) {
 				parent.setPannable(true);
-				if((lastX != 0 || lastY != 0)&&(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(medium.getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))) {
+				if(!(medium.getIsStatic())&&(lastX != 0 || lastY != 0)&&(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(medium.getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))) {
 					MediumView m = (MediumView)event.getSource();
 					medium.setPosx(m.getTranslateX());
 					medium.setPosy(m.getTranslateY());
@@ -121,19 +121,26 @@ public class MediumView extends Parent {
 				lastX=0;
 				lastY=0;
 			}
-			
+
 		});
-		
+
 		this.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				if(event.getButton() == MouseButton.SECONDARY  && !event.isControlDown() && (ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(medium.getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))) {
+				if(event.getButton() == MouseButton.SECONDARY  && !event.isControlDown()) {
+					if (!(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next()
+							.getActivePlayer().equals(medium.getOwner())
+							|| ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next()
+							.getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))) {
+						item1.setDisable(true);
+						item2.setDisable(true);
+					}
 					contextMenu.show((MediumView) event.getSource(), event.getScreenX(), event.getScreenY());
 				}
 			}
 		});
 	}
-	
+
 	/**
 	 * Put description here
 	 */
@@ -141,7 +148,7 @@ public class MediumView extends Parent {
 		this.setTranslateX(getTranslateX() - (medium.getMedium().getType().getImg().getWidth()/2));
 		this.setTranslateY(getTranslateY() - (medium.getMedium().getType().getImg().getHeight()/2));
 	}
-	
+
 	public MediumModel getMedium() {
 		return medium;
 	}

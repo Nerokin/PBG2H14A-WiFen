@@ -7,6 +7,9 @@
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 
 <fx:root maxHeight="1080.0" maxWidth="1920.0" prefHeight="600.0" prefWidth="800.0" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <top>
@@ -19,13 +22,13 @@
    <center>
       <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0">
          <children>
-            <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="800.0" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
+            <HBox alignment="CENTER" prefHeight="375.0" prefWidth="800.0" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
                <children>
-                  <VBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" HBox.hgrow="NEVER">
+                  <VBox alignment="CENTER_RIGHT" prefHeight="300.0" prefWidth="400.0" HBox.hgrow="NEVER">
                      <children>
-                        <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                        <HBox alignment="CENTER" prefHeight="75.0" prefWidth="200.0" VBox.vgrow="NEVER">
                            <children>
-                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="250.0" text="Port:" textAlignment="RIGHT" wrapText="true">
+                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="75.0" prefWidth="250.0" text="Port:" textAlignment="RIGHT" wrapText="true">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -33,16 +36,16 @@
                                     <Insets right="30.0" />
                                  </padding>
                               </Label>
-                              <TextField id="tbxPort" fx:id="tf_port" disable="true" editable="false" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="80.0" HBox.hgrow="NEVER">
+                              <TextField id="tbxPort" fx:id="tf_port" disable="true" editable="false" alignment="CENTER" prefHeight="50.0" prefWidth="80.0" HBox.hgrow="NEVER">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
                               </TextField>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                        <HBox alignment="CENTER" prefHeight="75.0" prefWidth="200.0" VBox.vgrow="NEVER">
                            <children>
-                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="250.0" text="Maximale Spieler:" textAlignment="RIGHT" wrapText="true">
+                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="75.0" prefWidth="250.0" text="Maximale Spieler:" textAlignment="RIGHT" wrapText="true">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -57,7 +60,7 @@
                               </TextField>
                            </children>
                         </HBox>
-                        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                        <HBox prefHeight="75.0" prefWidth="200.0" VBox.vgrow="NEVER">
                            <children>
                               <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="250.0" text="Beobachter zulassen:" textAlignment="RIGHT" wrapText="true">
                                  <font>
@@ -73,9 +76,9 @@
                                  </font></CheckBox>
                            </children>
                         </HBox>
-                        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                        <HBox prefHeight="75.0" prefWidth="200.0" VBox.vgrow="NEVER">
                            <children>
-                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="250.0" text="Medien standardmäßig sichtbar machen:" textAlignment="RIGHT" wrapText="true">
+                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="250.0" text="Medien standardmäßig sichtbar machen:" textAlignment="RIGHT" wrapText="true">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
@@ -87,6 +90,40 @@
                                  <font>
                                     <Font size="24.0" />
                                  </font></CheckBox>
+                           </children>
+                        </HBox>
+                         <HBox alignment="CENTER" prefHeight="75.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                           <children>
+                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="75.0" prefWidth="250.0" text="Spielfeldbreite:" textAlignment="RIGHT" wrapText="true">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets right="30.0" />
+                                 </padding>
+                              </Label>
+                              <TextField id="playfieldWidthTextField" fx:id="playfieldWidthTextField" text="1024" alignment="CENTER" prefHeight="50.0" prefWidth="80.0" HBox.hgrow="NEVER">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </TextField>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="75.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                           <children>
+                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="75.0" prefWidth="250.0" text="Spielfeldhöhe:" textAlignment="RIGHT" wrapText="true">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets right="30.0" />
+                                 </padding>
+                              </Label>
+                              <TextField id="playfieldHeightTextField" fx:id="playfieldHeightTextField" text="1024" alignment="CENTER" prefHeight="50.0" prefWidth="80.0" HBox.hgrow="NEVER">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </TextField>
                            </children>
                         </HBox>
                      </children>
@@ -150,6 +187,28 @@
                            </children>
                         </HBox>
                      </children>
+                     <HBox alignment="CENTER" prefHeight="75.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                           <children>
+                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="75.0" prefWidth="200.0" text="Hintergrund:" textAlignment="RIGHT" wrapText="true">
+                                 <font>
+                                    <Font size="22.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets right="30.0" />
+                                 </padding>
+                              </Label>
+                              <TextField id="backgroundImageTextField" fx:id="backgroundImageTextField" disable="true" editable="false" prefHeight="50.0" prefWidth="250.0" HBox.hgrow="NEVER">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </TextField>
+                              <Button fx:id="chooseBackgroundImageButton" id="chooseBackgroundImageButton" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="50.0" prefWidth="50.0" text="..." textAlignment="RIGHT" wrapText="true">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </HBox>
                   </VBox>
                </children>
             </HBox>

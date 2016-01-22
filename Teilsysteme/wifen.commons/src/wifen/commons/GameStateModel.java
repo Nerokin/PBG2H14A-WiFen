@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class GameStateModel implements Serializable {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private int maxPlayerCount;
@@ -22,13 +22,13 @@ public class GameStateModel implements Serializable {
 	 * TODO: Image übergeben zur Berechnung der Bildgröße bzw. die Bildgröße übergeben
 	 */
 	public GameStateModel(int maxPlayerCount, boolean spectatingAllowed, boolean mediaVisible, int maxSideCount,
-			SpielerRolle standard, GridType grid, ArrayList<String> chat, ArrayList<String> ereignis, ArrayList<Medium> media) {
+			SpielerRolle standard, GridType grid, BackgroundImage backgroundImage, int width, int height, ArrayList<String> chat, ArrayList<String> ereignis, ArrayList<Medium> media) {
 		this.maxPlayerCount = maxPlayerCount;
 		this.spectatingAllowed = spectatingAllowed;
 		this.mediaVisible = mediaVisible;
 		this.maxDiceSideCount = maxSideCount;
 		this.standardRolle = standard;
-		this.viewModel = new SpielfeldModel(grid, 1024, 1024);
+		this.viewModel = new SpielfeldModel(grid, width, height, backgroundImage);
 		this.chatLog = chat;
 		this.ereignisLog = ereignis;
 		this.media = media;
@@ -53,11 +53,11 @@ public class GameStateModel implements Serializable {
 	void setStandardRolle(SpielerRolle newStandard) {
 		this.standardRolle = newStandard;
 	}
-	
+
 	void setChatLog(ArrayList<String> chat){
 		this.chatLog = chat;
 	}
-	
+
 	void setEreignisLog(ArrayList<String> ereignis){
 		this.chatLog = ereignis;
 	}
@@ -81,11 +81,11 @@ public class GameStateModel implements Serializable {
 	public SpielerRolle getStandardPlayerRole() {
 		return this.standardRolle;
 	}
-	
+
 	public ArrayList<String> getChatLog(){
 		return this.chatLog;
 	}
-	
+
 	public ArrayList<String> getEreignisLog(){
 		return this.ereignisLog;
 	}
@@ -105,6 +105,5 @@ public class GameStateModel implements Serializable {
 	public void setMedia(ArrayList<Medium> media) {
 		this.media = media;
 	}
-	
-	
+
 }

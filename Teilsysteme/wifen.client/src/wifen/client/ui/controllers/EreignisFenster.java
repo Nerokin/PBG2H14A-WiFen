@@ -1,6 +1,7 @@
 package wifen.client.ui.controllers;
 
 import java.io.IOException;
+
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -8,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TitledPane;
 
@@ -15,7 +17,7 @@ import javafx.scene.control.TitledPane;
 
 /**
  * Anzeige vom Ereignisfenster
- * 
+ *
  * @author Kevin Curtis
  *
  */
@@ -32,7 +34,7 @@ public class EreignisFenster extends TitledPane {
 
 
 	private ObservableList<String> ereignislogList = FXCollections.observableArrayList();
-	
+
 	// Injected Nodes
 	@FXML public TitledPane tp_ereignis;
 	@FXML public ListView<String> lv_ereignislog;
@@ -60,8 +62,9 @@ public class EreignisFenster extends TitledPane {
 	private void initialize() {
 		// TODO: Data Binding and Setup of Event Handling
 		setText("Ereignisse");
+		lv_ereignislog.setPlaceholder(new Label("Keine Ereignise vorhanden!"));
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Ereignisse";
@@ -71,7 +74,7 @@ public class EreignisFenster extends TitledPane {
 
 	/**
 	 * Das eintragen von Texten in das Ereignisfenster
-	 * 
+	 *
 	 * @param text
 	 */
 	public void log(String text) {
@@ -81,7 +84,7 @@ public class EreignisFenster extends TitledPane {
 
 	/**
 	 * Die Methode gibt die eingetragenen Ereignisse zurück
-	 * 
+	 *
 	 * @return
 	 */
 	public ObservableList<String> getLog() {
@@ -104,7 +107,7 @@ public class EreignisFenster extends TitledPane {
 	/*
 	public final void setChatService(final wifen.client.services.ClientChatService chatService) {
 		this.chatServiceProperty().set(chatService);
-	}	
+	}
 	*/
 
 }

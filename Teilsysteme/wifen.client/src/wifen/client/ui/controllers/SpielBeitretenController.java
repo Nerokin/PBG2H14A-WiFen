@@ -2,7 +2,6 @@ package wifen.client.ui.controllers;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,21 +16,18 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 //import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 import wifen.client.application.ApplicationConstants;
 import wifen.client.application.ClientApplication;
 import wifen.commons.network.Connection;
-import wifen.commons.network.impl.ConnectionImpl;
 import wifen.commons.network.packets.EnterGamePacket;
 import wifen.commons.network.packets.impl.EnterGamePacketImpl;
 
 /**
  * Put description here
- * 
+ *
  * @author unknown
  *
  */
@@ -39,7 +35,7 @@ public class SpielBeitretenController extends BorderPane {
 
 	private final Logger logger = Logger.getLogger(SpielBeitretenController.class.getName());
 
-	
+
 	// constants
 	public static final String CSS_PATH = "/wifen/client/ui/css/SpielBeitreten.css";
 	public static final String FXML_PATH = "/wifen/client/ui/views/SpielBeitreten.fxml";
@@ -53,7 +49,7 @@ public class SpielBeitretenController extends BorderPane {
 	@FXML TextField tf_port;
 	@FXML TextField tf_ip;
 	@FXML Button btn_beitreten;
-	@FXML Button btn_zurÃ¼ck;
+	@FXML Button btn_zurück;
 
 	// @FXML private FormationDisplay formatDisplay;
 	// TODO
@@ -62,7 +58,7 @@ public class SpielBeitretenController extends BorderPane {
 
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public SpielBeitretenController() throws IOException {
@@ -87,9 +83,9 @@ public class SpielBeitretenController extends BorderPane {
 	private void initialize() {
 		// formatDisplay.setOnMouseClicked(this::click);
 		// TODO: Data Binding and Setup of Event Handling
-		
+
 		tf_port.setText(ApplicationConstants.APPLICATION_PORT+"");
-		btn_zurÃ¼ck.setOnAction(new EventHandler<ActionEvent>(){
+		btn_zurück.setOnAction(new EventHandler<ActionEvent>(){
 			 public void handle(ActionEvent e) {
 			Parent p = null;
 			try {
@@ -98,24 +94,24 @@ public class SpielBeitretenController extends BorderPane {
 			} catch (IOException e2) {
 				new Alert(AlertType.ERROR, "Hauptmenï¿½ konnte nicht geladen werden").showAndWait();
 			}
-			
+
 		}
 		});
-		
+
 		btn_beitreten.setOnAction(new EventHandler<ActionEvent>(){
 			 public void handle(ActionEvent e) {
-				 
+
 				 try{
 					String requestedName = tf_name.getText();
-					 
+
 					// Loading Screen
 					logger.info("Showing loading screen ...");
 					ClientApplication.instance().showLoadingScreen();
-						
+
 					// Connect to Server
 					logger.info("Attempting to retrieve Connection ...");
 					Connection tmpConn = ClientApplication.instance().startConnection(InetAddress.getByName(tf_ip.getText()));
-						 
+
 					// Attempt to enter game
 					logger.info("Attempting to enter game ...");
 					EnterGamePacket packet = new EnterGamePacketImpl(requestedName);
@@ -125,25 +121,25 @@ public class SpielBeitretenController extends BorderPane {
 				 catch(Exception ex){
 					 // Warnung ausgeben
 					 logger.log(Level.WARNING, "Spiel konnte nicht beigetreten werden", ex);
-					 
+
 					 // TODO: Revert EVERYTHING
 					 new Alert(AlertType.WARNING, "Spiel konnte nicht beigetreten werden").showAndWait();
 				 }
 			}
-				 
+
 		});
 	}
 
 	// Event Handlers
 	/*
 	 * private void click(MouseEvent event){
-	 * 
+	 *
 	 * } //TODO
 	 */
-	
-	
-	
-	
+
+
+
+
 	// Getter & Setter
 
 	public FXMLLoader getFXMLLoader() {

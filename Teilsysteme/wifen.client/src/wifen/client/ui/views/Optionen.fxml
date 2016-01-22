@@ -29,7 +29,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Slider id="sliderVolumen" fx:id="sd_volumen" prefHeight="14.0" prefWidth="264.0" />
+                  <Slider id="sliderVolumen" fx:id="sd_volumen" prefHeight="14.0" prefWidth="264.0" disable="true" value="0" />
                </children>
                <opaqueInsets>
                   <Insets />
@@ -42,7 +42,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <CheckBox id="cbMuteMusik" fx:id="cbx_muteMusic" mnemonicParsing="false" prefHeight="17.0" prefWidth="7.0" />
+                  <CheckBox id="cbMuteMusik" fx:id="cbx_muteMusic" mnemonicParsing="false" prefHeight="17.0" prefWidth="7.0" selected="true" disable="true" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="50.0">
@@ -52,7 +52,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <CheckBox id="cbMuteSound" fx:id="cbx_muteSound" mnemonicParsing="false" prefHeight="17.0" prefWidth="7.0" />
+                  <CheckBox id="cbMuteSound" fx:id="cbx_muteSound" mnemonicParsing="false" prefHeight="17.0" prefWidth="7.0" selected="true" disable="true" />
                </children>
             </HBox>
             <Label text="Medien Optionen" underline="true">
@@ -67,7 +67,7 @@
                         <Font size="24.0" />
                      </font>
                   </Label>
-                  <Slider id="sliderMaxDateigroesse" fx:id="sd_filesize" prefHeight="14.0" prefWidth="264.0" />
+                  <Slider id="sliderMaxDateigroesse" fx:id="sd_filesize" prefHeight="14.0" prefWidth="264.0" value="0" disable="true" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">

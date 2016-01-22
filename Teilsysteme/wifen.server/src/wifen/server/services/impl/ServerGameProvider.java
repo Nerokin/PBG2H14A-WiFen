@@ -36,28 +36,28 @@ import wifen.server.services.ServerGameeventService;
 public class ServerGameProvider implements ServerGameService, ConnectionListener {
 
 	// Attributes
-	
+
 	private Server server;
 	private GameStateModel gameState;
 	private Map<Player, Connection> playerConns = new HashMap<>();
 	private ServerGameeventService gameEventService;
-	
+
 	// Constructor(s)
-	
+
 	public ServerGameProvider(Server s, GameStateModel initialModel, ServerGameeventService eventService) {
 		this.setServer(s);
 		s.addListener(this);
 		this.gameState = initialModel;
 		this.gameEventService = eventService;
-		
+
 	}
-	
+
 	// <--- ServerGameService --->
-	
+
 	@Override
 	public void addPlayer(String playerName, SpielerRolle role, Connection associatedConnection) {
 		Player player = new PlayerImpl(playerName, role);
-		
+
 		// Wenn ja: Wird der ConnectionList hinzugefügt
 		playerConns.put(player, associatedConnection);
 		// Schicken ein EnterGamePacket an den beitretenden Spieler
@@ -65,17 +65,17 @@ public class ServerGameProvider implements ServerGameService, ConnectionListener
 		// EnterGameMessage auslösen bei allen Spielern
 		gameEventService.fireEvent(playerName + " ist dem Spiel als " +"\""+role+"\""+ " beigetreten.");
 	}
-	
+
 	@Override
 	public void addGameEvent(String eventMessage) {
 		getGameState().getEreignisLog().add(eventMessage);
 	}
-	
+
 	@Override
 	public void addChatMessage(String chatMessage) {
 		getGameState().getChatLog().add(chatMessage);
 	}
-	
+
 	@Override
 	public void addMarker(MarkerModel marker) {
 		getGameState().getViewModel().placeMarker(marker);
@@ -85,22 +85,22 @@ public class ServerGameProvider implements ServerGameService, ConnectionListener
 	public void addMedia(Medium media) {
 		getGameState().getMedia().add(media);
 	}
-	
+
 	public void addMediumView(MediumModel medium) {
 		getGameState().getViewModel().placeMedium(medium);
 	}
-	
+
 	// <--- ConnectionListener --->
-	
+
 	@Override
 	public void handle(ConnectionEvent connectionEvent) {
 		if (connectionEvent instanceof PacketReceivedEvent) {
 			PacketReceivedEvent packetEvent = (PacketReceivedEvent) connectionEvent;
 			if (packetEvent.getPacket() instanceof EnterGamePacket) {
 				EnterGamePacket packet = (EnterGamePacket) packetEvent.getPacket();
-				
+
 				// Nachschauen ob noch Platz im Aktiven Game ist
-				if (!packet.getName().trim().equals("") 
+				if (!packet.getName().trim().equals("")
 						&& getPlayerConns().size() < getGameState().getMaxPlayerCount()){
 					addPlayer(packet.getName(), getGameState().getStandardPlayerRole(), connectionEvent.getSource());
 				}
@@ -109,14 +109,14 @@ public class ServerGameProvider implements ServerGameService, ConnectionListener
 					// Wenn nein: Spieler bekommt eine Fehlermeldung das das Spiel voll ist
 					connectionEvent.getSource().sendPacket(new EnterGamePacketImpl(null, null));
 				}
-				
+
 			} else if (packetEvent.getPacket() instanceof MarkerPacket) {
 				MarkerPacket packet = (MarkerPacket) packetEvent.getPacket();
-				
+
 				addMarker(packet.getMarkerModel());
 				getPlayerConns().values()
 				.forEach((connection) -> connection.sendPacket(new MarkerPacketImpl(packet.getMarkerModel())));
-			} 
+			}
 			else if(packetEvent.getPacket() instanceof MarkerRemovedPacket){
 				MarkerRemovedPacket packet = (MarkerRemovedPacket) packetEvent.getPacket();
 
@@ -124,7 +124,7 @@ public class ServerGameProvider implements ServerGameService, ConnectionListener
 				getPlayerConns().values()
 				.forEach((connection) -> connection.sendPacket(new MarkerRemovedPacketImpl(packet.getMarkerId())));
 			}
-			
+
 			else if(packetEvent.getPacket() instanceof PlayerListPacket){
 				ArrayList<Player> players = new ArrayList<>(getPlayerConns().keySet());
 				connectionEvent.getSource().sendPacket(new PlayerListPacketImpl(players));
@@ -139,7 +139,7 @@ public class ServerGameProvider implements ServerGameService, ConnectionListener
 				getGameState().getViewModel().removeMedium(packet.getMediumId());
 				getPlayerConns().values().forEach((connection) -> connection.sendPacket(new MediumRemovedPacketImpl(packet.getMediumId())));
 			}
-			
+
 		} else if (connectionEvent instanceof ConnectionClosedEvent) {
 			Player p = getConnectionPlayer(connectionEvent.getSource());
 			getPlayerConns().remove(p);
@@ -153,7 +153,7 @@ public class ServerGameProvider implements ServerGameService, ConnectionListener
 		}
 		return null;
 	}
-	
+
 	// Getter & Setter
 
 	public Server getServer() {
@@ -184,5 +184,5 @@ public class ServerGameProvider implements ServerGameService, ConnectionListener
 	public void setPlayerConns(Map<Player, Connection> playerConns) {
 		this.playerConns = playerConns;
 	}
-	
+
 }

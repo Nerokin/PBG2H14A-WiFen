@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class MediumModel implements Serializable {
-	
+
 	// Class Constants
 
 	private static final long serialVersionUID = 1L;
-	
+
 	// Attributes
-	
+
 	private final UUID id = UUID.randomUUID();
 	private Medium medium;
 	private double posx;
@@ -18,25 +18,26 @@ public class MediumModel implements Serializable {
 	private String desc;
 	private Player owner;
 	private boolean isStatic;
-	
+
 	// Constructor(s)
-	
-	public MediumModel(Medium medium, double x, double y) {
-		this(medium, x, y, "");
+
+	public MediumModel(Player owner, Medium medium, double x, double y) {
+		this(owner, medium, x, y, "");
 	}
-	
-	public MediumModel(Medium med, double x, double y, String description) {
+
+	public MediumModel(Player owner, Medium med, double x, double y, String description) {
+		setOwner(owner);
 		setMedium(med);
 		setPosx(x);
 		setPosy(y);
 		setDesc(description);
 	}
-	
+
 	// Methods
-	
+
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + "{" 
+		return getClass().getSimpleName() + "{"
 				+ "owner: " + getOwner()
 				+ ", x: " + getPosx()
 				+ ", y: " + getPosy()
@@ -44,14 +45,14 @@ public class MediumModel implements Serializable {
 				+ ", isStatic: " + getIsStatic()
 				+ "}";
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		return obj != null
 				&& obj instanceof MediumModel
 				&& getId().equals(((MediumModel) obj).getId());
 	}
-	
+
 	// Getters & Setters
 
 	public Medium getMedium() {
@@ -85,11 +86,11 @@ public class MediumModel implements Serializable {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
-	
+
 	public UUID getId() {
 		return id;
 	}
-	
+
 	public Player getOwner() {
 		return owner;
 	}
@@ -105,5 +106,5 @@ public class MediumModel implements Serializable {
 	public void setIsStatic(boolean isStatic) {
 		this.isStatic = isStatic;
 	}
-	
+
 }

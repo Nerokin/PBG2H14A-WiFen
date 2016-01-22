@@ -20,6 +20,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -146,8 +147,9 @@ public class Hauptmenu extends BorderPane {
 		try {
 			 Parent root1 = new OptionenController();
              Stage stage = new Stage();
+             stage.initModality(Modality.APPLICATION_MODAL);
              stage.setScene(new Scene(root1));
-             stage.show();
+             stage.showAndWait();
 		} catch (IOException e) {
 			new Alert(AlertType.ERROR, "Optionsmenü konnte nicht geladen werden").showAndWait();
 		}

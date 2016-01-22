@@ -19,22 +19,22 @@ import wifen.commons.SpielerRolle;
 
 /**
  * Put description here
- * 
+ *
  * @author unknown
  *
  */
 public class MarkerView extends Parent {
-	
+
 	private double lastX=0;
 	private double lastY=0;
 	private SpielfeldView parent;
 	private MarkerModel marker;
 	ContextMenu contextMenu;
-	
+
 
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param m
 	 * @param f
 	 */
@@ -45,7 +45,7 @@ public class MarkerView extends Parent {
 		this.setTranslateY(marker.getPosy());
 		this.adjustPosition();
 		this.getChildren().add(new ImageView(marker.getType().getImg()));
-		
+
 		contextMenu = new ContextMenu();
 
 		MenuItem item1 = new MenuItem("entfernen");
@@ -54,7 +54,7 @@ public class MarkerView extends Parent {
 				ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMarkerRemoved(getMarkerModel().getId());
 		    }
 		});
-		
+
 		CheckMenuItem item2 = new CheckMenuItem("statisch");
 		item2.setOnAction(new EventHandler<ActionEvent>() {
 		    public void handle(ActionEvent e) {
@@ -63,24 +63,24 @@ public class MarkerView extends Parent {
 		    }
 		});
 
-		contextMenu.getItems().addAll(item1, item2);		
-		
-		marker.getType().getImg().progressProperty().addListener(new ChangeListener<Number>() {
+		contextMenu.getItems().addAll(item1, item2);
 
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-				if(newValue.intValue() >= 1) {
-					adjustPosition();
-				}
-			}	
-		});
-		
+//		marker.getType().getImg().progressProperty().addListener(new ChangeListener<Number>() {
+//
+//			@Override
+//			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+//				if(newValue.intValue() >= 1) {
+//					adjustPosition();
+//				}
+//			}
+//		});
+
 		this.setOnMouseDragged(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event) {
 				parent.setPannable(false);
-				if(!(marker.getIsStatic())&&(lastX != 0 || lastY != 0)&&(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(((MarkerView)event.getSource()).marker.getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))&&event.getButton()==MouseButton.PRIMARY) {
+				if((!marker.getIsStatic())&&(lastX != 0 || lastY != 0)&&(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(((MarkerView)event.getSource()).marker.getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))&&event.getButton()==MouseButton.PRIMARY) {
 					MarkerView m = (MarkerView)event.getSource();
 					double xoffs = event.getSceneX() - lastX;
 					double yoffs = event.getSceneY() - lastY;
@@ -90,9 +90,9 @@ public class MarkerView extends Parent {
 				lastX=event.getSceneX();
 				lastY=event.getSceneY();
 			}
-			
+
 		});
-		
+
 		this.setOnMouseReleased(new EventHandler<MouseEvent>(){
 
 			@Override
@@ -107,9 +107,9 @@ public class MarkerView extends Parent {
 				lastX=0;
 				lastY=0;
 			}
-			
+
 		});
-		
+
 		this.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -119,7 +119,7 @@ public class MarkerView extends Parent {
 			}
 		});
 	}
-	
+
 	/**
 	 * Put description here
 	 */
@@ -127,7 +127,7 @@ public class MarkerView extends Parent {
 		this.setTranslateX(getTranslateX() - (marker.getType().getImg().getWidth()/2));
 		this.setTranslateY(getTranslateY() - (marker.getType().getImg().getHeight()/2));
 	}
-	
+
 	public MarkerModel getMarkerModel() {
 		return marker;
 	}

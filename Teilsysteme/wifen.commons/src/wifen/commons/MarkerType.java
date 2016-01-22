@@ -17,7 +17,7 @@ import javafx.scene.image.WritableImage;
 
 /**
  * Put description here
- * 
+ *
  * @author unknown
  *
  */
@@ -29,32 +29,32 @@ public class MarkerType implements Serializable{
 	private String name;
 	private int width;
 	private int heigth;
-	
+
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param n
 	 * @param img
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public MarkerType(String n, Image img) throws IOException {
 		this.name = n;
 		this.img = imageToByte(img);
 	}
-	
+
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param img
 	 * @param n
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public MarkerType(Image img, String n) throws IOException{
 		this.img = imageToByte(img);
 		this.name = n;
 	}
-	
-	private byte[] imageToByte(Image i) throws IOException{
+
+	public byte[] imageToByte(Image i) throws IOException{
 		this.width = (int) i.getWidth();
 		this.heigth = (int) i.getHeight();
 		BufferedImage bImage = SwingFXUtils.fromFXImage(i, null);
@@ -63,8 +63,8 @@ public class MarkerType implements Serializable{
 		byte[] res  = s.toByteArray();
 		return res;
 	}
-	
-	private Image byteToImage(byte[] raw, final int width, final int height) {
+
+	public Image byteToImage(byte[] raw, final int width, final int height) {
 		WritableImage image = new WritableImage(width, height);
 		try {
 			ByteArrayInputStream bis = new ByteArrayInputStream(raw);
@@ -75,7 +75,7 @@ public class MarkerType implements Serializable{
 		}
 		return image;
 	}
-	
+
 	public String makePathFromName() {
 		String path = "file:src/resources/"+name+".png";
 		return path;
@@ -87,7 +87,7 @@ public class MarkerType implements Serializable{
 
 	public void setImg(Image img) throws IOException {
 		this.img = imageToByte(img);
-	}	
+	}
 
 	public void changeColor(String colorName){
 		try {

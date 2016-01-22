@@ -41,6 +41,7 @@ import wifen.client.services.impl.GameProvider;
 import wifen.client.services.impl.OptionProvider;
 import wifen.client.services.impl.SaveGameProvider;
 import wifen.client.ui.controllers.Hauptmenu;
+import wifen.commons.BackgroundImage;
 import wifen.commons.GameStateModel;
 import wifen.commons.GridType;
 import wifen.commons.SpielerRolle;
@@ -294,7 +295,7 @@ public class ClientApplication extends Application implements ServerListener, Co
 	 * @param standardPlayerRole The default role for new players
 	 * @param gridType The grid type for the playfield to display
 	 */
-	public void hostGame(int maximumPlayerCount, boolean spectatorsAllowed, boolean mediaInitiallyVisible, int maxDiceFaceCount, String playerName, SpielerRolle standardPlayerRole, GridType gridType) {
+	public void hostGame(int maximumPlayerCount, boolean spectatorsAllowed, boolean mediaInitiallyVisible, int maxDiceFaceCount, String playerName, SpielerRolle standardPlayerRole, GridType gridType, int width, int height, BackgroundImage backgroundImage) {
 		try {
 
 			// Check if a game is already running
@@ -313,6 +314,9 @@ public class ClientApplication extends Application implements ServerListener, Co
 				tmpModel.put("playerName", playerName);
 				tmpModel.put("standardPlayerRole", standardPlayerRole);
 				tmpModel.put("gridType", gridType);
+				tmpModel.put("width", width);
+				tmpModel.put("height", height);
+				tmpModel.put("backgroundImage", backgroundImage);
 
 				// Start the Server
 				Thread t;
@@ -414,7 +418,7 @@ public class ClientApplication extends Application implements ServerListener, Co
 				GameStateModel model = new GameStateModel((int) tmpModel.get("maximumPlayerCount"),
 						(boolean) tmpModel.get("spectatorsAllowed"), (boolean) tmpModel.get("mediaInitiallyVisible"),
 						(int) tmpModel.get("maxDiceFaceCount"), (SpielerRolle) tmpModel.get("standardPlayerRole"),
-						(GridType) tmpModel.get("gridType"), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+						(GridType) tmpModel.get("gridType"), (BackgroundImage) tmpModel.get("backgroundImage"), (int) tmpModel.get("height"), (int) tmpModel.get("width"), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
 				// Register a new chat service provider if the is none present
 				if (!getServiceRegistry().getServiceProviders(ServerChatService.class, false).hasNext()) {
@@ -499,15 +503,7 @@ public class ClientApplication extends Application implements ServerListener, Co
 
 			}
 
-			// Fetch the current chat service
-			ServerGameService serverGameService = getServiceRegistry().getServiceProviders(ServerGameService.class, false).next();
-
-			if (serverGameService != null) {
-
-				// Remove the chat service from the service registry
-				getServiceRegistry().deregisterServiceProvider(serverGameService, ServerGameService.class);
-			}
-
+			// Fetch the current game event service
 			ServerGameeventService serverGameEventService = getServiceRegistry().getServiceProviders(ServerGameeventService.class, false).next();
 
 			if (serverGameEventService != null) {
@@ -516,11 +512,22 @@ public class ClientApplication extends Application implements ServerListener, Co
 				getServiceRegistry().deregisterServiceProvider(serverGameEventService, ServerGameeventService.class);
 			}
 
-			GameService gameservice = ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class,false).next();
-			if (gameservice != null) {
+			// Fetch the current media service
+			ServerMediaService serverMediaService = getServiceRegistry().getServiceProviders(ServerMediaService.class, false).next();
+
+			if (serverMediaService != null) {
 
 				// Remove the chat service from the service registry
-				getServiceRegistry().deregisterServiceProvider(gameservice, GameService.class);
+				getServiceRegistry().deregisterServiceProvider(serverMediaService, ServerMediaService.class);
+			}
+
+			// Fetch the current game service
+			ServerGameService serverGameService = getServiceRegistry().getServiceProviders(ServerGameService.class, false).next();
+
+			if (serverGameService != null) {
+
+				// Remove the chat service from the service registry
+				getServiceRegistry().deregisterServiceProvider(serverGameService, ServerGameService.class);
 			}
 
 			// Deregister the Server
@@ -547,7 +554,6 @@ public class ClientApplication extends Application implements ServerListener, Co
 			} catch (NoSuchElementException e) {
 				chatService = null;
 			}
-
 
 			if (chatService != null) {
 
@@ -580,6 +586,26 @@ public class ClientApplication extends Application implements ServerListener, Co
 
 				logger.info("The ClientGameEventService has been successfully shut down");
 			} else logger.info("There is no ClientGameEventService");
+
+			// Fetch the current media service
+			ClientMediaService mediaService;
+			try {
+				mediaService = getServiceRegistry().getServiceProviders(ClientMediaService.class, false).next();
+			} catch (NoSuchElementException e) {
+				mediaService = null;
+			}
+
+			if (mediaService != null) {
+
+				// Remove the invalidated connection from the chat service
+				mediaService.setConnection(null);
+
+				// Remove the chat service from the service registry
+				getServiceRegistry().deregisterServiceProvider(mediaService, ClientMediaService.class);
+
+				logger.info("The ClientMediaService has been successfully shut down");
+
+			} else logger.info("There is no ClientMediaService");
 
 			// Fetch current game service
 
@@ -655,6 +681,10 @@ public class ClientApplication extends Application implements ServerListener, Co
 						gameService = new GameProvider(packet.getInitialModel(), packet.getPlayer());
 					} catch (Exception e) {
 						logger.log(Level.SEVERE, "GameProvider could not be created", e);
+						Platform.runLater(() -> {
+							new Alert(AlertType.ERROR, "Spieloberfläche konnte nicht erstellt werden.\nDie Anwendung wird jetzt beendet.").showAndWait();
+							Platform.exit();
+						});
 					}
 
 					// Register the game service
@@ -704,8 +734,8 @@ public class ClientApplication extends Application implements ServerListener, Co
 
 		// Ask if the user really wants to close the window
 		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Really quit?");
-		alert.setHeaderText("Do you really want to close the application?");
+		alert.setTitle("Beenden");
+		alert.setHeaderText("Willst du die Anwendung wirklich beenden ?");
 		Optional<ButtonType> result = alert.showAndWait();
 		if(result.get()==ButtonType.OK)
 		{
@@ -713,22 +743,24 @@ public class ClientApplication extends Application implements ServerListener, Co
 			if(getServiceProvider(GameService.class)!=null && ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class,false).next().getActivePlayer().getRolle()== SpielerRolle.ADMIN)
 			{
 				alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("Save?");
-				alert.setHeaderText("Do you want to save the game too?");
+				alert.setTitle("Speichern");
+				alert.setHeaderText("Willst du das Spiel vorher speichern ?");
 				result = alert.showAndWait();
 				if(result.get()==ButtonType.OK)
 				{
 					// Save game here!
 					FileChooser fileChooser = new FileChooser();
-					fileChooser.setTitle("Save game");
+					fileChooser.setTitle("Speichern");
 					GameService gameservice = ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class,false).next();
 					File file = fileChooser.showSaveDialog(gameservice.getGameView().getScene().getWindow());
 					if(file != null)
 					{
 						try {
 							saveGame(file);
+							Platform.runLater(() -> new Alert(AlertType.INFORMATION, "Spiel erfolgreich gespeichert!").showAndWait());
 						} catch (IOException e) {
 							logger.log(Level.SEVERE, "Game could not be saved!", e);
+							Platform.runLater(() -> new Alert(AlertType.WARNING, "Spiel konnte nicht gespeichert werden!").showAndWait());
 						}
 					}
 				}

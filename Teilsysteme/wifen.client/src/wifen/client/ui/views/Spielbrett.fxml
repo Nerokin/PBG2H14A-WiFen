@@ -15,7 +15,7 @@
          <children>
          	<CheckComboBox fx:id="choiceID" />
             <Button fx:id="optionID" mnemonicParsing="false" text="Optionen" />
-            <Button fx:id="refreshID" mnemonicParsing="false" text="Refresh" />
+            <Button fx:id="refreshID" mnemonicParsing="false" text="Refresh" disable="true" />
             <Button fx:id="dcID" mnemonicParsing="false" text="Trennen" disable="true" />
          </children>
       </HBox>

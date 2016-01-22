@@ -13,11 +13,11 @@
    <content>
    <VBox>
    <children>
-      <Label fx:id="diceLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="360.0" text="Würfel" textOverrun="CLIP">
+    	 <!--   <Label fx:id="diceLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="360.0" text="Würfel" textOverrun="CLIP">
          <font>
             <Font size="36.0" />
          </font>
-      </Label>
+      </Label> -->
       <ToolBar fx:id="diceTools" prefHeight="34.0" prefWidth="360.0">
          <items>
             <ImageView fx:id="d2" fitHeight="32.0" fitWidth="76.0" onDragDetected="#wuerfelDrag2" onDragDone="#wuerfelDone" onDragOver="#wuerfelDragOver" pickOnBounds="true" preserveRatio="true">

@@ -31,6 +31,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import wifen.client.application.ClientApplication;
 //import wifen.client.application.Game;
@@ -44,7 +45,7 @@ import wifen.commons.GameStateModel;
 import wifen.commons.SpielerRolle;
 import wifen.commons.network.Connection;
 
- 
+
  public class SpielbrettController extends BorderPane implements GameServiceListener{
 
  	private static final Logger logger = Logger.getLogger(SpielbrettController.class.getName());
@@ -96,8 +97,8 @@ import wifen.commons.network.Connection;
  	}
 
  	public SpielbrettController(GameStateModel initialModel) throws IOException {
- 		this(); 		
- 		
+ 		this();
+
  		// Initialize Playfield
  		setMarkerWindow(MarkerWindow.getInstance());
  		setPlayfield(new SpielfeldView(20, 20, initialModel.getViewModel(), getMarkerWindow()));
@@ -154,7 +155,7 @@ import wifen.commons.network.Connection;
 			if (ereignisBox != null) choiceID.getItems().add(ereignisBox);
 			if (markerBox != null) choiceID.getItems().add(markerBox);
 			if (mediaLibrary != null) choiceID.getItems().add(mediaLibrary);
-			
+
 
  			// Create the CheckComboBox with the data
 
@@ -168,8 +169,9 @@ import wifen.commons.network.Connection;
  					try {
  		                Parent root1 = new OptionenController();
  		                Stage stage = new Stage();
+ 		                stage.initModality(Modality.APPLICATION_MODAL);
  		                stage.setScene(new Scene(root1));
- 		                stage.show();
+ 		                stage.showAndWait();
  		        } catch (IOException e) {
  						new Alert(AlertType.ERROR, "Optionsmenü konnte nicht geladen werden").showAndWait();
  					}
@@ -288,7 +290,7 @@ import wifen.commons.network.Connection;
 			adminBox.setDisable(true);
 		}
 	}
- 	
+
  	public MedienbibliothekController getMediaLibrary(){
  		return mediaLibrary;
  	}

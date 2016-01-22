@@ -14,11 +14,10 @@ import java.nio.file.Files;
 public class Medium implements Serializable
 {
 	private static final long serialVersionUID = 5665637985008900238L;
-	
+
 	private String name;
 	private FileType type;
 	private byte[] rawrData;
-	private String path;
 
 	/**
 	 * Put description here
@@ -28,7 +27,7 @@ public class Medium implements Serializable
 	public Medium(File file) throws IOException
 	{
 		name = file.getName();
-		
+
 		type = getTypeFromName(name);
 
 		rawrData = Files.readAllBytes(file.toPath());
@@ -52,26 +51,20 @@ public class Medium implements Serializable
 	@Override
 	public String toString()
 	{
-		return getClass().getSimpleName() + "{"
-				+ "name :" + getName()
-				+ ", type: " + getType()
-				+ ", file: " + getRawData()
-				+ "}";
+		return getName();
 	}
 
+//	return getClass().getSimpleName() + "{"
+//	+ "name :" + getName()
+//	+ ", type: " + getType()
+//	+ ", file: " + getRawData()
+//	+ "}";
+
 	// Create instance
-	/**
-	 * Put description here
-	 *
-	 * @return
-	 */
-	public MediumInstance createInstance()
-	{
-		return new MediumInstance(this);
-	}
-	
+
+
 	private FileType getTypeFromName(String name) {
-		String x = name.substring(name.lastIndexOf('.')).toLowerCase(); 
+		String x = name.substring(name.lastIndexOf('.')).toLowerCase();
 		switch(x) {
 		case ".bmp":
 		case ".jpg":

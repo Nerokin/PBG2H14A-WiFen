@@ -68,7 +68,7 @@ public class Wuerfelfenster extends TitledPane {
 		@FXML public ImageView d8;
 		@FXML public ImageView d10;
 		@FXML public TextField diceText;
-		@FXML public Button wÃ¼rfeln;
+		@FXML public Button würfeln;
 		@FXML public Button reset;
 		@FXML public GridPane animationGrid;
 		//@FXML public Label dropped;
@@ -78,10 +78,10 @@ public class Wuerfelfenster extends TitledPane {
 		double mousex,mousey;
 		Image wuerfelImage = new Image("/wifen/client/ui/views/wuerfel.png");
 		@FXML public Pane dropped;
-		private ArrayList<Timeline> AnimationLines = new ArrayList<Timeline>();		
-		
+		private ArrayList<Timeline> AnimationLines = new ArrayList<Timeline>();
+
 		boolean temp = false;
-		
+
 		Image imagesD2[];
 		Image animationD2;
 		Image animationD2rot =  new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/d02_animation_rot.gif"));
@@ -95,10 +95,10 @@ public class Wuerfelfenster extends TitledPane {
 		Image imagesD10[];
 		Image animationD10 = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/d10_animation.gif"));
 		Image animations[];
-		
-		
-	
-		
+
+
+
+
 
 		private static final Logger logger = Logger.getLogger(Wuerfelfenster.class.getName());
 
@@ -147,19 +147,19 @@ public class Wuerfelfenster extends TitledPane {
 
 		@FXML
 		private void initialize() {
-			
-				diceText.setPromptText("Ziehe die WÃ¼rfel in das mittlere Feld!");
+
+				diceText.setPromptText("Ziehe die Würfel in das mittlere Feld!");
 				imagesD2 = new Image[2];
 				imagesD4 = new Image[4];
 				imagesD6 = new Image[6];
 				imagesD8 = new Image[8];
 				imagesD10 = new Image[11];
-				
+
 				animationGrid.setHgap(20);
 				animationGrid.setVgap(75);
 				animationGrid.setPadding(new Insets(20,5,5,5));
-				
-				
+
+
 				try {
 					// Bilder fï¿½r 2er "Wï¿½rfel" Animation laden... :
 					imagesD2[0] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d02/d2_1.png"));
@@ -186,7 +186,7 @@ public class Wuerfelfenster extends TitledPane {
 					imagesD8[6] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_7.png"));
 					imagesD8[7] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_8.png"));
 					// Bilder fï¿½r 10er "Wï¿½rfel" Animation laden... :
-				
+
 					imagesD10[0] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_1.png"));
 					imagesD10[1] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_2.png"));
 					imagesD10[2] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_3.png"));
@@ -197,27 +197,27 @@ public class Wuerfelfenster extends TitledPane {
 					imagesD10[7] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_8.png"));
 					imagesD10[8] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_9.png"));
 					imagesD10[9] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_0.png"));
-			
-					
+
+
 				} catch (Exception e) {
 
 					System.err.println("Bilder konnten nicht geladen werden!\n"+e.getMessage());
 				}
-				
-			
-				
-				
+
+
+
+
 		//testMe.setOnMousePressed(wuerfelOnMousePressedEventHandler);
 		//	testMe.setOnMouseDragged(wuerfelOnMouseDraggedEventHandler);
 
 
 			//TODO: Data Binding and Setup of Event Handling
-			setText("Wï¿½rfel");
+			setText("Würfel");
 		}
-		
+
 		@Override
 		public String toString() {
-			return "Wuerfel";
+			return "Würfel";
 		}
 
 		//Event Handlers
@@ -357,23 +357,23 @@ public class Wuerfelfenster extends TitledPane {
 		 *
 		 * @param ev DragEvent beim Droppen
 		 */
-		
+
 		private int colInd = 0;
 		private int rowInd = 0;
-		
+
 		@FXML
 		public void wuerfelDrop(DragEvent ev){
-			
+
 			try{
-				
-			
+
+
 			DiceObject tmpDiceImg = new DiceObject();
 			logger.info("" + tmpDiceImg.getWuerfelImg());
 //			tempImageView.setFitWidth(75);
 //			tempImageView.setFitHeight(75);
 			int columnSize = 4;
 			int check = 0;
-			
+
 			Dragboard db = ev.getDragboard();
 			ev.setDropCompleted(true);
 			switch(db.getString()){
@@ -393,10 +393,10 @@ public class Wuerfelfenster extends TitledPane {
 					check = 10;
 					break;
 			}
-			
+
 			String ausgabe = "";
 			temp = false;
-	
+
 			if(w2!=0){
 				ausgabe=w2+"w2";
 				temp = true;
@@ -406,8 +406,8 @@ public class Wuerfelfenster extends TitledPane {
 				}
 			}
 			if(w4!=0){
-				if(temp){					
-					ausgabe+=";";	
+				if(temp){
+					ausgabe+=";";
 				}
 				temp = true;
 				ausgabe+=w4+"w4";
@@ -427,7 +427,7 @@ public class Wuerfelfenster extends TitledPane {
 					animationGrid.add(tmpDiceImg.getWuerfelImg(), colInd, rowInd);
 				}
 			}
-	
+
 			if(w8!=0){
 				if(temp){
 					ausgabe+=";";
@@ -450,15 +450,15 @@ public class Wuerfelfenster extends TitledPane {
 					animationGrid.add(tmpDiceImg.getWuerfelImg(), colInd, rowInd);
 				}
 			}
-			
+
 			tmpDiceImg.setWuerfelImg(null);
-			
+
 			colInd++;
 			if(colInd>columnSize-1){
 				rowInd++;
 				colInd = 0;
 			}
-			
+
 			diceText.setText(ausgabe);
 				ev.consume();
 
@@ -467,16 +467,16 @@ public class Wuerfelfenster extends TitledPane {
 			{
 				e.printStackTrace();
 			}
-	
+
 		}
-		
-		
-		
-		private static WÃ¼rfelanimationListe w = new WÃ¼rfelanimationListe();
-		
-		private static ArrayList<Integer> wÃ¼rfelListe =  new ArrayList<Integer>();
+
+
+
+		private static WürfelanimationListe w = new WürfelanimationListe();
+
+		private static ArrayList<Integer> würfelListe =  new ArrayList<Integer>();
 		@FXML
-		public void wÃ¼rfeln() throws IOException{
+		public void würfeln() throws IOException{
 			rowInd = 0;
 			colInd = 0;
 //			logger.info("THIS IS WUERFELN!");
@@ -485,25 +485,25 @@ public class Wuerfelfenster extends TitledPane {
 			animationGrid.getChildren().clear();
 			String[] tmp = diceText.getText().split(";");
 			String output = "";
-			
-			wÃ¼rfelListe.clear();
+
+			würfelListe.clear();
 			ArrayList<Integer> arrayList = null;
 
-			
+
 			if(tmp.length >= 1){
 				for(int i = 0; i < tmp.length; i++){
 					DiceObject tmpDiceIn = dice.checkInput(tmp[i]);
-					
+
 					tmpDiceIn = dice.dice_Throw(tmpDiceIn);
-					
+
 					if(tmpDiceIn != null){
 						output += dice.outputThrow(tmpDiceIn);
-						
-					for (int k = 0; k < tmpDiceIn.getDiceCount(); k++) 
-						wÃ¼rfelListe.add(tmpDiceIn.getSideCount());
-						
+
+					for (int k = 0; k < tmpDiceIn.getDiceCount(); k++)
+						würfelListe.add(tmpDiceIn.getSideCount());
+
 						//w.addWelcherWuerfel(thisWurfel);
-					
+
 					}
 					else{
 						//System.out.println("Kein gueltiger Wuerfelausdruck.");
@@ -515,7 +515,7 @@ public class Wuerfelfenster extends TitledPane {
 				int resultAsZahl =0;
 				for(int tmpResult : arrayList)
 					resultAsZahl+=tmpResult;
-				
+
 				resultAsZahl += dice.returnModifier().get(0);
 				String p = ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, true)
 						.next().getActivePlayerName();
@@ -539,35 +539,35 @@ public class Wuerfelfenster extends TitledPane {
 			Timeline tempTimeLine = null;
 			//ArrayList<String> tempArrayList= w.getAlleWurfel();
 			 // Beinhaltet insgesamtes Ergebnis aller Wï¿½rfel!
-			
 
-			for(int wÃ¼rfelInt : wÃ¼rfelListe){
+
+			for(int würfelInt : würfelListe){
 				ImageView tempImageView = new ImageView();
-				
+
 				tempImageView.setFitWidth(75);
 				tempImageView.setFitHeight(75);
-				
+
 				int result = arrayList.get(wuerfelCounter);
-					if(wÃ¼rfelInt==2){
+					if(würfelInt==2){
 						tempTimeLine = d02animation(tempImageView, result);
 						AnimationLines.add(tempTimeLine);
-					}else if(wÃ¼rfelInt==4){
+					}else if(würfelInt==4){
 						tempTimeLine = d04animation(tempImageView, result);
 						AnimationLines.add(tempTimeLine);
 					}
-					else if(wÃ¼rfelInt==6){
+					else if(würfelInt==6){
 						tempTimeLine = d06animation(tempImageView, result);
 						AnimationLines.add(tempTimeLine);
 					}
-					else if(wÃ¼rfelInt==8){
+					else if(würfelInt==8){
 						tempTimeLine = d08animation(tempImageView, result);
 						AnimationLines.add(tempTimeLine);
 					}
-					else if(wÃ¼rfelInt==10){
+					else if(würfelInt==10){
 						tempTimeLine = d10animation(tempImageView, result);
 						AnimationLines.add(tempTimeLine);
 					}
-				
+
 				animationGrid.add(tempImageView, counterColumn, rowCounter);
 				counterColumn++;
 				wuerfelCounter++;
@@ -576,20 +576,20 @@ public class Wuerfelfenster extends TitledPane {
 					counterColumn= 0;
 				}
 			}
-			
+
 			for(Timeline t1 : AnimationLines){
 				//System.out.println("AnimationPlay");
 				t1.setCycleCount(1);
 				t1.setRate(0.5);
 				t1.play();
-			
+
 			}
 			dice.playWuerfeln();
-			
+
 		}
 		@FXML
 		public void onEnter() throws IOException{
-			wÃ¼rfeln();
+			würfeln();
 		}
 
 
@@ -629,7 +629,7 @@ public class Wuerfelfenster extends TitledPane {
 			diceText.setText("");
 			diceText.requestFocus();
 			AnimationLines.clear();
-			animationGrid.getChildren().clear();	
+			animationGrid.getChildren().clear();
 			rowInd = 0;
 			colInd = 0;
 
@@ -651,17 +651,17 @@ public class Wuerfelfenster extends TitledPane {
 			* result ist das Ergebnis aus der Wï¿½rfel-Methode
 			* alle Einzelbilder und Animation laden...
 			*/
-	
+
 //			animationD10 = new Image(new FileInputStream("./ressources/wuerfelAnimation/d10_animation.gif"));
 
 			//Animation und Ergebnis den KeyFrames zuweisen
 			KeyFrame[] keys = new KeyFrame[10];
 			Random r = new Random();
 			for (int i = 0; i < keys.length; i++){
-				int tmp = r.nextInt(10); 
+				int tmp = r.nextInt(10);
 				keys[i] = new KeyFrame(Duration.millis(i * 100), new KeyValue(iv.imageProperty(),imagesD10[tmp]));
 			}
-			
+
 			KeyFrame resultFrame = new KeyFrame(Duration.millis(1100), new KeyValue(iv.imageProperty(), imagesD10[result-1]));
 
 			Timeline timeline = new Timeline(keys[0], keys[1], keys[2], keys[3], keys[4], keys[5], keys[6], keys[7], keys[8], keys[9], resultFrame);
@@ -676,7 +676,7 @@ public class Wuerfelfenster extends TitledPane {
 			*/
 
 
-			
+
 //			animationD4 = new Image(new FileInputStream("./ressources/wuerfelAnimation/d04_animation.gif"));
 
 			if(result < 1)
@@ -685,10 +685,10 @@ public class Wuerfelfenster extends TitledPane {
 			KeyFrame[] keys = new KeyFrame[10];
 			Random r = new Random();
 			for (int i = 0; i < keys.length; i++){
-				int tmp = r.nextInt(4); 
+				int tmp = r.nextInt(4);
 				keys[i] = new KeyFrame(Duration.millis(i * 100), new KeyValue(iv.imageProperty(),imagesD4[tmp]));
 			}
-			
+
 			KeyFrame resultFrame = new KeyFrame(Duration.millis(1100), new KeyValue(iv.imageProperty(), imagesD4[result-1]));
 
 			Timeline timeline = new Timeline(keys[0], keys[1], keys[2], keys[3], keys[4], keys[5], keys[6], keys[7], keys[8], keys[9], resultFrame);
@@ -707,10 +707,10 @@ public class Wuerfelfenster extends TitledPane {
 			KeyFrame[] keys = new KeyFrame[10];
 			Random r = new Random();
 			for (int i = 0; i < keys.length; i++){
-				int tmp = r.nextInt(6); 
+				int tmp = r.nextInt(6);
 				keys[i] = new KeyFrame(Duration.millis(i * 100), new KeyValue(iv.imageProperty(),imagesD6[tmp]));
 			}
-						
+
 			KeyFrame resultFrame = new KeyFrame(Duration.millis(1100), new KeyValue(iv.imageProperty(), imagesD6[result-1]));
 			Timeline timeline = new Timeline(keys[0], keys[1], keys[2], keys[3], keys[4], keys[5], keys[6], keys[7], keys[8], keys[9], resultFrame);
 			return timeline;
@@ -725,17 +725,17 @@ public class Wuerfelfenster extends TitledPane {
 
 
 //			animationD8 = new Image(new FileInputStream("./ressources/wuerfelAnimation/d08_animation.gif"));
-			
-			
+
+
 			if(result < 1)
 				result=1;
 			KeyFrame[] keys = new KeyFrame[10];
 			Random r = new Random();
 			for (int i = 0; i < keys.length; i++){
-				int tmp = r.nextInt(8); 
+				int tmp = r.nextInt(8);
 				keys[i] = new KeyFrame(Duration.millis(i * 100), new KeyValue(iv.imageProperty(),imagesD8[tmp]));
 			}
-			
+
 			KeyFrame resultFrame = new KeyFrame(Duration.millis(1100), new KeyValue(iv.imageProperty(), imagesD8[result-1]));
 
 			Timeline timeline = new Timeline(keys[0], keys[1], keys[2], keys[3], keys[4], keys[5], keys[6], keys[7], keys[8], keys[9], resultFrame);
@@ -748,10 +748,10 @@ public class Wuerfelfenster extends TitledPane {
 			* holt man sich das Ergebnis-image aus dem Array, wird von result 1 abgezogen,
 			* da das Ergebnis 1 and Stelle 0 liegt usw.
 			*/
-		
+
 			if(result < 1)
 				result=1;
-				
+
 
 			KeyFrame[] keys = new KeyFrame[10];
 			for (int i = 0; i < keys.length; i++){
@@ -764,7 +764,7 @@ public class Wuerfelfenster extends TitledPane {
 				}
 				keys[i] = new KeyFrame(Duration.millis(i * 100), new KeyValue(iv.imageProperty(),imagesD2[tmp]));
 			}
-			
+
 			KeyFrame resultFrame = new KeyFrame(Duration.millis(1100), new KeyValue(iv.imageProperty(), imagesD2[result-1]));
 
 			Timeline timeline = new Timeline(keys[0], keys[1], keys[2], keys[3], keys[4], keys[5], keys[6], keys[7], keys[8], keys[9], resultFrame);

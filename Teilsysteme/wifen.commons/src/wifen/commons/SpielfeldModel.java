@@ -20,6 +20,7 @@ public class SpielfeldModel implements Serializable {
 	private ArrayList<MarkerModel> markers;
 	private double sizeX;
 	private double sizeY;
+	private BackgroundImage backgroundImage;
 
 	// Constructors
 
@@ -28,7 +29,8 @@ public class SpielfeldModel implements Serializable {
 	 *
 	 * @param t
 	 */
-	public SpielfeldModel(GridType t, double x, double y) {
+	public SpielfeldModel(GridType t, double x, double y, BackgroundImage backgroundImage) {
+		this.backgroundImage = backgroundImage;
 		this.typ = t;
 		this.mediums = new ArrayList<MediumModel>();
 		this.markers = new ArrayList<MarkerModel>();
@@ -99,7 +101,6 @@ public class SpielfeldModel implements Serializable {
 			}
 		}
 		getMediums().remove(mm);
-		getMediums().add(mm);
 	}
 
 	// Getters & Setters
@@ -124,5 +125,13 @@ public class SpielfeldModel implements Serializable {
 	public void setSizeX(double x) {
 		this.sizeX=x;
 	}
-	
+
+	public BackgroundImage getBackgroundImage() {
+		return backgroundImage;
+	}
+
+	public void setBackgroundImage(BackgroundImage backgroundImage) {
+		this.backgroundImage = backgroundImage;
+	}
+
 }

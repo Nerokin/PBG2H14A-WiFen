@@ -83,14 +83,15 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		this.tilesPerCol = tilesPerCol;
 		this.tilesPerRow = tilesPerRow;
 //		this.markerWindow = markerWindow;
-		((Pane)this.getContent()).setBackground(
-				new Background(
-						new BackgroundImage(
-								new Image(getClass().getResourceAsStream("/wifen/client/resources/ludo_board.png")),
-								BackgroundRepeat.NO_REPEAT,
-								BackgroundRepeat.NO_REPEAT,
-								BackgroundPosition.CENTER,
-								new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true))));
+		if (sm.getBackgroundImage() != null)
+			((Pane)this.getContent()).setBackground(
+					new Background(
+							new BackgroundImage(
+									sm.getBackgroundImage().getImage(),
+									BackgroundRepeat.NO_REPEAT,
+									BackgroundRepeat.NO_REPEAT,
+									BackgroundPosition.CENTER,
+									new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true))));
 		draw(this.model.getTyp());
 		addMarkersFromModel();
 		addFilesFromModel();
@@ -314,7 +315,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 				Dragboard db = e.getDragboard();
 				if(db.hasContent(MedienbibliothekController.MEDIUM_FORMAT) && db.getContent(MedienbibliothekController.MEDIUM_FORMAT) instanceof Medium) {
 					ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next()
-					.sendMediumPlaced(new MediumModel((Medium) db.getContent(MedienbibliothekController.MEDIUM_FORMAT), e.getX(), e.getY()));
+					.sendMediumPlaced(new MediumModel(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer(), (Medium) db.getContent(MedienbibliothekController.MEDIUM_FORMAT), e.getX(), e.getY()));
 					e.setDropCompleted(true);
 				} else if(db.hasContent(MarkerWindow.MARKER_FORMAT) && db.getContent(MarkerWindow.MARKER_FORMAT) instanceof MarkerType) {
 					MarkerType mt = (MarkerType) db.getContent(MarkerWindow.MARKER_FORMAT);
@@ -339,7 +340,9 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 	}
 
 	private void addFilesFromModel() {
-		// TODO: Add File Views to children
+		for(MediumModel m : this.model.getMediums()) {
+			this.addToView(new MediumView(m, this));
+		}
 	}
 
 	private void removeAllMarkerViews() {
@@ -351,7 +354,11 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 	}
 
 	private void removeAllFileViews() {
-		// TODO: Remove File Views from Children
+		for(Node n : ((Pane)this.getContent()).getChildren()) {
+			if(n instanceof MediumView) {
+				this.removeFromView(n);
+			}
+		}
 	}
 
 	private void removeAllViews() {
@@ -405,7 +412,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 					((MediumView)n).setTranslateY(mediumModel.getPosy());
 					((MediumView)n).setMedium(mediumModel);
 					((CheckMenuItem)((MediumView)n).getContextMenu().getItems().get(1)).setSelected(((MediumView)n).getMedium().getIsStatic());
-					
+
 					neu = false;
 					break;
 				}
@@ -416,7 +423,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		}
 		Platform.runLater(() -> model.placeMedium(mediumModel));
 	}
-	
+
 	public void RemoveMedium(UUID mediumId) {
 		MediumView mv = null;
 		for(Node n : ((Pane)this.getContent()).getChildren()){
@@ -441,7 +448,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 					((MarkerView)n).setTranslateY(m.getPosy());
 					((MarkerView)n).setMarker(m);
 					((CheckMenuItem)((MarkerView)n).getContextMenu().getItems().get(1)).setSelected(((MarkerView)n).getMarkerModel().getIsStatic());
-					
+
 					neu = false;
 					break;
 				}
@@ -475,7 +482,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 	public void removeFromView(Node value){
 		((Pane) this.getContent()).getChildren().remove(value);
 	}
-	
+
 	/*
 	 * Optional functionalities
 	@Override

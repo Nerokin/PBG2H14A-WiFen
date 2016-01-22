@@ -13,6 +13,7 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 import wifen.client.application.ClientApplication;
 import wifen.client.services.ClientChatService;
+import wifen.client.services.ClientMediaService;
 import wifen.client.services.GameService;
 import wifen.client.ui.controllers.Hauptmenu;
 import wifen.client.ui.controllers.SpielbrettController;
@@ -35,26 +36,26 @@ import wifen.commons.network.packets.impl.MediumRemovedPacketImpl;
 
 /**
  * Implementation of the {@linkplain GameService} interface.
- * 
+ *
  * @author Konstantin Schaper
  *
  */
 public class GameProvider implements GameService, ConnectionListener {
-	
+
 	// Class Constants
-	
+
 	private final Logger logger = Logger.getLogger(GameProvider.class.getName());
-	
+
 	// Attributes
-	
+
 	private Player activePlayer;
 	private SpielbrettController gameView;
 	private ServiceRegistry registry;
 	private GameStateModel initialModel;
 	private final Set<GameServiceListener> listeners = new HashSet<>();
-	
+
 	// Constructor(s)
-	
+
 	public GameProvider(GameStateModel initialModel, Player player) throws IOException {
 		this.activePlayer = player;
 		setInitialModel(initialModel);
@@ -62,9 +63,9 @@ public class GameProvider implements GameService, ConnectionListener {
 		addListener(getGameView());
 		getListeners().forEach((listener) -> listener.onRolleChanged(this, getActivePlayer().getRolle()));
 	}
-	
+
 	// <--- ConnectionListener --->
-	
+
 	@Override
 	public void handle(ConnectionEvent connectionEvent) {
 		if (connectionEvent instanceof PacketReceivedEvent) {
@@ -85,22 +86,25 @@ public class GameProvider implements GameService, ConnectionListener {
 				MediumRemovedPacket packet = (MediumRemovedPacket) packetEvent.getPacket();
 				getGameView().getPlayfield().RemoveMedium(packet.getMediumId());
 			}
-		} 
+		}
 	}
-	
+
 	// <--- RegisterableService --->
-	
+
 	@Override
 	public void onRegistration(ServiceRegistry registry, Class<?> category) {
 		if (getRegistry() != null && !getRegistry().equals(registry))
-			registry.deregisterServiceProvider(this); 
+			registry.deregisterServiceProvider(this);
 		else {
 			setRegistry(registry);
 			getRegistry().getServiceProviders(Connection.class, true).next().addListener(this);
-			
+
 			// Load ChatLog
 			getRegistry().getServiceProviders(ClientChatService.class, true).next().loadChatlog(getInitialModel().getChatLog());
-			
+
+			// Load Media
+			getRegistry().getServiceProviders(ClientMediaService.class, true).next().loadMedia(getInitialModel().getMedia());
+
 			// Load GameEventLog
 			//getRegistry().getServiceProviders(ClientGameeventService.class, true).next().loadGameeventlog(getInitialModel().getEreignisLog());
 		}
@@ -119,9 +123,9 @@ public class GameProvider implements GameService, ConnectionListener {
 			setRegistry(null);
 		}
 	}
-	
+
 	// <--- GameService --->
-	
+
 	@Override
 	public void sendMarkerRemoved(UUID id) {
 		try {
@@ -133,7 +137,7 @@ public class GameProvider implements GameService, ConnectionListener {
 			logger.log(Level.WARNING, "Marker konnte nicht entfernt werden", e);
 		}
 	}
-	
+
 	@Override
 	public void sendMarkerPlaced(MarkerModel marker) {
 		try {
@@ -146,7 +150,7 @@ public class GameProvider implements GameService, ConnectionListener {
 			// TODO Marker konnte nicht platziert werden
 		}
 	}
-	
+
 	public void sendMediumPlaced(MediumModel m) {
 		try {
 			ClientApplication.instance().getServiceRegistry().getServiceProviders(Connection.class, true).next()
@@ -155,7 +159,7 @@ public class GameProvider implements GameService, ConnectionListener {
 			logger.log(Level.WARNING, "Medium konnte nicht platziert werden", e);
 		}
 	}
-	
+
 	public void sendMediumRemoved(UUID id) {
 		try{
 			ClientApplication.instance().getServiceRegistry().getServiceProviders(Connection.class, true).next()
@@ -164,7 +168,7 @@ public class GameProvider implements GameService, ConnectionListener {
 			logger.log(Level.WARNING, "Medium konnte nicht entfernt werden", e);
 		}
 	}
-	
+
 	@Override
 	public GameStateModel getCurrentModel() {
 		return getGameView().getCurrentModel();
@@ -174,7 +178,7 @@ public class GameProvider implements GameService, ConnectionListener {
 	public void overrideModel(GameStateModel newModel) {
 		getGameView().setCurrentModel(newModel);
 	}
-	
+
 	@Override
 	public SpielbrettController getGameView() {
 		return gameView;
@@ -184,14 +188,14 @@ public class GameProvider implements GameService, ConnectionListener {
 	public String getActivePlayerName() {
 		return getActivePlayer().getName();
 	}
-	
+
 	@Override
 	public Player getActivePlayer() {
 		return activePlayer;
 	}
 
 	// Getter & Setter
-	
+
 	public void setGameView(SpielbrettController gameView) {
 		this.gameView = gameView;
 	}

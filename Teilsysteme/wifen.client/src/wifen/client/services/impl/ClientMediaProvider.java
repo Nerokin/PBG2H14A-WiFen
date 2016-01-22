@@ -1,5 +1,6 @@
 package wifen.client.services.impl;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import javafx.beans.property.ObjectProperty;
@@ -26,21 +27,21 @@ public class ClientMediaProvider implements ClientMediaService, ConnectionListen
 	private final ObjectProperty<Connection> connection = new SimpleObjectProperty<>();
 
 	private final ChangeListener<Connection> onConnectionChangeListener = this::onConnectionChanged;
-	
+
 	private String tempPlayerName = "";
 	private Medium tempMedium = null;
-	
+
 	public ClientMediaProvider()
 	{
 		connectionProperty().addListener(getOnConnectionChangeListener());
 	}
-	
+
 	public ClientMediaProvider(Connection connection)
 	{
 		this();
 		setConnection(connection);
 	}
-	
+
 	@Override
 	public final Connection getConnection()
 	{
@@ -56,16 +57,27 @@ public class ClientMediaProvider implements ClientMediaService, ConnectionListen
 	public void onConnectionChanged(ObservableValue<? extends Connection> observable, Connection oldValue, Connection newValue)
 	{
 		logger.info("Connection changed from " + oldValue + " to " + newValue);
-		
+
 		if(oldValue != null)
 		{
 			oldValue.removeListener(this);
 		}
-		if(newValue != null) 
+		if(newValue != null)
 		{
 			newValue.addListener(this);
 		}
-		
+
+	}
+
+	@Override
+	public void loadMedia(List<Medium> media) {
+		media.forEach((medium) -> addMediaToLibrary(medium));
+	}
+
+	public void addMediaToLibrary(Medium media) {
+		// Add file to library
+		GameService gs = ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next();
+		gs.getGameView().mediaLibrary.addMedium(media);
 	}
 
 	@Override
@@ -78,15 +90,15 @@ public class ClientMediaProvider implements ClientMediaService, ConnectionListen
 			if(packet instanceof MediaRequestPacket)
 			{
 				MediaRequestPacket requestPacket = (MediaRequestPacket) packet;
-				
+
 				logger.info("Incoming MediaRequestPacket: " + packet);
-				
+
 				// Check host answer and send on accept
 				if(requestPacket.getRequestType() == 1)
-				{					
+				{
 					// Create and send data packet with id
 					if (getConnection() != null && getConnection().isConnected())
-					{						
+					{
 						MediaDataPacket dataPacket = new MediaDataPacketImpl(tempPlayerName, tempMedium);
 						logger.info("Sending DataPacket: " + dataPacket);
 						getConnection().sendPacket(dataPacket);
@@ -104,23 +116,21 @@ public class ClientMediaProvider implements ClientMediaService, ConnectionListen
 			else if(packet instanceof MediaDataPacket)
 			{
 				MediaDataPacket dataPacket = (MediaDataPacket)packet;
-				
+
 				logger.info("Incoming MediaDataPacket: " + packet);
-				
-				// Add file to library
-				GameService gs = ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next();
-				gs.getGameView().mediaLibrary.addMedium(dataPacket.getMedium());
+				addMediaToLibrary(dataPacket.getMedium());
+
 			}
 		}
 	}
-	
+
 	@Override
 	public final void trySendFile(String playerName, Medium medium)
 	{
 		if (getConnection() != null && getConnection().isConnected())
 		{
 			tempMedium = medium;
-			
+
 			MediaRequestPacket requestPacket = new MediaRequestPacketImpl(playerName, medium.getName(), 2);
 			logger.info("Sending RequestPacket: " + requestPacket);
 			getConnection().sendPacket(requestPacket);
@@ -130,7 +140,7 @@ public class ClientMediaProvider implements ClientMediaService, ConnectionListen
 			logger.warning("Request-Nachricht konnte nicht gesendet werden, da keine aktive Netzwerkverbindung besteht.");
 		}
 	}
-	
+
 	public final ObjectProperty<Connection> connectionProperty()
 	{
 		return this.connection;

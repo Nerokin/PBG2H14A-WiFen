@@ -25,27 +25,29 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import wifen.client.application.ClientApplication;
 import wifen.client.services.ClientMediaService;
+import wifen.commons.FileType;
 import wifen.commons.Medium;
 
 /**
  * Put description here
- * 
+ *
  * @author unknown
  *
  */
 public class MedienbibliothekController extends TitledPane
 {
 	public static final DataFormat MEDIUM_FORMAT = new DataFormat("medium");
-	
+
 	ObservableList<Medium> liste = FXCollections.observableArrayList();
-	
+
 	//Properties
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 	private final ObjectProperty<ClientMediaService> mediaService = new SimpleObjectProperty<>();
-	
-	//Injected Nodes	
+
+	//Injected Nodes
 	@FXML
 	private ListView<Medium> lv_medien;
 	@FXML
@@ -56,31 +58,31 @@ public class MedienbibliothekController extends TitledPane
 	private Button btn_open;
 	@FXML
 	private Button btn_upload;
-	
+
 	//Constructor
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public MedienbibliothekController() throws IOException
 	{
 		super();
-		
+
 		//Setup FXMLLoader
 		setFXMLLoader(new FXMLLoader());
 		getFXMLLoader().setRoot(this);
-		getFXMLLoader().setLocation(getClass().getResource("../views/Medienbibliothek.fxml"));
+		getFXMLLoader().setLocation(getClass().getResource("/wifen/client/ui/views/Medienbibliothek.fxml"));
 		getFXMLLoader().setController(this);
-		
+
 		//Load the View
 		getFXMLLoader().load();
 	}
 
-	
+
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param mediaService
 	 * @throws IOException
 	 */
@@ -89,44 +91,47 @@ public class MedienbibliothekController extends TitledPane
 		this();
 		setMediaService(mediaService);
 	}
-	
+
 	//Initialization
 	@FXML
 	private void initialize()
-	{		
+	{
 		setText("Medien");
-		lv_medien.setItems(liste);	
-		
+		lv_medien.setItems(liste);
+
 		btn_browse.setOnAction(this::browse);
 		btn_upload.setOnAction(this::upload);
 		btn_open.setOnAction(this::openMedia);
-		
+		btn_upload.disableProperty().bind(tf_browse.textProperty().isEmpty());
+		btn_open.disableProperty().bind(lv_medien.getSelectionModel().selectedItemProperty().isNull());
 		lv_medien.setOnDragDetected(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent e) {
 				Dragboard db = lv_medien.startDragAndDrop(TransferMode.COPY);
 				@SuppressWarnings("unchecked")
 				Medium m = (Medium) ((ListView<Medium>) e.getSource()).getSelectionModel().getSelectedItem();
 				Image dv = m.getType().getImg();
+				db.setDragViewOffsetX(dv.getWidth() / 2);
+				db.setDragViewOffsetY(dv.getHeight() / 2);
 				db.setDragView(dv);
-				
+
 				ClipboardContent cc = new ClipboardContent();
 				cc.put(MEDIUM_FORMAT, m);
-				
+
 				db.setContent(cc);
 				e.consume();
 			}
 		});
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Medien";
 	}
-	
+
 	public void addMedium(Medium medium)
 	{
 		liste.add(medium);
-		
+
 		// Save to temp folder
 		FileOutputStream fos;
 		try
@@ -144,11 +149,11 @@ public class MedienbibliothekController extends TitledPane
 			e.printStackTrace();
 		}
 	}
-	
+
 	//Event Handlers
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param event
 	 */
 	public void upload(ActionEvent event)
@@ -164,34 +169,39 @@ public class MedienbibliothekController extends TitledPane
 			{
 				e.printStackTrace();
 			}
-			
+
 			// Clear text field
 			tf_browse.setText(null);
 			tf_browse.setUserData(null);
 		}
 	}
-	
+
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param event
 	 */
 	public void browse(ActionEvent event)
 	{
 		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Open Media File");
+		fileChooser.getExtensionFilters().add(new ExtensionFilter("PDFs", "*.pdf"));
+		fileChooser.getExtensionFilters().add(new ExtensionFilter("Bilder", "*.png", "*.jpg", "*.jpeg", "*.gif"));
+		fileChooser.getExtensionFilters().add(new ExtensionFilter("CSV-Dateien", "*.csv"));
+		fileChooser.getExtensionFilters().add(new ExtensionFilter("Tabellen", "*.xls", "*.xlsx"));
+		fileChooser.getExtensionFilters().add(new ExtensionFilter("Textdateien", "*.doc", "*.docx", "*.txt"));
+		fileChooser.setTitle("Medien hochladen");
 		File file = fileChooser.showOpenDialog(this.getScene().getWindow());
-		
+
 		if(file != null)
 		{
 			tf_browse.setUserData(file);
 			tf_browse.setText(file.getAbsolutePath());
 		}
 	}
-	
+
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param event
 	 */
 	public void openMedia(ActionEvent event)
@@ -199,51 +209,51 @@ public class MedienbibliothekController extends TitledPane
 		Medium selectedMedium = lv_medien.getSelectionModel().getSelectedItem();
 		if(selectedMedium == null)
 			return;
-		
+
 		// Show content
 		System.out.println(System.getProperty("java.io.tmpdir") + selectedMedium.getName());
 		ClientApplication.instance().getHostServices().showDocument(System.getProperty("java.io.tmpdir") + selectedMedium.getName());
 	}
-	
+
 	//Getter & Setter
 	public ObservableList<Medium> getList()
 	{
 		return FXCollections.unmodifiableObservableList(liste);
 	}
-	
+
 	public ListView<Medium> getListViewMedien()
 	{
 		return lv_medien;
 	}
-	
+
 	public FXMLLoader getFXMLLoader()
 	{
 		return fxmlLoader.get();
 	}
-	
+
 	public void setFXMLLoader(FXMLLoader value)
 	{
 		fxmlLoader.set(value);
 	}
-	
+
 	public ReadOnlyObjectProperty<FXMLLoader> fxmlLoaderProperty()
 	{
 		return fxmlLoader;
 	}
 
-	
+
 	public final ObjectProperty<ClientMediaService> mediaServiceProperty()
 	{
 		return this.mediaService;
 	}
-	
+
 	public final ClientMediaService getMediaService()
 	{
 		return this.mediaServiceProperty().get();
-	}	
+	}
 
 	public final void setMediaService(final ClientMediaService chatService)
 	{
 		this.mediaServiceProperty().set(chatService);
-	}	
+	}
 }
