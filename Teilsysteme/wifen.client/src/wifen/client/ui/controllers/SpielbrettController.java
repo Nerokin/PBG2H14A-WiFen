@@ -157,9 +157,9 @@ import wifen.commons.network.Connection;
 
  			// Create the CheckComboBox with the data
  			choiceID.getItems().addAll(choices);
- 			if (ereignisBox != null) choiceID.getCheckModel().check(ereignisBox);
- 			if (chatBox != null) choiceID.getCheckModel().check(chatBox);
- 			if (diceBox != null) choiceID.getCheckModel().check(diceBox);
+ 			//if (ereignisBox != null) choiceID.getCheckModel().checkAll(ereignisBox, chatBox);
+ 			//if (chatBox != null) choiceID.getCheckModel().check();
+ 			//if (diceBox != null) choiceID.getCheckModel().check(diceBox);
 
  			//Optionen aus Spielbrett aufrufen
  			optionID.setOnAction(new EventHandler<ActionEvent>() {

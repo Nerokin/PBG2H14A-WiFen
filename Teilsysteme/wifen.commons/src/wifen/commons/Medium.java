@@ -51,7 +51,11 @@ public class Medium implements Serializable
 	@Override
 	public String toString()
 	{
-		return name;
+		return getClass().getSimpleName() + "{"
+				+ "name :" + getName()
+				+ ", type: " + getType()
+				+ ", file: " + getRawData()
+				+ "}";
 	}
 
 	// Create instance
