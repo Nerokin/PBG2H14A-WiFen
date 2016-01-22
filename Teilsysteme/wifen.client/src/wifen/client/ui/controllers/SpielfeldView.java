@@ -51,27 +51,26 @@ import wifen.commons.SpielfeldModel;
 public class SpielfeldView extends ScrollPane implements MarkerService {
 	private int tilesPerRow;
 	private int tilesPerCol;
-	private double lastX;
-	private double lastY;
-	private Timer timer;
-	private long lastTime;
-	private Polyline drawing;
-	private boolean drawn = false;
+//	private double lastX;
+//	private double lastY;
+//	private Timer timer;
+//	private long lastTime;
+//	private Polyline drawing;
+//	private boolean drawn = false;
 	private boolean hasPressed = false;
-	private boolean hasDragged = false;
-	private Double[] points;
+//	private boolean hasDragged = false;
+//	private Double[] points;
 	private double values[] = new double[4];
 	private SpielfeldModel model;
-	private MarkerWindow markerWindow;
+//	private MarkerWindow markerWindow;
 	private Polyline grid;
 	private SpielfeldView self;
 
 	/**initialize a field of given size for given model
-	 * sizeFieldX => Stack width
-	 * sizeFieldY => Stack height
 	 * tilesPerRow => rectangle per row, may be null for model.getType() == GridType.NONE
 	 * tilesPerCol => rectangle per column, may be null for model.getType() == GridType.NONE || GridType.Hex
-	 * model => the data model of the field to display*/
+	 * sm => the data model of the field to display
+	 * */
 	public SpielfeldView(int tilesPerRow, int tilesPerCol, SpielfeldModel sm, MarkerWindow markerWindow) {
 		super(new Pane());
 		self=this;
@@ -83,7 +82,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		this.setPannable(true);
 		this.tilesPerCol = tilesPerCol;
 		this.tilesPerRow = tilesPerRow;
-		this.markerWindow = markerWindow;
+//		this.markerWindow = markerWindow;
 		((Pane)this.getContent()).setBackground(
 				new Background(
 						new BackgroundImage(
@@ -129,8 +128,8 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 			double a = 0.5*c;
 			this.tilesPerRow = (int) (model.getSizeX()/(2*a+2*c));
 			((Pane) this.getContent()).setMaxSize((this.tilesPerRow*(2*a+2*c)), this.model.getSizeY());
-			this.setMaxWidth((this.tilesPerRow*(2*a+2*c)));
-			this.model.setSizeX((this.tilesPerRow*(2*a+2*c)));
+//			this.setMaxWidth((this.tilesPerRow*(2*a+2*c)));
+//			this.model.setSizeX((this.tilesPerRow*(2*a+2*c)));
 			grid  = new Polyline();
 			System.out.println(tilesPerRow);
 			for(int i=0; i<tilesPerCol;i++){
@@ -183,18 +182,18 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		this.setOnMousePressed(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent event) {
-				hasDragged = false;
-				lastTime=0;
-				if(event.getButton() == MouseButton.PRIMARY && event.isAltDown()){
-					System.out.println("Beginn Drawing!");
-					((ScrollPane) event.getSource()).setPannable(false);
-					lastX = event.getX();
-					lastY = event.getY();
-					points = new Double[2];
-					points[0] = lastX;
-					points[1] = lastY;
-					drawing = new Polyline();
-				}
+//				hasDragged = false;
+//				lastTime=0;
+//				if(event.getButton() == MouseButton.PRIMARY && event.isAltDown()){
+//					System.out.println("Beginn Drawing!");
+//					((ScrollPane) event.getSource()).setPannable(false);
+//					lastX = event.getX();
+//					lastY = event.getY();
+//					points = new Double[2];
+//					points[0] = lastX;
+//					points[1] = lastY;
+//					drawing = new Polyline();
+//				}
 				if(event.getButton() == MouseButton.SECONDARY && event.isControlDown()){
 					hasPressed = true;
 					((ScrollPane) event.getSource()).setPannable(false);
@@ -203,45 +202,45 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 				}
 			}
 		});
-		this.setOnMouseMoved(new EventHandler<MouseEvent>(){
-
-			@Override
-			public void handle(MouseEvent event) {
-				if(event.isAltDown() && MouseButton.PRIMARY == event.getButton()){
-					System.out.println("Dragging");
-					drawn = true;
-					timer = new Timer();
-				    timer.scheduleAtFixedRate(new TimerTask() {
-				        @Override
-				        public void run() {
-				        	//double x = MouseInfo.getPointerInfo().getLocation().getX();
-				        	//double y = MouseInfo.getPointerInfo().getLocation().getY();
-				            if(distance(lastX,lastY,event.getX(),event.getY())>2){
-				            	for(Double p : points){
-				            		System.out.println(p);
-				            	}
-				            	Double[] help = points;
-				            	points = new Double[help.length+2];
-				            	points = help;
-				            	lastX = event.getX();
-				            	lastY = event.getY();
-				            	points[points.length-2]= lastX;
-				            	points[points.length-1]= lastY;
-				            }
-				        }
-				    }, 0, 500);
-				}
-			}
-
-		});
-		this.setOnDragDetected(new EventHandler<MouseEvent>(){
-
-			@Override
-			public void handle(MouseEvent event) {
-				hasDragged = true;
-			}
-
-		});
+//		this.setOnMouseMoved(new EventHandler<MouseEvent>(){
+//
+//			@Override
+//			public void handle(MouseEvent event) {
+//				if(event.isAltDown() && MouseButton.PRIMARY == event.getButton()){
+//					System.out.println("Dragging");
+//					drawn = true;
+//					timer = new Timer();
+//				    timer.scheduleAtFixedRate(new TimerTask() {
+//				        @Override
+//				        public void run() {
+//				        	//double x = MouseInfo.getPointerInfo().getLocation().getX();
+//				        	//double y = MouseInfo.getPointerInfo().getLocation().getY();
+//				            if(distance(lastX,lastY,event.getX(),event.getY())>2){
+//				            	for(Double p : points){
+//				            		System.out.println(p);
+//				            	}
+//				            	Double[] help = points;
+//				            	points = new Double[help.length+2];
+//				            	points = help;
+//				            	lastX = event.getX();
+//				            	lastY = event.getY();
+//				            	points[points.length-2]= lastX;
+//				            	points[points.length-1]= lastY;
+//				            }
+//				        }
+//				    }, 0, 500);
+//				}
+//			}
+//
+//		});
+//		this.setOnDragDetected(new EventHandler<MouseEvent>(){
+//
+//			@Override
+//			public void handle(MouseEvent event) {
+//				hasDragged = true;
+//			}
+//
+//		});
 		this.setOnMouseReleased(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent event) {
@@ -253,14 +252,14 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 					System.out.println("Mouse Released");
 					ClientApplication.instance().getServiceRegistry().getServiceProviders(ClientGameeventService.class, false).next().makeLocalGameevent("Lokal:", (df.format(distance(values[0],values[1],values[2],values[3])))+" Units");
 				}
-				if(drawn){
-					((ScrollPane) event.getSource()).setPannable(true);
-					System.out.println("Drawn!");
-					drawn = false;
-					timer.cancel();
-					drawing.getPoints().addAll(points);
-					((SpielfeldView) event.getSource()).addToView(drawing);
-				}
+//				if(drawn){
+//					((ScrollPane) event.getSource()).setPannable(true);
+//					System.out.println("Drawn!");
+//					drawn = false;
+//					timer.cancel();
+//					drawing.getPoints().addAll(points);
+//					((SpielfeldView) event.getSource()).addToView(drawing);
+//				}
 				hasPressed = false;
 			}
 
@@ -329,9 +328,9 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 	}
 
 	// Methods
-	private void getImageResolution(String url) {
-		// TODO
-	}
+//	private void getImageResolution(String url) {
+//		// TODO
+//	}
 
 	private void addMarkersFromModel() {
 		for(MarkerModel m : this.model.getMarkers()) {

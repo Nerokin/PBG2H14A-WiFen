@@ -62,16 +62,8 @@ public class MarkerView extends Parent {
 		    	ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMarkerPlaced(getMarkerModel());
 		    }
 		});
-		
-		MenuItem item3 = new MenuItem("entfernen");
-		item1.setOnAction(new EventHandler<ActionEvent>() {
-		    public void handle(ActionEvent e) {
-		    	//getMarkerModel()
-		    	//ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMarkerPlaced(getMarkerModel());
-		    }
-		});
 
-		contextMenu.getItems().addAll(item1, item2, item3);		
+		contextMenu.getItems().addAll(item1, item2);		
 		
 		marker.getType().getImg().progressProperty().addListener(new ChangeListener<Number>() {
 

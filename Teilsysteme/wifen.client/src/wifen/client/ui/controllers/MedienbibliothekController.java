@@ -131,7 +131,7 @@ public class MedienbibliothekController extends TitledPane
 		FileOutputStream fos;
 		try
 		{
-			fos = new FileOutputStream(System.getProperty("java.io.tmpdir") + medium.getName() + medium.getType());
+			fos = new FileOutputStream(System.getProperty("java.io.tmpdir") + medium.getName());
 			fos.write(medium.getRawData());
 			fos.close();
 		}
@@ -201,6 +201,7 @@ public class MedienbibliothekController extends TitledPane
 			return;
 		
 		// Show content
+		System.out.println(System.getProperty("java.io.tmpdir") + selectedMedium.getName());
 		ClientApplication.instance().getHostServices().showDocument(System.getProperty("java.io.tmpdir") + selectedMedium.getName());
 	}
 	

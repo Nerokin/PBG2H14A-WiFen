@@ -18,6 +18,7 @@ public class Medium implements Serializable
 	private String name;
 	private FileType type;
 	private byte[] rawrData;
+	private String path;
 
 	/**
 	 * Put description here

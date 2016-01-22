@@ -121,7 +121,7 @@ public class ClientMediaProvider implements ClientMediaService, ConnectionListen
 		{
 			tempMedium = medium;
 			
-			MediaRequestPacket requestPacket = new MediaRequestPacketImpl(playerName, medium.getName() + "." + medium.getType(), 2);
+			MediaRequestPacket requestPacket = new MediaRequestPacketImpl(playerName, medium.getName(), 2);
 			logger.info("Sending RequestPacket: " + requestPacket);
 			getConnection().sendPacket(requestPacket);
 		}
