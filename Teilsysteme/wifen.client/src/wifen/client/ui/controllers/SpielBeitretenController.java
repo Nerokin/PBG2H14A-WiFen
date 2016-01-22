@@ -53,7 +53,7 @@ public class SpielBeitretenController extends BorderPane {
 	@FXML TextField tf_port;
 	@FXML TextField tf_ip;
 	@FXML Button btn_beitreten;
-	@FXML Button btn_zurück;
+	@FXML Button btn_zurÃ¼ck;
 
 	// @FXML private FormationDisplay formatDisplay;
 	// TODO
@@ -89,14 +89,14 @@ public class SpielBeitretenController extends BorderPane {
 		// TODO: Data Binding and Setup of Event Handling
 		
 		tf_port.setText(ApplicationConstants.APPLICATION_PORT+"");
-		btn_zurück.setOnAction(new EventHandler<ActionEvent>(){
+		btn_zurÃ¼ck.setOnAction(new EventHandler<ActionEvent>(){
 			 public void handle(ActionEvent e) {
 			Parent p = null;
 			try {
 				p = new Hauptmenu();
 				getScene().setRoot(p);
 			} catch (IOException e2) {
-				new Alert(AlertType.ERROR, "Hauptmenü konnte nicht geladen werden").showAndWait();
+				new Alert(AlertType.ERROR, "Hauptmenï¿½ konnte nicht geladen werden").showAndWait();
 			}
 			
 		}

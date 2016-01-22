@@ -51,7 +51,7 @@ public class SpielErstellenController extends BorderPane {
 	@FXML TextField tf_eigenerName;
 	@FXML CheckBox chb_beobachterZulassen;
 	@FXML CheckBox chb_medienSichtbar;
-	@FXML ComboBox<Integer> cbx_würfelSeitenzahl;
+	@FXML ComboBox<Integer> cbx_wÃ¼rfelSeitenzahl;
 	@FXML ComboBox<SpielerRolle> cbx_standardRolle;
 	@FXML ComboBox<GridType> cbx_raster;
 	@FXML Button btn_spielErstellen;
@@ -93,8 +93,8 @@ public class SpielErstellenController extends BorderPane {
 		cbx_standardRolle.getSelectionModel().select(SpielerRolle.PLAYER);
 		cbx_raster.setItems(FXCollections.observableArrayList(GridType.values()));
 		cbx_raster.getSelectionModel().select(GridType.NONE);
-		cbx_würfelSeitenzahl.setItems(FXCollections.observableArrayList(2, 4, 6, 10, 12, 20));
-		cbx_würfelSeitenzahl.getSelectionModel().select(new Integer(20));
+		cbx_wÃ¼rfelSeitenzahl.setItems(FXCollections.observableArrayList(2, 4, 6, 10, 12, 20));
+		cbx_wÃ¼rfelSeitenzahl.getSelectionModel().select(new Integer(20));
 		tf_port.setEditable(false);
 		tf_port.setText(String.valueOf(ApplicationConstants.APPLICATION_PORT));
 		tf_eigenerName.setPromptText("...");
@@ -124,7 +124,7 @@ public class SpielErstellenController extends BorderPane {
 			p = new Hauptmenu();
 			getScene().setRoot(p);
 		} catch (IOException e2) {
-			new Alert(AlertType.ERROR, "Hauptmenü konnte nicht geladen werden").showAndWait();
+			new Alert(AlertType.ERROR, "Hauptmenï¿½ konnte nicht geladen werden").showAndWait();
 		}
 		
 	}
@@ -133,7 +133,7 @@ public class SpielErstellenController extends BorderPane {
 	private final void btnSpielErstellenOnAction(ActionEvent event) {
 		try {
 			ClientApplication.instance().hostGame(Integer.valueOf(tf_maxSpieler.getText()), chb_beobachterZulassen.isSelected(),
-					chb_medienSichtbar.isSelected(), cbx_würfelSeitenzahl.getSelectionModel().getSelectedItem(), tf_eigenerName.getText(),
+					chb_medienSichtbar.isSelected(), cbx_wÃ¼rfelSeitenzahl.getSelectionModel().getSelectedItem(), tf_eigenerName.getText(),
 					cbx_standardRolle.getSelectionModel().getSelectedItem(), cbx_raster.getSelectionModel().getSelectedItem());
 		} catch (Exception e) {
 			new Alert(AlertType.ERROR, "Das Spiel konnte nicht erstellt werden (" + e.getLocalizedMessage() + ")").showAndWait();

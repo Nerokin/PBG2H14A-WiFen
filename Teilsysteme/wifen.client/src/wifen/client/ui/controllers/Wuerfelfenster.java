@@ -44,7 +44,7 @@ import wifen.client.services.impl.dice;
 // Anfang:
 // Drag & Drop in Zusammenarbeit mit Kevin Curtis
 /**
- * Würfelfenster Klasse
+ * Wï¿½rfelfenster Klasse
  *
  * @author Justin Nussbaum
  * @author Johnny Gunko
@@ -53,8 +53,8 @@ import wifen.client.services.impl.dice;
  */
 
 /**TODO :
- * immernoch Ladeverzögerung bei mehreren!
- * Abstände passen noch nicht ganz!
+ * immernoch Ladeverzï¿½gerung bei mehreren!
+ * Abstï¿½nde passen noch nicht ganz!
  * und ab 10w wird falsch bzw. garnicht gesplittet!
  */
 public class Wuerfelfenster extends TitledPane {
@@ -68,7 +68,7 @@ public class Wuerfelfenster extends TitledPane {
 		@FXML public ImageView d8;
 		@FXML public ImageView d10;
 		@FXML public TextField diceText;
-		@FXML public Button würfeln;
+		@FXML public Button wÃ¼rfeln;
 		@FXML public Button reset;
 		@FXML public GridPane animationGrid;
 		//@FXML public Label dropped;
@@ -115,7 +115,7 @@ public class Wuerfelfenster extends TitledPane {
 		//Constructor
 		/**
 		 * Put description here
-		 * Würfelfenster
+		 * Wï¿½rfelfenster
 		 * @throws IOException
 		 */
 		public Wuerfelfenster() throws IOException {
@@ -148,7 +148,7 @@ public class Wuerfelfenster extends TitledPane {
 		@FXML
 		private void initialize() {
 			
-				diceText.setPromptText("Ziehe die Würfel in das mittlere Feld!");
+				diceText.setPromptText("Ziehe die Wï¿½rfel in das mittlere Feld!");
 				imagesD2 = new Image[2];
 				imagesD4 = new Image[4];
 				imagesD6 = new Image[6];
@@ -161,22 +161,22 @@ public class Wuerfelfenster extends TitledPane {
 				
 				
 				try {
-					// Bilder für 2er "Würfel" Animation laden... :
+					// Bilder fï¿½r 2er "Wï¿½rfel" Animation laden... :
 					imagesD2[0] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d02/d2_1.png"));
 					imagesD2[1] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d02/d2_2.png"));
-					// Bilder für 4er "Würfel" Animation laden... :
+					// Bilder fï¿½r 4er "Wï¿½rfel" Animation laden... :
 					imagesD4[0] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d04/d4_1.png"));
 					imagesD4[1] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d04/d4_2.png"));
 					imagesD4[2] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d04/d4_3.png"));
 					imagesD4[3] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d04/d4_4.png"));
-					// Bilder für 6er "Würfel" Animation laden... :
+					// Bilder fï¿½r 6er "Wï¿½rfel" Animation laden... :
 					imagesD6[0] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_1.png"));
 					imagesD6[1] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_2.png"));
 					imagesD6[2] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_3.png"));
 					imagesD6[3] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_4.png"));
 					imagesD6[4] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_5.png"));
 					imagesD6[5] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_6.png"));
-					// Bilder für 8er "Würfel" Animation laden... :
+					// Bilder fï¿½r 8er "Wï¿½rfel" Animation laden... :
 					imagesD8[0] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_1.png"));
 					imagesD8[1] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_2.png"));
 					imagesD8[2] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_3.png"));
@@ -185,7 +185,7 @@ public class Wuerfelfenster extends TitledPane {
 					imagesD8[5] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_6.png"));
 					imagesD8[6] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_7.png"));
 					imagesD8[7] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_8.png"));
-					// Bilder für 10er "Würfel" Animation laden... :
+					// Bilder fï¿½r 10er "Wï¿½rfel" Animation laden... :
 				
 					imagesD10[0] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_1.png"));
 					imagesD10[1] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_2.png"));
@@ -212,7 +212,7 @@ public class Wuerfelfenster extends TitledPane {
 
 
 			//TODO: Data Binding and Setup of Event Handling
-			setText("Würfel");
+			setText("Wï¿½rfel");
 		}
 		
 		@Override
@@ -223,15 +223,15 @@ public class Wuerfelfenster extends TitledPane {
 		//Event Handlers
 
 		/**
-		 * 2erWürfel DragEvent
+		 * 2erWï¿½rfel DragEvent
 		 *
-		 * @param ev MouseClick auf 2er Würfel
+		 * @param ev MouseClick auf 2er Wï¿½rfel
 		 * @throws FileNotFoundException
 		 */
 		@FXML
 		public void wuerfelDrag2(MouseEvent ev) throws FileNotFoundException{	// Erst beim Klicken und gleichzeitig ziehen!
 
-				Dragboard db = this.startDragAndDrop(TransferMode.ANY); // this hinzugefügt.. alternativ : wuerfel1.startDragAndDrop..
+				Dragboard db = this.startDragAndDrop(TransferMode.ANY); // this hinzugefï¿½gt.. alternativ : wuerfel1.startDragAndDrop..
 				db.setDragView(imagesD2[0]);
 			        ClipboardContent content = new ClipboardContent();
 
@@ -243,14 +243,14 @@ public class Wuerfelfenster extends TitledPane {
 		}
 
 		/**
-		 * 4erWürfel DragEvent
+		 * 4erWï¿½rfel DragEvent
 		 *
-		 * @param ev MouseClick auf 4er Würfel
+		 * @param ev MouseClick auf 4er Wï¿½rfel
 		 * @throws FileNotFoundException
 		 */
 		public void wuerfelDrag4(MouseEvent ev) throws FileNotFoundException{	// Erst beim Klicken und gleichzeitig ziehen!
 
-			Dragboard db = this.startDragAndDrop(TransferMode.ANY); // this hinzugefügt.. alternativ : wuerfel1.startDragAndDrop..
+			Dragboard db = this.startDragAndDrop(TransferMode.ANY); // this hinzugefï¿½gt.. alternativ : wuerfel1.startDragAndDrop..
 			db.setDragView(imagesD4[3]);
 		        ClipboardContent content = new ClipboardContent();
 		    /* db.setDragViewOffsetX(300);
@@ -262,14 +262,14 @@ public class Wuerfelfenster extends TitledPane {
 		        ev.consume();
 	}
 		/**
-		 * 6erWürfel DragEvent
+		 * 6erWï¿½rfel DragEvent
 		 *
-		 * @param ev MouseClick auf 6er Würfel
+		 * @param ev MouseClick auf 6er Wï¿½rfel
 		 * @throws FileNotFoundException
 		 */
 		public void wuerfelDrag6(MouseEvent ev) throws FileNotFoundException{	// Erst beim Klicken und gleichzeitig ziehen!
 
-			Dragboard db = this.startDragAndDrop(TransferMode.ANY); // this hinzugefügt.. alternativ : wuerfel1.startDragAndDrop..
+			Dragboard db = this.startDragAndDrop(TransferMode.ANY); // this hinzugefï¿½gt.. alternativ : wuerfel1.startDragAndDrop..
 			db.setDragView(imagesD6[5]);
 			ClipboardContent content = new ClipboardContent();
 			/* db.setDragViewOffsetX(300);
@@ -282,14 +282,14 @@ public class Wuerfelfenster extends TitledPane {
 		        ev.consume();
 	}
 		/**
-		 * 8erWürfel DragEvent
+		 * 8erWï¿½rfel DragEvent
 		 *
-		 * @param ev MouseClick auf 8er Würfel
+		 * @param ev MouseClick auf 8er Wï¿½rfel
 		 * @throws FileNotFoundException
 		 */
 	public void wuerfelDrag8(MouseEvent ev) throws FileNotFoundException{	// Erst beim Klicken und gleichzeitig ziehen!
 
-			Dragboard db = this.startDragAndDrop(TransferMode.ANY); // this hinzugefügt.. alternativ : wuerfel1.startDragAndDrop..
+			Dragboard db = this.startDragAndDrop(TransferMode.ANY); // this hinzugefï¿½gt.. alternativ : wuerfel1.startDragAndDrop..
 			db.setDragView(imagesD8[7]);
 			ClipboardContent content = new ClipboardContent();
 			/* db.setDragViewOffsetX(300);
@@ -301,14 +301,14 @@ public class Wuerfelfenster extends TitledPane {
 		        ev.consume();
 	}
 	/**
-	 * 10erWürfel DragEvent
+	 * 10erWï¿½rfel DragEvent
 	 *
-	 * @param ev MouseClick auf 10er Würfel
+	 * @param ev MouseClick auf 10er Wï¿½rfel
 	 * @throws FileNotFoundException
 	 */
 	public void wuerfelDrag10(MouseEvent ev) throws FileNotFoundException{	// Erst beim Klicken und gleichzeitig ziehen!
 
-		Dragboard db = this.startDragAndDrop(TransferMode.ANY); // this hinzugefügt.. alternativ : wuerfel1.startDragAndDrop..
+		Dragboard db = this.startDragAndDrop(TransferMode.ANY); // this hinzugefï¿½gt.. alternativ : wuerfel1.startDragAndDrop..
 		db.setDragView(imagesD10[10]);
 		ClipboardContent content = new ClipboardContent();
 		/* db.setDragViewOffsetX(300);
@@ -320,9 +320,9 @@ public class Wuerfelfenster extends TitledPane {
 	        ev.consume();
 	}
 	/**
-	 * click auf einen Würfel
+	 * click auf einen Wï¿½rfel
 	 *
-	 * @param ev MouseClick click auf einen Würfel
+	 * @param ev MouseClick click auf einen Wï¿½rfel
 	 */
 
 		public void onMousePressed(MouseEvent ev){
@@ -332,9 +332,9 @@ public class Wuerfelfenster extends TitledPane {
 			ev.consume();
 		}
 		/**
-		 * Würfel gedroppt
+		 * Wï¿½rfel gedroppt
 		 *
-		 * @param  void Würfel loslassen
+		 * @param  void Wï¿½rfel loslassen
 		 */
 		@FXML
 		public void wuerfelDone(){
@@ -353,7 +353,7 @@ public class Wuerfelfenster extends TitledPane {
 		int w8 = 0;
 		int w10 = 0;
 		/**
-		 * Drop Würfel
+		 * Drop Wï¿½rfel
 		 *
 		 * @param ev DragEvent beim Droppen
 		 */
@@ -472,11 +472,11 @@ public class Wuerfelfenster extends TitledPane {
 		
 		
 		
-		private static WürfelanimationListe w = new WürfelanimationListe();
+		private static WÃ¼rfelanimationListe w = new WÃ¼rfelanimationListe();
 		
-		private static ArrayList<Integer> würfelListe =  new ArrayList<Integer>();
+		private static ArrayList<Integer> wÃ¼rfelListe =  new ArrayList<Integer>();
 		@FXML
-		public void würfeln() throws IOException{
+		public void wÃ¼rfeln() throws IOException{
 			rowInd = 0;
 			colInd = 0;
 //			logger.info("THIS IS WUERFELN!");
@@ -486,7 +486,7 @@ public class Wuerfelfenster extends TitledPane {
 			String[] tmp = diceText.getText().split(";");
 			String output = "";
 			
-			würfelListe.clear();
+			wÃ¼rfelListe.clear();
 			ArrayList<Integer> arrayList = null;
 
 			
@@ -500,7 +500,7 @@ public class Wuerfelfenster extends TitledPane {
 						output += dice.outputThrow(tmpDiceIn);
 						
 					for (int k = 0; k < tmpDiceIn.getDiceCount(); k++) 
-						würfelListe.add(tmpDiceIn.getSideCount());
+						wÃ¼rfelListe.add(tmpDiceIn.getSideCount());
 						
 						//w.addWelcherWuerfel(thisWurfel);
 					
@@ -538,32 +538,32 @@ public class Wuerfelfenster extends TitledPane {
 			int wuerfelCounter = 0;
 			Timeline tempTimeLine = null;
 			//ArrayList<String> tempArrayList= w.getAlleWurfel();
-			 // Beinhaltet insgesamtes Ergebnis aller Würfel!
+			 // Beinhaltet insgesamtes Ergebnis aller Wï¿½rfel!
 			
 
-			for(int würfelInt : würfelListe){
+			for(int wÃ¼rfelInt : wÃ¼rfelListe){
 				ImageView tempImageView = new ImageView();
 				
 				tempImageView.setFitWidth(75);
 				tempImageView.setFitHeight(75);
 				
 				int result = arrayList.get(wuerfelCounter);
-					if(würfelInt==2){
+					if(wÃ¼rfelInt==2){
 						tempTimeLine = d02animation(tempImageView, result);
 						AnimationLines.add(tempTimeLine);
-					}else if(würfelInt==4){
+					}else if(wÃ¼rfelInt==4){
 						tempTimeLine = d04animation(tempImageView, result);
 						AnimationLines.add(tempTimeLine);
 					}
-					else if(würfelInt==6){
+					else if(wÃ¼rfelInt==6){
 						tempTimeLine = d06animation(tempImageView, result);
 						AnimationLines.add(tempTimeLine);
 					}
-					else if(würfelInt==8){
+					else if(wÃ¼rfelInt==8){
 						tempTimeLine = d08animation(tempImageView, result);
 						AnimationLines.add(tempTimeLine);
 					}
-					else if(würfelInt==10){
+					else if(wÃ¼rfelInt==10){
 						tempTimeLine = d10animation(tempImageView, result);
 						AnimationLines.add(tempTimeLine);
 					}
@@ -589,7 +589,7 @@ public class Wuerfelfenster extends TitledPane {
 		}
 		@FXML
 		public void onEnter() throws IOException{
-			würfeln();
+			wÃ¼rfeln();
 		}
 
 
@@ -597,7 +597,7 @@ public class Wuerfelfenster extends TitledPane {
 				/**
 				 * testfunktion
 				 *
-				 * @param ev DragEvent Überm Label (Test)
+				 * @param ev DragEvent ï¿½berm Label (Test)
 				 */
 				@FXML
 				public void overLabel(DragEvent ev){
@@ -648,7 +648,7 @@ public class Wuerfelfenster extends TitledPane {
 
 		public Timeline d10animation(ImageView iv, int result) throws FileNotFoundException{
 			/*iv ist der ImageView in dem die Animation gezeigt werden soll
-			* result ist das Ergebnis aus der Würfel-Methode
+			* result ist das Ergebnis aus der Wï¿½rfel-Methode
 			* alle Einzelbilder und Animation laden...
 			*/
 	
@@ -669,7 +669,7 @@ public class Wuerfelfenster extends TitledPane {
 		}
 
 		public Timeline d04animation(ImageView iv, int result) throws FileNotFoundException{
-			/*genauso wie d10animation(), selbstverständlich weniger Einzelbilder
+			/*genauso wie d10animation(), selbstverstï¿½ndlich weniger Einzelbilder
 			* einziger Unterschied:
 			* holt man sich das Ergebnis-image aus dem Array, wird von result 1 abgezogen,
 			* da das Ergebnis 1 and Stelle 0 liegt usw.
@@ -696,7 +696,7 @@ public class Wuerfelfenster extends TitledPane {
 		}
 
 		public Timeline d06animation(ImageView iv, int result) throws FileNotFoundException{
-			/*genauso wie d10animation(), selbstverständlich weniger Einzelbilder
+			/*genauso wie d10animation(), selbstverstï¿½ndlich weniger Einzelbilder
 			* einziger Unterschied:
 			* holt man sich das Ergebnis-image aus dem Array, wird von result 1 abgezogen,
 			* da das Ergebnis 1 and Stelle 0 liegt usw.
@@ -717,7 +717,7 @@ public class Wuerfelfenster extends TitledPane {
 		}
 
 		public Timeline d08animation(ImageView iv, int result) throws FileNotFoundException{
-			/*genauso wie d10animation(), selbstverständlich weniger Einzelbilder
+			/*genauso wie d10animation(), selbstverstï¿½ndlich weniger Einzelbilder
 			* einziger Unterschied:
 			* holt man sich das Ergebnis-image aus dem Array, wird von result 1 abgezogen,
 			* da das Ergebnis 1 and Stelle 0 liegt usw.
@@ -743,7 +743,7 @@ public class Wuerfelfenster extends TitledPane {
 		}
 
 		public Timeline d02animation(ImageView iv, int result) throws FileNotFoundException{
-			/*genauso wie d10animation(), selbstverständlich weniger Einzelbilder
+			/*genauso wie d10animation(), selbstverstï¿½ndlich weniger Einzelbilder
 			* einziger Unterschied:
 			* holt man sich das Ergebnis-image aus dem Array, wird von result 1 abgezogen,
 			* da das Ergebnis 1 and Stelle 0 liegt usw.
