@@ -499,8 +499,33 @@ public class ClientApplication extends Application implements ServerListener, Co
 
 			}
 
+			// Fetch the current chat service
+			ServerGameService serverGameService = getServiceRegistry().getServiceProviders(ServerGameService.class, false).next();
+
+			if (serverGameService != null) {
+
+				// Remove the chat service from the service registry
+				getServiceRegistry().deregisterServiceProvider(serverGameService, ServerGameService.class);
+			}
+
+			ServerGameeventService serverGameEventService = getServiceRegistry().getServiceProviders(ServerGameeventService.class, false).next();
+
+			if (serverGameEventService != null) {
+
+				// Remove the chat service from the service registry
+				getServiceRegistry().deregisterServiceProvider(serverGameEventService, ServerGameeventService.class);
+			}
+
+			GameService gameservice = ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class,false).next();
+			if (gameservice != null) {
+
+				// Remove the chat service from the service registry
+				getServiceRegistry().deregisterServiceProvider(gameservice, GameService.class);
+			}
+
 			// Deregister the Server
 			getServiceRegistry().deregisterServiceProvider(event.getSource(), Server.class);
+
 		}
 	}
 
@@ -684,7 +709,8 @@ public class ClientApplication extends Application implements ServerListener, Co
 		Optional<ButtonType> result = alert.showAndWait();
 		if(result.get()==ButtonType.OK)
 		{
-			if(getServiceProvider(GameService.class)!=null)
+
+			if(getServiceProvider(GameService.class)!=null && ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class,false).next().getActivePlayer().getRolle()== SpielerRolle.ADMIN)
 			{
 				alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Save?");
@@ -702,7 +728,6 @@ public class ClientApplication extends Application implements ServerListener, Co
 						try {
 							saveGame(file);
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							logger.log(Level.SEVERE, "Game could not be saved!", e);
 						}
 					}

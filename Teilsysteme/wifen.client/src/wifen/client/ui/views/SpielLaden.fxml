@@ -53,7 +53,7 @@
             <Font size="24.0" />
          </font>
       </TextField>
-      <Button fx:id="btn_loadGame" maxHeight="90.0" maxWidth="269.0" minHeight="90.0" minWidth="269.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="269.0" text="Spiel Laden" GridPane.columnIndex="1" GridPane.rowIndex="4">
+      <Button fx:id="btn_loadGame" maxHeight="90.0" maxWidth="269.0" minHeight="90.0" minWidth="269.0" mnemonicParsing="false" onAction="#btnSpielErstellenOnAction" prefHeight="90.0" prefWidth="269.0" text="Spiel Laden" GridPane.columnIndex="1" GridPane.rowIndex="4">
          <font>
             <Font size="42.0" />
          </font>

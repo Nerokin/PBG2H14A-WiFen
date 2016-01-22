@@ -385,11 +385,11 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		boolean neu = true;
 		for(Node n : ((Pane)this.getContent()).getChildren()){
 			if(n instanceof MediumView){
-				if(((MediumView)n).getMarkerModel().equals(mediumModel)){
+				if(((MediumView)n).getMedium().equals(mediumModel)){
 					((MediumView)n).setTranslateX(mediumModel.getPosx());
 					((MediumView)n).setTranslateY(mediumModel.getPosy());
 					((MediumView)n).setMedium(mediumModel);
-					((CheckMenuItem)((MediumView)n).getContextMenu().getItems().get(1)).setSelected(((MediumView)n).getMarkerModel().getIsStatic());;
+					((CheckMenuItem)((MediumView)n).getContextMenu().getItems().get(1)).setSelected(((MediumView)n).getMedium().getIsStatic());;
 					neu = false;
 					break;
 				}
