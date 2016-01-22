@@ -68,22 +68,22 @@ public class Medium implements Serializable
 	private FileType getTypeFromName(String name) {
 		String x = name.substring(name.lastIndexOf('.')).toLowerCase(); 
 		switch(x) {
-		case "bmp":
-		case "jpg":
-		case "png":
-		case "gif":
+		case ".bmp":
+		case ".jpg":
+		case ".png":
+		case ".gif":
 			return FileType.IMG;
-		case "txt":
+		case ".txt":
 			return FileType.TXT;
-		case "csv":
+		case ".csv":
 			return FileType.CSV;
-		case "doc":
-		case "docx":
+		case ".doc":
+		case ".docx":
 			return FileType.DOC;
-		case "xls":
-		case "xlsx":
+		case ".xls":
+		case ".xlsx":
 			return FileType.XLS;
-		case "pdf":
+		case ".pdf":
 			return FileType.PDF;
 		default:
 			throw new UnsupportedOperationException("Filetype " + x + " not supported");
