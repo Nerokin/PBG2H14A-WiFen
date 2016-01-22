@@ -102,7 +102,8 @@ public class MedienbibliothekController extends TitledPane
 		lv_medien.setOnDragDetected(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent e) {
 				Dragboard db = lv_medien.startDragAndDrop(TransferMode.ANY);
-				Medium m = (Medium) e.getSource();
+				@SuppressWarnings("unchecked")
+				Medium m = (Medium) ((ListView<Medium>) e.getSource()).getSelectionModel().getSelectedItem();
 				Image dv = m.getType().getImg();
 				db.setDragView(dv);
 				
