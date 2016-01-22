@@ -1,8 +1,10 @@
 package wifen.client.ui.controllers;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -80,22 +82,25 @@ public class Wuerfelfenster extends TitledPane {
 		@FXML public Pane dropped;
 		private ArrayList<Timeline> AnimationLines = new ArrayList<Timeline>();		
 		
+		boolean temp = false;
+		
 		Image imagesD2[];
 		Image animationD2;
-		Image animationD2rot =  new Image(new FileInputStream("./ressources/wuerfelAnimation/d02_animation_rot.gif"));
-		Image animationD2blau =  new Image(new FileInputStream("./ressources/wuerfelAnimation/d02_animation_blau.gif"));
+		Image animationD2rot =  new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/d02_animation_rot.gif"));
+		Image animationD2blau =  new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/d02_animation_blau.gif"));
 		Image imagesD4[];
-		Image animationD4 = new Image(new FileInputStream("./ressources/wuerfelAnimation/d04_animation.gif"));
+		Image animationD4 = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/d04_animation.gif"));
 		Image imagesD6[];
-		Image animationD6 = new Image(new FileInputStream("./ressources/wuerfelAnimation/d06_animation.gif"));
+		Image animationD6 = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/d06_animation.gif"));
 		Image imagesD8[];
-		Image animationD8 = new Image(new FileInputStream("./ressources/wuerfelAnimation/d08_animation.gif"));
+		Image animationD8 = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/d08_animation.gif"));
 		Image imagesD10[];
-		Image animationD10 = new Image(new FileInputStream("./ressources/wuerfelAnimation/d10_animation.gif"));
+		Image animationD10 = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/d10_animation.gif"));
 		Image animations[];
 		
 		
 	
+		
 
 		private static final Logger logger = Logger.getLogger(Wuerfelfenster.class.getName());
 
@@ -151,45 +156,51 @@ public class Wuerfelfenster extends TitledPane {
 				imagesD6 = new Image[6];
 				imagesD8 = new Image[8];
 				imagesD10 = new Image[11];
+				
+				animationGrid.setHgap(20);
+				animationGrid.setVgap(75);
+				animationGrid.setPadding(new Insets(20,5,5,5));
+				
+				
 				try {
 					// Bilder für 2er "Würfel" Animation laden... :
-					imagesD2[0] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d02/d2_1.png"));
-					imagesD2[1] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d02/d2_2.png"));
+					imagesD2[0] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d02/d2_1.png"));
+					imagesD2[1] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d02/d2_2.png"));
 					// Bilder für 4er "Würfel" Animation laden... :
-					imagesD4[0] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d04/d4_1.png"));
-					imagesD4[1] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d04/d4_2.png"));
-					imagesD4[2] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d04/d4_3.png"));
-					imagesD4[3] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d04/d4_4.png"));
+					imagesD4[0] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d04/d4_1.png"));
+					imagesD4[1] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d04/d4_2.png"));
+					imagesD4[2] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d04/d4_3.png"));
+					imagesD4[3] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d04/d4_4.png"));
 					// Bilder für 6er "Würfel" Animation laden... :
-					imagesD6[0] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d06/d6_1.png"));
-					imagesD6[1] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d06/d6_2.png"));
-					imagesD6[2] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d06/d6_3.png"));
-					imagesD6[3] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d06/d6_4.png"));
-					imagesD6[4] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d06/d6_5.png"));
-					imagesD6[5] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d06/d6_6.png"));
+					imagesD6[0] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_1.png"));
+					imagesD6[1] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_2.png"));
+					imagesD6[2] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_3.png"));
+					imagesD6[3] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_4.png"));
+					imagesD6[4] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_5.png"));
+					imagesD6[5] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_6.png"));
 					// Bilder für 8er "Würfel" Animation laden... :
-					imagesD8[0] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_1.png"));
-					imagesD8[1] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_2.png"));
-					imagesD8[2] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_3.png"));
-					imagesD8[3] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_4.png"));
-					imagesD8[4] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_5.png"));
-					imagesD8[5] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_6.png"));
-					imagesD8[6] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_7.png"));
-					imagesD8[7] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d08/d8_8.png"));
+					imagesD8[0] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_1.png"));
+					imagesD8[1] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_2.png"));
+					imagesD8[2] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_3.png"));
+					imagesD8[3] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_4.png"));
+					imagesD8[4] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_5.png"));
+					imagesD8[5] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_6.png"));
+					imagesD8[6] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_7.png"));
+					imagesD8[7] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_8.png"));
 					// Bilder für 10er "Würfel" Animation laden... :
-					imagesD10[10] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_0.png"));
-					imagesD10[1] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_1.png"));
-					imagesD10[2] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_2.png"));
-					imagesD10[3] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_3.png"));
-					imagesD10[4] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_4.png"));
-					imagesD10[5] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_5.png"));
-					imagesD10[6] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_6.png"));
-					imagesD10[7] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_7.png"));
-					imagesD10[8] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_8.png"));
-					imagesD10[9] = new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d10/d10_9.png"));
+					imagesD10[10] = new Image(getClass().getResourceAsStream("../../resources/wuerfels/wuerfelAnimation/Einzelbilder_d10/d10_0.png"));
+					imagesD10[1] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_1.png"));
+					imagesD10[2] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_2.png"));
+					imagesD10[3] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_3.png"));
+					imagesD10[4] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_4.png"));
+					imagesD10[5] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_5.png"));
+					imagesD10[6] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_6.png"));
+					imagesD10[7] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_7.png"));
+					imagesD10[8] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_8.png"));
+					imagesD10[9] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_9.png"));
 			
 					
-				} catch (FileNotFoundException e) {
+				} catch (Exception e) {
 
 					System.err.println("Bilder konnten nicht geladen werden!\n"+e.getMessage());
 				}
@@ -260,7 +271,7 @@ public class Wuerfelfenster extends TitledPane {
 		public void wuerfelDrag6(MouseEvent ev) throws FileNotFoundException{	// Erst beim Klicken und gleichzeitig ziehen!
 
 			Dragboard db = this.startDragAndDrop(TransferMode.ANY); // this hinzugefügt.. alternativ : wuerfel1.startDragAndDrop..
-			db.setDragView(new Image(new FileInputStream("./ressources/wuerfelAnimation/Einzelbilder_d06/d6_6.png")));
+			db.setDragView(imagesD6[5]);
 			ClipboardContent content = new ClipboardContent();
 			/* db.setDragViewOffsetX(300);
 			 db.setDragViewOffsetY(125);
@@ -348,63 +359,101 @@ public class Wuerfelfenster extends TitledPane {
 		 * @param ev DragEvent beim Droppen
 		 */
 		
+		private int colInd = 0;
+		private int rowInd = 0;
+		
 		@FXML
 		public void wuerfelDrop(DragEvent ev){
-
+			
+			try{
+				
+			final ImageView tempImageView = new ImageView();
+				
+			tempImageView.setFitWidth(75);
+			tempImageView.setFitHeight(75);
+			int columnSize = 4;
+			
 			Dragboard db = ev.getDragboard();
 			ev.setDropCompleted(true);
-		switch(db.getString()){
-			case("d2"):w2++;break;
-			case("d4"):w4++;break;
-			case("d6"):w6++;break;
-			case("d8"):w8++;break;
-			case("d10"):w10++;
-		}
-
-		String ausgabe = "";
-		boolean temp = false;
-
-		if(w2!=0){
-			ausgabe=w2+"w2";
-			temp = true;
-		}
-		if(w4!=0){
-			if(temp){
-				ausgabe+=";";
+			switch(db.getString()){
+				case("d2"):w2++;break;
+				case("d4"):w4++;break;
+				case("d6"):w6++;break;
+				case("d8"):w8++;break;
+				case("d10"):w10++;
 			}
-			temp = true;
-			ausgabe+=w4+"w4";
-		}
-		if(w6!=0){
-			if(temp){
-				ausgabe+=";";
+			
+			String ausgabe = "";
+			temp = false;
+	
+			if(w2!=0){
+				ausgabe=w2+"w2";
+				temp = true;
+				tempImageView.setImage(imagesD2[0]);
+				animationGrid.add(tempImageView, colInd, rowInd);
 			}
-			temp = true;
-			ausgabe+=w6+"w6";
-		}
-
-		if(w8!=0){
-			if(temp){
-				ausgabe+=";";
+			if(w4!=0){
+				if(temp){					
+					ausgabe+=";";	
+				}
+				temp = true;
+				ausgabe+=w4+"w4";
+				tempImageView.setImage(imagesD4[3]);
+				animationGrid.add(tempImageView, colInd, rowInd);
 			}
-			temp = true;
-			ausgabe+=w8+"w8";
-
-		}
-		if(w10!=0){
-			if(temp){
-				ausgabe+=";";
+			if(w6!=0){
+				if(temp){
+					ausgabe+=";";
+				}
+				temp = true;
+				ausgabe+=w6+"w6";
+				tempImageView.setImage(imagesD6[5]);
+				animationGrid.add(tempImageView, colInd, rowInd);
 			}
-			ausgabe+=w10+"w10";
-		}
+	
+			if(w8!=0){
+				if(temp){
+					ausgabe+=";";
+				}
+				temp = true;
+				ausgabe+=w8+"w8";
+				tempImageView.setImage(imagesD8[7]);
+				animationGrid.add(tempImageView, colInd, rowInd);
+			}
+			if(w10!=0){
+				if(temp){
+					ausgabe+=";";
+				}
+				temp = true;
+				ausgabe+=w10+"w10";
+				tempImageView.setImage(imagesD10[0]);
+				animationGrid.add(tempImageView, colInd, rowInd);
+			}
+			
+			colInd++;
+			if(colInd>columnSize-1){
+				rowInd++;
+				colInd = 0;
+			}
+			
+			diceText.setText(ausgabe);
+				ev.consume();
 
-		diceText.setText(ausgabe);
-			ev.consume();
-
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+	
 		}
+		
+		
+		
 		private static WürfelanimationListe w = new WürfelanimationListe();
 		@FXML
 		public void würfeln() throws IOException{
+			rowInd = 0;
+			colInd = 0;
 //			logger.info("THIS IS WUERFELN!");
 			AnimationLines.clear();
 			w.resetWuerfelList();
@@ -468,11 +517,6 @@ public class Wuerfelfenster extends TitledPane {
 			Timeline tempTimeLine = null;
 			ArrayList<String> tempArrayList= w.getAlleWurfel();
 			 // Beinhaltet insgesamtes Ergebnis aller Würfel!
-
-
-			animationGrid.setHgap(20);
-			animationGrid.setVgap(75);
-			animationGrid.setPadding(new Insets(20,5,5,5));
 			
 
 			for(String wfl : tempArrayList){
@@ -562,8 +606,10 @@ public class Wuerfelfenster extends TitledPane {
 			w10 = 0;
 			diceText.setText("");
 			diceText.requestFocus();
-		
-				
+			AnimationLines.clear();
+			animationGrid.getChildren().clear();	
+			rowInd = 0;
+			colInd = 0;
 
 		}
 

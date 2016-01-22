@@ -22,27 +22,27 @@
          <items>
             <ImageView fx:id="d2" fitHeight="32.0" fitWidth="76.0" onDragDetected="#wuerfelDrag2" onDragDone="#wuerfelDone" onDragOver="#wuerfelDragOver" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="file:./ressources/wuerfelAnimation/Einzelbilder_d02/d2_1.png" />
+                  <Image url="/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d02/d2_1.png" />
                </image>
             </ImageView>
             <ImageView fx:id="d4" fitHeight="32.0" fitWidth="76.0" onDragDetected="#wuerfelDrag4" onDragDone="#wuerfelDone" onDragOver="#wuerfelDragOver" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="file:./ressources/wuerfelAnimation/Einzelbilder_d04/d4_4.png" />
+                  <Image url="/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d04/d4_4.png" />
                </image>
             </ImageView>
             <ImageView fx:id="d6" fitHeight="32.0" fitWidth="76.0" onDragDetected="#wuerfelDrag6" onDragDone="#wuerfelDone" onDragOver="#wuerfelDragOver" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="file:./ressources/wuerfelAnimation/Einzelbilder_d06/d6_6.png" />
+                  <Image url="/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_6.png" />
                </image>
             </ImageView>
             <ImageView fx:id="d8" fitHeight="32.0" fitWidth="76.0" onDragDetected="#wuerfelDrag8" onDragDone="#wuerfelDone" onDragOver="#wuerfelDragOver" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="file:./ressources/wuerfelAnimation/Einzelbilder_d08/d8_8.png" />
+                  <Image url="/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_8.png" />
                </image>
             </ImageView>
             <ImageView fx:id="d10" fitHeight="32.0" fitWidth="76.0" onDragDetected="#wuerfelDrag10" onDragDone="#wuerfelDone" onDragOver="#wuerfelDragOver" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="file:./ressources/wuerfelAnimation/Einzelbilder_d10/d10_0.png" />
+                  <Image url="/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_9.png" />
                </image>
             </ImageView>
          </items></ToolBar>
