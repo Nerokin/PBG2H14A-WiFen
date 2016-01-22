@@ -16,6 +16,8 @@ public class MediumModel implements Serializable {
 	private double posx;
 	private double posy;
 	private String desc;
+	private Player owner;
+	private boolean isStatic;
 	
 	// Constructor(s)
 	
@@ -32,6 +34,23 @@ public class MediumModel implements Serializable {
 	
 	// Methods
 	
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + "{" 
+				+ "owner: " + getOwner()
+				+ ", x: " + getPosx()
+				+ ", y: " + getPosy()
+				+ ", desc: " + getDesc()
+				+ ", isStatic: " + getIsStatic()
+				+ "}";
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return obj != null
+				&& obj instanceof MarkerModel
+				&& getId().equals(((MarkerModel) obj).getId());
+	}
 	
 	// Getters & Setters
 
@@ -69,6 +88,22 @@ public class MediumModel implements Serializable {
 	
 	public UUID getId() {
 		return id;
+	}
+	
+	public Player getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Player owner) {
+		this.owner = owner;
+	}
+
+	public boolean getIsStatic() {
+		return isStatic;
+	}
+
+	public void setIsStatic(boolean isStatic) {
+		this.isStatic = isStatic;
 	}
 	
 }
