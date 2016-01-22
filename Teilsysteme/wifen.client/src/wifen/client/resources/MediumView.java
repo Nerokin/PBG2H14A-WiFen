@@ -15,6 +15,7 @@ import wifen.client.application.ClientApplication;
 import wifen.client.services.GameService;
 import wifen.client.ui.controllers.SpielfeldView;
 import wifen.commons.MarkerModel;
+import wifen.commons.Medium;
 import wifen.commons.MediumModel;
 import wifen.commons.SpielerRolle;
 
@@ -64,7 +65,20 @@ public class MediumView extends Parent {
 		    }
 		});
 
-		contextMenu.getItems().addAll(item1, item2);		
+		MenuItem item3 = new MenuItem("öffnen");
+		item3.setOnAction(new EventHandler<ActionEvent>() {
+		    public void handle(ActionEvent e) {
+		    	Medium selectedMedium = getMedium().getMedium();
+				if(selectedMedium == null)
+					return;
+
+				
+				// Show content
+				ClientApplication.instance().getHostServices().showDocument(System.getProperty("java.io.tmpdir") + selectedMedium.getName() + selectedMedium.getType());
+		    }
+		});
+		
+		contextMenu.getItems().addAll(item1, item2, item3);		
 		
 		medium.getMedium().getType().getImg().progressProperty().addListener(new ChangeListener<Number>() {
 

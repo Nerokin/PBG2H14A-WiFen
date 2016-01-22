@@ -394,7 +394,8 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 					((MediumView)n).setTranslateX(mediumModel.getPosx());
 					((MediumView)n).setTranslateY(mediumModel.getPosy());
 					((MediumView)n).setMedium(mediumModel);
-					((CheckMenuItem)((MediumView)n).getContextMenu().getItems().get(1)).setSelected(((MediumView)n).getMedium().getIsStatic());;
+					((CheckMenuItem)((MediumView)n).getContextMenu().getItems().get(1)).setSelected(((MediumView)n).getMedium().getIsStatic());
+					
 					neu = false;
 					break;
 				}
@@ -429,7 +430,8 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 					((MarkerView)n).setTranslateX(m.getPosx());
 					((MarkerView)n).setTranslateY(m.getPosy());
 					((MarkerView)n).setMarker(m);
-					((CheckMenuItem)((MarkerView)n).getContextMenu().getItems().get(1)).setSelected(((MarkerView)n).getMarkerModel().getIsStatic());;
+					((CheckMenuItem)((MarkerView)n).getContextMenu().getItems().get(1)).setSelected(((MarkerView)n).getMarkerModel().getIsStatic());
+					
 					neu = false;
 					break;
 				}

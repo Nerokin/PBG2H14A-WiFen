@@ -198,8 +198,6 @@ public class MedienbibliothekController extends TitledPane
 		if(selectedMedium == null)
 			return;
 		
-		System.out.println(6);
-		
 		// Show content
 		ClientApplication.instance().getHostServices().showDocument(System.getProperty("java.io.tmpdir") + selectedMedium.getName() + selectedMedium.getType());
 	}
