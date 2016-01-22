@@ -1,7 +1,6 @@
 
 package wifen.client.ui.controllers;
 
-import java.awt.MouseInfo;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -10,33 +9,37 @@ import java.util.TimerTask;
 import java.util.UUID;
 
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DataFormat;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polyline;
 import wifen.client.application.ClientApplication;
 import wifen.client.resources.MarkerView;
+import wifen.client.resources.MediumView;
 import wifen.client.services.ClientGameeventService;
 import wifen.client.services.GameService;
 import wifen.client.services.MarkerService;
 import wifen.commons.GridType;
 import wifen.commons.MarkerModel;
 import wifen.commons.MarkerType;
+import wifen.commons.Medium;
+import wifen.commons.MediumModel;
 import wifen.commons.SpielfeldModel;
-import wifen.commons.impl.PlayerImpl;
 
 /**
  * View for displaying a given Playfield Model
@@ -75,15 +78,20 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		this.model = sm;
 		((Pane) this.getContent()).setMaxSize(this.model.getSizeX(), this.model.getSizeY());
 		((Pane) this.getContent()).setMinSize(this.model.getSizeX(), this.model.getSizeY());
-		this.setMaxHeight(this.model.getSizeY());
-		this.setMaxWidth(this.model.getSizeX());
 		this.setHbarPolicy(ScrollBarPolicy.NEVER);
 		this.setVbarPolicy(ScrollBarPolicy.NEVER);
 		this.setPannable(true);
 		this.tilesPerCol = tilesPerCol;
 		this.tilesPerRow = tilesPerRow;
 		this.markerWindow = markerWindow;
-		((Pane)this.getContent()).setBackground(new Background(new BackgroundImage(new Image(getClass().getResourceAsStream("/wifen/client/resources/ludo_board.png")), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+		((Pane)this.getContent()).setBackground(
+				new Background(
+						new BackgroundImage(
+								new Image(getClass().getResourceAsStream("/wifen/client/resources/ludo_board.png")),
+								BackgroundRepeat.NO_REPEAT,
+								BackgroundRepeat.NO_REPEAT,
+								BackgroundPosition.CENTER,
+								new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true))));
 		draw(this.model.getTyp());
 		addMarkersFromModel();
 		addFilesFromModel();
@@ -288,6 +296,26 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 				}
 			}
 		});
+
+		setOnDragOver(new EventHandler<DragEvent>() {
+			public void handle(DragEvent e) {
+				if(e.getDragboard().hasContent(DataFormat.FILES) && e.getDragboard().getContent(DataFormat.FILES) instanceof Medium) {
+					e.acceptTransferModes(TransferMode.ANY);
+				}
+				e.consume();
+			}
+		});
+
+		setOnDragDropped(new EventHandler<DragEvent>() {
+			public void handle(DragEvent e) {
+				Dragboard db = e.getDragboard();
+				if(db.hasContent(DataFormat.FILES) && db.getContent(DataFormat.FILES) instanceof Medium) {
+					ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next()
+					.sendMediumPlaced(new MediumModel((Medium) db.getContent(DataFormat.FILES), e.getSceneX(), e.getSceneY()));
+					e.setDropCompleted(true);
+				} else e.setDropCompleted(false);
+			}
+		});
 	}
 
 	// Methods
@@ -358,6 +386,26 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		return model;
 	}
 
+	public void AddMedium(MediumModel mediumModel) {
+		boolean neu = true;
+		for(Node n : ((Pane)this.getContent()).getChildren()){
+			if(n instanceof MediumView){
+				if(((MediumView)n).getMedium().equals(mediumModel)){
+					((MediumView)n).setTranslateX(mediumModel.getPosx());
+					((MediumView)n).setTranslateY(mediumModel.getPosy());
+					((MediumView)n).setMedium(mediumModel);
+					((CheckMenuItem)((MediumView)n).getContextMenu().getItems().get(1)).setSelected(((MediumView)n).getMedium().getIsStatic());;
+					neu = false;
+					break;
+				}
+			}
+		}
+		if(neu){
+			Platform.runLater(() -> addToView(new MediumView(mediumModel, self)));
+		}
+		Platform.runLater(() -> model.placeMedium(mediumModel));
+	}
+
 	public void AddMarker(MarkerModel m){
 		boolean neu = true;
 		for(Node n : ((Pane)this.getContent()).getChildren()){
@@ -366,6 +414,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 					((MarkerView)n).setTranslateX(m.getPosx());
 					((MarkerView)n).setTranslateY(m.getPosy());
 					((MarkerView)n).setMarker(m);
+					((CheckMenuItem)((MarkerView)n).getContextMenu().getItems().get(1)).setSelected(((MarkerView)n).getMarkerModel().getIsStatic());;
 					neu = false;
 					break;
 				}
@@ -414,6 +463,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		}
 		return null;
 	}
+
 
 	/*
 	 * Optional functionalities

@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import wifen.commons.GameStateModel;
 import wifen.commons.MarkerModel;
 import wifen.commons.Medium;
+import wifen.commons.MediumModel;
 import wifen.commons.Player;
 import wifen.commons.SpielerRolle;
 import wifen.commons.impl.PlayerImpl;
@@ -19,10 +20,14 @@ import wifen.commons.network.events.PacketReceivedEvent;
 import wifen.commons.network.packets.EnterGamePacket;
 import wifen.commons.network.packets.MarkerPacket;
 import wifen.commons.network.packets.MarkerRemovedPacket;
+import wifen.commons.network.packets.MediumPacket;
+import wifen.commons.network.packets.MediumRemovedPacket;
 import wifen.commons.network.packets.PlayerListPacket;
 import wifen.commons.network.packets.impl.EnterGamePacketImpl;
 import wifen.commons.network.packets.impl.MarkerPacketImpl;
 import wifen.commons.network.packets.impl.MarkerRemovedPacketImpl;
+import wifen.commons.network.packets.impl.MediumPacketImpl;
+import wifen.commons.network.packets.impl.MediumRemovedPacketImpl;
 import wifen.commons.network.packets.impl.PlayerListPacketImpl;
 import wifen.server.network.Server;
 import wifen.server.services.ServerGameService;
@@ -81,6 +86,10 @@ public class ServerGameProvider implements ServerGameService, ConnectionListener
 		getGameState().getMedia().add(media);
 	}
 	
+	public void addMediumView(MediumModel medium) {
+		getGameState().getViewModel().placeMedium(medium);
+	}
+	
 	// <--- ConnectionListener --->
 	
 	@Override
@@ -120,6 +129,16 @@ public class ServerGameProvider implements ServerGameService, ConnectionListener
 				ArrayList<Player> players = new ArrayList<>(getPlayerConns().keySet());
 				connectionEvent.getSource().sendPacket(new PlayerListPacketImpl(players));
 			}
+			else if(packetEvent.getPacket() instanceof MediumPacket) {
+				MediumPacket packet = (MediumPacket) packetEvent.getPacket();
+				addMediumView(packet.getMediumModel());
+				getPlayerConns().values().forEach((connection) -> connection.sendPacket(new MediumPacketImpl(packet.getMediumModel())));
+			}
+			else if(packetEvent.getPacket() instanceof MediumRemovedPacket) {
+				MediumRemovedPacket packet = (MediumRemovedPacket) packetEvent.getPacket();
+				getGameState().getViewModel().removeMedium(packet.getMediumId());
+				getPlayerConns().values().forEach((connection) -> connection.sendPacket(new MediumRemovedPacketImpl(packet.getMediumId())));
+			}
 			
 		} else if (connectionEvent instanceof ConnectionClosedEvent) {
 			Player p = getConnectionPlayer(connectionEvent.getSource());
@@ -127,7 +146,7 @@ public class ServerGameProvider implements ServerGameService, ConnectionListener
 			gameEventService.fireEvent(p.getName() + " hat das Spiel verlassen.");
 		}
 	}
-	
+
 	public Player getConnectionPlayer(Connection conn) {
 		for (Entry<Player, Connection> entry : getPlayerConns().entrySet()) {
 			if (entry.getValue().equals(conn)) return entry.getKey();

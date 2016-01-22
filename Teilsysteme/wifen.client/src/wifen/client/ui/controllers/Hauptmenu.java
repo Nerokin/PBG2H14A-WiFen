@@ -24,13 +24,13 @@ import javafx.stage.Stage;
 
 /**
  * Put description here
- * 
+ *
  * @author Kevin Curtis
  * @author Konstantin Schaper (Logik)
  * @author Justin Nussbaum (Exit Button)
  */
 public class Hauptmenu extends BorderPane {
-	
+
 	Logger logger = Logger.getLogger(Hauptmenu.class.getSimpleName());
 
 	// Constants
@@ -52,12 +52,12 @@ public class Hauptmenu extends BorderPane {
 	@FXML private Button btn_spielLaden;
 	@FXML private Button btn_optionen;
 	@FXML private Button btn_spielVerlassen;
-	
+
 	// Constructor
 
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public Hauptmenu() throws IOException {
@@ -87,25 +87,26 @@ public class Hauptmenu extends BorderPane {
 	private void initialize() {
 		// TODO: Data Binding and Setup of Event Handling
 		//AnchorPaneHM.setMinSize(800, 600);
-		
+
 		// Look up IP-address and display it
 		try {
 			lb_ip.setText(InetAddress.getLocalHost().getHostAddress() + " (Lokal)");
 		} catch (UnknownHostException e) {
 			lb_ip.setText("Konnte nicht gefunden werden");
 		}
-		
+
 		// Events
 		btn_spielErstellen.setOnAction(this::erstellenHmBtnOnAction);
 		btn_optionen.setOnAction(this::optionenHmBtnOnAction);
 		btn_spielBeitreten.setOnAction(this::beitretenHmBtnOnAction);
+		btn_spielLaden.setOnAction(this::ladenHmBtnOnAction);
 	}
-	
+
 	// Event Handlers
 
 	/**
 	 * Put description here
-	 * 
+	 *
 	 * @param event
 	 */
 	private final void erstellenHmBtnOnAction(ActionEvent event) {
@@ -116,9 +117,20 @@ public class Hauptmenu extends BorderPane {
 		} catch (IOException e) {
 			new Alert(AlertType.ERROR, "Spielerstellung konnte nicht geladen werden").showAndWait();
 		}
-		
+
 	}
-	
+
+	private final void ladenHmBtnOnAction(ActionEvent event) {
+		Parent p = null;
+		try {
+			p = new SpielLadenView();
+			getScene().setRoot(p);
+		} catch (IOException e) {
+			new Alert(AlertType.ERROR, "Spiel laden konnte nicht geladen werden").showAndWait();
+		}
+
+	}
+
 	private final void beitretenHmBtnOnAction(ActionEvent event) {
 		Parent p = null;
 		try {
@@ -129,7 +141,7 @@ public class Hauptmenu extends BorderPane {
 			new Alert(AlertType.ERROR, "Spielbeitrittsformular konnte nicht geladen werden").showAndWait();
 		}
 	}
-	
+
 	private final void optionenHmBtnOnAction(ActionEvent event) {
 		try {
 			 Parent root1 = new OptionenController();

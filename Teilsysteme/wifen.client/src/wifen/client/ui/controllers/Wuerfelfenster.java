@@ -1,16 +1,18 @@
 package wifen.client.ui.controllers;
 
-import java.io.File;
-import java.io.FileInputStream;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
+
+
 import java.util.ArrayList;
 import java.util.Random;
+
+
 import java.util.logging.Logger;
 
 import javafx.animation.KeyFrame;
-import javafx.animation.KeyFrame;
+
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.ObjectProperty;

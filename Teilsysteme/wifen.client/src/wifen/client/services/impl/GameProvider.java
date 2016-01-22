@@ -18,6 +18,7 @@ import wifen.client.ui.controllers.Hauptmenu;
 import wifen.client.ui.controllers.SpielbrettController;
 import wifen.commons.GameStateModel;
 import wifen.commons.MarkerModel;
+import wifen.commons.MediumModel;
 import wifen.commons.Player;
 import wifen.commons.network.Connection;
 import wifen.commons.network.ConnectionEvent;
@@ -25,8 +26,12 @@ import wifen.commons.network.ConnectionListener;
 import wifen.commons.network.events.PacketReceivedEvent;
 import wifen.commons.network.packets.MarkerPacket;
 import wifen.commons.network.packets.MarkerRemovedPacket;
+import wifen.commons.network.packets.MediumPacket;
+import wifen.commons.network.packets.MediumRemovedPacket;
 import wifen.commons.network.packets.impl.MarkerPacketImpl;
 import wifen.commons.network.packets.impl.MarkerRemovedPacketImpl;
+import wifen.commons.network.packets.impl.MediumPacketImpl;
+import wifen.commons.network.packets.impl.MediumRemovedPacketImpl;
 
 /**
  * Implementation of the {@linkplain GameService} interface.
@@ -71,6 +76,14 @@ public class GameProvider implements GameService, ConnectionListener {
 			else if(packetEvent.getPacket() instanceof MarkerRemovedPacket){
 				MarkerRemovedPacket packet = (MarkerRemovedPacket) packetEvent.getPacket();
 				getGameView().getPlayfield().RemoveMarker(packet.getMarkerId());
+			}
+			else if(packetEvent.getPacket() instanceof MediumPacket) {
+				MediumPacket packet = (MediumPacket) packetEvent.getPacket();
+				getGameView().getPlayfield().AddMedium(packet.getMediumModel());
+			}
+			else if(packetEvent.getPacket() instanceof MediumRemovedPacket) {
+				MediumRemovedPacket packet = (MediumRemovedPacket) packetEvent.getPacket();
+				getGameView().getPlayfield().RemoveMedium(packet.getMediumId());
 			}
 		} 
 	}
@@ -131,6 +144,24 @@ public class GameProvider implements GameService, ConnectionListener {
 		} catch (Exception e) {
 			logger.log(Level.WARNING, "Marker konnte nicht platziert werden", e);
 			// TODO Marker konnte nicht platziert werden
+		}
+	}
+	
+	public void sendMediumPlaced(MediumModel m) {
+		try {
+			ClientApplication.instance().getServiceRegistry().getServiceProviders(Connection.class, true).next()
+			.sendPacket(new MediumPacketImpl(m));
+		} catch (Exception e) {
+			logger.log(Level.WARNING, "Medium konnte nicht platziert werden", e);
+		}
+	}
+	
+	public void sendMediumRemoved(UUID id) {
+		try{
+			ClientApplication.instance().getServiceRegistry().getServiceProviders(Connection.class, true).next()
+			.sendPacket(new MediumRemovedPacketImpl(id));
+		} catch (Exception e) {
+			logger.log(Level.WARNING, "Medium konnte nicht entfernt werden", e);
 		}
 	}
 	
