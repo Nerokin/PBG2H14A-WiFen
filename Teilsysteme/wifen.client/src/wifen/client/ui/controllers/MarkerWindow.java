@@ -26,6 +26,10 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
+import wifen.client.application.ClientApplication;
+import wifen.client.services.GameService;
+import wifen.commons.MarkerModel;
+import wifen.commons.MarkerType;
 
 /**
  * 
@@ -34,7 +38,7 @@ import javafx.scene.paint.Color;
  * @author Hitziger Fabian (pbg2h14ahi)
  */
 public class MarkerWindow extends TitledPane{
-	private ImageView iv;
+	private ImageView iv = new ImageView();
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 	public ObservableList<Button> button_colors = FXCollections.observableArrayList();
 	public ObservableList<ImageView> image_shapes = FXCollections.observableArrayList();
@@ -42,6 +46,8 @@ public class MarkerWindow extends TitledPane{
 	private String[] vorhanden = new String[]{"5-Eck","figur","6-Eck","Baum","Ausrufezeichen","Blitz","Dreieck","Fahne","Feuer","Fragezeichen","Haus","Gras","Haken","Häuslein","Kreis","Krone","Nadel","PuppeM","PuppeW","Radioaktiv","Schlüssel","Sprechblase","Verbotsschild","Stern","Viereck","ViereckAbgerundet"};
 	
 	private static MarkerWindow instance;
+	
+	public boolean markerDragged = false;
 	
 	public static MarkerWindow getInstance(){
 		if(instance == null)
@@ -89,7 +95,6 @@ public class MarkerWindow extends TitledPane{
 		
 		File file = new File(getClass().getResource("../../resources/marker").getFile());
 		for(File f : file.listFiles()){
-			System.out.println(f.getName());
 			if(f.getName().indexOf("Rot") == -1 && f.getName().indexOf("Gelb") == -1 && f.getName().indexOf("Grün") == -1 && f.getName().indexOf("Blau") == -1)
 			{
 
@@ -98,7 +103,6 @@ public class MarkerWindow extends TitledPane{
 				image_shapes.add(tempView);
 				tempView.setFitWidth(70);
 				tempView.setPreserveRatio(true);
-				System.out.println(markerShape.getWidth());
 			}
 		}
 		markerShape.setItems(image_shapes);
@@ -107,14 +111,13 @@ public class MarkerWindow extends TitledPane{
 				
 				 @Override public void handle(ActionEvent e) {
 					String colorName = b.getId();
-					System.out.println(colorName);
 					ImageView selected;
 				
 					if((selected = markerShape.getSelectionModel().getSelectedItem()) != null){
 						for(String s : vorhanden){
 							if(selected.getId().contains(s)){
 								selected.setImage(new Image(selected.getId()+"_"+colorName+".png"));
-								System.out.println(""+selected.getId()+"_"+colorName+".png");
+								setImageView(selected.getImage(),selected.getId(),colorName);
 							}
 						}
 
@@ -129,6 +132,7 @@ public class MarkerWindow extends TitledPane{
 				if(oldValue != null){
 					oldValue.setImage(new Image(oldValue.getId()+".png"));
 				}
+				setImageView(newValue.getImage(), newValue.getId());
 				button_colors.clear();
 				for(String s : vorhanden){
 					if(newValue.getId().contains(s)){
@@ -137,7 +141,7 @@ public class MarkerWindow extends TitledPane{
 						temp = new Button(colors[i]);
 						temp.setId(colors[i]);
 						temp.setPrefWidth(markerColor.getPrefWidth());
-						//temp.setBackground(new Background(new BackgroundFill(Color.web(colors[i]), CornerRadii.EMPTY, Insets.EMPTY)));
+					
 						button_colors.add(temp);
 						}
 						for(Button b : button_colors){
@@ -145,14 +149,13 @@ public class MarkerWindow extends TitledPane{
 								
 								 @Override public void handle(ActionEvent e) {
 									String colorName = b.getId();
-									System.out.println(colorName);
 									ImageView selected;
 								
 									if((selected = markerShape.getSelectionModel().getSelectedItem()) != null){
 										for(String s : vorhanden){
 											if(selected.getId().contains(s)){
 												selected.setImage(new Image(selected.getId()+"_"+colorName+".png"));
-												System.out.println(""+selected.getId()+"_"+colorName+".png");
+												setImageView(selected.getImage(),selected.getId(),colorName);
 											}
 										}
 
@@ -168,25 +171,37 @@ public class MarkerWindow extends TitledPane{
 				
 			}
 		});
-		
-		
-		markerShape.setOnDragDropped(new EventHandler<DragEvent>(){
+		markerShape.setOnDragDetected(new EventHandler<MouseEvent>(){
 
 			@Override
-			public void handle(DragEvent event) {
-				
-				
+			public void handle(MouseEvent event) {
+				System.out.println("Test ");
+				markerDragged = true;
 			}
 			
 		});
-		markerShape.getSelectionModel().select(0);
-		iv = markerShape.getSelectionModel().getSelectedItem();
-		markerShape.setOnMouseClicked(new EventHandler<MouseEvent>(){
+		
+		markerShape.setOnMouseReleased(new EventHandler<MouseEvent>(){
+
 			@Override
 			public void handle(MouseEvent event) {
-				System.out.println(markerShape.getSelectionModel().getSelectedItem());
-				setImageView(markerShape.getSelectionModel().getSelectedItem());
+				System.out.println("Test2");
+				if(markerDragged){
+					MarkerModel m = null;
+					try {
+						m = new MarkerModel(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer(), event.getSceneX(), event.getSceneY() - (iv.getImage().getHeight() / 2), new MarkerType(iv.getImage(),iv.getId()), "");
+						ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMarkerPlaced(m);
+					
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					markerDragged = false;
+					
 				}
+				
+			}
+			
 		});
 
 	}
@@ -204,22 +219,6 @@ public class MarkerWindow extends TitledPane{
 		fxmlLoader.set(value);
 	}
 	
-	/**
-	 * Setzt den Farbeffekt eines Bildes zu der angegebenen Farbe
-	 * 
-	 * @param colorName colorName beschreibt den Namen der Farbe
-	 * @return
-	 */
-	public static ColorAdjust getColor(String colorName){
-		ColorAdjust adjust = new ColorAdjust();
-		Color targetColor = Color.web(colorName); 
-	          //calculate hue: map from [0,360] to [-1,1];
-	    double hue = map( targetColor.getHue() + 180, 0, 360, -1, 1);
-
-		adjust.setHue(hue);
-		adjust.setSaturation(1);
-		return adjust;
-	}
 	
 	/**
 	 * Gibt den aktuell ausgewählten Marker zurück
@@ -227,26 +226,17 @@ public class MarkerWindow extends TitledPane{
 	 * @return
 	 */
 	public ImageView getSelectedMarkerType(){
-		System.out.println(iv);
-		return markerShape.getSelectionModel().getSelectedItem();
+		return this.iv;
 	}	
 	
-	/**
-	 * Berechnet den benötigten Wert für den Farbeffekt
-	 * 
-	 * @param value Der Farbwert der ausgewählten Farbe
-	 * @param start Der Minimale Farbwert für die Farbe
-	 * @param stop Der Maximale Farbwert für die Farbe
-	 * @param targetStart Der Minimale Wert für den Farbeffekt
-	 * @param targetStop Der Maximale Wert für den Farbeffekt
-	 * @return
-	 */
-	public static double map(double value, double start, double stop, double targetStart, double targetStop) {
-	     return targetStart + (targetStop - targetStart) * ((value - start) / (stop - start));
+	public void setImageView(Image image, String id){
+		this.iv.setId(id + ".png");
+		this.iv.setImage(image);
 	}
-	public void setImageView(ImageView iv){
-		this.iv=iv;
-		System.out.println(iv);
-		System.out.println(this.iv);
+	public void setImageView(Image image,String id, String colorName){
+		this.iv.setId(id + "_" + colorName + ".png");
+		this.iv.setImage(image);
+		
+
 	}
 }
