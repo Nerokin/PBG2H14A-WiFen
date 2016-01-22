@@ -336,6 +336,69 @@ public class ClientApplication extends Application implements ServerListener, Co
 		}
 	}
 
+
+	/**
+	 * Instantiates a new {@linkplain GameProvider} and registers it with this
+	 * application's service registry, if there is none yet.
+	 *
+	 * @param sveFile File That contains a save for a game
+	 * @param playerName The host's player name
+	 */
+	public void hostLoadedGame(File saveFile, String playerName) {
+		try {
+
+			// Check if a game is already running
+			if (!(getServiceRegistry().getServiceProviders(GameService.class, false).hasNext()
+				 || getServiceRegistry().getServiceProviders(Server.class, false).hasNext())) {
+
+				// Loading Screen
+				logger.info("Showing loading screen ...");
+				ClientApplication.instance().showLoadingScreen();
+
+				// Load save
+				logger.info("Loading save from: \"" + saveFile.getAbsolutePath() + "\"");
+				SaveGameService saveGameLoader = new SaveGameProvider();
+				GameStateModel loadedModel = saveGameLoader.LoadSave(saveFile);
+				logger.info("File loaded successfully");
+
+
+				// Creating tmpModel
+				tmpModel.put("maximumPlayerCount", loadedModel.getMaxPlayerCount());
+				tmpModel.put("spectatorsAllowed", loadedModel.isSpectatingAllowed());
+				tmpModel.put("mediaInitiallyVisible", loadedModel.isMediaVisibleInitially());
+				tmpModel.put("maxDiceFaceCount", loadedModel.maxDiceFaceCount());
+				tmpModel.put("playerName", playerName);
+				tmpModel.put("standardPlayerRole", loadedModel.getStandardPlayerRole());
+				tmpModel.put("gridType", loadedModel.getViewModel().getTyp());
+
+				// Start the Server
+				Thread t;
+				t = new Thread(() -> {
+					try {
+						startServer();
+						// Setting new Model
+						logger.info("Setting overriding loaded GameStateModel");
+						saveGameLoader.LoadGame(loadedModel);
+						logger.info("GameStateModel overriden");
+					} catch (Exception e) {
+						cancelGameCreation(e);
+					}
+				});
+				t.setDaemon(true);
+				t.setName("ServerStartThread");
+				t.start();
+
+			} else throw new IllegalStateException("There already is a game/server running");
+
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, "Loading save failed");
+			cancelGameCreation(e);
+
+		}
+	}
+
+
+
 	// <--- ServerListener --->
 
 	@Override
@@ -605,35 +668,50 @@ public class ClientApplication extends Application implements ServerListener, Co
 		return serviceRegistry;
 	}
 
+	public void saveGame(File file) throws IOException
+	{
+		SaveGameService saveService = new SaveGameProvider();
+		saveService.SaveAllData(file);
+	}
+
 	@Override
 	public void handle(WindowEvent event) {
-		if(getServiceProvider(GameService.class)!=null)
+
+		// Ask if the user really wants to close the window
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Really quit?");
+		alert.setHeaderText("Do you really want to close the application?");
+		Optional<ButtonType> result = alert.showAndWait();
+		if(result.get()==ButtonType.OK)
 		{
-			SaveGameService saveService = new SaveGameProvider();
-			// Ask if the user wants to save
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Save the game?");
-			alert.setHeaderText("Do you want to save the game before closing?");
-			alert.setContentText("Pressing cancel will not save and then close the game.");
-			Optional<ButtonType> result = alert.showAndWait();
-			if(result.get()==ButtonType.OK)
+			if(getServiceProvider(GameService.class)!=null)
 			{
-				// Save game here!
-				FileChooser fileChooser = new FileChooser();
-				fileChooser.setTitle("Save game");
-				GameService gameservice = ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class,false).next();
-				File file = fileChooser.showSaveDialog(gameservice.getGameView().getScene().getWindow());
-				if(file != null)
+				alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("Save?");
+				alert.setHeaderText("Do you want to save the game too?");
+				result = alert.showAndWait();
+				if(result.get()==ButtonType.OK)
 				{
-					try {
-						saveService.SaveAllData(file);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						logger.log(Level.SEVERE, "Game could not be saved!", e);
+					// Save game here!
+					FileChooser fileChooser = new FileChooser();
+					fileChooser.setTitle("Save game");
+					GameService gameservice = ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class,false).next();
+					File file = fileChooser.showSaveDialog(gameservice.getGameView().getScene().getWindow());
+					if(file != null)
+					{
+						try {
+							saveGame(file);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							logger.log(Level.SEVERE, "Game could not be saved!", e);
+						}
 					}
 				}
 			}
 		}
+		else
+			event.consume();
+
 	}
 
 }

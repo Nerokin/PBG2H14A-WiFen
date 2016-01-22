@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
-import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -19,9 +18,8 @@ import wifen.client.application.ClientApplication;
 import wifen.client.services.GameService;
 import wifen.client.services.SaveGameService;
 import wifen.client.services.impl.SaveGameData.MarkerSave;
-import wifen.commons.MarkerModel;
+import wifen.commons.GameStateModel;
 import wifen.commons.Medium;
-import wifen.commons.SpielfeldModel;
 
 /**
  * @author Oliver Bardong
@@ -35,6 +33,8 @@ public class SaveGameProvider implements SaveGameService {
 	 */
 	@Override
 	public File SaveAllData(File file) throws IOException {
+		//Old way
+		/*
 		// collect all Data
 		GameService gameservice = ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class,false).next();
 		List<String> chatlog = gameservice.getCurrentModel().getChatLog();
@@ -66,12 +66,32 @@ public class SaveGameProvider implements SaveGameService {
         dest.close();
 
 		return output;
+		*/
+
+
+		//new Way
+
+		GameService gameservice = ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class,false).next();
+		GameStateModel model = gameservice.getCurrentModel();
+		File output = file;
+		FileOutputStream dest = new FileOutputStream(output);
+		ZipOutputStream zipOut = new ZipOutputStream(dest);
+		ObjectOutputStream serOut = new ObjectOutputStream(zipOut);
+
+        ZipEntry entry = new ZipEntry("SavedGame");
+        zipOut.putNextEntry(entry);
+        serOut.writeObject(model);
+        serOut.close();
+        zipOut.close();
+        dest.close();
+
+		return null;
 	}
 
 	/* (non-Javadoc)
 	 * @see wifen.commons.services.SaveGameService#LoadAllData(java.io.File)
 	 */
-	@Override
+/*	@Override
 	public SaveGameData LoadSave(File saveFile) throws IOException, ClassNotFoundException {
 		GameService gameservice = ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class,false).next();
 
@@ -86,7 +106,7 @@ public class SaveGameProvider implements SaveGameService {
 		fi.close();
 		return data;
 		//TODO: Push data arround
-	}
+	}*/
 
 	@Override
 	public void LoadGame(SaveGameData saveData) {
@@ -105,5 +125,29 @@ public class SaveGameProvider implements SaveGameService {
 		}
 
 
+	}
+
+	@Override
+	public void LoadGame(GameStateModel loadedModel) {
+
+		GameService gameservice = ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class,false).next();
+		gameservice.overrideModel(loadedModel);
+	}
+
+	@Override
+	public GameStateModel LoadSave(File saveFile) throws IOException, ClassNotFoundException {
+		GameService gameservice = ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class,false).next();
+
+		GameStateModel newModel;
+		FileInputStream fi = new FileInputStream(saveFile);
+		ZipInputStream zi = new ZipInputStream(fi);
+		ZipEntry zentry = zi.getNextEntry();
+		ObjectInputStream serIn = new ObjectInputStream(zi);
+
+		newModel = (GameStateModel) serIn.readObject();
+		serIn.close();
+		zi.close();
+		fi.close();
+		return newModel;
 	}
 }

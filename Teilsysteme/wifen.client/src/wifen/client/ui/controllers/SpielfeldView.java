@@ -30,6 +30,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polyline;
 import wifen.client.application.ClientApplication;
 import wifen.client.resources.MarkerView;
+import wifen.client.resources.MediumView;
 import wifen.client.services.ClientGameeventService;
 import wifen.client.services.GameService;
 import wifen.client.services.MarkerService;
@@ -290,7 +291,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 				}
 			}
 		});
-		
+
 		setOnDragOver(new EventHandler<DragEvent>() {
 			public void handle(DragEvent e) {
 				if(e.getDragboard().hasContent(DataFormat.FILES) && e.getDragboard().getContent(DataFormat.FILES) instanceof Medium) {
@@ -299,7 +300,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 				e.consume();
 			}
 		});
-		
+
 		setOnDragDropped(new EventHandler<DragEvent>() {
 			public void handle(DragEvent e) {
 				Dragboard db = e.getDragboard();
