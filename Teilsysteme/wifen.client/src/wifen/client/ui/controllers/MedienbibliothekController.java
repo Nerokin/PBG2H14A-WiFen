@@ -37,6 +37,8 @@ import wifen.commons.Medium;
  */
 public class MedienbibliothekController extends TitledPane
 {
+	public static final DataFormat MEDIUM_FORMAT = new DataFormat("medium");
+	
 	ObservableList<Medium> liste = FXCollections.observableArrayList();
 	
 	//Properties
@@ -101,14 +103,14 @@ public class MedienbibliothekController extends TitledPane
 		
 		lv_medien.setOnDragDetected(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent e) {
-				Dragboard db = lv_medien.startDragAndDrop(TransferMode.ANY);
+				Dragboard db = lv_medien.startDragAndDrop(TransferMode.COPY);
 				@SuppressWarnings("unchecked")
 				Medium m = (Medium) ((ListView<Medium>) e.getSource()).getSelectionModel().getSelectedItem();
 				Image dv = m.getType().getImg();
 				db.setDragView(dv);
 				
 				ClipboardContent cc = new ClipboardContent();
-				cc.put(DataFormat.IMAGE, m);
+				cc.put(MEDIUM_FORMAT, m);
 				
 				db.setContent(cc);
 				e.consume();
