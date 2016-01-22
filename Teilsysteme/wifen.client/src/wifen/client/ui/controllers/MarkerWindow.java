@@ -20,6 +20,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -37,7 +38,8 @@ public class MarkerWindow extends TitledPane{
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 	public ObservableList<Button> button_colors = FXCollections.observableArrayList();
 	public ObservableList<ImageView> image_shapes = FXCollections.observableArrayList();
-	public String[] colors = new String[]{"orange","lightblue","yellow","green","red","greenyellow"};
+	public String[] colors = new String[]{"Rot","Grün","Blau","Gelb"};
+	private String[] vorhanden = new String[]{"5-Eck","figur","6-Eck","Baum","Ausrufezeichen","Blitz","Dreieck","Fahne","Feuer","Fragezeichen","Haus","Gras","Haken","Häuslein","Kreis","Krone","Nadel","PuppeM","PuppeW","Radioaktiv","Schlüssel","Sprechblase","Verbotsschild","Stern","Viereck","ViereckAbgerundet"};
 	
 	private static MarkerWindow instance;
 	
@@ -83,25 +85,23 @@ public class MarkerWindow extends TitledPane{
 		setText("Marker");
 		
 		instance=this;
-		Button temp;
-		for(int i = 0; i < colors.length;i++){
-		temp = new Button(colors[i]);
-		temp.setId(colors[i]);
-		temp.setPrefWidth(markerColor.getPrefWidth());
-		temp.setBackground(new Background(new BackgroundFill(Color.web(colors[i]), CornerRadii.EMPTY, Insets.EMPTY)));
-		button_colors.add(temp);
-		}
-		markerColor.setItems(button_colors);
+		
 		
 		File file = new File(getClass().getResource("../../resources/marker").getFile());
 		for(File f : file.listFiles()){
-			ImageView tempView = new ImageView(new Image(f.toURI().toString()));
-			tempView.setId(f.getName().substring(0, f.getName().indexOf('.')));
-			image_shapes.add(tempView);
+			System.out.println(f.getName());
+			if(f.getName().indexOf("Rot") == -1 && f.getName().indexOf("Gelb") == -1 && f.getName().indexOf("Grün") == -1 && f.getName().indexOf("Blau") == -1)
+			{
+
+				ImageView tempView = new ImageView(new Image(f.toURI().toString()));
+				tempView.setId(f.toURI().toString().substring(0, f.toURI().toString().lastIndexOf(".")));
+				image_shapes.add(tempView);
+				tempView.setFitWidth(70);
+				tempView.setPreserveRatio(true);
+				System.out.println(markerShape.getWidth());
+			}
 		}
 		markerShape.setItems(image_shapes);
-		markerShape.getSelectionModel().select(0);
-		iv = markerShape.getSelectionModel().getSelectedItem();
 		for(Button b : button_colors){
 			b.setOnAction(new EventHandler<ActionEvent>(){
 				
@@ -111,7 +111,13 @@ public class MarkerWindow extends TitledPane{
 					ImageView selected;
 				
 					if((selected = markerShape.getSelectionModel().getSelectedItem()) != null){
-						selected.setEffect(getColor(colorName));
+						for(String s : vorhanden){
+							if(selected.getId().contains(s)){
+								selected.setImage(new Image(selected.getId()+"_"+colorName+".png"));
+								System.out.println(""+selected.getId()+"_"+colorName+".png");
+							}
+						}
+
 					}
 				 }
 			});
@@ -121,12 +127,60 @@ public class MarkerWindow extends TitledPane{
 			@Override
 			public void changed(ObservableValue<? extends ImageView> observable, ImageView oldValue, ImageView newValue) {
 				if(oldValue != null){
-					oldValue.setEffect(null);
+					oldValue.setImage(new Image(oldValue.getId()+".png"));
 				}
-				System.out.println(""+newValue.getId());
+				button_colors.clear();
+				for(String s : vorhanden){
+					if(newValue.getId().contains(s)){
+						Button temp;
+						for(int i = 0; i < colors.length;i++){
+						temp = new Button(colors[i]);
+						temp.setId(colors[i]);
+						temp.setPrefWidth(markerColor.getPrefWidth());
+						//temp.setBackground(new Background(new BackgroundFill(Color.web(colors[i]), CornerRadii.EMPTY, Insets.EMPTY)));
+						button_colors.add(temp);
+						}
+						for(Button b : button_colors){
+							b.setOnAction(new EventHandler<ActionEvent>(){
+								
+								 @Override public void handle(ActionEvent e) {
+									String colorName = b.getId();
+									System.out.println(colorName);
+									ImageView selected;
+								
+									if((selected = markerShape.getSelectionModel().getSelectedItem()) != null){
+										for(String s : vorhanden){
+											if(selected.getId().contains(s)){
+												selected.setImage(new Image(selected.getId()+"_"+colorName+".png"));
+												System.out.println(""+selected.getId()+"_"+colorName+".png");
+											}
+										}
+
+									}
+								 }
+							});
+						}
+					}
+					
+				}
+				markerColor.setItems(button_colors);
+				markerColor.refresh();
 				
 			}
 		});
+		
+		
+		markerShape.setOnDragDropped(new EventHandler<DragEvent>(){
+
+			@Override
+			public void handle(DragEvent event) {
+				
+				
+			}
+			
+		});
+		markerShape.getSelectionModel().select(0);
+		iv = markerShape.getSelectionModel().getSelectedItem();
 		markerShape.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			@Override
 			public void handle(MouseEvent event) {
