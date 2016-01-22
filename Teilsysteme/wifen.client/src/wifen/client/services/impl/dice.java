@@ -35,7 +35,7 @@ public class dice {
 	
 	private static final Logger logger = Logger.getLogger(dice.class.getName());
 
-	public static String checkInput(String in){
+	public static DiceObject checkInput(String in){
         //Formel: XwY+M
         if(in.matches("^[1-9][0-9]*w[1-9][0-9]*\\+[1-9][0-9]*$"))
         {
@@ -47,8 +47,9 @@ public class dice {
             int x = Integer.parseInt(in_x);
             int y = Integer.parseInt(in_y);
             int m = Integer.parseInt(in_m);
-            	//System.out.println(x);
-            return outputThrow(dice_Throw(x,y,m), y);
+            	//System.out.println(x); 
+            DiceObject diceObj = new DiceObject(y,x,m);
+            return diceObj;
         }
         //Formel: XwY-M
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*\\-[1-9][0-9]*$"))
@@ -62,7 +63,8 @@ public class dice {
             int y = Integer.parseInt(in_y);
             int m = Integer.parseInt(in_m);
             //System.out.println(x);
-             return outputThrow(dice_Throw(x,y,-m), y);
+            DiceObject diceObj = new DiceObject(y,x,-m);
+            return diceObj;
         }
         //Formel: XwY
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*$"))
@@ -71,7 +73,8 @@ public class dice {
             int x = Integer.parseInt(in_split[0]);
             int y = Integer.parseInt(in_split[1]);
             //System.out.println(x);
-            return outputThrow(dice_Throw(x,y,0), y);
+            DiceObject diceObj = new DiceObject(y,x,0);
+            return diceObj;
         }
         //Formel: XwYeZ+M
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*e[1-9][0-9]*\\+[1-9][0-9]*$"))
@@ -87,7 +90,8 @@ public class dice {
             int y = Integer.parseInt(in_y);
             int z = Integer.parseInt(in_z);
             int m = Integer.parseInt(in_m);
-            return outputTest(dice_Test(x,y,z,m));
+            DiceObject diceObj = new DiceObject(y,x,m, z);
+            return diceObj;
         }
         //Formel: XwYeZ-M
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*e[1-9][0-9]*\\-[1-9][0-9]*$"))
@@ -103,7 +107,8 @@ public class dice {
             int y = Integer.parseInt(in_y);
             int z = Integer.parseInt(in_z);
             int m = Integer.parseInt(in_m);
-            return outputTest(dice_Test(x,y,z,-m));
+            DiceObject diceObj = new DiceObject(y,x,-m, z);
+            return diceObj;
         }
         //Formel: XwYeZ
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*e[1-9][0-9]*$"))
@@ -116,7 +121,8 @@ public class dice {
             int x = Integer.parseInt(in_x);
             int y = Integer.parseInt(in_y);
             int z = Integer.parseInt(in_z);
-            return outputTest(dice_Test(x,y,z,0));
+            DiceObject diceObj = new DiceObject(y,x,0, z);
+            return diceObj;
         }
         //Formel: XwYeZ+(XwY+M)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*e[1-9][0-9]*\\+[1-9][0-9]*w[1-9][0-9]*\\+[1-9][0-9]*$"))
@@ -133,7 +139,10 @@ public class dice {
             int m_x = Integer.parseInt(in_m_x);
             int m_y = Integer.parseInt(in_m_y);
             int m_m = Integer.parseInt(in_m_m);
-            int m = dice_Throw(m_x,m_y,m_m)[0];
+            
+            DiceObject tmpDice = new DiceObject(m_y, m_x, m_m);
+            int m = dice_Throw(tmpDice).getResult()[0];
+            
             //Auswertung des ersten Ausdrucks um End Ergebniss zu bestimmen
             int index_x = erster.indexOf('w');
             int index_y = erster.indexOf('e');
@@ -143,7 +152,9 @@ public class dice {
             int x = Integer.parseInt(in_x);
             int y = Integer.parseInt(in_y);
             int z  =Integer.parseInt(in_z);
-            return outputTest(dice_Test(x,y,z,m));
+            
+            DiceObject diceObj = new DiceObject(y,x,m, z);
+            return diceObj;
             //System.out.println(zweiter);
         }
         //Formel: XwYeZ+(XwY-M)
@@ -161,7 +172,10 @@ public class dice {
             int m_x = Integer.parseInt(in_m_x);
             int m_y = Integer.parseInt(in_m_y);
             int m_m = Integer.parseInt(in_m_m);
-            int m = dice_Throw(m_x,m_y,m_m)[0];
+
+            DiceObject tmpDice = new DiceObject(m_y, m_x, m_m);
+            int m = dice_Throw(tmpDice).getResult()[0];
+            
             //Auswertung 1. AUsdrucksteil, Endberechnung
             int index_x = erster.indexOf('w');
             int index_y = erster.indexOf('e', index_x);
@@ -171,7 +185,8 @@ public class dice {
             int x = Integer.parseInt(in_x);
             int y = Integer.parseInt(in_y);
             int z = Integer.parseInt(in_z);
-            return outputTest(dice_Test(x,y,z,m));
+            DiceObject diceObj = new DiceObject(y,x,m, z);
+            return diceObj;
         }
         //Formel: XwYeZ-(XwY+M)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*e[1-9][0-9]*\\-[1-9][0-9]*w[1-9][0-9]*\\+[1-9][0-9]*$"))
@@ -188,7 +203,9 @@ public class dice {
             int m_x = Integer.parseInt(in_m_x);
             int m_y = Integer.parseInt(in_m_y);
             int m_m = Integer.parseInt(in_m_m);
-            int m = dice_Throw(m_x,m_y,m_m)[0];
+            
+            DiceObject tmpDice = new DiceObject(m_y, m_x, m_m);
+            int m = dice_Throw(tmpDice).getResult()[0];
             //Auswertung 1. AUsdrucksteil, Endberechnung
             int index_x = erster.indexOf('w');
             int index_y = erster.indexOf('e', index_x);
@@ -198,7 +215,8 @@ public class dice {
             int x = Integer.parseInt(in_x);
             int y = Integer.parseInt(in_y);
             int z = Integer.parseInt(in_z);
-            return outputTest(dice_Test(x,y,z,-m));
+            DiceObject diceObj = new DiceObject(y,x,-m, z);
+            return diceObj;
         }
         //Formel: XwYeZ-(XwY-M)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*e[1-9][0-9]*\\-[1-9][0-9]*w[1-9][0-9]*\\-[1-9][0-9]*$"))
@@ -215,7 +233,9 @@ public class dice {
             int m_x = Integer.parseInt(in_m_x);
             int m_y = Integer.parseInt(in_m_y);
             int m_m = Integer.parseInt(in_m_m);
-            int m = dice_Throw(m_x,m_y,m_m)[0];
+            
+            DiceObject tmpDice = new DiceObject(m_y, m_x, m_m);
+            int m = dice_Throw(tmpDice).getResult()[0];
             //Auswertung 1. AUsdrucksteil, Endberechnung
             int index_x = erster.indexOf('w');
             int index_y = erster.indexOf('e', index_x);
@@ -225,7 +245,8 @@ public class dice {
             int x = Integer.parseInt(in_x);
             int y = Integer.parseInt(in_y);
             int z = Integer.parseInt(in_z);
-            return outputTest(dice_Test(x,y,z,-m));
+            DiceObject diceObj = new DiceObject(y,x,-m, z);
+            return diceObj;
         }
         //Formel: XwYeZ+(XwY)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*e[1-9][0-9]*\\+[1-9][0-9]*w[1-9][0-9]*$"))
@@ -239,7 +260,8 @@ public class dice {
             String in_m_y = zweiter.substring(index_m_x+1);
             int m_x = Integer.parseInt(in_m_x);
             int m_y = Integer.parseInt(in_m_y);
-            int m = dice_Throw(m_x,m_y,0)[0];
+            DiceObject tmpDice = new DiceObject(m_y, m_x, 0);
+            int m = dice_Throw(tmpDice).getResult()[0];
             //Auswertung 1. AUsdrucksteil, Endberechnung
             int index_x = erster.indexOf('w');
             int index_y = erster.indexOf('e', index_x);
@@ -249,7 +271,8 @@ public class dice {
             int x = Integer.parseInt(in_x);
             int y = Integer.parseInt(in_y);
             int z = Integer.parseInt(in_z);
-            return outputTest(dice_Test(x,y,z,m));
+            DiceObject diceObj = new DiceObject(y,x,-m, z);
+            return diceObj;
         }
         //Formel: XwYeZ-(XwY)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*e[1-9][0-9]*\\-[1-9][0-9]*w[1-9][0-9]*$"))
@@ -263,7 +286,8 @@ public class dice {
             String in_m_y = zweiter.substring(index_m_x+1);
             int m_x = Integer.parseInt(in_m_x);
             int m_y = Integer.parseInt(in_m_y);
-            int m = dice_Throw(m_x,m_y,0)[0];
+            DiceObject tmpDice = new DiceObject(m_y, m_x, 0);
+            int m = dice_Throw(tmpDice).getResult()[0];
             //Auswertung 1. AUsdrucksteil, Endberechnung
             int index_x = erster.indexOf('w');
             int index_y = erster.indexOf('e', index_x);
@@ -274,7 +298,8 @@ public class dice {
             int y = Integer.parseInt(in_y);
             int z = Integer.parseInt(in_z);
 
-            return outputTest(dice_Test(x,y,z,-m));
+            DiceObject diceObj = new DiceObject(y,x,-m, z);
+            return diceObj;
         }
         //Formel: XwY+(XwY+M)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*\\+[1-9][0-9]*w[1-9][0-9]*\\+[1-9][0-9]*$"))
@@ -291,13 +316,15 @@ public class dice {
             int m_x = Integer.parseInt(in_m_x);
             int m_y = Integer.parseInt(in_m_y);
             int m_m = Integer.parseInt(in_m_m);
-            int m = dice_Throw(m_x,m_y,m_m)[0];
+            DiceObject tmpDice = new DiceObject(m_y, m_x, m_m);
+            int m = dice_Throw(tmpDice).getResult()[0];
             //1. Ausdruck
             String[] in_split = erster.split("w");
             int x = Integer.parseInt(in_split[0]);
             int y = Integer.parseInt(in_split[1]);
             //  System.out.println(x);
-            return outputThrow(dice_Throw(x,y,m), y);
+            DiceObject diceObj = new DiceObject(y,x,m);
+            return diceObj;
         }
         //Formel: XwY+(XwY-M)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*\\+[1-9][0-9]*w[1-9][0-9]*\\-[1-9][0-9]*$"))
@@ -314,13 +341,15 @@ public class dice {
             int m_x = Integer.parseInt(in_m_x);
             int m_y = Integer.parseInt(in_m_y);
             int m_m = Integer.parseInt(in_m_m);
-            int m = dice_Throw(m_x,m_y,m_m)[0];
+            DiceObject tmpDice = new DiceObject(m_y, m_x, m_m);
+            int m = dice_Throw(tmpDice).getResult()[0];
             //1. Ausdruck
             String[] in_split = erster.split("w");
             int x = Integer.parseInt(in_split[0]);
             int y = Integer.parseInt(in_split[1]);
             //  System.out.println(x);
-            return outputThrow(dice_Throw(x,y,m), y);
+            DiceObject diceObj = new DiceObject(y,x,m);
+            return diceObj;
         }
         //Formel: XwY-(XwY+M)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*\\-[1-9][0-9]*w[1-9][0-9]*\\+[1-9][0-9]*$"))
@@ -337,13 +366,15 @@ public class dice {
             int m_x = Integer.parseInt(in_m_x);
             int m_y = Integer.parseInt(in_m_y);
             int m_m = Integer.parseInt(in_m_m);
-            int m = dice_Throw(m_x,m_y,m_m)[0];
+            DiceObject tmpDice = new DiceObject(m_y, m_x, m_m);
+            int m = dice_Throw(tmpDice).getResult()[0];
             //1. Ausdruck
             String[] in_split = erster.split("w");
             int x = Integer.parseInt(in_split[0]);
             int y = Integer.parseInt(in_split[1]);
             // System.out.println(x);
-            return outputThrow(dice_Throw(x,y,-m), y);
+            DiceObject diceObj = new DiceObject(y,x,-m);
+            return diceObj;
         }
         //Formel: XwY-(XwY-M)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*\\-[1-9][0-9]*w[1-9][0-9]*\\-[1-9][0-9]*$"))
@@ -360,13 +391,15 @@ public class dice {
             int m_x = Integer.parseInt(in_m_x);
             int m_y = Integer.parseInt(in_m_y);
             int m_m = Integer.parseInt(in_m_m);
-            int m = dice_Throw(m_x,m_y,-m_m)[0];
+            DiceObject tmpDice = new DiceObject(m_y, m_x, -m_m);
+            int m = dice_Throw(tmpDice).getResult()[0];
             //1. Ausdruck
             String[] in_split = erster.split("w");
             int x = Integer.parseInt(in_split[0]);
             int y = Integer.parseInt(in_split[1]);
             // System.out.println(x);
-            return outputThrow(dice_Throw(x,y,-m), y);
+            DiceObject diceObj = new DiceObject(y,x,-m);
+            return diceObj;
         }
         //Formel: XwY+(XwY)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*\\+[1-9][0-9]*w[1-9][0-9]*$"))
@@ -377,11 +410,13 @@ public class dice {
             //2. Ausdruck
             int m_x = Integer.parseInt(zweiter[0]);
             int m_y = Integer.parseInt(zweiter[1]);
-            int m = dice_Throw(m_x,m_y,0)[0];
+            DiceObject tmpDice = new DiceObject(m_y, m_x, 0);
+            int m = dice_Throw(tmpDice).getResult()[0];
             int x = Integer.parseInt(erster[0]);
             int y = Integer.parseInt(erster[1]);
             //System.out.println(x);
-            return outputThrow(dice_Throw(x,y,m), y);
+            DiceObject diceObj = new DiceObject(y,x,m);
+            return diceObj;
         }
         //Formel: XwY-(XwY)
         else if(in.matches("^[1-9][0-9]*w[1-9][0-9]*\\-[1-9][0-9]*w[1-9][0-9]*$"))
@@ -392,12 +427,14 @@ public class dice {
             //2. Ausdruck
             int m_x = Integer.parseInt(zweiter[0]);
             int m_y = Integer.parseInt(zweiter[1]);
-            int m = dice_Throw(m_x,m_y,0)[0];
+            DiceObject tmpDice = new DiceObject(m_y, m_x, 0);
+            int m = dice_Throw(tmpDice).getResult()[0];
             //1. Ausdruck
             int x = Integer.parseInt(erster[0]);
             int y = Integer.parseInt(erster[1]);
             // System.out.println(x);
-            return outputThrow(dice_Throw(x,y,-m), y);
+            DiceObject diceObj = new DiceObject(y,x,-m);
+            return diceObj;
         }
         else{
             return null;
@@ -414,7 +451,13 @@ public class dice {
 	 * @param m Zusätzlicher Modifikator für Positive oder Negative effekte
 	 * @return gibt die Werte des Wurfes als int array aus
 	 */
-	public static int[] dice_Test(int x, int y, int z, int m) {
+	public static DiceObject dice_Test(DiceObject d) {
+		
+		int x = d.getDiceCount();
+		int y = d.getSideCount();
+		int m = d.getMod();
+		int z = d.getThreshold();
+		
 		int out = 0;
 		int[] dice = new int[x + 1];
 		Random r = new Random();
@@ -425,7 +468,10 @@ public class dice {
 			}
 		}
 		dice[x] = out;
-		return dice;
+		
+		d.setResult(dice.clone());
+		
+		return d;
 	}
 
 	// -----------------------
@@ -447,18 +493,26 @@ public class dice {
 	 * @return gibt die Werte des Wurfes als int array aus
 	 */
 
-	public static int[] dice_Throw(int x, int y, int m) {
+	public static DiceObject dice_Throw(DiceObject d) {
 
-		int dice[] = new int[x + 1];
+		int x = d.getDiceCount();
+		int y = d.getSideCount();
+		int m = d.getMod();
+		
+		int dice[] = new int[x +1];
 		Random ran = new Random();
-		for (int i = 0; i <= x - 1; i++) {
+		for (int i = 0; i <= x -1; i++) {
 			dice[i] = ran.nextInt(y) + 1;
 			dice[x] += dice[i];
-
+			addSingleResult(dice[i]);
 		}
 		dice[x] += m;
+		
 		addSingleModifier(m);
-		return dice;
+		
+		d.setResult(dice.clone());
+		
+		return d;
 	}
 
 	/**
@@ -469,22 +523,21 @@ public class dice {
 	 */
 
 	static boolean isResult=true;
-	public static String outputThrow(int[] input, int seiten){
+	public static String outputThrow(DiceObject d){
 
     	String output = new String();
     	output = " (";
-    	for(int i = 0; i < input.length-1; i++){
-    		output += " "+(i+1)+". w"+ seiten +": "+input[i];
+    	for(int i = 0; i < d.getResult().length-1; i++){
+    		output += " "+(i+1)+". w"+ d.getSideCount() +": "+ d.getResult()[i];
     		if(isResult){
     			//isResult=false;
-    			addSingleResult(input[i]);
     			//logger.info("Input an W�rfel " + i + " " + input[i]);
     		}else{
     			isResult=true;
     		}
 
 
-    		if(i != input.length-2){
+    		if(i !=  d.getResult().length-2){
     			output+= " |";
     		}
     		else{

@@ -3,16 +3,11 @@ package wifen.client.ui.controllers;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
-
 import java.util.ArrayList;
 import java.util.Random;
-
-
 import java.util.logging.Logger;
 
 import javafx.animation.KeyFrame;
-
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.ObjectProperty;
@@ -38,6 +33,7 @@ import javafx.util.Duration;
 import wifen.client.application.ClientApplication;
 import wifen.client.services.ClientGameeventService;
 import wifen.client.services.GameService;
+import wifen.client.services.impl.DiceObject;
 import wifen.client.services.impl.dice;
 
 
@@ -190,16 +186,17 @@ public class Wuerfelfenster extends TitledPane {
 					imagesD8[6] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_7.png"));
 					imagesD8[7] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_8.png"));
 					// Bilder für 10er "Würfel" Animation laden... :
-					imagesD10[10] = new Image(getClass().getResourceAsStream("../../resources/wuerfels/wuerfelAnimation/Einzelbilder_d10/d10_0.png"));
-					imagesD10[1] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_1.png"));
-					imagesD10[2] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_2.png"));
-					imagesD10[3] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_3.png"));
-					imagesD10[4] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_4.png"));
-					imagesD10[5] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_5.png"));
-					imagesD10[6] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_6.png"));
-					imagesD10[7] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_7.png"));
-					imagesD10[8] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_8.png"));
-					imagesD10[9] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_9.png"));
+				
+					imagesD10[0] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_1.png"));
+					imagesD10[1] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_2.png"));
+					imagesD10[2] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_3.png"));
+					imagesD10[3] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_4.png"));
+					imagesD10[4] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_5.png"));
+					imagesD10[5] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_6.png"));
+					imagesD10[6] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_7.png"));
+					imagesD10[7] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_8.png"));
+					imagesD10[8] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_9.png"));
+					imagesD10[9] = new Image(getClass().getResourceAsStream("../../resources/wuerfels/wuerfelAnimation/Einzelbilder_d10/d10_0.png"));
 			
 					
 				} catch (Exception e) {
@@ -369,7 +366,7 @@ public class Wuerfelfenster extends TitledPane {
 			
 			try{
 				
-			final ImageView tempImageView = new ImageView();
+			ImageView tempImageView = new ImageView();
 				
 			tempImageView.setFitWidth(75);
 			tempImageView.setFitHeight(75);
@@ -391,8 +388,8 @@ public class Wuerfelfenster extends TitledPane {
 			if(w2!=0){
 				ausgabe=w2+"w2";
 				temp = true;
-				tempImageView.setImage(imagesD2[0]);
-				animationGrid.add(tempImageView, colInd, rowInd);
+				DiceObject tmpDiceImg = new DiceObject(imagesD2[0]);
+				animationGrid.add(tmpDiceImg.getWuerfelImg(), colInd, rowInd);
 			}
 			if(w4!=0){
 				if(temp){					
@@ -400,8 +397,8 @@ public class Wuerfelfenster extends TitledPane {
 				}
 				temp = true;
 				ausgabe+=w4+"w4";
-				tempImageView.setImage(imagesD4[3]);
-				animationGrid.add(tempImageView, colInd, rowInd);
+				DiceObject tmpDiceImg = new DiceObject(imagesD4[3]);
+				animationGrid.add(tmpDiceImg.getWuerfelImg(), colInd, rowInd);
 			}
 			if(w6!=0){
 				if(temp){
@@ -409,8 +406,8 @@ public class Wuerfelfenster extends TitledPane {
 				}
 				temp = true;
 				ausgabe+=w6+"w6";
-				tempImageView.setImage(imagesD6[5]);
-				animationGrid.add(tempImageView, colInd, rowInd);
+				DiceObject tmpDiceImg = new DiceObject(imagesD6[5]);
+				animationGrid.add(tmpDiceImg.getWuerfelImg(), colInd, rowInd);
 			}
 	
 			if(w8!=0){
@@ -419,8 +416,8 @@ public class Wuerfelfenster extends TitledPane {
 				}
 				temp = true;
 				ausgabe+=w8+"w8";
-				tempImageView.setImage(imagesD8[7]);
-				animationGrid.add(tempImageView, colInd, rowInd);
+				DiceObject tmpDiceImg = new DiceObject(imagesD8[7]);
+				animationGrid.add(tmpDiceImg.getWuerfelImg(), colInd, rowInd);
 			}
 			if(w10!=0){
 				if(temp){
@@ -428,8 +425,8 @@ public class Wuerfelfenster extends TitledPane {
 				}
 				temp = true;
 				ausgabe+=w10+"w10";
-				tempImageView.setImage(imagesD10[0]);
-				animationGrid.add(tempImageView, colInd, rowInd);
+				DiceObject tmpDiceImg = new DiceObject(imagesD10[9]);
+				animationGrid.add(tmpDiceImg.getWuerfelImg(), colInd, rowInd);
 			}
 			
 			colInd++;
@@ -452,6 +449,8 @@ public class Wuerfelfenster extends TitledPane {
 		
 		
 		private static WürfelanimationListe w = new WürfelanimationListe();
+		
+		private static ArrayList<Integer> würfelListe =  new ArrayList<Integer>();
 		@FXML
 		public void würfeln() throws IOException{
 			rowInd = 0;
@@ -463,26 +462,23 @@ public class Wuerfelfenster extends TitledPane {
 			String[] tmp = diceText.getText().split(";");
 			String output = "";
 			
+			würfelListe.clear();
 			ArrayList<Integer> arrayList = null;
 
 			
 			if(tmp.length >= 1){
 				for(int i = 0; i < tmp.length; i++){
-					String tmpInput = dice.checkInput(tmp[i]);
-					if(tmpInput != null){
-						output += tmpInput;
-						String[] splitter = tmp[i].split("w");
+					DiceObject tmpDiceIn = dice.checkInput(tmp[i]);
 					
-						int anzahl = Integer.parseInt(splitter[0]);
-						String[] tmpSeiten = splitter[1].split("\\+");
-						int seiten = Integer.parseInt(tmpSeiten[0]);
+					tmpDiceIn = dice.dice_Throw(tmpDiceIn);
+					
+					if(tmpDiceIn != null){
+						output += dice.outputThrow(tmpDiceIn);
 						
+					for (int k = 0; k < tmpDiceIn.getDiceCount(); k++) 
+						würfelListe.add(tmpDiceIn.getSideCount());
 						
-						if(seiten==1)
-							seiten =10;
-						String thisWurfel = ""+seiten;
-						for(int j = 0;j<=anzahl-1;j++)
-							w.addWelcherWuerfel(thisWurfel);
+						//w.addWelcherWuerfel(thisWurfel);
 					
 					}
 					else{
@@ -517,33 +513,33 @@ public class Wuerfelfenster extends TitledPane {
 			int columnSize = 4;
 			int wuerfelCounter = 0;
 			Timeline tempTimeLine = null;
-			ArrayList<String> tempArrayList= w.getAlleWurfel();
+			//ArrayList<String> tempArrayList= w.getAlleWurfel();
 			 // Beinhaltet insgesamtes Ergebnis aller Würfel!
 			
 
-			for(String wfl : tempArrayList){
+			for(int würfelInt : würfelListe){
 				ImageView tempImageView = new ImageView();
 				
 				tempImageView.setFitWidth(75);
 				tempImageView.setFitHeight(75);
 				
 				int result = arrayList.get(wuerfelCounter);
-					if(Integer.parseInt(wfl)==2){
+					if(würfelInt==2){
 						tempTimeLine = d02animation(tempImageView, result);
 						AnimationLines.add(tempTimeLine);
-					}else if(Integer.parseInt(wfl)==4){
+					}else if(würfelInt==4){
 						tempTimeLine = d04animation(tempImageView, result);
 						AnimationLines.add(tempTimeLine);
 					}
-					else if(Integer.parseInt(wfl)==6){
+					else if(würfelInt==6){
 						tempTimeLine = d06animation(tempImageView, result);
 						AnimationLines.add(tempTimeLine);
 					}
-					else if(Integer.parseInt(wfl)==8){
+					else if(würfelInt==8){
 						tempTimeLine = d08animation(tempImageView, result);
 						AnimationLines.add(tempTimeLine);
 					}
-					else if(Integer.parseInt(wfl)==10){
+					else if(würfelInt==10){
 						tempTimeLine = d10animation(tempImageView, result);
 						AnimationLines.add(tempTimeLine);
 					}
