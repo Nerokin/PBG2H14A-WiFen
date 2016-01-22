@@ -39,7 +39,7 @@ public class MarkerWindow extends TitledPane{
 	public ObservableList<Button> button_colors = FXCollections.observableArrayList();
 	public ObservableList<ImageView> image_shapes = FXCollections.observableArrayList();
 	public String[] colors = new String[]{"Rot","Grün","Blau","Gelb"};
-	private String[] vorhanden = new String[]{"5-Eck","figur"};
+	private String[] vorhanden = new String[]{"5-Eck","figur","6-Eck","Baum","Ausrufezeichen","Blitz","Dreieck","Fahne","Feuer","Fragezeichen","Haus","Gras","Haken","Häuslein","Kreis","Krone","Nadel","PuppeM","PuppeW","Radioaktiv","Schlüssel","Sprechblase","Verbotsschild","Stern","Viereck","ViereckAbgerundet"};
 	
 	private static MarkerWindow instance;
 	
