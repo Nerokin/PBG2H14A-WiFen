@@ -297,21 +297,21 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 			}
 		});
 
-		setOnDragOver(new EventHandler<DragEvent>() {
+		getContent().setOnDragOver(new EventHandler<DragEvent>() {
 			public void handle(DragEvent e) {
-				if(e.getDragboard().hasContent(DataFormat.FILES) && e.getDragboard().getContent(DataFormat.FILES) instanceof Medium) {
-					e.acceptTransferModes(TransferMode.ANY);
+				if(e.getDragboard().hasContent(MedienbibliothekController.MEDIUM_FORMAT) && e.getDragboard().getContent(MedienbibliothekController.MEDIUM_FORMAT) instanceof Medium) {
+					e.acceptTransferModes(TransferMode.COPY);
 				}
 				e.consume();
 			}
 		});
 
-		setOnDragDropped(new EventHandler<DragEvent>() {
+		getContent().setOnDragDropped(new EventHandler<DragEvent>() {
 			public void handle(DragEvent e) {
 				Dragboard db = e.getDragboard();
-				if(db.hasContent(DataFormat.FILES) && db.getContent(DataFormat.FILES) instanceof Medium) {
+				if(db.hasContent(MedienbibliothekController.MEDIUM_FORMAT) && db.getContent(MedienbibliothekController.MEDIUM_FORMAT) instanceof Medium) {
 					ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next()
-					.sendMediumPlaced(new MediumModel((Medium) db.getContent(DataFormat.FILES), e.getSceneX(), e.getSceneY()));
+					.sendMediumPlaced(new MediumModel((Medium) db.getContent(MedienbibliothekController.MEDIUM_FORMAT), e.getSceneX(), e.getSceneY()));
 					e.setDropCompleted(true);
 				} else e.setDropCompleted(false);
 			}

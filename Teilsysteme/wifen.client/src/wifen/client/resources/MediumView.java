@@ -14,7 +14,6 @@ import javafx.scene.input.MouseEvent;
 import wifen.client.application.ClientApplication;
 import wifen.client.services.GameService;
 import wifen.client.ui.controllers.SpielfeldView;
-import wifen.commons.MarkerModel;
 import wifen.commons.Medium;
 import wifen.commons.MediumModel;
 import wifen.commons.SpielerRolle;
@@ -96,7 +95,7 @@ public class MediumView extends Parent {
 			public void handle(MouseEvent event) {
 				parent.setPannable(false);
 				if(!(medium.getIsStatic())&&(lastX != 0 || lastY != 0)&&(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(medium.getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))&&event.getButton()==MouseButton.PRIMARY) {
-					MarkerView m = (MarkerView)event.getSource();
+					MediumView m = (MediumView)event.getSource();
 					double xoffs = event.getSceneX() - lastX;
 					double yoffs = event.getSceneY() - lastY;
 					m.setTranslateX(m.getTranslateX() + xoffs);
@@ -114,7 +113,7 @@ public class MediumView extends Parent {
 			public void handle(MouseEvent event) {
 				parent.setPannable(true);
 				if((lastX != 0 || lastY != 0)&&(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(medium.getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))) {
-					MarkerView m = (MarkerView)event.getSource();
+					MediumView m = (MediumView)event.getSource();
 					medium.setPosx(m.getTranslateX());
 					medium.setPosy(m.getTranslateY());
 					ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMediumPlaced(medium);
@@ -129,7 +128,7 @@ public class MediumView extends Parent {
 			@Override
 			public void handle(MouseEvent event) {
 				if(event.getButton() == MouseButton.SECONDARY  && !event.isControlDown() && (ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(medium.getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))) {
-					contextMenu.show((MarkerView) event.getSource(), event.getScreenX(), event.getScreenY());
+					contextMenu.show((MediumView) event.getSource(), event.getScreenX(), event.getScreenY());
 				}
 			}
 		});
