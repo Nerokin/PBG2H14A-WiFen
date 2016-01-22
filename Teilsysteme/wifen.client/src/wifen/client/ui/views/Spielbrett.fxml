@@ -7,6 +7,7 @@
 <?import org.controlsfx.control.CheckComboBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import wifen.client.ui.controllers.MedienbibliothekController?>
+<?import javafx.scene.control.SplitPane?>
 
 <fx:root maxHeight="1080" maxWidth="1920" minHeight="800" minWidth="600" type="BorderPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <top>
@@ -20,18 +21,18 @@
       </HBox>
     </top>
     <center>
-    	<StackPane fx:id="PlayField" id="playfield"/>
-    </center>
-    <right>
-      <VBox fx:id="ereignisVBoxID">
-         <children>
-            <ChatController fx:id="chatBox" />
-            <Wuerfelfenster fx:id="diceBox" />
-            <EreignisFenster fx:id="ereignisBox" />
-            <MarkerWindow fx:id="markerBox" />
-            <AdminFensterController fx:id="adminBox" />
-            <MedienbibliothekController fx:id="mediaLibrary" />
-         </children>
-      </VBox>
-   </right>
+    	<SplitPane MinWidth="400">
+    		<StackPane fx:id="PlayField" id="playfield"/>
+      		<VBox fx:id="ereignisVBoxID">
+	         <children>
+	            <ChatController fx:id="chatBox" />
+	            <Wuerfelfenster fx:id="diceBox" />
+	            <EreignisFenster fx:id="ereignisBox" />
+	            <MarkerWindow fx:id="markerBox" />
+	            <AdminFensterController fx:id="adminBox" />
+	            <MedienbibliothekController fx:id="mediaLibrary" />
+	         </children>
+	      </VBox>
+	   </SplitPane>
+   </center>
 </fx:root>
