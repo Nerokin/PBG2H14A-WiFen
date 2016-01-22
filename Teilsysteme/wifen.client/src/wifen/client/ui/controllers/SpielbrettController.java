@@ -146,14 +146,15 @@ import wifen.commons.network.Connection;
 
  		// create the data to  show in the CheckComboBox
 
-
  			ereignisVBoxID.getChildren().clear();
+
 
 			if (chatBox != null) choiceID.getItems().add(chatBox);
 			if (diceBox != null) choiceID.getItems().add(diceBox);
 			if (ereignisBox != null) choiceID.getItems().add(ereignisBox);
 			if (markerBox != null) choiceID.getItems().add(markerBox);
 			if (mediaLibrary != null) choiceID.getItems().add(mediaLibrary);
+			
 
  			// Create the CheckComboBox with the data
 
@@ -282,7 +283,10 @@ import wifen.commons.network.Connection;
 	@Override
 	public void onRolleChanged(GameService gameService, SpielerRolle rolle) {
 		// TODO Auto-generated method stub
-		if (adminBox != null && gameService.getActivePlayer().getRolle() == SpielerRolle.ADMIN) choiceID.getItems().add(adminBox);
+		if (adminBox != null && gameService.getActivePlayer().getRolle() == SpielerRolle.ADMIN){
+			choiceID.getItems().add(adminBox);
+			adminBox.setDisable(true);
+		}
 	}
  	
  	public MedienbibliothekController getMediaLibrary(){
