@@ -15,7 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.BorderPane;
 import wifen.client.application.ClientApplication;
 
 /**
@@ -24,13 +24,16 @@ import wifen.client.application.ClientApplication;
  * @author Patrick Hasse
  *
  */
-public class SpielLadenView extends GridPane {
+public class SpielLadenView extends BorderPane {
+
+	public static final String CSS_PATH = "/wifen/client/ui/css/SpielErstellen.css";
+	public static final String FXML_PATH = "/wifen/client/ui/views/SpielLaden.fxml";
 
 	// Properties
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 
 	// Injected Nodes
-	@FXML Button backToMenuBtn;
+	@FXML Button btn_backToMenuBtn;
 	@FXML TextField txt_filePath;
 	@FXML Button btn_showFilePicker;
 	@FXML TextField txt_playername;
@@ -49,17 +52,22 @@ public class SpielLadenView extends GridPane {
 		super();
 
 		// Apply CSS
-		// getStylesheets().add(getClass().getResource("/css/MainView.css").toExternalForm());
+		//getStylesheets().add(getClass().getResource("/css/MainView.css").toExternalForm());
 
 		// Setup FXMLLoader
 		setFXMLLoader(new FXMLLoader());
 		getFXMLLoader().setRoot(this);
-		getFXMLLoader().setLocation(getClass().getResource("../views/SpielLaden.fxml"));
+		getFXMLLoader().setLocation(getClass().getResource(FXML_PATH));
 		getFXMLLoader().setController(this);
 
 		// Load the View
-		getFXMLLoader().load();
-
+		try{
+			getFXMLLoader().load();
+		}
+		catch(Exception e)
+		{
+			throw e;
+		}
 	}
 
 	// Initialization
@@ -68,7 +76,7 @@ public class SpielLadenView extends GridPane {
 	private void initialize() {
 		// TODO: Data Binding and Setup of Event Handling
 
-		backToMenuBtn.setOnAction(new EventHandler<ActionEvent>(){
+		btn_backToMenuBtn.setOnAction(new EventHandler<ActionEvent>(){
 			 public void handle(ActionEvent e) {
 			Parent p = null;
 			try {

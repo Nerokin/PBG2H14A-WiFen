@@ -74,18 +74,22 @@ public class SaveGameProvider implements SaveGameService {
 		GameService gameservice = ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class,false).next();
 		GameStateModel model = gameservice.getCurrentModel();
 		File output = file;
+		output.delete();
+		output.createNewFile();
 		FileOutputStream dest = new FileOutputStream(output);
 		ZipOutputStream zipOut = new ZipOutputStream(dest);
+		ZipEntry entry = new ZipEntry("SavedGame");
+		zipOut.putNextEntry(entry);
 		ObjectOutputStream serOut = new ObjectOutputStream(zipOut);
 
-        ZipEntry entry = new ZipEntry("SavedGame");
-        zipOut.putNextEntry(entry);
+
+
         serOut.writeObject(model);
         serOut.close();
         zipOut.close();
         dest.close();
 
-		return null;
+		return output;
 	}
 
 	/* (non-Javadoc)
