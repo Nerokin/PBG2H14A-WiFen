@@ -265,7 +265,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 			}
 
 		});
-		((Pane) this.getContent()).setOnMouseReleased(new EventHandler<MouseEvent>() {
+		/*((Pane) this.getContent()).setOnMouseReleased(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				if(!hasDragged&&event.getButton() == MouseButton.PRIMARY) {
@@ -286,20 +286,24 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 							((Pane) event.getSource()).getChildren().add(new MarkerView(m, self));
 							// snapshot renders all children again so the added element is displayed properly
 							self.snapshot(null,null);
-						}else{
+						}
+						else{
 							MarkerModel m = new MarkerModel(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer(), event.getX(), event.getY(), getSelectedType(), "");
 							ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMarkerPlaced(m);
 							// snapshot renders all children again so the added element is displayed properly
 							self.snapshot(null,null);
-						}
+					}
 					}
 				}
 			}
-		});
+		});*/
 
 		getContent().setOnDragOver(new EventHandler<DragEvent>() {
 			public void handle(DragEvent e) {
 				if(e.getDragboard().hasContent(MedienbibliothekController.MEDIUM_FORMAT) && e.getDragboard().getContent(MedienbibliothekController.MEDIUM_FORMAT) instanceof Medium) {
+					e.acceptTransferModes(TransferMode.COPY);
+				}
+				else if(e.getDragboard().hasContent(MarkerWindow.MARKER_FORMAT) && e.getDragboard().getContent(MarkerWindow.MARKER_FORMAT) instanceof MarkerType) {
 					e.acceptTransferModes(TransferMode.COPY);
 				}
 				e.consume();
@@ -311,9 +315,15 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 				Dragboard db = e.getDragboard();
 				if(db.hasContent(MedienbibliothekController.MEDIUM_FORMAT) && db.getContent(MedienbibliothekController.MEDIUM_FORMAT) instanceof Medium) {
 					ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next()
-					.sendMediumPlaced(new MediumModel((Medium) db.getContent(MedienbibliothekController.MEDIUM_FORMAT), e.getSceneX(), e.getSceneY()));
+					.sendMediumPlaced(new MediumModel((Medium) db.getContent(MedienbibliothekController.MEDIUM_FORMAT), e.getX(), e.getY()));
 					e.setDropCompleted(true);
-				} else e.setDropCompleted(false);
+				} else if(db.hasContent(MarkerWindow.MARKER_FORMAT) && db.getContent(MarkerWindow.MARKER_FORMAT) instanceof MarkerType) {
+					MarkerType mt = (MarkerType) db.getContent(MarkerWindow.MARKER_FORMAT);
+					MarkerModel m = new MarkerModel(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer(), e.getX(), e.getY(), mt, "");
+					ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().sendMarkerPlaced(m);
+					e.setDropCompleted(true);
+				}
+				else e.setDropCompleted(false);
 			}
 		});
 	}
@@ -390,6 +400,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		boolean neu = true;
 		for(Node n : ((Pane)this.getContent()).getChildren()){
 			if(n instanceof MediumView){
+				System.out.println(n);
 				if(((MediumView)n).getMedium().equals(mediumModel)){
 					((MediumView)n).setTranslateX(mediumModel.getPosx());
 					((MediumView)n).setTranslateY(mediumModel.getPosy());
@@ -465,22 +476,7 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 	public void removeFromView(Node value){
 		((Pane) this.getContent()).getChildren().remove(value);
 	}
-
-	/**
-	 * Return the type of marker currently selected in the marker-selection window.
-	 */
-	@Override
-	public MarkerType getSelectedType() {
-		ImageView iv = markerWindow.getSelectedMarkerType();
-		try {
-			return new MarkerType(iv.getImage(), iv.getId());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-
+	
 	/*
 	 * Optional functionalities
 	@Override

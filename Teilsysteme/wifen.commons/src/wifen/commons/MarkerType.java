@@ -89,6 +89,14 @@ public class MarkerType implements Serializable{
 		this.img = imageToByte(img);
 	}	
 
+	public void changeColor(String colorName){
+		try {
+			this.img = imageToByte(new Image(this.name + "_"+colorName+".png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public String getName() {
 		return name;
 	}

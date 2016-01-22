@@ -201,7 +201,7 @@ public class MedienbibliothekController extends TitledPane
 			return;
 		
 		// Show content
-		ClientApplication.instance().getHostServices().showDocument(System.getProperty("java.io.tmpdir") + selectedMedium.getName() + selectedMedium.getType());
+		ClientApplication.instance().getHostServices().showDocument(System.getProperty("java.io.tmpdir") + selectedMedium.getName());
 	}
 	
 	//Getter & Setter

@@ -48,8 +48,8 @@ public class MediumModel implements Serializable {
 	@Override
 	public boolean equals(Object obj) {
 		return obj != null
-				&& obj instanceof MarkerModel
-				&& getId().equals(((MarkerModel) obj).getId());
+				&& obj instanceof MediumModel
+				&& getId().equals(((MediumModel) obj).getId());
 	}
 	
 	// Getters & Setters

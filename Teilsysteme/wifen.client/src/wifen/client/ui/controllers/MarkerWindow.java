@@ -2,6 +2,7 @@ package wifen.client.ui.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -13,22 +14,16 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TitledPane;
-import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.DragEvent;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.paint.Color;
-import wifen.client.application.ClientApplication;
-import wifen.client.services.GameService;
-import wifen.commons.MarkerModel;
+import javafx.scene.input.TransferMode;
 import wifen.commons.MarkerType;
 
 /**
@@ -38,6 +33,9 @@ import wifen.commons.MarkerType;
  * @author Hitziger Fabian (pbg2h14ahi)
  */
 public class MarkerWindow extends TitledPane{
+	
+	public static final DataFormat MARKER_FORMAT = new DataFormat("marker");
+	
 	private ImageView iv = new ImageView();
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 	public ObservableList<Button> button_colors = FXCollections.observableArrayList();
@@ -117,7 +115,7 @@ public class MarkerWindow extends TitledPane{
 						for(String s : vorhanden){
 							if(selected.getId().contains(s)){
 								selected.setImage(new Image(selected.getId()+"_"+colorName+".png"));
-								setImageView(selected.getImage(),selected.getId(),colorName);
+								setImageView(selected.getImage(),selected.getId());
 							}
 						}
 
@@ -155,7 +153,7 @@ public class MarkerWindow extends TitledPane{
 										for(String s : vorhanden){
 											if(selected.getId().contains(s)){
 												selected.setImage(new Image(selected.getId()+"_"+colorName+".png"));
-												setImageView(selected.getImage(),selected.getId(),colorName);
+												setImageView(selected.getImage(),selected.getId());
 											}
 										}
 
@@ -171,7 +169,7 @@ public class MarkerWindow extends TitledPane{
 				
 			}
 		});
-		markerShape.setOnDragDetected(new EventHandler<MouseEvent>(){
+		/*markerShape.setOnDragDetected(new EventHandler<MouseEvent>(){
 
 			@Override
 			public void handle(MouseEvent event) {
@@ -202,6 +200,19 @@ public class MarkerWindow extends TitledPane{
 				
 			}
 			
+		});*/
+		markerShape.setOnDragDetected(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent e) {
+				Dragboard db = markerShape.startDragAndDrop(TransferMode.COPY);
+				Image dv = getSelectedMarkerType().getImg();
+				db.setDragView(dv);
+				
+				ClipboardContent cc = new ClipboardContent();
+				cc.put(MARKER_FORMAT, getSelectedMarkerType());
+				
+				db.setContent(cc);
+				e.consume();
+			}
 		});
 
 	}
@@ -225,18 +236,17 @@ public class MarkerWindow extends TitledPane{
 	 * 
 	 * @return
 	 */
-	public ImageView getSelectedMarkerType(){
-		return this.iv;
+	public MarkerType getSelectedMarkerType(){
+		try {
+			return new MarkerType(this.iv.getImage(), this.iv.getId());
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}	
 	
 	public void setImageView(Image image, String id){
-		this.iv.setId(id + ".png");
+		this.iv.setId(id);
 		this.iv.setImage(image);
-	}
-	public void setImageView(Image image,String id, String colorName){
-		this.iv.setId(id + "_" + colorName + ".png");
-		this.iv.setImage(image);
-		
-
 	}
 }

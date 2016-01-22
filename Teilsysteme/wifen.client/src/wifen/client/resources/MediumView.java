@@ -73,7 +73,7 @@ public class MediumView extends Parent {
 
 				
 				// Show content
-				ClientApplication.instance().getHostServices().showDocument(System.getProperty("java.io.tmpdir") + selectedMedium.getName() + selectedMedium.getType());
+				ClientApplication.instance().getHostServices().showDocument(System.getProperty("java.io.tmpdir") + selectedMedium.getName());
 		    }
 		});
 		

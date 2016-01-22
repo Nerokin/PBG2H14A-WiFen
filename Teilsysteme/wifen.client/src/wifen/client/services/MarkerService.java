@@ -10,12 +10,6 @@ import wifen.commons.MarkerType;
  */
 public interface MarkerService {
 	
-	/**
-	 * Put description here
-	 * 
-	 * @return
-	 */
-	public MarkerType getSelectedType();
 	
 	/*
 	 * Optional functionalities
