@@ -145,18 +145,18 @@ import wifen.commons.network.Connection;
 		 });
 
  		// create the data to  show in the CheckComboBox
- 			final ObservableList<Node> choices = FXCollections.observableArrayList();
+
 
  			ereignisVBoxID.getChildren().clear();
 
-			if (chatBox != null) choices.add(chatBox);
-			if (diceBox != null) choices.add(diceBox);
-			if (ereignisBox != null) choices.add(ereignisBox);
-			if (markerBox != null) choices.add(markerBox);
-			if (mediaLibrary != null) choices.add(mediaLibrary);
+			if (chatBox != null) choiceID.getItems().add(chatBox);
+			if (diceBox != null) choiceID.getItems().add(diceBox);
+			if (ereignisBox != null) choiceID.getItems().add(ereignisBox);
+			if (markerBox != null) choiceID.getItems().add(markerBox);
+			if (mediaLibrary != null) choiceID.getItems().add(mediaLibrary);
 
  			// Create the CheckComboBox with the data
- 			choiceID.getItems().addAll(choices);
+
  			//if (ereignisBox != null) choiceID.getCheckModel().checkAll(ereignisBox, chatBox);
  			//if (chatBox != null) choiceID.getCheckModel().check();
  			//if (diceBox != null) choiceID.getCheckModel().check(diceBox);
