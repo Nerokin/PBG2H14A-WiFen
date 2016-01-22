@@ -84,16 +84,16 @@ public class Wuerfelfenster extends TitledPane {
 		
 		Image imagesD2[];
 		Image animationD2;
-		Image animationD2rot =  new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/d02_animation_rot.gif"));
-		Image animationD2blau =  new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/d02_animation_blau.gif"));
+		Image animationD2rot =  new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/d02_animation_rot.gif"));
+		Image animationD2blau =  new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/d02_animation_blau.gif"));
 		Image imagesD4[];
-		Image animationD4 = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/d04_animation.gif"));
+		Image animationD4 = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/d04_animation.gif"));
 		Image imagesD6[];
-		Image animationD6 = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/d06_animation.gif"));
+		Image animationD6 = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/d06_animation.gif"));
 		Image imagesD8[];
-		Image animationD8 = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/d08_animation.gif"));
+		Image animationD8 = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/d08_animation.gif"));
 		Image imagesD10[];
-		Image animationD10 = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/d10_animation.gif"));
+		Image animationD10 = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/d10_animation.gif"));
 		Image animations[];
 		
 		
@@ -148,7 +148,7 @@ public class Wuerfelfenster extends TitledPane {
 		@FXML
 		private void initialize() {
 			
-				diceText.setPromptText("Ziehe die W�rfel in das mittlere Feld!");
+				diceText.setPromptText("Ziehe die Würfel in das mittlere Feld!");
 				imagesD2 = new Image[2];
 				imagesD4 = new Image[4];
 				imagesD6 = new Image[6];
@@ -162,41 +162,41 @@ public class Wuerfelfenster extends TitledPane {
 				
 				try {
 					// Bilder f�r 2er "W�rfel" Animation laden... :
-					imagesD2[0] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d02/d2_1.png"));
-					imagesD2[1] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d02/d2_2.png"));
+					imagesD2[0] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d02/d2_1.png"));
+					imagesD2[1] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d02/d2_2.png"));
 					// Bilder f�r 4er "W�rfel" Animation laden... :
-					imagesD4[0] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d04/d4_1.png"));
-					imagesD4[1] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d04/d4_2.png"));
-					imagesD4[2] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d04/d4_3.png"));
-					imagesD4[3] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d04/d4_4.png"));
+					imagesD4[0] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d04/d4_1.png"));
+					imagesD4[1] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d04/d4_2.png"));
+					imagesD4[2] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d04/d4_3.png"));
+					imagesD4[3] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d04/d4_4.png"));
 					// Bilder f�r 6er "W�rfel" Animation laden... :
-					imagesD6[0] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_1.png"));
-					imagesD6[1] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_2.png"));
-					imagesD6[2] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_3.png"));
-					imagesD6[3] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_4.png"));
-					imagesD6[4] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_5.png"));
-					imagesD6[5] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_6.png"));
+					imagesD6[0] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_1.png"));
+					imagesD6[1] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_2.png"));
+					imagesD6[2] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_3.png"));
+					imagesD6[3] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_4.png"));
+					imagesD6[4] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_5.png"));
+					imagesD6[5] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d06/d6_6.png"));
 					// Bilder f�r 8er "W�rfel" Animation laden... :
-					imagesD8[0] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_1.png"));
-					imagesD8[1] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_2.png"));
-					imagesD8[2] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_3.png"));
-					imagesD8[3] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_4.png"));
-					imagesD8[4] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_5.png"));
-					imagesD8[5] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_6.png"));
-					imagesD8[6] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_7.png"));
-					imagesD8[7] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_8.png"));
+					imagesD8[0] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_1.png"));
+					imagesD8[1] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_2.png"));
+					imagesD8[2] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_3.png"));
+					imagesD8[3] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_4.png"));
+					imagesD8[4] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_5.png"));
+					imagesD8[5] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_6.png"));
+					imagesD8[6] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_7.png"));
+					imagesD8[7] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d08/d8_8.png"));
 					// Bilder f�r 10er "W�rfel" Animation laden... :
 				
-					imagesD10[0] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_1.png"));
-					imagesD10[1] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_2.png"));
-					imagesD10[2] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_3.png"));
-					imagesD10[3] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_4.png"));
-					imagesD10[4] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_5.png"));
-					imagesD10[5] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_6.png"));
-					imagesD10[6] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_7.png"));
-					imagesD10[7] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_8.png"));
-					imagesD10[8] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_9.png"));
-					imagesD10[9] = new Image(getClass().getResourceAsStream("../../resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_0.png"));
+					imagesD10[0] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_1.png"));
+					imagesD10[1] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_2.png"));
+					imagesD10[2] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_3.png"));
+					imagesD10[3] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_4.png"));
+					imagesD10[4] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_5.png"));
+					imagesD10[5] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_6.png"));
+					imagesD10[6] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_7.png"));
+					imagesD10[7] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_8.png"));
+					imagesD10[8] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_9.png"));
+					imagesD10[9] = new Image(getClass().getResourceAsStream("/wifen/client/resources/wuerfel/wuerfelAnimation/Einzelbilder_d10/d10_0.png"));
 			
 					
 				} catch (Exception e) {

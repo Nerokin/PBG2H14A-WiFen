@@ -2,7 +2,12 @@ package wifen.client.ui.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -40,9 +45,9 @@ public class MarkerWindow extends TitledPane{
 	private final ObjectProperty<FXMLLoader> fxmlLoader = new SimpleObjectProperty<>();
 	public ObservableList<Button> button_colors = FXCollections.observableArrayList();
 	public ObservableList<ImageView> image_shapes = FXCollections.observableArrayList();
-	public String[] colors = new String[]{"Rot","Grün","Blau","Gelb"};
-	private String[] vorhanden = new String[]{"5-Eck","figur","6-Eck","Baum","Ausrufezeichen","Blitz","Dreieck","Fahne","Feuer","Fragezeichen","Haus","Gras","Haken","Häuslein","Kreis","Krone","Nadel","PuppeM","PuppeW","Radioaktiv","Schlüssel","Sprechblase","Verbotsschild","Stern","Viereck","ViereckAbgerundet"};
-	
+	public String[] colors = new String[]{"Rot","Grï¿½n","Blau","Gelb"};
+	private String[] vorhanden = new String[]{"5-Eck","figur","6-Eck","Baum","Ausrufezeichen","Blitz","Dreieck","Fahne","Feuer","Fragezeichen","Haus","Gras","Haken","Hï¿½uslein","Kreis","Krone","Nadel","PuppeM","PuppeW","Radioaktiv","Schlï¿½ssel","Sprechblase","Verbotsschild","Stern","Viereck","ViereckAbgerundet"};
+	private ArrayList<String> paths = new ArrayList<String>();
 	private static MarkerWindow instance;
 	
 	public boolean markerDragged = false;
@@ -69,11 +74,11 @@ public class MarkerWindow extends TitledPane{
 	public MarkerWindow() throws IOException{
 		super();
 		//Apply CSS
-		getStylesheets().add(getClass().getResource("../css/MarkerView.css").toExternalForm());
+		getStylesheets().add(getClass().getResource("/wifen/client/ui/css/MarkerView.css").toExternalForm());
 		//Setup FXMLLoader
 		setFXMLLoader(new FXMLLoader());
 		getFXMLLoader().setRoot(this);
-		getFXMLLoader().setLocation(getClass().getResource("../views/MarkerView.fxml"));
+		getFXMLLoader().setLocation(getClass().getResource("/wifen/client/ui/views/MarkerView.fxml"));
 		getFXMLLoader().setController(this);
 
 		//Load the View
@@ -85,15 +90,39 @@ public class MarkerWindow extends TitledPane{
 	 */
 	@FXML
 	private void initialize(){
-		//Beispiel für das erstellen einer Farbe
+		//Beispiel fï¿½r das erstellen einer Farbe
 		setText("Marker");
 		
 		instance=this;
-		
-		
-		File file = new File(getClass().getResource("../../resources/marker").getFile());
+		File jarFile = new File(""+getClass().getProtectionDomain().getCodeSource().getLocation());
+		if(jarFile.isFile()){
+			JarFile jar = null;
+
+			try {
+				jar = new JarFile(jarFile);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			Enumeration<JarEntry> entries = jar.entries();
+			while(entries.hasMoreElements()){
+				String name = entries.nextElement().getName();
+					paths.add(name);
+					System.out.println(name);
+			}
+		}
+		//File file = new File("");
+//		
+//		if (file == null) System.out.println("file is null");
+//		
+//		if (file.exists()) System.out.println("file exists");
+//		else if (!file.exists()) System.out.println("file doesnt exist");
+//		
+//		if (!file.isDirectory()) System.out.println("no dir: " + file);
+//		else if (file.isDirectory()) System.out.println(file);
+		File file = new File(""+getClass().getProtectionDomain().getCodeSource().getLocation()+"/marker");
 		for(File f : file.listFiles()){
-			if(f.getName().indexOf("Rot") == -1 && f.getName().indexOf("Gelb") == -1 && f.getName().indexOf("Grün") == -1 && f.getName().indexOf("Blau") == -1)
+			if(f.getName().indexOf("Rot") == -1 && f.getName().indexOf("Gelb") == -1 && f.getName().indexOf("Grï¿½n") == -1 && f.getName().indexOf("Blau") == -1)
 			{
 
 				ImageView tempView = new ImageView(new Image(f.toURI().toString()));
@@ -232,7 +261,7 @@ public class MarkerWindow extends TitledPane{
 	
 	
 	/**
-	 * Gibt den aktuell ausgewählten Marker zurück
+	 * Gibt den aktuell ausgewï¿½hlten Marker zurï¿½ck
 	 * 
 	 * @return
 	 */
