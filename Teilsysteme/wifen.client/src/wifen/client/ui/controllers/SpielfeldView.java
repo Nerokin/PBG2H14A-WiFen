@@ -78,15 +78,20 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		this.model = sm;
 		((Pane) this.getContent()).setMaxSize(this.model.getSizeX(), this.model.getSizeY());
 		((Pane) this.getContent()).setMinSize(this.model.getSizeX(), this.model.getSizeY());
-		this.setMaxHeight(this.model.getSizeY());
-		this.setMaxWidth(this.model.getSizeX());
 		this.setHbarPolicy(ScrollBarPolicy.NEVER);
 		this.setVbarPolicy(ScrollBarPolicy.NEVER);
 		this.setPannable(true);
 		this.tilesPerCol = tilesPerCol;
 		this.tilesPerRow = tilesPerRow;
 		this.markerWindow = markerWindow;
-		((Pane)this.getContent()).setBackground(new Background(new BackgroundImage(new Image(getClass().getResourceAsStream("/wifen/client/resources/ludo_board.png")), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+		((Pane)this.getContent()).setBackground(
+				new Background(
+						new BackgroundImage(
+								new Image(getClass().getResourceAsStream("/wifen/client/resources/ludo_board.png")),
+								BackgroundRepeat.NO_REPEAT,
+								BackgroundRepeat.NO_REPEAT,
+								BackgroundPosition.CENTER,
+								new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true))));
 		draw(this.model.getTyp());
 		addMarkersFromModel();
 		addFilesFromModel();
