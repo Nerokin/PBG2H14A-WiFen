@@ -414,7 +414,7 @@ public class ClientApplication extends Application implements ServerListener, Co
 				GameStateModel model = new GameStateModel((int) tmpModel.get("maximumPlayerCount"),
 						(boolean) tmpModel.get("spectatorsAllowed"), (boolean) tmpModel.get("mediaInitiallyVisible"),
 						(int) tmpModel.get("maxDiceFaceCount"), (SpielerRolle) tmpModel.get("standardPlayerRole"),
-						(GridType) tmpModel.get("gridType"), new ArrayList<>(), new ArrayList<>());
+						(GridType) tmpModel.get("gridType"), new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
 				// Register a new chat service provider if the is none present
 				if (!getServiceRegistry().getServiceProviders(ServerChatService.class, false).hasNext()) {

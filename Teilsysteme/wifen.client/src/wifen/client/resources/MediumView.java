@@ -81,7 +81,7 @@ public class MediumView extends Parent {
 			@Override
 			public void handle(MouseEvent event) {
 				parent.setPannable(false);
-				if(!(medium.getMedium().getIsStatic())&&(lastX != 0 || lastY != 0)&&(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(((MarkerView)event.getSource()).marker.getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))&&event.getButton()==MouseButton.PRIMARY) {
+				if(!(medium.getIsStatic())&&(lastX != 0 || lastY != 0)&&(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(medium.getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))&&event.getButton()==MouseButton.PRIMARY) {
 					MarkerView m = (MarkerView)event.getSource();
 					double xoffs = event.getSceneX() - lastX;
 					double yoffs = event.getSceneY() - lastY;
@@ -99,7 +99,7 @@ public class MediumView extends Parent {
 			@Override
 			public void handle(MouseEvent event) {
 				parent.setPannable(true);
-				if((lastX != 0 || lastY != 0)&&(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(((MediumView)event.getSource()).medium.getMedium().getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))) {
+				if((lastX != 0 || lastY != 0)&&(ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(medium.getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))) {
 					MarkerView m = (MarkerView)event.getSource();
 					medium.setPosx(m.getTranslateX());
 					medium.setPosy(m.getTranslateY());
@@ -114,7 +114,7 @@ public class MediumView extends Parent {
 		this.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				if(event.getButton() == MouseButton.SECONDARY  && !event.isControlDown() && (ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(((MediumView)event.getSource()).medium.getMedium().getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))) {
+				if(event.getButton() == MouseButton.SECONDARY  && !event.isControlDown() && (ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().equals(medium.getOwner()) || ClientApplication.instance().getServiceRegistry().getServiceProviders(GameService.class, false).next().getActivePlayer().getRolle().equals(SpielerRolle.ADMIN))) {
 					contextMenu.show((MarkerView) event.getSource(), event.getScreenX(), event.getScreenY());
 				}
 			}

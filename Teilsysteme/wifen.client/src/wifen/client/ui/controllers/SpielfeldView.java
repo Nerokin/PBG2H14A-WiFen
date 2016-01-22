@@ -405,6 +405,21 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		}
 		Platform.runLater(() -> model.placeMedium(mediumModel));
 	}
+	
+	public void RemoveMedium(UUID mediumId) {
+		MediumView mv = null;
+		for(Node n : ((Pane)this.getContent()).getChildren()){
+			if(n instanceof MediumView){
+				if(((MediumView)n).getMedium().getId().equals(mediumId)){
+					mv=(MediumView) n;
+				}
+			}
+		}
+		final MediumView mvReturn = mv;
+		Platform.runLater(() -> removeFromView(mvReturn));
+		Platform.runLater(() -> model.removeMarker(mediumId));
+	}
+
 
 	public void AddMarker(MarkerModel m){
 		boolean neu = true;
@@ -463,7 +478,6 @@ public class SpielfeldView extends ScrollPane implements MarkerService {
 		}
 		return null;
 	}
-
 
 	/*
 	 * Optional functionalities
